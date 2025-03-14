@@ -13,7 +13,7 @@ CONFIG = {
   'theme_package_version' => "0.1.0"
 }
 
-# Usage: rake post title="A Title" subtitle="A sub title"
+# Usage: rake post title="A Title" subtitle="A sub title"s
 desc "Begin a new post in #{CONFIG['posts']}"
 task :post do
   abort("rake aborted: '#{CONFIG['posts']}' directory not found.") unless FileTest.directory?(CONFIG['posts'])

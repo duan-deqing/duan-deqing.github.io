@@ -7,7 +7,7 @@
  * ========================================================== */
 
 // CACHE_NAMESPACE
-// CacheStorage is shared between all sites under same domain.
+// CacheStorage is shared between all sites under same domain.d
 // A namespace can prevent potential name conflicts and mis-deletion.
 const CACHE_NAMESPACE = 'main-'
 

@@ -121,7 +121,7 @@ mathjax: true
 header-mask: 0.3
 ```
 
-Etc.
+Etc
 
 
 ### SideBar
