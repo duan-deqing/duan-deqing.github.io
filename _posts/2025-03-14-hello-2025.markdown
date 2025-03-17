@@ -19,7 +19,7 @@ tags:
 #include <stdio.h>
 int main(){
     printf("Hello World");
-}
+}s
  ```
 <hr>
 
