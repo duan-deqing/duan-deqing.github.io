@@ -36,7 +36,7 @@ tags:
 #### 段落
 Markdown 段落没有特殊的格式，可以直接编写文字，段落的换行是使用**两个以上空格加上回车**。末尾添加两个空格，也可以在段落后面使用一个空行来表示重新开始一个段落。。  
 
-![](/img/in-post/post-img-markdown-tutorial/03-Markdown-段落.png)
+![](/img/in-post/post-img-markdown-tutorial/03-Markdown-paragraph.png)
 
 #### 字体
 Markdown 可以使用以下几种字体  
@@ -93,7 +93,7 @@ Tutorial
 [^脚注]: 脚注引用
 ```  
 显示结果如下
-![](/img/in-post/post-img-markdown-tutorial/03-Markdown-脚注.png)
+![](/img/in-post/post-img-markdown-tutorial/03-Markdown-footnote.png)
 
 ## 04 Markdown 列表
 Markdown 支持有序列表和无序列表。 
@@ -114,7 +114,7 @@ Markdown 支持有序列表和无序列表。
 - 第三项
 ```
 显示结果如下
-![](/img/in-post/post-img-markdown-tutorial/04-Markdown-列表1.png)  
+![](/img/in-post/post-img-markdown-tutorial/04-Markdown-list1.png)  
 
 #### 有序列表
 有序列表使用数字并加上 `.` 号来表示，如  
@@ -124,7 +124,7 @@ Markdown 支持有序列表和无序列表。
 3. 第三项
 ```
 显示结果如下
-![](/img/in-post/post-img-markdown-tutorial/04-Markdown-列表2.png)  
+![](/img/in-post/post-img-markdown-tutorial/04-Markdown-list2.png)  
 
 #### 列表嵌套
 列表嵌套只需在子列表中的选项前面添加两个或四个空格即可
@@ -137,7 +137,7 @@ Markdown 支持有序列表和无序列表。
     - 第二项嵌套的第二个元素
 ```
 显示结果如下
-![](/img/in-post/post-img-markdown-tutorial/04-Markdown-列表3.png)  
+![](/img/in-post/post-img-markdown-tutorial/04-Markdown-list3.png)  
 
 ## 05 Markdown 区块
 Markdown 区块引用是在段落开头使用 `>` 符号 ，然后后面紧跟一个空格符号
@@ -146,7 +146,7 @@ Markdown 区块引用是在段落开头使用 `>` 符号 ，然后后面紧跟�
 > Markdown
 ```
 显示结果如下
-![](/img/in-post/post-img-markdown-tutorial/05-Markdown-区块1.png)  
+![](/img/in-post/post-img-markdown-tutorial/05-Markdown-block1.png)  
 
 
 另外区块是可以嵌套的，一个 `>` 符号是最外层，两个 `>` 符号是第一层嵌套，以此类推
@@ -156,7 +156,7 @@ Markdown 区块引用是在段落开头使用 `>` 符号 ，然后后面紧跟�
 > > Markdown
 ```
 显示结果如下
-![](/img/in-post/post-img-markdown-tutorial/05-Markdown-区块2.png)  
+![](/img/in-post/post-img-markdown-tutorial/05-Markdown-block2.png)  
 
 #### 区块中使用列表
 区块中使用列表实例
@@ -168,7 +168,7 @@ Markdown 区块引用是在段落开头使用 `>` 符号 ，然后后面紧跟�
 > + 第二项
 ```
 显示结果如下
-![](/img/in-post/post-img-markdown-tutorial/05-Markdown-区块3.png)  
+![](/img/in-post/post-img-markdown-tutorial/05-Markdown-block3.png)  
 
 #### 列表中使用区块
 
@@ -179,7 +179,7 @@ Markdown 区块引用是在段落开头使用 `>` 符号 ，然后后面紧跟�
 * 第二项
 ```
 显示结果如下
-![](/img/in-post/post-img-markdown-tutorial/05-Markdown-区块4.png)  
+![](/img/in-post/post-img-markdown-tutorial/05-Markdown-block4.png)  
 
 ## 06 Markdown 代码
 
@@ -251,7 +251,7 @@ Markdown 制作表格使用 `|` 来分隔不同的单元格，使用 `-` 来分�
 | 单元格  | 单元格 |
 | 单元格  | 单元格 |
 ```
-![](/img/in-post/post-img-markdown-tutorial/09-Markdown-表格1.png)  
+![](/img/in-post/post-img-markdown-tutorial/09-Markdown-table1.png)  
 
 设置表格的对齐方式
 - `-:` 设置内容和标题栏居右对齐。
@@ -264,7 +264,7 @@ Markdown 制作表格使用 `|` 来分隔不同的单元格，使用 `-` 来分�
 | 单元格 | 单元格 | 单元格 |
 | 单元格 | 单元格 | 单元格 |
 ```
-![](/img/in-post/post-img-markdown-tutorial/09-Markdown-表格2.png)  
+![](/img/in-post/post-img-markdown-tutorial/09-Markdown-table2.png)  
 
 ## * Markdown 高级技巧
 
