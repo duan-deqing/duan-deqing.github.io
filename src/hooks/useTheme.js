@@ -1,20 +1,26 @@
 /**
- * useTheme.js - 主题管理 Hook
+ * ============================================================================
+ *  useTheme.js - 主题管理 Hook
+ * ============================================================================
  * 
- * 功能：
+ * 【功能说明】
  * 1. 管理深色/浅色主题状态
  * 2. 自动保存用户偏好到 localStorage
- * 3. 跟随系统主题偏好（首次访问时）
- * 4. 切换时自动更新 HTML class
+ * 3. 首次访问时跟随系统主题偏好
+ * 4. 切换时自动更新 HTML 的 dark class
  * 
- * 返回值：
+ * 【返回值】
  * - isDark: boolean - 当前是否为深色模式
  * - toggle: function - 切换主题的函数
  * 
- * 自定义提示：
- * - 修改默认主题：更改 useState 中的初始值逻辑
- * - 修改存储 key：更改 localStorage.getItem('theme') 中的 'theme'
- * - 修改 HTML class：更改 document.documentElement.classList.toggle('dark', isDark)
+ * 【使用示例】
+ * const { isDark, toggle } = useTheme()
+ * <button onClick={toggle}>切换主题</button>
+ * 
+ * 【自定义提示】
+ * - 修改默认主题: 更改 useState 中的初始值逻辑
+ * - 修改存储 key: 更改 localStorage.getItem('theme') 中的 'theme'
+ * ============================================================================
  */
 
 import { useState, useEffect } from 'react'
@@ -23,9 +29,9 @@ export function useTheme() {
   /**
    * 初始化主题状态
    * 
-   * 逻辑：
+   * 【逻辑说明】
    * 1. 首先检查 localStorage 中是否有保存的主题偏好
-   * 2. 如果没有，则跟随系统主题（通过 prefers-color-scheme 媒体查询）
+   * 2. 如果没有，则检查系统是否偏好深色模式
    * 3. 默认使用浅色模式
    */
   const [isDark, setIsDark] = useState(() => {
@@ -40,7 +46,7 @@ export function useTheme() {
   /**
    * 副作用：当主题状态改变时执行
    * 
-   * 功能：
+   * 【功能】
    * 1. 在 HTML 根元素上添加/移除 'dark' class（Tailwind CSS 使用）
    * 2. 将用户偏好保存到 localStorage
    */
@@ -54,10 +60,7 @@ export function useTheme() {
 
   /**
    * 切换主题函数
-   * 
-   * 使用方法：
-   * const { isDark, toggle } = useTheme()
-   * <button onClick={toggle}>切换主题</button>
+   * 在深色和浅色之间切换
    */
   const toggle = () => setIsDark(prev => !prev)
 

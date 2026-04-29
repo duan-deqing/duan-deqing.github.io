@@ -1,21 +1,35 @@
 /**
- * index.css - 全局样式配置
+ * ============================================================================
+ *  index.css - 全局样式配置
+ * ============================================================================
  * 
- * 功能：
- * 1. 引入 Tailwind CSS
- * 2. 引入 Geist 字体
+ * 【功能说明】
+ * 1. 引入 Tailwind CSS 框架
+ * 2. 引入 Geist 字体（Pixel 和 Mono）
  * 3. 配置深色模式支持
- * 4. 设置全局样式和动画
- * 5. 自定义滚动条
+ * 4. 自定义滚动条样式
+ * 5. 主题切换过渡动画
+ * 6. 语言切换动画
+ * 7. 按钮样式
+ * 8. 导航链接下划线效果
+ * 9. 全局样式设置
+ * 
+ * 【自定义提示】
+ * - 修改字体: 更改 body 中的 font-family
+ * - 修改主题色: 更改 #3b82f6（蓝色）为你喜欢的颜色
+ * - 修改背景色: 更改 body 中的 background-color
+ * - 修改滚动条: 更改 ::-webkit-scrollbar 相关样式
+ * ============================================================================
  */
 
-/* 引入 Tailwind CSS */
 @import "tailwindcss";
 
-/* 配置深色模式 variant */
+/* 深色模式配置 */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ========== Geist Pixel 字体 ========== */
+/* ==================== 字体配置 ==================== */
+
+/* Geist Pixel - 像素风格字体，用于标题 */
 @font-face {
   font-family: "Geist Pixel";
   src: url("/fonts/GeistPixel-Square.woff2") format("woff2");
@@ -24,7 +38,7 @@
   font-display: swap;
 }
 
-/* ========== Geist Mono 字体 ========== */
+/* Geist Mono - 等宽字体，用于正文 */
 @font-face {
   font-family: "Geist Mono";
   src: url("/fonts/GeistMono-Regular.woff2") format("woff2");
@@ -49,9 +63,10 @@
   font-display: swap;
 }
 
-/* ========== 自定义滚动条 ========== */
+/* ==================== 自定义滚动条 ==================== */
+/* 默认隐藏，鼠标悬停时显示，无轨道和箭头 */
 
-/* Webkit 浏览器 (Chrome, Safari, Edge) */
+/* Firefox 滚动条 */
 * {
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
@@ -61,7 +76,7 @@
   scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
 }
 
-/* 隐藏默认滚动条轨道和按钮 */
+/* Webkit 滚动条 (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -102,7 +117,8 @@
   background-color: rgba(75, 85, 99, 0.7);
 }
 
-/* ========== 主题切换过渡动画 ========== */
+/* ==================== 主题切换过渡动画 ==================== */
+/* 所有元素的颜色属性添加平滑过渡 */
 *,
 *::before,
 *::after {
@@ -111,7 +127,7 @@
   transition-timing-function: ease;
 }
 
-/* 按钮和链接的过渡 */
+/* 按钮和链接添加更多过渡属性 */
 button,
 a {
   transition-property: background-color, border-color, color, fill, stroke,
@@ -120,8 +136,8 @@ a {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ========== 语言切换动画 - 逐字出现 ========== */
-
+/* ==================== 语言切换动画 ==================== */
+/* 逐字出现效果 */
 @keyframes charAppear {
   from {
     opacity: 0;
@@ -139,7 +155,9 @@ a {
   animation: charAppear 0.15s ease-out forwards;
 }
 
-/* ========== 按钮样式 ========== */
+/* ==================== 按钮样式 ==================== */
+
+/* 通用按钮样式 */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -148,39 +166,14 @@ a {
   height: 48px;
   padding-left: 2rem;
   padding-right: 2rem;
-  border-radius: 100px;
+  border-radius: 100px;  /* 完全圆角 */
   font-weight: 500;
   transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
 
-/* ========== 导航链接下划线效果 ========== */
-.nav-link-text {
-  position: relative;
-  display: inline-block;
-}
-
-.nav-link-text::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 3px; /* 厚度约为文字(14px)的四分之一 */
-  background-color: #3b82f6; /* 主题色 */
-  transition: width 0.3s ease-out;
-}
-
-a:hover .nav-link-text::after {
-  width: 100%;
-}
-
-.nav-link:hover::after {
-  width: 100%;
-}
-
-/* ========== 按钮样式 ========== */
+/* 主按钮 - 蓝色背景 */
 .btn-primary {
   background-color: #3b82f6;
   color: white;
@@ -196,6 +189,7 @@ a:hover .nav-link-text::after {
   transform: scale(0.95);
 }
 
+/* 次按钮 - 边框样式 */
 .btn-secondary {
   border: 1px solid #d1d5db;
   color: #374151;
@@ -218,18 +212,44 @@ a:hover .nav-link-text::after {
   transform: scale(0.95);
 }
 
-/* ========== 全局样式 ========== */
+/* ==================== 导航链接下划线效果 ==================== */
+/* 鼠标悬停时从左到右出现下划线 */
+
+.nav-link-text {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-link-text::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 3px;  /* 厚度约为文字(14px)的四分之一 */
+  background-color: #3b82f6;  /* 主题色 */
+  transition: width 0.3s ease-out;
+}
+
+a:hover .nav-link-text::after {
+  width: 100%;
+}
+
+/* ==================== 全局样式 ==================== */
+
 body {
   font-family: "Geist Pixel", "Geist Mono", monospace;
   background-color: #ffffff;
   color: #111827;
 }
 
+/* 深色模式 */
 .dark body {
   background-color: #0f172a;
   color: #f1f5f9;
 }
 
+/* 选中文字样式 */
 ::selection {
   background-color: #3b82f6;
   color: white;
