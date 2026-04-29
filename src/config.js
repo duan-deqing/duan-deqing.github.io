@@ -166,7 +166,7 @@ const config = {
   // ==================== 社交链接 ====================
   // 显示在联系区块下方
   socialLinks: [
-    { platform: "GitHub", url: "https://github.com/yourusername" },
+    { platform: "GitHub", url: "https://github.com/duan-deqing" },
     { platform: "Bilibili", url: "https://space.bilibili.com/18756460" },
     // { platform: "Twitter", url: "https://twitter.com/yourusername" },
   ],
