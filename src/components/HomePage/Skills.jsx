@@ -26,7 +26,7 @@
  * ============================================================================
  */
 
-import config from '../config'
+import config from '../../config'
 
 export default function Skills({ t }) {
   return (

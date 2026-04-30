@@ -30,7 +30,7 @@
  * ============================================================================
  */
 
-import config from '../config'
+import config from '../../config'
 import AnimatedText from './AnimatedText'
 
 export default function Hero({ t }) {

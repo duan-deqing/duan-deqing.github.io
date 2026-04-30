@@ -32,7 +32,8 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import config from "../config";
+import { Link } from "react-router-dom";
+import config from "../../config";
 
 export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
   // 下拉菜单展开状态
@@ -160,13 +161,23 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
           {/* 右侧 - 桌面端导航 */}
           <nav className="hidden md:flex items-center gap-6">
             {config.navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-              >
-                [<span className="nav-link-text">{t(link.label)}</span>]
-              </a>
+              link.href.startsWith('#') ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  [<span className="nav-link-text">{t(link.label)}</span>]
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  [<span className="nav-link-text">{t(link.label)}</span>]
+                </Link>
+              )
             ))}
 
             {/* 切换按钮组 */}
@@ -331,17 +342,31 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
             >
               <nav className="py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
                 {config.navLinks.map((link, index) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={handleLinkClick}
-                    className={`block py-2 px-4 text-sm text-right text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 ${
-                      isMenuOpen ? "opacity-100" : "opacity-0"
-                    }`}
-                    style={{ transitionDelay: isMenuOpen ? `${index * 50}ms` : "0ms" }}
-                  >
-                    [{t(link.label)}]
-                  </a>
+                  link.href.startsWith('#') ? (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={handleLinkClick}
+                      className={`block py-2 px-4 text-sm text-right text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 ${
+                        isMenuOpen ? "opacity-100" : "opacity-0"
+                      }`}
+                      style={{ transitionDelay: isMenuOpen ? `${index * 50}ms` : "0ms" }}
+                    >
+                      [{t(link.label)}]
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      onClick={handleLinkClick}
+                      className={`block py-2 px-4 text-sm text-right text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 ${
+                        isMenuOpen ? "opacity-100" : "opacity-0"
+                      }`}
+                      style={{ transitionDelay: isMenuOpen ? `${index * 50}ms` : "0ms" }}
+                    >
+                      [{t(link.label)}]
+                    </Link>
+                  )
                 ))}
               </nav>
             </div>

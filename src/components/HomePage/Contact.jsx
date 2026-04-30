@@ -28,7 +28,7 @@
  * ============================================================================
  */
 
-import config from '../config'
+import config from '../../config'
 
 export default function Contact({ t }) {
   const { contact, socialLinks } = config
