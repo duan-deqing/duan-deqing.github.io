@@ -1,178 +1,173 @@
-# 程序员个人主页
+# STYLAN Developer Portfolio
 
-简约现代风格的程序员个人主页，支持浅色/深色主题切换和中英文切换。
+简约现代风格的程序员个人主页，支持浅色/深色主题切换、中英文切换，以及 Markdown 博客系统。
 
 ## 技术栈
 
-- React 19
-- Vite
-- Tailwind CSS v4
-- Geist 字体（Geist Pixel + Geist Mono）
+- **前端框架**：React 19
+- **构建工具**：Vite
+- **样式方案**：Tailwind CSS v4
+- **路由**：React Router v7
+- **字体**：Geist Pixel + Geist Mono
+- **Markdown**：react-markdown + rehype-highlight + remark-gfm
 
 ## 快速开始
 
 ```bash
 # 安装依赖
-npm install
+pnpm install
 
 # 启动开发服务器
-npm run dev
+pnpm run dev
 
 # 构建生产版本
-npm run build
+pnpm run build
+
+# 预览生产版本
+pnpm run preview
 ```
 
 ## 项目结构
 
 ```
 ├── public/
-│   └── fonts/                 # 字体文件
-│       ├── GeistPixel-Square.woff2
-│       ├── GeistMono-Regular.woff2
-│       ├── GeistMono-Medium.woff2
-│       └── GeistMono-Bold.woff2
+│   ├── fonts/                    # 字体文件
+│   ├── favicon.svg               # 网站图标
+│   └── icons.svg                 # 图标集
 ├── src/
-│   ├── config.js              # ⭐ 配置文件（修改这里自定义网站）
-│   ├── index.css              # 全局样式、字体和主题配置
-│   ├── App.jsx                # 主入口，组合所有区块
-│   ├── hooks/
-│   │   ├── useTheme.js        # 主题切换逻辑
-│   │   └── useLanguage.js     # 语言切换逻辑
-│   └── components/
-│       ├── Header.jsx         # 顶部导航栏
-│       ├── Hero.jsx           # 个人介绍区块
-│       ├── Skills.jsx         # 技能展示区块
-│       ├── Projects.jsx       # 项目作品区块
-│       ├── Contact.jsx        # 联系方式区块
-│       └── Footer.jsx         # 页脚
+│   ├── config.js                 # 主站配置文件
+│   ├── blogConfig.js             # 博客配置文件
+│   ├── index.css                 # 全局样式和主题
+│   ├── App.jsx                   # 路由配置
+│   ├── main.jsx                  # 应用入口
+│   ├── pages/                    # 页面组件
+│   │   ├── HomePage.jsx          # 主页
+│   │   ├── BlogPage.jsx          # 博客列表页
+│   │   └── BlogPostPage.jsx      # 博客文章详情页
+│   ├── components/               # 按页面分类的组件
+│   │   ├── HomePage/             # 主页组件
+│   │   │   ├── Header.jsx        # 导航栏
+│   │   │   ├── Hero.jsx          # 个人介绍
+│   │   │   ├── Skills.jsx        # 技能展示
+│   │   │   ├── Projects.jsx      # 项目展示
+│   │   │   ├── Contact.jsx       # 联系方式
+│   │   │   ├── Footer.jsx        # 页脚
+│   │   │   ├── AnimatedText.jsx  # 动画文字
+│   │   │   └── PageTitle.jsx     # 页面标题
+│   │   └── BlogPage/             # 博客组件
+│   │       ├── BlogHeader.jsx    # 博客导航
+│   │       ├── BlogHero.jsx      # 博客标题
+│   │       ├── CategoryFilter.jsx # 分类筛选
+│   │       ├── BlogList.jsx      # 文章列表
+│   │       ├── BlogPost.jsx      # 文章卡片
+│   │       └── BlogFooter.jsx    # 博客页脚
+│   ├── posts/                    # 博客文章（中文）
+│   │   ├── en/                   # 博客文章（英文）
+│   │   ├── 2026-04-25-getting-started-with-react-hooks.md
+│   │   ├── 2026-04-20-building-modern-portfolio.md
+│   │   └── 2026-04-15-my-journey-into-web-development.md
+│   ├── hooks/                    # 自定义 Hooks
+│   │   ├── useTheme.js           # 主题切换
+│   │   └── useLanguage.js        # 语言切换
+│   └── utils/                    # 工具函数
+│       └── markdown.js           # Markdown 解析
+└── vite.config.js                # Vite 配置
 ```
 
 ## 配置说明
 
-**只需要修改 `src/config.js` 即可自定义整个网站！**
-
-### 多语言配置
-
-所有文本内容都支持中英文切换，使用对象格式：
+### 主站配置（src/config.js）
 
 ```js
-// 支持中英文
-title: {
-  en: 'Portfolio',
-  zh: '作品集',
-}
-
-// 单语言内容可直接使用字符串
-avatar: '👨‍💻'
-```
-
-### 网站信息
-
-```js
-site: {
-  title: { en: 'Portfolio', zh: '作品集' },
-}
-```
-
-### 个人信息
-
-```js
-personal: {
-  name: { en: 'Developer', zh: '开发者' },
-  avatar: '👨‍💻',  // 头像 emoji 或图片路径 '/avatar.jpg'
-  title: { en: "Hi, I'm Developer", zh: '你好，我是开发者' },
-  bio: { 
-    en: 'Full-stack developer...', 
-    zh: '全栈开发者...' 
+const config = {
+  site: {
+    title: "STYLAN",
+    pageTitle: "STYLAN - Developer Portfolio",
+    favicon: "/favicon.svg",
   },
-}
-```
-
-### 导航链接
-
-```js
-navLinks: [
-  { href: '#skills', label: { en: 'Skills', zh: '技能' } },
-  { href: '#projects', label: { en: 'Projects', zh: '项目' } },
-  { href: '#contact', label: { en: 'Contact', zh: '联系' } },
-]
-```
-
-### 行动按钮
-
-```js
-buttons: {
-  primary: { text: { en: 'Get in touch', zh: '联系我' }, href: '#contact' },
-  secondary: { text: { en: 'View projects', zh: '查看项目' }, href: '#projects' },
-}
-```
-
-### 技能列表
-
-```js
-skillsSection: {
-  title: { en: 'Skills & Technologies', zh: '技能与技术' },
-},
-skills: [
-  {
-    category: { en: 'Frontend', zh: '前端' },
-    items: ['React', 'Vue', 'TypeScript', 'Tailwind CSS', 'Next.js'],
+  personal: {
+    name: { en: "STYLAN", zh: "STYLAN" },
+    avatar: "👨‍💻",
+    title: { en: "Hi, I'm STYLAN", zh: "你好，我是STYLAN" },
+    bio: { en: "Full-stack developer...", zh: "全栈开发者..." },
   },
-  {
-    category: { en: 'Backend', zh: '后端' },
-    items: ['Node.js', 'Python', 'Go', 'PostgreSQL', 'Redis'],
-  },
-  // 添加新分类：
-  // { category: { en: 'Mobile', zh: '移动端' }, items: ['React Native', 'Flutter'] }
-]
-```
-
-### 项目列表
-
-```js
-projectsSection: {
-  title: { en: 'Featured Projects', zh: '精选项目' },
-},
-projects: [
-  {
-    title: { en: 'E-Commerce Platform', zh: '电商平台' },
-    description: { en: 'A modern...', zh: '使用 React 和 Node.js 构建的...' },
-    tags: ['React', 'Node.js'],
-    link: 'https://github.com/...',
-  },
-  // 添加新项目...
-]
-```
-
-### 联系信息
-
-```js
-contact: {
-  title: { en: 'Get in Touch', zh: '联系我' },
-  description: { en: "I'm always open...", zh: '我始终对新的机会...' },
-  email: 'hello@example.com',
-  emailButtonText: { en: 'Email Me', zh: '发送邮件' },
+  navLinks: [
+    { href: "/blog", label: { en: "Blog", zh: "博客" } },
+    { href: "#skills", label: { en: "Skills", zh: "技能" } },
+    { href: "#projects", label: { en: "Projects", zh: "项目" } },
+    { href: "#contact", label: { en: "Contact", zh: "联系" } },
+  ],
+  // ... 更多配置
 }
 ```
 
-### 社交链接
+### 博客配置（src/blogConfig.js）
 
 ```js
-socialLinks: [
-  { platform: 'GitHub', url: 'https://github.com/yourusername' },
-  { platform: 'LinkedIn', url: 'https://linkedin.com/in/yourusername' },
-  { platform: 'Twitter', url: 'https://twitter.com/yourusername' },
-]
-```
-
-### 页脚信息
-
-```js
-footer: {
-  copyright: { en: '© 2024 Developer. All rights reserved.', zh: '© 2024 开发者。保留所有权利。' },
-  builtWith: { en: 'Built with React & Tailwind CSS', zh: '使用 React 和 Tailwind CSS 构建' },
+const blogConfig = {
+  page: {
+    title: { en: "Blog", zh: "博客" },
+    subtitle: { en: "Thoughts, tutorials and insights", zh: "想法、教程与见解" },
+  },
+  categories: [
+    { id: "all", label: { en: "All", zh: "全部" } },
+    { id: "tech", label: { en: "Technology", zh: "技术" } },
+    { id: "tutorial", label: { en: "Tutorials", zh: "教程" } },
+  ],
 }
 ```
+
+## 博客系统
+
+### 创建新文章
+
+在 `src/posts/` 目录下创建 Markdown 文件：
+
+**文件命名规范**：`yyyy-mm-dd-post-title.md`
+
+**中文文章**：`src/posts/2026-05-01-my-new-post.md`
+**英文文章**：`src/posts/en/2026-05-01-my-new-post-en.md`
+
+### 文章格式
+
+```markdown
+---
+title:
+  en: "English Title"
+  zh: "中文标题"
+excerpt:
+  en: "English excerpt"
+  zh: "中文摘要"
+category: "tutorial"
+readTime:
+  en: "5 min read"
+  zh: "5 分钟阅读"
+author:
+  en: "Author Name"
+  zh: "作者名称"
+tags: ["React", "JavaScript"]
+featured: true
+---
+
+## 文章正文内容
+
+这里是 Markdown 格式的正文内容...
+
+### 代码块
+
+```javascript
+function hello() {
+  console.log("Hello, World!");
+}
+```
+```
+
+### 支持的分类
+
+- `tech` - 技术文章
+- `tutorial` - 教程
+- `thoughts` - 想法/随笔
+- `project` - 项目相关
 
 ## 功能特性
 
@@ -181,42 +176,25 @@ footer: {
 - 点击导航栏右侧的太阳/月亮图标切换主题
 - 主题偏好自动保存到 localStorage
 - 首次访问时跟随系统主题
+- 代码块支持 Everforest Dark（深色）/ One Light（浅色）配色
 
 ### 语言切换
 
 - 点击导航栏右侧的「中文」/「EN」按钮切换语言
 - 语言偏好自动保存到 localStorage
-- 默认使用英文
+- 博客文章根据语言自动切换中英文版本
 
-## 字体说明
+### 博客功能
 
-本项目使用 [Geist 字体](https://vercel.com/font)，由 Vercel 开发：
-
-- **Geist Pixel**：像素风格字体，用于网站标题和主要显示
-- **Geist Mono**：等宽字体，用于正文和代码显示
-
-字体文件位于 `public/fonts/` 目录，已在 `src/index.css` 中通过 `@font-face` 引入。
-
-### 修改字体
-
-如需修改字体，编辑 `src/index.css`：
-
-```css
-body {
-  font-family: "Geist Pixel", "Geist Mono", monospace;
-}
-```
-
-可选的 Geist Pixel 变体（位于 `public/fonts/`）：
-- `GeistPixel-Square.woff2` - 方形像素（默认）
-- `GeistPixel-Circle.woff2` - 圆形像素
-- `GeistPixel-Grid.woff2` - 网格像素
-- `GeistPixel-Line.woff2` - 线条像素
-- `GeistPixel-Triangle.woff2` - 三角像素
+- Markdown 渲染（支持 GFM 语法）
+- 代码语法高亮（Dracula 主题）
+- Mac 风格代码块
+- 文章分类筛选
+- 响应式布局
 
 ## 自定义样式
 
-如需修改颜色主题，编辑 `src/index.css`：
+编辑 `src/index.css` 修改主题色：
 
 ```css
 body {
@@ -232,6 +210,35 @@ body {
 ::selection {
   background-color: #3b82f6;  /* 选中文字高亮色 */
 }
+```
+
+## 部署
+
+### Vercel
+
+```bash
+# 安装 Vercel CLI
+npm i -g vercel
+
+# 部署
+vercel
+```
+
+### Netlify
+
+1. 将代码推送到 GitHub
+2. 在 Netlify 中导入项目
+3. 设置构建命令：`pnpm run build`
+4. 设置发布目录：`dist`
+
+### GitHub Pages
+
+```bash
+# 构建
+pnpm run build
+
+# 部署到 GitHub Pages
+# 将 dist 目录推送到 gh-pages 分支
 ```
 
 ## License
