@@ -61,21 +61,21 @@ const config = {
   // href: 页面内锚点 id 或外部链接
   // label: 显示的文字（支持中英文）
   navLinks: [
-    { href: "/blog", label: { en: "Blog", zh: "博客" } },
-    { href: "#skills", label: { en: "Skills", zh: "技能" } },
-    { href: "#projects", label: { en: "Projects", zh: "项目" } },
-    { href: "#contact", label: { en: "Contact", zh: "联系" } },
+    { href: "/blog", label: { en: "blog", zh: "博客" } },
+    { href: "#skills", label: { en: "skills", zh: "技能" } },
+    { href: "#projects", label: { en: "projects", zh: "项目" } },
+    { href: "#contact", label: { en: "contact", zh: "联系" } },
   ],
 
   // ==================== 行动按钮 ====================
   // Hero 页面下方的两个按钮
   buttons: {
     primary: {
-      text: { en: "Get in touch", zh: "联系我" },
+      text: { en: "CONTACT", zh: "联系" },
       href: "#contact",
     },
     secondary: {
-      text: { en: "View projects", zh: "查看项目" },
+      text: { en: "PROJECTS", zh: "项目" },
       href: "#projects",
     },
   },
@@ -175,7 +175,7 @@ const config = {
   // ==================== 页脚信息 ====================
   // 不参与语言切换
   footer: {
-    copyright: "© 2026 Developer. All rights reserved.",
+    copyright: "© 2026 STYLAN. All rights reserved.",
   },
 };
 

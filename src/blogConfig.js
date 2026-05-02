@@ -24,11 +24,14 @@ const blogConfig = {
   // ==================== 页面信息 ====================
   page: {
     // 博客页面标题
-    title: { en: "Blog", zh: "博客" },
+    title: { en: "BLOG", zh: "博客" },
     // 博客页面副标题
-    subtitle: { en: "Thoughts, tutorials and insights", zh: "想法、教程与见解" },
+    subtitle: {
+      en: "Thoughts, tutorials and insights",
+      zh: "想法、教程与见解",
+    },
     // 返回主页链接
-    backToHome: { en: "Back to Home", zh: "返回主页" },
+    backToHome: { en: "BACK TO HOME", zh: "返回主页" },
   },
 
   // ==================== 文章分类 ====================

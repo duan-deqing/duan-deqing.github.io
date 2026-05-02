@@ -2,7 +2,7 @@
  * ============================================================================
  *  Header.jsx - 顶部导航栏组件
  * ============================================================================
- * 
+ *
  * 【功能说明】
  * 1. 响应式导航栏：大屏幕显示完整导航，小屏幕显示汉堡菜单
  * 2. 滚动行为：页面顶部始终显示，向下隐藏，向上显示
@@ -10,20 +10,20 @@
  * 4. 导航链接带下划线悬浮效果
  * 5. 主题切换和语言切换按钮
  * 6. 点击空白处关闭下拉菜单
- * 
+ *
  * 【布局结构】
  * ┌─────────────────────────────────────────────┐
  * │ Portfolio   [Skills] [Projects] [Contact]   │
  * │                        [☀️] [中文]          │
  * └─────────────────────────────────────────────┘
- * 
+ *
  * 【Props】
  * - isDark: boolean - 当前是否深色模式
  * - toggleTheme: function - 切换主题函数
  * - lang: string - 当前语言
  * - toggleLang: function - 切换语言函数
  * - t: function - 翻译函数
- * 
+ *
  * 【自定义提示】
  * - 修改网站标题: 在 config.js 中修改 site.title
  * - 修改导航链接: 在 config.js 中修改 navLinks
@@ -42,7 +42,7 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
   const [isExpanded, setIsExpanded] = useState(true);
   // 是否移动端
   const [isMobile, setIsMobile] = useState(false);
-  
+
   // Refs
   const headerRef = useRef(null);
   const menuRef = useRef(null);
@@ -64,10 +64,10 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
   // 监听点击外部事件
   useEffect(() => {
     if (isMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isMenuOpen, handleClickOutside]);
 
@@ -117,11 +117,17 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
             setIsExpanded(true);
           }
           // 向下滚动超过阈值时隐藏
-          else if (currentScrollY > lastScrollY && currentScrollY - lastScrollY > 5) {
+          else if (
+            currentScrollY > lastScrollY &&
+            currentScrollY - lastScrollY > 5
+          ) {
             setIsExpanded(false);
           }
           // 向上滚动超过阈值时显示
-          else if (lastScrollY > currentScrollY && lastScrollY - currentScrollY > 5) {
+          else if (
+            lastScrollY > currentScrollY &&
+            lastScrollY - currentScrollY > 5
+          ) {
             setIsExpanded(true);
           }
 
@@ -142,13 +148,12 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
       <header
         ref={headerRef}
         style={{
-          transform: isExpanded ? 'translateY(0)' : 'translateY(-100%)',
-          transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+          transform: isExpanded ? "translateY(0)" : "translateY(-100%)",
+          transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
         }}
         className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/90 dark:bg-gray-900/90"
       >
         <div className="h-16 px-6 md:px-10 flex items-center justify-between">
-          
           {/* 左侧 - 网站标题 */}
           <a
             href="#"
@@ -160,14 +165,14 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
 
           {/* 右侧 - 桌面端导航 */}
           <nav className="hidden md:flex items-center gap-6">
-            {config.navLinks.map((link) => (
-              link.href.startsWith('#') ? (
+            {config.navLinks.map((link) =>
+              link.href.startsWith("#") ? (
                 <a
                   key={link.href}
                   href={link.href}
                   className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
-                  [<span className="nav-link-text">{t(link.label)}</span>]
+                  [ <span className="nav-link-text">{t(link.label)}</span> ]
                 </a>
               ) : (
                 <Link
@@ -175,10 +180,10 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
                   to={link.href}
                   className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
-                  [<span className="nav-link-text">{t(link.label)}</span>]
+                  [ <span className="nav-link-text">{t(link.label)}</span> ]
                 </Link>
               )
-            ))}
+            )}
 
             {/* 切换按钮组 */}
             <div className="flex items-center gap-2 ml-2 pl-2 border-l border-gray-200 dark:border-gray-700">
@@ -230,14 +235,18 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
               >
                 <span
                   className={`inline-block transition-all duration-300 absolute ${
-                    lang === "en" ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+                    lang === "en"
+                      ? "translate-y-0 opacity-100"
+                      : "-translate-y-full opacity-0"
                   }`}
                 >
                   中文
                 </span>
                 <span
                   className={`inline-block transition-all duration-300 absolute ${
-                    lang === "zh" ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+                    lang === "zh"
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-full opacity-0"
                   }`}
                 >
                   EN
@@ -247,7 +256,10 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
           </nav>
 
           {/* 右侧 - 移动端菜单按钮 */}
-          <div ref={menuRef} className="flex md:hidden items-center gap-2 relative">
+          <div
+            ref={menuRef}
+            className="flex md:hidden items-center gap-2 relative"
+          >
             {/* 主题切换按钮 */}
             <button
               onClick={toggleTheme}
@@ -294,14 +306,18 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
             >
               <span
                 className={`inline-block transition-all duration-300 absolute ${
-                  lang === "en" ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+                  lang === "en"
+                    ? "translate-y-0 opacity-100"
+                    : "-translate-y-full opacity-0"
                 }`}
               >
                 中文
               </span>
               <span
                 className={`inline-block transition-all duration-300 absolute ${
-                  lang === "zh" ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+                  lang === "zh"
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-full opacity-0"
                 }`}
               >
                 EN
@@ -336,13 +352,15 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
             {/* 移动端下拉菜单 - 按钮下方，右对齐 */}
             <div
               className={`absolute top-full right-0 mt-2 rounded-xl shadow-lg overflow-hidden transition-all duration-300 ease-in-out ${
-                isMenuOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"
+                isMenuOpen
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-95 pointer-events-none"
               }`}
-              style={{ width: 'max-content' }}
+              style={{ width: "max-content" }}
             >
               <nav className="py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
-                {config.navLinks.map((link, index) => (
-                  link.href.startsWith('#') ? (
+                {config.navLinks.map((link, index) =>
+                  link.href.startsWith("#") ? (
                     <a
                       key={link.href}
                       href={link.href}
@@ -350,9 +368,11 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
                       className={`block py-2 px-4 text-sm text-right text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 ${
                         isMenuOpen ? "opacity-100" : "opacity-0"
                       }`}
-                      style={{ transitionDelay: isMenuOpen ? `${index * 50}ms` : "0ms" }}
+                      style={{
+                        transitionDelay: isMenuOpen ? `${index * 50}ms` : "0ms",
+                      }}
                     >
-                      [{t(link.label)}]
+                      [ <span className="nav-link-text">{t(link.label)}</span> ]
                     </a>
                   ) : (
                     <Link
@@ -362,12 +382,14 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
                       className={`block py-2 px-4 text-sm text-right text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 ${
                         isMenuOpen ? "opacity-100" : "opacity-0"
                       }`}
-                      style={{ transitionDelay: isMenuOpen ? `${index * 50}ms` : "0ms" }}
+                      style={{
+                        transitionDelay: isMenuOpen ? `${index * 50}ms` : "0ms",
+                      }}
                     >
-                      [{t(link.label)}]
+                      [ <span className="nav-link-text">{t(link.label)}</span> ]
                     </Link>
                   )
-                ))}
+                )}
               </nav>
             </div>
           </div>

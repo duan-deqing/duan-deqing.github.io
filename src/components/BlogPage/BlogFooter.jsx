@@ -24,12 +24,12 @@ export default function BlogFooter({ t }) {
 
         {/* 返回顶部 */}
         <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
         >
-          {t({ en: 'Back to top ↑', zh: '返回顶部 ↑' })}
+          {t({ en: "BACK TO TOP ↑", zh: "返回顶部 ↑" })}
         </button>
       </div>
     </footer>
-  )
+  );
 }

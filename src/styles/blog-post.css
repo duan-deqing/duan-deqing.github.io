@@ -1,0 +1,350 @@
+/**
+ * ============================================================================
+ *  blog-post.css - 博客文章页面样式
+ * ============================================================================
+ *
+ * 【功能说明】
+ * 1. 代码块样式（rehype-highlight）
+ * 2. One Light 浅色主题
+ * 3. Everforest Dark 深色主题
+ * 4. 行内代码样式
+ * 5. PostPage 正文字体
+ * 6. 目录导航样式
+ * ============================================================================
+ */
+
+/* ==================== 代码块样式 ==================== */
+/* rehype-highlight 代码块样式 */
+.code-block-wrapper pre {
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+.code-block-wrapper pre code {
+  background: transparent !important;
+  display: block;
+  overflow-x: auto;
+  padding: 0 !important;
+}
+
+/* ==================== One Light 浅色主题 ==================== */
+.hljs {
+  color: #383a42;
+  background: transparent !important;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-section,
+.hljs-link {
+  color: #a626a4;
+  font-weight: bold;
+}
+
+.hljs-function .hljs-keyword {
+  color: #4078f2;
+}
+
+.hljs-subst {
+  color: #383a42;
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-name,
+.hljs-type,
+.hljs-attribute,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition,
+.hljs-variable,
+.hljs-template-tag,
+.hljs-template-variable {
+  color: #50a14f;
+}
+
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion,
+.hljs-meta {
+  color: #a0a1a7;
+  font-style: italic;
+}
+
+.hljs-number,
+.hljs-regexp,
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #986801;
+}
+
+.hljs-literal {
+  color: #0184bc;
+}
+
+.hljs-params {
+  color: #383a42;
+}
+
+.hljs-attr {
+  color: #986801;
+}
+
+.hljs-selector-class,
+.hljs-selector-id {
+  color: #a626a4;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-tag {
+  color: #383a42;
+}
+
+.hljs-tag .hljs-name {
+  color: #e45649;
+}
+
+.hljs-tag .hljs-attr {
+  color: #986801;
+}
+
+.hljs-property {
+  color: #4078f2;
+}
+
+.hljs-punctuation {
+  color: #383a42;
+}
+
+.hljs-operator {
+  color: #a626a4;
+}
+
+.hljs-function {
+  color: #4078f2;
+}
+
+.hljs-class .hljs-title {
+  color: #c18401;
+}
+
+.hljs-doctag {
+  color: #a626a4;
+}
+
+/* ==================== Everforest Dark 深色主题 ==================== */
+.dark .hljs {
+  color: #d3c6aa;
+  background: transparent !important;
+}
+
+.dark .hljs-keyword,
+.dark .hljs-selector-tag,
+.dark .hljs-literal,
+.dark .hljs-section,
+.dark .hljs-link {
+  color: #e67e80;
+  font-weight: bold;
+}
+
+.dark .hljs-function .hljs-keyword {
+  color: #7fbbb3;
+}
+
+.dark .hljs-subst {
+  color: #d3c6aa;
+}
+
+.dark .hljs-string,
+.dark .hljs-title,
+.dark .hljs-name,
+.dark .hljs-type,
+.dark .hljs-attribute,
+.dark .hljs-symbol,
+.dark .hljs-bullet,
+.dark .hljs-addition,
+.dark .hljs-variable,
+.dark .hljs-template-tag,
+.dark .hljs-template-variable {
+  color: #a7c080;
+}
+
+.dark .hljs-comment,
+.dark .hljs-quote,
+.dark .hljs-deletion,
+.dark .hljs-meta {
+  color: #859289;
+  font-style: italic;
+}
+
+.dark .hljs-number,
+.dark .hljs-regexp,
+.dark .hljs-built_in,
+.dark .hljs-builtin-name {
+  color: #dbbc7f;
+}
+
+.dark .hljs-literal {
+  color: #7fbbb3;
+}
+
+.dark .hljs-params {
+  color: #d3c6aa;
+}
+
+.dark .hljs-attr {
+  color: #dbbc7f;
+}
+
+.dark .hljs-selector-class,
+.dark .hljs-selector-id {
+  color: #e67e80;
+}
+
+.dark .hljs-emphasis {
+  font-style: italic;
+}
+
+.dark .hljs-strong {
+  font-weight: bold;
+}
+
+.dark .hljs-tag {
+  color: #d3c6aa;
+}
+
+.dark .hljs-tag .hljs-name {
+  color: #e67e80;
+}
+
+.dark .hljs-tag .hljs-attr {
+  color: #dbbc7f;
+}
+
+.dark .hljs-property {
+  color: #7fbbb3;
+}
+
+.dark .hljs-punctuation {
+  color: #d3c6aa;
+}
+
+.dark .hljs-operator {
+  color: #e67e80;
+}
+
+.dark .hljs-function {
+  color: #a7c080;
+}
+
+.dark .hljs-class .hljs-title {
+  color: #dbbc7f;
+}
+
+.dark .hljs-doctag {
+  color: #e67e80;
+}
+
+/* ==================== 行内代码样式 ==================== */
+.markdown-content code:not(pre code) {
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-family: var(--font-code);
+}
+
+.markdown-content code:not(pre code) {
+  background-color: #f3f4f6;
+  color: #e11d48;
+}
+
+.dark .markdown-content code:not(pre code) {
+  background-color: #313244;
+  color: #f38ba8;
+}
+
+/* 代码块字体 */
+pre code {
+  font-family: var(--font-code);
+}
+
+/* ==================== PostPage 正文字体 ==================== */
+.markdown-content {
+  font-family: var(--font-post);
+}
+
+.markdown-content p,
+.markdown-content li,
+.markdown-content blockquote {
+  font-family: var(--font-post);
+}
+
+/* ==================== 目录导航样式 ==================== */
+
+.toc-container {
+  width: 100%;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+  padding: 0;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-link {
+  display: block;
+  padding: 6px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  padding-left: 12px;
+  transition: all 0.15s ease;
+  line-height: 1.5;
+}
+
+.dark .toc-link {
+  color: #6b7280;
+}
+
+.toc-link:hover {
+  color: #3b82f6;
+}
+
+.toc-active {
+  color: #3b82f6;
+  border-left-color: #3b82f6;
+  position: relative;
+}
+
+.toc-active::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+}
+
+.toc-level-3 {
+  padding-left: 24px;
+}
+
+.toc-level-4 {
+  padding-left: 36px;
+}

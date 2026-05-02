@@ -14,7 +14,7 @@
  * ============================================================================
  */
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -25,6 +25,30 @@ import { getPostBySlug } from '../utils/markdown'
 import blogConfig from '../blogConfig'
 import BlogHeader from '../components/BlogPage/BlogHeader'
 import BlogFooter from '../components/BlogPage/BlogFooter'
+import TableOfContents from '../components/BlogPage/TableOfContents'
+import '../styles/blog-post.css'
+
+/**
+ * 生成标题 ID
+ */
+function generateId(text) {
+  return text
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w\u4e00-\u9fff-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
+/**
+ * 从 children 提取纯文本
+ */
+function getTextContent(children) {
+  if (typeof children === 'string') return children
+  if (Array.isArray(children)) return children.map(getTextContent).join('')
+  if (children?.props?.children) return getTextContent(children.props.children)
+  return ''
+}
 
 function BlogPostPage() {
   // 获取URL参数
@@ -39,6 +63,37 @@ function BlogPostPage() {
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+
+  // 文章内容 ref 和目录位置
+  const articleRef = useRef(null)
+  const [tocLeft, setTocLeft] = useState(0)
+  const [showToc, setShowToc] = useState(false)
+
+  // 计算目录位置和是否显示
+  useEffect(() => {
+    const updateTocPosition = () => {
+      if (articleRef.current) {
+        const rect = articleRef.current.getBoundingClientRect()
+        const leftSpace = rect.left
+        
+        // 当左侧宽度足够时显示目录（224px目录宽度 + 16px间距）
+        if (leftSpace >= 240) {
+          setShowToc(true)
+          setTocLeft(Math.max(16, leftSpace - 240))
+        } else {
+          setShowToc(false)
+        }
+      }
+    }
+
+    updateTocPosition()
+    window.addEventListener('resize', updateTocPosition)
+    window.addEventListener('scroll', updateTocPosition)
+    return () => {
+      window.removeEventListener('resize', updateTocPosition)
+      window.removeEventListener('scroll', updateTocPosition)
+    }
+  }, [post])
 
   // 加载文章数据
   useEffect(() => {
@@ -113,7 +168,7 @@ function BlogPostPage() {
                 onClick={() => navigate('/blog')}
                 className="btn btn-primary"
               >
-                {t({ en: 'Back to Blog', zh: '返回博客' })}
+                {t({ en: 'BACK TO BLOG', zh: '返回博客' })}
               </button>
             </div>
           </div>
@@ -150,9 +205,24 @@ function BlogPostPage() {
         t={t}
       />
 
+      {/* 目录导航 - 桌面端显示，空间不足时自动隐藏 */}
+      {showToc && (
+        <aside
+          className="hidden lg:block fixed transition-all duration-200"
+          style={{
+            left: `${tocLeft}px`,
+            width: '224px',
+            top: '50%',
+            transform: 'translateY(-50%)'
+          }}
+        >
+          <TableOfContents content={post.content} />
+        </aside>
+      )}
+
       {/* 主要内容区域 */}
       <main className="w-full pt-16 flex-grow">
-        <article className="max-w-4xl mx-auto px-6 py-16 md:py-24">
+        <article ref={articleRef} className="max-w-4xl mx-auto px-6 py-16 md:py-24">
           {/* 返回链接 */}
           <button
             onClick={() => navigate('/blog')}
@@ -161,7 +231,7 @@ function BlogPostPage() {
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            {t({ en: 'Back to Blog', zh: '返回博客列表' })}
+            {t({ en: 'BACK TO BLOG', zh: '返回博客列表' })}
           </button>
 
           {/* 文章分类 */}
@@ -174,7 +244,7 @@ function BlogPostPage() {
           {/* 文章标题 */}
           <h1
             className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 tracking-tight text-gray-900 dark:text-white"
-            style={{ fontFamily: '"Geist Pixel", monospace' }}
+            style={{ fontFamily: 'var(--font-heading)' }}
           >
             {t(post.title)}
           </h1>
@@ -227,21 +297,33 @@ function BlogPostPage() {
                     {children}
                   </h1>
                 ),
-                h2: ({ children }) => (
-                  <h2 className="text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-white">
-                    {children}
-                  </h2>
-                ),
-                h3: ({ children }) => (
-                  <h3 className="text-xl font-semibold mt-6 mb-3 text-gray-900 dark:text-white">
-                    {children}
-                  </h3>
-                ),
-                h4: ({ children }) => (
-                  <h4 className="text-lg font-semibold mt-4 mb-2 text-gray-900 dark:text-white">
-                    {children}
-                  </h4>
-                ),
+                h2: ({ children }) => {
+                  const text = getTextContent(children)
+                  const id = generateId(text)
+                  return (
+                    <h2 id={id} className="text-2xl font-bold mt-8 mb-4 text-gray-900 dark:text-white scroll-mt-20">
+                      {children}
+                    </h2>
+                  )
+                },
+                h3: ({ children }) => {
+                  const text = getTextContent(children)
+                  const id = generateId(text)
+                  return (
+                    <h3 id={id} className="text-xl font-semibold mt-6 mb-3 text-gray-900 dark:text-white scroll-mt-20">
+                      {children}
+                    </h3>
+                  )
+                },
+                h4: ({ children }) => {
+                  const text = getTextContent(children)
+                  const id = generateId(text)
+                  return (
+                    <h4 id={id} className="text-lg font-semibold mt-4 mb-2 text-gray-900 dark:text-white scroll-mt-20">
+                      {children}
+                    </h4>
+                  )
+                },
                 // 段落样式
                 p: ({ children }) => (
                   <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
@@ -417,7 +499,7 @@ function BlogPostPage() {
               onClick={() => navigate('/blog')}
               className="btn btn-secondary"
             >
-              {t({ en: '← Back to All Posts', zh: '← 返回所有文章' })}
+              {t({ en: '← BACK TO ALL POSTS', zh: '← 返回所有文章' })}
             </button>
           </div>
         </article>
