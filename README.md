@@ -29,7 +29,7 @@ pnpm run preview
 
 ## 项目结构
 
-```
+```txt
 ├── public/
 │   ├── fonts/                    # 字体文件
 │   ├── favicon.svg               # 网站图标
@@ -98,7 +98,7 @@ const config = {
     { href: "#contact", label: { en: "Contact", zh: "联系" } },
   ],
   // ... 更多配置
-}
+};
 ```
 
 ### 博客配置（src/blogConfig.js）
@@ -107,14 +107,17 @@ const config = {
 const blogConfig = {
   page: {
     title: { en: "Blog", zh: "博客" },
-    subtitle: { en: "Thoughts, tutorials and insights", zh: "想法、教程与见解" },
+    subtitle: {
+      en: "Thoughts, tutorials and insights",
+      zh: "想法、教程与见解",
+    },
   },
   categories: [
     { id: "all", label: { en: "All", zh: "全部" } },
     { id: "tech", label: { en: "Technology", zh: "技术" } },
     { id: "tutorial", label: { en: "Tutorials", zh: "教程" } },
   ],
-}
+};
 ```
 
 ## 博客系统
@@ -130,7 +133,7 @@ const blogConfig = {
 
 ### 文章格式
 
-```markdown
+````markdown
 ---
 title:
   en: "English Title"
@@ -160,7 +163,7 @@ function hello() {
   console.log("Hello, World!");
 }
 ```
-```
+````
 
 ### 支持的分类
 
@@ -198,17 +201,17 @@ function hello() {
 
 ```css
 body {
-  background-color: #ffffff;  /* 浅色模式背景 */
-  color: #111827;             /* 浅色模式文字 */
+  background-color: #ffffff; /* 浅色模式背景 */
+  color: #111827; /* 浅色模式文字 */
 }
 
 .dark body {
-  background-color: #0f172a;  /* 深色模式背景 */
-  color: #f1f5f9;             /* 深色模式文字 */
+  background-color: #0f172a; /* 深色模式背景 */
+  color: #f1f5f9; /* 深色模式文字 */
 }
 
 ::selection {
-  background-color: #3b82f6;  /* 选中文字高亮色 */
+  background-color: #3b82f6; /* 选中文字高亮色 */
 }
 ```
 
