@@ -290,6 +290,7 @@ function BlogPostPage() {
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
               rehypePlugins={[rehypeHighlight]}
+              urlTransform={(url) => url}
               components={{
                 // 标题样式
                 h1: ({ children }) => (
@@ -434,7 +435,13 @@ function BlogPostPage() {
                 ),
                 // 图片样式
                 img: ({ src, alt }) => (
-                  <img src={src} alt={alt} className="max-w-full h-auto rounded-lg my-4" />
+                  <div className="my-6 rounded-xl overflow-hidden" style={{
+                    boxShadow: isDark 
+                      ? '0 10px 40px rgba(0, 0, 0, 0.4)' 
+                      : '0 10px 40px rgba(0, 0, 0, 0.15)'
+                  }}>
+                    <img src={src} alt={alt} className="w-full h-auto block" />
+                  </div>
                 ),
                 // 表格样式
                 table: ({ children }) => (

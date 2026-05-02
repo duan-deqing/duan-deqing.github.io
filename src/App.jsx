@@ -11,6 +11,7 @@
  * - / : 主页
  * - /blog : 博客列表页面
  * - /blog/:slug : 博客文章详情页面
+ * - * : 404页面（未匹配的路径）
  * ============================================================================
  */
 
@@ -18,6 +19,7 @@ import { Routes, Route } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import BlogPage from './pages/BlogPage'
 import BlogPostPage from './pages/BlogPostPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/blog" element={<BlogPage />} />
       <Route path="/blog/:slug" element={<BlogPostPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
 }

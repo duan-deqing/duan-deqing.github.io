@@ -33,12 +33,12 @@ featured: false
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <title>My First Website</title>
-</head>
-<body>
-  <h1>Hello World!</h1>
-</body>
+  <head>
+    <title>My First Website</title>
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+  </body>
 </html>
 ```
 
@@ -51,7 +51,7 @@ function greet(name) {
   return `Hello, ${name}!`;
 }
 
-console.log(greet('World'));
+console.log(greet("World"));
 ```
 
 ### 第三阶段：前端框架
@@ -104,4 +104,6 @@ Web 开发领域仍在快速发展。我对以下方向特别感兴趣：
 
 回顾我的 Web 开发之旅，虽然充满了挑战，但每一步都让我成长。我期待着继续在这个领域探索和学习。
 
-感谢你阅读我的故事，希望它能给你一些启发！
+感谢你阅读我的故事，希望它能给你一些启发!
+
+![娜娜莉](./img/2026-04-15-my-journey-into-web-development/132578575_p0.jpg)

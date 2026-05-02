@@ -10,12 +10,14 @@
  * 【文件夹结构】
  * - src/posts/ (中文文章)
  * - src/posts/en/ (英文文章)
+ * - src/posts/img/ (文章图片)
  *
  * 【功能说明】
  * 1. 使用 Vite 的 import.meta.glob 动态导入 markdown 文件
  * 2. 从文件名中提取日期和 slug
  * 3. 解析 frontmatter 和正文内容
  * 4. 根据语言参数返回对应语言的文章
+ * 5. 解析 markdown 中的图片路径
  *
  * 【使用方式】
  * - getAllPosts(lang): 获取所有文章列表（不含正文）
@@ -27,6 +29,9 @@ import fm from 'front-matter'
 
 // 使用 Vite 的 import.meta.glob 动态导入所有 markdown 文件
 const allMarkdownFiles = import.meta.glob('../**/*.md', { query: '?raw', import: 'default', eager: false })
+
+// 动态导入所有图片文件
+const allImages = import.meta.glob('../posts/img/**/*', { eager: true, query: '?url', import: 'default' })
 
 // 分离中文和英文文章
 const zhMarkdownFiles = {}
@@ -78,6 +83,60 @@ function parseFilename(filename) {
 }
 
 /**
+ * 获取图片的正确 URL
+ * @param {string} imagePath - 图片路径（相对于 markdown 文件）
+ * @param {string} filename - 文章文件名
+ * @param {boolean} isEnglish - 是否是英文文章
+ * @returns {string} 图片 URL
+ */
+function getImageUrl(imagePath, filename, isEnglish) {
+  // 如果是网络图片，直接返回
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+    return imagePath
+  }
+  
+  // 移除开头的 ./
+  const cleanImagePath = imagePath.replace(/^\.\//, '')
+  
+  // 从路径中提取图片文件名
+  const imgFilename = cleanImagePath.split('/').pop()
+  
+  // 构建图片在 img 文件夹中的路径
+  const cleanFilename = filename.replace(/-en$/, '')
+  
+  // 查找匹配的图片
+  for (const path in allImages) {
+    // 检查路径是否包含文章文件夹名和图片文件名
+    const pathParts = path.split('/')
+    const pathImgFilename = pathParts[pathParts.length - 1]
+    const articleFolder = pathParts[pathParts.length - 2]
+    
+    // 检查是否匹配：文章文件夹名 + 图片文件名
+    if (articleFolder === cleanFilename && pathImgFilename === imgFilename) {
+      return allImages[path]
+    }
+  }
+  
+  // 如果找不到图片，返回原始路径
+  return imagePath
+}
+
+/**
+ * 处理 markdown 内容中的图片路径
+ * @param {string} content - markdown 内容
+ * @param {string} filename - 文章文件名
+ * @param {boolean} isEnglish - 是否是英文文章
+ * @returns {string} 处理后的 markdown 内容
+ */
+function processImagePaths(content, filename, isEnglish) {
+  // 匹配 markdown 图片语法: ![alt](path)
+  return content.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, path) => {
+    const imageUrl = getImageUrl(path, filename, isEnglish)
+    return `![${alt}](${imageUrl})`
+  })
+}
+
+/**
  * 获取所有文章列表（不含正文内容）
  * @param {string} lang - 语言代码 ('zh' 或 'en')
  * @returns {Promise<Array>} 文章列表
@@ -123,6 +182,7 @@ export async function getAllPosts(lang = 'zh') {
  */
 export async function getPostBySlug(slug, lang = 'zh') {
   const markdownFiles = getFilesByLang(lang)
+  const isEnglish = lang === 'en'
 
   for (const path in markdownFiles) {
     try {
@@ -137,11 +197,14 @@ export async function getPostBySlug(slug, lang = 'zh') {
 
         // 移除第一个 h1 标题（避免与页面标题重复）
         const contentWithoutFirstH1 = markdownContent.replace(/^#\s+.*$/m, '').trim()
+        
+        // 处理图片路径
+        const processedContent = processImagePaths(contentWithoutFirstH1, filename, isEnglish)
 
         return {
           ...data,
           date: data.date || fileDate,
-          content: contentWithoutFirstH1,
+          content: processedContent,
           slug,
           filename
         }
@@ -162,6 +225,7 @@ export async function getPostBySlug(slug, lang = 'zh') {
  */
 export async function getPostByFilename(filename, lang = 'zh') {
   const markdownFiles = getFilesByLang(lang)
+  const isEnglish = lang === 'en'
   
   const targetPath = Object.keys(markdownFiles).find(path => {
     const pathParts = path.split('/')
@@ -175,10 +239,13 @@ export async function getPostByFilename(filename, lang = 'zh') {
       const { attributes: data, body: markdownContent } = fm(content)
       const { date: fileDate, slug } = parseFilename(filename)
 
+      // 处理图片路径
+      const processedContent = processImagePaths(markdownContent, filename, isEnglish)
+
       return {
         ...data,
         date: data.date || fileDate,
-        content: markdownContent,
+        content: processedContent,
         slug,
         filename
       }

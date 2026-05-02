@@ -36,7 +36,7 @@ Tailwind CSS is a utility-first CSS framework, its advantages are:
 
 ## Project Structure
 
-```
+```txt
 portfolio/
 ├── src/
 │   ├── components/
@@ -82,11 +82,10 @@ function Hero() {
   return (
     <section className="min-h-screen flex items-center">
       <div className="max-w-4xl mx-auto px-6">
-        <h1 className="text-5xl font-bold">
-          Hi, I'm Developer
-        </h1>
+        <h1 className="text-5xl font-bold">Hi, I'm Developer</h1>
         <p className="text-xl text-gray-600 mt-4">
-          Full-stack developer passionate about building beautiful web applications
+          Full-stack developer passionate about building beautiful web
+          applications
         </p>
       </div>
     </section>
@@ -110,9 +109,7 @@ Adding dark mode support:
 
 ```jsx
 <div className="bg-white dark:bg-gray-900">
-  <h1 className="text-gray-900 dark:text-white">
-    Hello World
-  </h1>
+  <h1 className="text-gray-900 dark:text-white">Hello World</h1>
 </div>
 ```
 
@@ -134,3 +131,5 @@ Building a modern personal portfolio is not complex, the key is:
 - Update content regularly
 
 Hopefully this article helps you!
+
+![娜娜莉](./img/2026-04-20-building-modern-portfolio/138765453_p0.jpg)

@@ -27,7 +27,7 @@ Before Hooks appeared, if we wanted to use state in a component, we had to use c
 `useState` is the most basic Hook, used to add state to function components:
 
 ```jsx
-import { useState } from 'react';
+import { useState } from "react";
 
 function Counter() {
   const [count, setCount] = useState(0);
@@ -35,9 +35,7 @@ function Counter() {
   return (
     <div>
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>
   );
 }
@@ -48,7 +46,7 @@ function Counter() {
 `useEffect` is used to handle side effects, such as data fetching, subscriptions, or manual DOM manipulation:
 
 ```jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 function Example() {
   const [count, setCount] = useState(0);
@@ -60,9 +58,7 @@ function Example() {
   return (
     <div>
       <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>
   );
 }
@@ -73,7 +69,7 @@ function Example() {
 `useContext` is used to pass data through the component tree without passing props down manually at every level:
 
 ```jsx
-const ThemeContext = React.createContext('light');
+const ThemeContext = React.createContext("light");
 
 function ThemedButton() {
   const theme = useContext(ThemeContext);
@@ -89,19 +85,19 @@ Custom Hooks are a way to reuse state logic. Through custom Hooks, you can extra
 function useWindowSize() {
   const [size, setSize] = useState({
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight,
   });
 
   useEffect(() => {
     const handleResize = () => {
       setSize({
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return size;
@@ -117,3 +113,5 @@ React Hooks provides a more concise and intuitive way to write React components.
 - Make code easier to understand and test
 
 Hopefully this article helps you get started with React Hooks!
+
+![娜娜莉](./img/2026-04-25-getting-started-with-react-hooks/134637964_p0.jpg)

@@ -23,12 +23,12 @@ I started with the most basic HTML and CSS. Although these technologies seemed s
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <title>My First Website</title>
-</head>
-<body>
-  <h1>Hello World!</h1>
-</body>
+  <head>
+    <title>My First Website</title>
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+  </body>
 </html>
 ```
 
@@ -41,7 +41,7 @@ function greet(name) {
   return `Hello, ${name}!`;
 }
 
-console.log(greet('World'));
+console.log(greet("World"));
 ```
 
 ### Phase 3: Frontend Frameworks
@@ -95,3 +95,5 @@ The web development field is still rapidly evolving. I'm particularly interested
 Looking back on my web development journey, although full of challenges, every step has helped me grow. I look forward to continuing to explore and learn in this field.
 
 Thank you for reading my story, hope it gives you some inspiration!
+
+![娜娜莉](./img/2026-04-15-my-journey-into-web-development/132578575_p0.jpg)
