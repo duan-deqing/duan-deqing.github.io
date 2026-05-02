@@ -2,56 +2,58 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: [main] # 当推送到 main 分支时自动部署
+  workflow_dispatch: # 允许手动触发
 
+# 关键权限设置
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# 确保同一时间只有一个部署任务在运行
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
+  # 构建任务：打包 React 应用
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 9 # 与你本地 pnpm 版本保持一致
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile # 推荐使用 frozen-lockfile 保证一致性
 
-      - name: Build
-        run: pnpm build
+      - name: Build project
+        run: pnpm run build # 确保你的 package.json 中有 build 脚本
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Upload artifact for Pages
+        uses: actions/upload-pages-artifact@v3 # ✅ 这是正确的 v3 版本
         with:
-          path: ./dist
+          path: ./dist # 👈 根据你的构建输出目录修改（dist / build）
 
+  # 部署任务：将 artifact 发布到 GitHub Pages
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: build # 等待 build 任务完成
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v4 # ✅ v4 是当前最新稳定版
