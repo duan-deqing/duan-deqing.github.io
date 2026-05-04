@@ -105,7 +105,7 @@ function ContactPage() {
 
       <main className="w-full pt-16 flex-grow">
         {/* Hero Section */}
-        <section className="py-20 px-6 bg-gray-50 dark:bg-gray-800/50">
+        <section className="py-16 px-6 bg-gray-50 dark:bg-gray-800/50">
           <div className="max-w-4xl mx-auto text-center">
             <h1
               className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
@@ -123,18 +123,11 @@ function ContactPage() {
         </section>
 
         {/* Contact Content */}
-        <section className="py-20 px-6">
+        <section className="py-16 px-6 flex-grow">
           <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Left: Contact Info */}
-            <div>
-              <h2
-                className="text-2xl font-bold text-gray-900 dark:text-white mb-8"
-                style={{ lineHeight: "1.3" }}
-              >
-                {lang === "en" ? "Contact Information" : "联系方式"}
-              </h2>
-
-              <div className="space-y-6">
+            <div className="flex flex-col">
+              <div className="space-y-6 flex-1">
                 {contactPage.contactMethods.map((method) => (
                   <div
                     key={method.label.en}
@@ -224,18 +217,18 @@ function ContactPage() {
             </div>
 
             {/* Right: Image */}
-            <div className="hidden lg:flex items-start justify-center">
-              <div className="sticky top-24 w-full">
+            <div className="hidden lg:flex">
+              <div className="w-full">
                 {contactPage.image ? (
-                  <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg">
+                  <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg h-full">
                     <img
                       src={contactPage.image.src}
                       alt={t(contactPage.image.alt)}
-                      className="w-full h-auto object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 ) : (
-                  <div className="w-full aspect-[4/5] rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center text-gray-400 dark:text-gray-500">
+                  <div className="w-full h-full min-h-[400px] rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center text-gray-400 dark:text-gray-500">
                     <svg className="w-16 h-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5a1.5 1.5 0 001.5-1.5V4.5a1.5 1.5 0 00-1.5-1.5H3.75a1.5 1.5 0 00-1.5 1.5v15a1.5 1.5 0 001.5 1.5z" />
                     </svg>
