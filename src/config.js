@@ -72,7 +72,7 @@ const config = {
   buttons: {
     primary: {
       text: { en: "CONTACT", zh: "联系" },
-      href: "#contact",
+      href: "/contact",
     },
     secondary: {
       text: { en: "PROJECTS", zh: "项目" },
