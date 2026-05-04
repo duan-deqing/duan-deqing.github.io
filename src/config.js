@@ -167,9 +167,9 @@ const config = {
   // ==================== 联系页面 ====================
   contactPage: {
     // 页面标题
-    title: { en: "Contact Me", zh: "联系我" },
+    title: { en: "CONTACT", zh: "联系" },
     // 返回主页链接文字
-    backToHome: { en: "Home", zh: "主页" },
+    backToHome: { en: "BACK TO HOME", zh: "返回主页" },
     // 页面描述
     description: {
       en: "I'd love to hear from you! Whether you have a question, a project idea, or just want to say hello, feel free to reach out.",
