@@ -222,8 +222,8 @@ function ContactPage() {
                 {contactPage.image ? (
                   <div className="rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 shadow-lg h-full">
                     <img
-                      src={contactPage.image.src}
-                      alt={t(contactPage.image.alt)}
+                      src={typeof contactPage.image === 'string' ? contactPage.image : contactPage.image.src}
+                      alt={typeof contactPage.image === 'string' ? 'Contact illustration' : t(contactPage.image.alt)}
                       className="w-full h-full object-cover"
                     />
                   </div>

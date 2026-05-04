@@ -192,41 +192,18 @@ const config = {
       {
         icon: "bilibili",
         label: { en: "Bilibili", zh: "B站" },
-        value: "Bilibili",
+        value: "-stylan-",
         href: "https://space.bilibili.com/18756460",
       },
       {
         icon: "wechat",
         label: { en: "WeChat", zh: "微信" },
-        value: "duan_deqing",
+        value: "-stylan-",
         href: null,
         qrcode: "/images/wechat-qrcode.png",
       },
     ],
-    // 表单标签
-    form: {
-      nameLabel: { en: "Name", zh: "姓名" },
-      namePlaceholder: { en: "Your name", zh: "你的姓名" },
-      emailLabel: { en: "Email", zh: "邮箱" },
-      emailPlaceholder: { en: "your@email.com", zh: "你的邮箱" },
-      messageLabel: { en: "Message", zh: "留言" },
-      messagePlaceholder: {
-        en: "Tell me about your project or just say hi...",
-        zh: "告诉我你的项目，或者打个招呼...",
-      },
-      submitButton: { en: "Send Message", zh: "发送消息" },
-      successMessage: {
-        en: "Message sent successfully!",
-        zh: "消息发送成功！",
-      },
-    },
-    // 右侧图片区域（可选）
-    // 设置为 null 或删除此字段则显示占位区域
-    // image: {
-    //   src: "/images/contact.jpg",
-    //   alt: { en: "Contact illustration", zh: "联系插图" },
-    // },
-    image: null,
+    image: "/images/contact-illustration.png",
   },
 
   // ==================== 社交链接 ====================
