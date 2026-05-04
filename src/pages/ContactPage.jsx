@@ -5,10 +5,9 @@
  *
  * 【功能说明】
  * 1. 展示联系信息
- * 2. 提供联系表单
- * 3. 右侧展示自定义图片
- * 4. 支持深色/浅色模式
- * 5. 支持中英文切换
+ * 2. 右侧展示自定义图片
+ * 3. 支持深色/浅色模式
+ * 4. 支持中英文切换
  *
  * 【布局结构】
  * ┌─────────────────────────────────────────────┐
@@ -17,7 +16,7 @@
  * │  Contact Hero (页面标题)                     │
  * ├─────────────────────────────────────────────┤
  * │  Contact Info (联系方式)     │  Image        │
- * │  Contact Form (发送消息)     │  (自定义图片)  │
+ * │                             │  (自定义图片)  │
  * ├─────────────────────────────────────────────┤
  * │  PageFooter (通用页脚)                       │
  * └─────────────────────────────────────────────┘
@@ -39,26 +38,8 @@ function ContactPage() {
   const { isDark, toggle: toggleTheme } = useTheme();
   const { lang, toggle: toggleLang, t } = useLanguage();
   const { contactPage } = config;
-
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
-    setFormData({ name: "", email: "", message: "" });
-  };
+  const [hoveredWechat, setHoveredWechat] = useState(false);
 
   const handleCopyEmail = async (email) => {
     try {
@@ -77,12 +58,18 @@ function ContactPage() {
     }
   };
 
-  const getIcon = (icon) => {
+  const getContactIcon = (icon) => {
     switch (icon) {
       case "email":
         return (
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        );
+      case "wechat":
+        return (
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-4.196-6.348-8.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zM14.87 13.04c.535 0 .969.44.969.983a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.544.434-.983.97-.983zm4.842 0c.535 0 .969.44.969.983a.976.976 0 0 1-.969.983.976.976 0 0 1-.969-.983c0-.544.434-.983.97-.983z"/>
           </svg>
         );
       case "github":
@@ -138,7 +125,7 @@ function ContactPage() {
         {/* Contact Content */}
         <section className="py-20 px-6">
           <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Left: Contact Info + Form */}
+            {/* Left: Contact Info */}
             <div>
               <h2
                 className="text-2xl font-bold text-gray-900 dark:text-white mb-8"
@@ -147,117 +134,93 @@ function ContactPage() {
                 {lang === "en" ? "Contact Information" : "联系方式"}
               </h2>
 
-              <div className="space-y-6 mb-12">
+              <div className="space-y-6">
                 {contactPage.contactMethods.map((method) => (
                   <div
                     key={method.label.en}
-                    className="flex items-center gap-4 p-4 rounded-full border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all group"
+                    className="relative"
+                    onMouseEnter={() => method.icon === "wechat" && setHoveredWechat(true)}
+                    onMouseLeave={() => method.icon === "wechat" && setHoveredWechat(false)}
                   >
-                    <a
-                      href={method.href}
-                      target={method.href.startsWith("http") ? "_blank" : undefined}
-                      rel={method.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="flex items-center gap-4 flex-1"
-                    >
-                      <div className="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 dark:text-blue-400 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
-                        {getIcon(method.icon)}
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          {t(method.label)}
-                        </p>
-                        <p className="text-gray-900 dark:text-white font-medium">
-                          {method.value}
-                        </p>
-                      </div>
-                    </a>
-                    {method.icon === "email" && (
-                      <button
-                        onClick={() => handleCopyEmail(method.value)}
-                        className="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all active:scale-95"
-                        title={lang === "en" ? "Copy email" : "复制邮箱"}
+                    <div className="flex items-center gap-4 p-4 rounded-full border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all group">
+                      {method.href ? (
+                        <a
+                          href={method.href}
+                          target={method.href.startsWith("http") ? "_blank" : undefined}
+                          rel={method.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                          className="flex items-center gap-4 flex-1"
+                        >
+                          <div className="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 dark:text-blue-400 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+                            {getContactIcon(method.icon)}
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              {t(method.label)}
+                            </p>
+                            <p className="text-gray-900 dark:text-white font-medium">
+                              {method.value}
+                            </p>
+                          </div>
+                        </a>
+                      ) : (
+                        <div className="flex items-center gap-4 flex-1 cursor-default">
+                          <div className="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 dark:text-blue-400 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+                            {getContactIcon(method.icon)}
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              {t(method.label)}
+                            </p>
+                            <p className="text-gray-900 dark:text-white font-medium">
+                              {method.value}
+                            </p>
+                          </div>
+                        </div>
+                      )}
+                      {method.icon === "email" && (
+                        <button
+                          onClick={() => handleCopyEmail(method.value)}
+                          className="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 dark:text-gray-500 hover:text-blue-500 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:shadow-lg hover:shadow-blue-500/20 transition-all active:scale-95"
+                          title={copiedEmail ? (lang === "en" ? "Copied!" : "已复制！") : (lang === "en" ? "Copy email" : "复制邮箱")}
+                        >
+                          {copiedEmail ? (
+                            <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                          ) : (
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                          )}
+                        </button>
+                      )}
+                    </div>
+
+                    {/* WeChat QR Code Tooltip */}
+                    {method.icon === "wechat" && method.qrcode && (
+                      <div
+                        className={`absolute left-1/2 -translate-x-1/2 mt-3 transition-all duration-300 ${
+                          hoveredWechat
+                            ? "opacity-100 visible translate-y-0"
+                            : "opacity-0 invisible -translate-y-2"
+                        }`}
                       >
-                        {copiedEmail ? (
-                          <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        ) : (
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                          </svg>
-                        )}
-                      </button>
+                        <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-4">
+                          <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white dark:bg-gray-800 border-l border-t border-gray-200 dark:border-gray-700 rotate-45" />
+                          <img
+                            src={method.qrcode}
+                            alt={lang === "en" ? "WeChat QR Code" : "微信二维码"}
+                            className="w-48 h-48 object-contain"
+                          />
+                          <p className="text-xs text-center text-gray-500 dark:text-gray-400 mt-2">
+                            {lang === "en" ? "Scan to add WeChat" : "扫码添加微信"}
+                          </p>
+                        </div>
+                      </div>
                     )}
                   </div>
                 ))}
               </div>
-
-              <h2
-                className="text-2xl font-bold text-gray-900 dark:text-white mb-8"
-                style={{ lineHeight: "1.3" }}
-              >
-                {lang === "en" ? "Send a Message" : "发送消息"}
-              </h2>
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    {t(contactPage.form.nameLabel)}
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder={t(contactPage.form.namePlaceholder)}
-                    required
-                    className="w-full px-4 py-3 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    {t(contactPage.form.emailLabel)}
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder={t(contactPage.form.emailPlaceholder)}
-                    required
-                    className="w-full px-4 py-3 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    {t(contactPage.form.messageLabel)}
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    placeholder={t(contactPage.form.messagePlaceholder)}
-                    required
-                    rows={6}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn btn-primary w-full"
-                >
-                  {t(contactPage.form.submitButton)}
-                </button>
-
-                {isSubmitted && (
-                  <div className="text-center p-4 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400">
-                    {t(contactPage.form.successMessage)}
-                  </div>
-                )}
-              </form>
             </div>
 
             {/* Right: Image */}

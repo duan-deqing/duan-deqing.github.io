@@ -184,6 +184,13 @@ const config = {
         href: "mailto:duan-deqing@foxmail.com",
       },
       {
+        icon: "wechat",
+        label: { en: "WeChat", zh: "微信" },
+        value: "duan_deqing",
+        href: null,
+        qrcode: "/images/wechat-qrcode.png",
+      },
+      {
         icon: "github",
         label: { en: "GitHub", zh: "GitHub" },
         value: "duan-deqing",
