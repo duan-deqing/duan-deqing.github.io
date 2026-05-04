@@ -26,7 +26,7 @@ const rootDir = path.join(__dirname, "..");
 const siteConfig = {
   title: "STYLAN Blog",
   description: "Thoughts, tutorials and insights about web development",
-  siteUrl: "https://duan-deqing@foxmail.com", // 替换为你的网站地址
+  siteUrl: "https://duan-deqing.github.io", // 替换为你的网站地址
   language: "zh",
   author: {
     name: "STYLAN",
