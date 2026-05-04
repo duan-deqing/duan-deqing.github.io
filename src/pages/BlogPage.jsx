@@ -33,11 +33,11 @@ import { useTheme } from '../hooks/useTheme'
 import { useLanguage } from '../hooks/useLanguage'
 import { getAllPosts } from '../utils/markdown'
 import blogConfig from '../blogConfig'
-import BlogHeader from '../components/BlogPage/BlogHeader'
+import PageHeader from '../components/shared/PageHeader'
 import BlogHero from '../components/BlogPage/BlogHero'
 import CategoryFilter from '../components/BlogPage/CategoryFilter'
 import BlogList from '../components/BlogPage/BlogList'
-import BlogFooter from '../components/BlogPage/BlogFooter'
+import PageFooter from '../components/shared/PageFooter'
 
 function BlogPage() {
   // 主题和语言状态
@@ -80,7 +80,9 @@ function BlogPage() {
       <title>{t(blogConfig.page.title)} | STYLAN</title>
 
       {/* 博客导航栏 */}
-      <BlogHeader
+      <PageHeader
+        title={t(blogConfig.page.title)}
+        backToHome={t(blogConfig.page.backToHome)}
         isDark={isDark}
         toggleTheme={toggleTheme}
         lang={lang}
@@ -123,7 +125,7 @@ function BlogPage() {
       </main>
 
       {/* 页脚 - 紧贴屏幕下方 */}
-      <BlogFooter t={t} />
+      <PageFooter t={t} />
     </div>
   )
 }
