@@ -64,7 +64,7 @@ const config = {
     { href: "/blog", label: { en: "blog", zh: "博客" } },
     { href: "#skills", label: { en: "skills", zh: "技能" } },
     { href: "#projects", label: { en: "projects", zh: "项目" } },
-    { href: "#contact", label: { en: "contact", zh: "联系" } },
+    { href: "/contact", label: { en: "contact", zh: "联系" } },
   ],
 
   // ==================== 行动按钮 ====================
@@ -162,6 +162,64 @@ const config = {
     email: "duan-deqing@foxmail.com",
     // 邮箱按钮文字
     emailButtonText: { en: "Email Me", zh: "发送邮件" },
+  },
+
+  // ==================== 联系页面 ====================
+  contactPage: {
+    // 页面标题
+    title: { en: "Contact Me", zh: "联系我" },
+    // 返回主页链接文字
+    backToHome: { en: "Home", zh: "主页" },
+    // 页面描述
+    description: {
+      en: "I'd love to hear from you! Whether you have a question, a project idea, or just want to say hello, feel free to reach out.",
+      zh: "很高兴收到你的来信！无论你有问题、项目想法，还是只想打个招呼，都欢迎联系我。",
+    },
+    // 联系方式列表
+    contactMethods: [
+      {
+        icon: "email",
+        label: { en: "Email", zh: "邮箱" },
+        value: "duan-deqing@foxmail.com",
+        href: "mailto:duan-deqing@foxmail.com",
+      },
+      {
+        icon: "github",
+        label: { en: "GitHub", zh: "GitHub" },
+        value: "duan-deqing",
+        href: "https://github.com/duan-deqing",
+      },
+      {
+        icon: "bilibili",
+        label: { en: "Bilibili", zh: "B站" },
+        value: "Bilibili",
+        href: "https://space.bilibili.com/18756460",
+      },
+    ],
+    // 表单标签
+    form: {
+      nameLabel: { en: "Name", zh: "姓名" },
+      namePlaceholder: { en: "Your name", zh: "你的姓名" },
+      emailLabel: { en: "Email", zh: "邮箱" },
+      emailPlaceholder: { en: "your@email.com", zh: "你的邮箱" },
+      messageLabel: { en: "Message", zh: "留言" },
+      messagePlaceholder: {
+        en: "Tell me about your project or just say hi...",
+        zh: "告诉我你的项目，或者打个招呼...",
+      },
+      submitButton: { en: "Send Message", zh: "发送消息" },
+      successMessage: {
+        en: "Message sent successfully!",
+        zh: "消息发送成功！",
+      },
+    },
+    // 右侧图片区域（可选）
+    // 设置为 null 或删除此字段则显示占位区域
+    // image: {
+    //   src: "/images/contact.jpg",
+    //   alt: { en: "Contact illustration", zh: "联系插图" },
+    // },
+    image: null,
   },
 
   // ==================== 社交链接 ====================

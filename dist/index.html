@@ -8,27 +8,21 @@
     <script>
       // 处理 GitHub Pages SPA 路由重定向
       // https://github.com/rafgraph/spa-github-pages
-      (function (l) {
-        if (l.search[1] === "/") {
-          var decoded = l.search
-            .slice(1)
-            .split("&")
-            .map(function (s) {
-              return s.replace(/~and~/g, "&");
-            })
-            .join("?");
-          window.history.replaceState(
-            null,
-            null,
+      (function(l) {
+        if (l.search[1] === '/') {
+          var decoded = l.search.slice(1).split('&').map(function(s) {
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
             l.pathname.slice(0, -1) + decoded + l.hash
           );
         }
-      })(window.location);
+      }(window.location));
     </script>
-    <script type="module" crossorigin src="/assets/index-wwN13UF6.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-30T4swjA.css" />
+    <script type="module" crossorigin src="/assets/index-DbUnyeMj.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-B2wh2DPR.css">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"></div>
   </body>
 </html>
