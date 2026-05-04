@@ -5,7 +5,7 @@
  *
  * 【功能说明】
  * 1. 读取所有博客文章
- * 2. 生成 RSS 2.0 格式的 feed
+ * 2. 生成 RSS 2.0 格式的 feed（包含完整文章内容）
  * 3. 输出到 public/rss.xml
  *
  * 【使用方式】
@@ -92,6 +92,61 @@ function escapeXml(str) {
 }
 
 /**
+ * 将 markdown 转换为简单的 HTML
+ */
+function markdownToHtml(md) {
+  if (!md) return "";
+  
+  let html = md;
+  
+  // 移除第一个 h1 标题
+  html = html.replace(/^#\s+.*$/m, "").trim();
+  
+  // 转换标题
+  html = html.replace(/^### (.*$)/gm, "<h3>$1</h3>");
+  html = html.replace(/^## (.*$)/gm, "<h2>$1</h2>");
+  html = html.replace(/^# (.*$)/gm, "<h1>$1</h1>");
+  
+  // 转换粗体和斜体
+  html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  html = html.replace(/\*(.*?)\*/g, "<em>$1</em>");
+  
+  // 转换链接
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  
+  // 转换图片
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" />');
+  
+  // 转换代码块
+  html = html.replace(/```[\s\S]*?```/g, (match) => {
+    const code = match.replace(/```\w*\n?/g, "").replace(/```$/g, "");
+    return `<pre><code>${escapeXml(code)}</code></pre>`;
+  });
+  
+  // 转换行内代码
+  html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+  
+  // 转换列表
+  html = html.replace(/^\s*[-*]\s+(.*$)/gm, "<li>$1</li>");
+  html = html.replace(/(<li>.*<\/li>\n?)+/g, "<ul>$&</ul>");
+  
+  // 转换段落
+  html = html.replace(/\n\n/g, "</p><p>");
+  html = `<p>${html}</p>`;
+  
+  // 清理空段落
+  html = html.replace(/<p>\s*<\/p>/g, "");
+  html = html.replace(/<p>\s*(<h[1-6]>)/g, "$1");
+  html = html.replace(/(<\/h[1-6]>)\s*<\/p>/g, "$1");
+  html = html.replace(/<p>\s*(<ul>)/g, "$1");
+  html = html.replace(/(<\/ul>)\s*<\/p>/g, "$1");
+  html = html.replace(/<p>\s*(<pre>)/g, "$1");
+  html = html.replace(/(<\/pre>)\s*<\/p>/g, "$1");
+  
+  return html;
+}
+
+/**
  * 生成 RSS Feed
  */
 async function generateRSS() {
@@ -112,7 +167,7 @@ async function generateRSS() {
   for (const { path: filePath, lang } of allFiles) {
     try {
       const content = fs.readFileSync(filePath, "utf-8");
-      const { attributes: data } = fm(content);
+      const { attributes: data, body: markdownContent } = fm(content);
 
       const filename = path.basename(filePath, ".md");
       const { date: fileDate, slug } = parseFilename(filename);
@@ -122,12 +177,16 @@ async function generateRSS() {
       const description = data.description || data.excerpt || "";
       const category = data.category || "";
       const tags = data.tags || [];
+      
+      // 将 markdown 转换为 HTML 作为完整内容
+      const htmlContent = markdownToHtml(markdownContent);
 
       const url = `${siteConfig.siteUrl}/blog/${slug}`;
 
       posts.push({
         title,
         description,
+        content: htmlContent,
         date: new Date(date),
         link: url,
         category,
@@ -152,6 +211,7 @@ async function generateRSS() {
       <link>${escapeXml(post.link)}</link>
       <guid isPermaLink="true">${escapeXml(post.link)}</guid>
       <description>${escapeXml(post.description)}</description>
+      <content:encoded><![CDATA[${post.content}]]></content:encoded>
       <pubDate>${post.date.toUTCString()}</pubDate>
       ${post.category ? `<category>${escapeXml(post.category)}</category>` : ""}
       <author>${escapeXml(siteConfig.author.email)} (${escapeXml(
@@ -163,7 +223,7 @@ async function generateRSS() {
     .join("");
 
   const rssXml = `<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>${escapeXml(siteConfig.title)}</title>
     <link>${escapeXml(siteConfig.siteUrl)}</link>
