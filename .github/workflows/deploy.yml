@@ -13,8 +13,8 @@ permissions:
 
 # 确保同一时间只有一个部署任务在运行
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: "pages-${{ github.ref }}"
+  cancel-in-progress: true
 
 jobs:
   # 构建任务：打包 React 应用
