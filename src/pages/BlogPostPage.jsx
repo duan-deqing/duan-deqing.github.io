@@ -23,8 +23,8 @@ import { useTheme } from '../hooks/useTheme'
 import { useLanguage } from '../hooks/useLanguage'
 import { getPostBySlug } from '../utils/markdown'
 import blogConfig from '../blogConfig'
-import BlogHeader from '../components/BlogPage/BlogHeader'
-import BlogFooter from '../components/BlogPage/BlogFooter'
+import PageHeader from '../components/shared/PageHeader'
+import PageFooter from '../components/shared/PageFooter'
 import TableOfContents from '../components/BlogPage/TableOfContents'
 import '../styles/blog-post.css'
 
@@ -122,7 +122,9 @@ function BlogPostPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors w-full flex flex-col">
-        <BlogHeader
+        <PageHeader
+          title={t(blogConfig.page.title)}
+          backToHome={blogConfig.page.backToHome}
           isDark={isDark}
           toggleTheme={toggleTheme}
           lang={lang}
@@ -139,7 +141,7 @@ function BlogPostPage() {
             </div>
           </div>
         </main>
-        <BlogFooter t={t} />
+        <PageFooter t={t} />
       </div>
     )
   }
@@ -148,7 +150,9 @@ function BlogPostPage() {
   if (error || !post) {
     return (
       <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors w-full flex flex-col">
-        <BlogHeader
+        <PageHeader
+          title={t(blogConfig.page.title)}
+          backToHome={blogConfig.page.backToHome}
           isDark={isDark}
           toggleTheme={toggleTheme}
           lang={lang}
@@ -173,7 +177,7 @@ function BlogPostPage() {
             </div>
           </div>
         </main>
-        <BlogFooter t={t} />
+        <PageFooter t={t} />
       </div>
     )
   }
@@ -197,7 +201,9 @@ function BlogPostPage() {
       <title>{t(post.title)} | STYLAN Blog</title>
 
       {/* 导航栏 */}
-      <BlogHeader
+      <PageHeader
+        title={t(blogConfig.page.title)}
+        backToHome={blogConfig.page.backToHome}
         isDark={isDark}
         toggleTheme={toggleTheme}
         lang={lang}
@@ -513,7 +519,7 @@ function BlogPostPage() {
       </main>
 
       {/* 页脚 */}
-      <BlogFooter t={t} />
+      <PageFooter t={t} />
     </div>
   )
 }
