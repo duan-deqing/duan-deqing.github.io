@@ -5,7 +5,7 @@
     <link>https://duan-deqing.github.io</link>
     <description>Thoughts, tutorials and insights about web development</description>
     <language>zh</language>
-    <lastBuildDate>Tue, 05 May 2026 12:38:05 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 05 May 2026 13:47:05 GMT</lastBuildDate>
     <generator>STYLAN Blog RSS Generator</generator>
     <atom:link href="https://duan-deqing.github.io/rss.xml" rel="self" type="application/rss+xml"/>
     <copyright>© 2026 STYLAN. All rights reserved.</copyright>
@@ -669,6 +669,436 @@ Thank you for reading my story, hope it gives you some inspiration!
 !<a href="./img/2026-04-15-my-journey-into-web-development/132578575_p0.jpg">娜娜莉</a></p>]]></content:encoded>
       <pubDate>Wed, 15 Apr 2026 00:00:00 GMT</pubDate>
       <category>thoughts</category>
+      <author>duan-deqing@foxmail.com (STYLAN)</author>
+    </item>
+  
+    <item>
+      <title>Markdown 指南：从基础到 GitHub 开源贡献</title>
+      <link>https://duan-deqing.github.io/blog/markdown-tutorial</link>
+      <guid isPermaLink="true">https://duan-deqing.github.io/blog/markdown-tutorial</guid>
+      <description>一份全面的 Markdown 语法、编辑器和高级功能指南。</description>
+      <content:encoded><![CDATA[<p>欢迎来到 Markdown 的世界！无论你是刚刚接触编程的开发者，还是准备在 GitHub 上大展拳脚参与开源项目的贡献者，掌握 Markdown 都是一项必不可少的技能。它能让你用纯文本快速排版，将精力集中在内容创作上。本教程将带你从最基础的语法起步，逐步掌握 GitHub 上的高级排版技巧。
+
+<h2>Markdown 基础语法（最常用）</h2>
+
+<h3>1. 标题</h3>
+
+Markdown 支持 1 到 6 级标题，使用 <code>#</code> 号表示，<code>#</code> 的数量代表标题的层级。
+
+<pre><code>
+&lt;h1&gt;一级标题&lt;/h1&gt;
+
+&lt;h2&gt;二级标题&lt;/h2&gt;
+
+&lt;h3&gt;三级标题&lt;/h3&gt;
+
+###### 六级标题
+</code></pre>
+
+💡 <strong>最佳实践</strong>：在 <code>#</code> 和标题文字之间一定要保留一个空格，这是标准的 Markdown 语法。
+
+<h3>2. 段落、换行与分割线</h3><ul><li><strong>段落</strong>：只需留下一个空行，就会生成一个新的段落。</li></ul><ul><li><strong>换行</strong>：在当前行的结尾输入<strong>两个或以上的空格</strong>，然后回车。</li></ul><ul><li><strong>分割线</strong>：使用三个以上的连续星号 <code><em></em>*</code> 或减号 <code>---</code>。</li></ul>
+
+<pre><code>
+这是第一行。
+这是第二行（上一行末尾有两个空格，实现了硬换行）。
+
+这是另一个段落（上面有一个空行）。
+
+---
+上面是一条分割线。
+</code></pre>
+
+<h3>3. 字体样式</h3>
+
+你可以为文本添加加粗、斜体或删除线效果。
+
+<pre><code>
+这是 &lt;strong&gt;加粗&lt;/strong&gt; 的文字。
+这是 &lt;em&gt;斜体&lt;/em&gt; 的文字。
+这是 &lt;strong&gt;&lt;em&gt;加粗且斜体&lt;/strong&gt;&lt;/em&gt; 的文字。
+这是 ~~被删除~~ 的文字。
+</code></pre>
+
+<h3>4. 列表</h3>
+
+列表分为无序列表和有序列表，并且可以通过缩进实现嵌套。
+
+<pre><code><ul><li>无序列表项 1</li></ul><ul><li>无序列表项 2</li></ul><ul><li>嵌套的子项目 (前面有两到四个空格)</li></ul><ul><li>另一个子项目</li></ul>
+
+1. 有序列表项 1
+2. 有序列表项 2
+   1. 嵌套的有序子项目
+</code></pre>
+
+<h3>5. 链接</h3>
+
+链接分为行内式和引用式。对于直接展示的 URL，大多数解析器也支持自动链接。
+
+<pre><code>
+这是一个 &lt;a href=&quot;https://github.com&quot;&gt;GitHub&lt;/a&gt; 的行内链接。
+这是一个引用链接：请参考 [Markdown 官网][1]。
+[1]: &lt;a href=&quot;https://daringfireball.net/projects/markdown/&quot;&gt;https://daringfireball.net/projects/markdown/&lt;/a&gt;
+直接使用 URL：&lt;a href=&quot;https://bing.com&quot;&gt;https://bing.com&lt;/a&gt;
+</code></pre>
+
+<strong>渲染结果：</strong><ul><li>这是一个 <a href="https://github.com">GitHub</a> 的行内链接。</li></ul><ul><li>这是一个引用链接：请参考 [Markdown 官网][1]。</li></ul><ul><li>[1]: https://daringfireball.net/projects/markdown/(https://daringfireball.net/projects/markdown/)</li></ul><ul><li>直接使用 URL：<a href="https://bing.com">https://bing.com</a></li></ul>
+
+<h3>6. 图片</h3>
+
+图片的语法与链接类似，只是在最前面多了一个感叹号 <code>!</code>。你还可以为图片添加一个鼠标悬停时显示的“标题”。
+
+<pre><code>
+!&lt;a href=&quot;https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png &quot;可爱的 GitHub Logo&quot;&quot;&gt;Octocat 占位图&lt;/a&gt;
+</code></pre>
+
+<strong>渲染结果：</strong>
+
+!<a href="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png "可爱的 GitHub Logo"">Octocat 占位图</a>
+
+<h3>7. 引用</h3>
+
+当你需要引用他人的话或者强调一段内容时，可以使用 <code>></code>。引用可以嵌套，也可以包含其他 Markdown 元素（如列表或代码）。
+
+<pre><code>
+&gt; 这是一段引用。
+&gt;
+&gt; &gt; 这是嵌套的引用内容。
+&gt;
+&gt; - 引用中也可以使用列表。
+</code></pre>
+
+<h3>8. 行内代码与代码块</h3>
+
+代码是开发者文档的核心。行内代码使用单反引号包裹；多行代码块使用三个反引号包裹。
+
+<pre><code><code>Markdown
+在终端中输入 </code>npm install<code> 来安装依赖。
+
+下面是一段 JavaScript 代码：
+</code></pre>javascript
+function greet(name) {
+  console.log("Hello, " + name);
+}
+<pre><code>
+</code></pre></code>
+
+下面是一段 JavaScript 代码：
+
+<pre><code>
+function greet(name) {
+  console.log(&quot;Hello, &quot; + name);
+}
+</code></pre>
+
+💡 <strong>最佳实践</strong>：在使用代码块时，务必在第一行反引号后指定语言标识符（如 <code>javascript</code>, <code>python</code>, <code>bash</code> 等）。这不仅能触发语法高亮，还能让阅读者一目了然。
+
+<h2>GitHub 开源项目常见设计（GFM 特色）</h2>
+
+GitHub Flavored Markdown (GFM) 扩展了基础语法，专门为代码托管和团队协作量身定制。
+
+<h3>1. 任务列表</h3>
+
+在开源项目中，常用于 Issue 或 Pull Request 的待办事项跟踪，勾选框直观展示进度。
+
+Markdown
+
+<pre><code><ul><li>[x] 完善文档结构</li></ul><ul><li>[x] 修复首页 Bug</li></ul><ul><li>[ ] 编写测试用例</li></ul>
+</code></pre>
+
+<strong>渲染结果：</strong><ul><li>[x] 完善文档结构</li></ul><ul><li>[x] 修复首页 Bug</li></ul><ul><li>[ ] 编写测试用例</li></ul>
+
+<h3>2. 表格</h3>
+
+用于有条理地展示参数说明或数据对比。使用 <code>:</code> 可以控制对齐方式。
+
+<pre><code>
+| 左对齐 | 居中对齐 | 右对齐 |
+| :--- | :---: | ---: |
+| 参数 A | <code>string</code> | 必填 |
+| 参数 B | <code>number</code> | 选填 |
+</code></pre>
+
+<strong>渲染结果：</strong>
+
+| <strong>左对齐</strong> | <strong>居中对齐</strong> | <strong>右对齐</strong> |
+| ---------- | ------------ | ---------- |
+| 参数 A     | <code>string</code>     | 必填       |
+| 参数 B     | <code>number</code>     | 选填       |
+
+💡 <strong>最佳实践</strong>：对齐符 <code>-</code> 的数量不限，但至少需要一个。建议保持代码层面的对齐以提高源码可读性。
+
+<h3>3. 脚注</h3>
+
+用于补充说明，而不会打断主干内容的阅读。在 GitHub 的 Markdown 中已被广泛支持。
+
+<pre><code>
+这是一个需要解释的专业术语[^1]。
+
+[^1]: 这里是对该术语的详细解释和补充说明。
+</code></pre>
+
+<strong>渲染结果：</strong>
+
+这是一个需要解释的专业术语[^1]。
+
+[^1]: 这里是对该术语的详细解释和补充说明。
+
+<h3>4. 自动链接与 Emoji</h3>
+
+GitHub 会自动将纯文本的网址或邮箱识别为链接。同时，通过特定的简写可以快速输入表情符号，增加交流的亲和力。
+
+<pre><code>
+访问我的博客：https://example.com
+你好呀！ :smile: :rocket:
+</code></pre>
+
+<strong>渲染结果：</strong> 访问我的博客：<a href="https://example.com">https://example.com</a> 你好呀！ :smile: :rocket:
+
+<h3>5. 提及与引用</h3>
+
+GitHub 特有的社交与版本控制协作语法。<ul><li><code>@username</code>：通知某位开发者。</li></ul><ul><li><code>#123</code>：链接到当前仓库的第 123 号 Issue 或 PR。</li></ul><ul><li><code>a1b2c3d</code>：直接写出 commit hash，GitHub 会自动将其转换为指向该提交的链接。</li></ul>
+
+<strong>渲染效果：</strong> _（这些特性无需额外语法，直接在文本中输入即可被 GitHub 解析器捕获。）_
+
+<h3>6. 徽章（Badge）</h3>
+
+在 <code>README.md</code> 中，项目通常会使用徽章展示构建状态、License 等。通常结合 <code>shields.io</code> 使用。
+
+<pre><code>
+!&lt;a href=&quot;https://img.shields.io/badge/license-MIT-blue&quot;&gt;license&lt;/a&gt;
+</code></pre>
+
+<strong>渲染结果：</strong> _(会显示一个蓝色背景，白字的 MIT 协议小徽章标签)_!<a href="https://img.shields.io/badge/license-MIT-blue">license</a>
+<strong>说明</strong>：徽章本质上就是一张在线生成的图片（运用了前面的图片语法)，通过参数改变文字和颜色。
+
+<h3>7. 折叠块（Details）</h3>
+
+开源项目的 README 有时会非常长，使用折叠块可以隐藏大段的日志、配置代码或 Q&A。
+
+<pre><code><code>markdown
+&lt;details&gt;
+  &lt;summary&gt;点击查看详细配置代码&lt;/summary&gt;
+  
+  </code></pre>json
+  {
+    "version": "1.0.0",
+    "description": "Awesome project"
+  }
+  <pre><code>
+</code></pre></code>
+
+<strong>渲染结果：</strong> ▶ 点击查看详细配置代码 _(点击后展开内部的代码块)_
+
+<h3>8. 关于 HTML 的建议</h3>
+
+GitHub 允许使用部分安全的 HTML 标签（如 <code><kbd></code> 键位说明、<code><br></code> 强制换行、<code><details></code> 等）。
+
+<strong>建议</strong>：除非 Markdown 无法实现（如折叠块、居中对齐、特定颜色），否则尽量使用纯 Markdown，以保证文档在不同平台间的最佳可移植性。
+
+<h2>进阶技巧（不常用的扩展内容）</h2>
+
+<h3>1. 数学公式</h3>
+
+使用 <code>LaTeX</code> 语法编写数学公式。GitHub 目前已经原生支持。行内使用 <code>$公式$</code>，块级使用 <code>$$公式$$</code>。
+
+<pre><code>
+著名的质能方程是 $E = mc^2$。
+
+$$
+\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+$$
+</code></pre>
+
+<strong>渲染结果：</strong>
+
+$$
+\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+$$
+
+<h3>2. 图表（Mermaid）</h3>
+
+使用代码的方式绘制图表，GitHub 已经原生支持 Mermaid 语法。常用于流程图或架构图。
+
+<pre><code><code>txt
+</code></pre>mermaid
+graph TD;
+    A[客户端] --> B{是否登录?};
+    B -- 是 --> C[个人主页];
+    B -- 否 --> D[登录页面];
+<pre><code>
+</code></pre></code>
+
+<strong>渲染结果：</strong>
+
+<pre><code>
+graph TD;
+    A[客户端] --&gt; B{是否登录?};
+    B -- 是 --&gt; C[个人主页];
+    B -- 否 --&gt; D[登录页面];
+</code></pre>
+
+<h3>3. 内部锚点与跳转</h3>
+
+用于长文档内部跳转。通常，GitHub 会为所有的标题自动生成不可见的锚点（将标题转为小写并用 <code>-</code> 替换空格）。
+
+<pre><code>
+点击这里跳回到 &lt;a href=&quot;#目录&quot;&gt;顶部目录&lt;/a&gt;。
+或者使用 HTML 设置自定义锚点 &lt;a name=&quot;my-anchor&quot;&gt;&lt;/a&gt;
+</code></pre>
+
+<strong>渲染结果：</strong><a href="#Markdown 基础语法（最常用）">顶部目录</a>
+
+<h3>4. 警告块（Admonitions）</h3>
+
+在文档中用来吸引读者注意力的特殊区块。GitHub 近期正式推出了支持。
+
+<pre><code>
+&gt; [!NOTE]
+&gt; 这是一个提示信息，告诉你一些有用的背景知识。
+
+&gt; [!WARNING]
+&gt; 这是一个警告信息，提醒你需要注意的潜在风险。
+</code></pre>
+
+<h3>5. 其他特定解析器扩展</h3><ul><li><strong>定义列表</strong>：<code>术语 \n : 释义</code>（部分解析器支持，GFM 不原生支持）。</li></ul><ul><li><strong>上下标</strong>：使用 <code>^上标^</code> 和 <code>~下标~</code>（建议直接使用 HTML 的 <code><sup></code> 和 <code><sub></code> 以保兼容）。</li></ul><ul><li><strong>高亮标记</strong>：使用 <code>==高亮内容==</code>（需 Typora 或 Markdown Preview Enhanced 等插件支持）。</li></ul>
+
+<h2>推荐阅读与工具</h2>
+
+现在你已经掌握了 Markdown 的核心武功秘籍！理论结合实践才能炉火纯青，以下是一些强烈推荐的资源：<ul><li><strong>官方与权威规范</strong>：</li></ul><ul><li><a href="https://github.github.com/gfm/">GitHub Flavored Markdown (GFM) 官方文档</a> - 编写开源项目文档的终极参考。</li></ul><ul><li><a href="https://www.markdownguide.org/">Markdown 官方语法指南 (John Gruber)</a> - Markdown 创始人的原始文档。</li></ul><ul><li><strong>推荐编辑器</strong>：</li></ul><ul><li><a href="https://code.visualstudio.com/">VS Code</a> - 搭配插件极其强大，开发者首选。</li></ul><ul><li><a href="https://typora.io/">Typora</a> - 极致的“所见即所得” Markdown 写作体验。</li></ul><ul><li><a href="https://obsidian.md/">Obsidian</a> - 基于 Markdown 的网状知识管理工具。</li></ul><ul><li><strong>在线练习与工具</strong>：</li></ul><ul><li><a href="https://dillinger.io/">Dillinger</a> - 在线的 Markdown 编辑和实时预览器。</li></ul><ul><li><a href="https://shields.io/">Shields.io</a> - 为你的开源项目制作专属 Badge 徽章。</li></ul>
+
+现在，打开你的编辑器，创建一个 <code>README.md</code>，开始你的创作与开源之旅吧！</p>]]></content:encoded>
+      <pubDate>Sun, 23 Jul 2023 00:00:00 GMT</pubDate>
+      <category>tutorial</category>
+      <author>duan-deqing@foxmail.com (STYLAN)</author>
+    </item>
+  
+    <item>
+      <title>Markdown Tutorial: From Basics to GitHub Open Source Contributions</title>
+      <link>https://duan-deqing.github.io/blog/markdown-tutorial</link>
+      <guid isPermaLink="true">https://duan-deqing.github.io/blog/markdown-tutorial</guid>
+      <description>A comprehensive guide to Markdown syntax, editors, and advanced features for GitHub.</description>
+      <content:encoded><![CDATA[<p>Welcome to the world of Markdown! Whether you're a developer just getting into programming or a contributor ready to make your mark on open source projects on GitHub, mastering Markdown is an essential skill. It allows you to quickly format plain text and focus on content creation. This tutorial will take you from the most basic syntax to advanced formatting techniques used on GitHub.</p><h2>Basic Markdown Syntax (Most Commonly Used)</h2><h3>1. Headings</h3><p>Markdown supports headings from level 1 to 6, indicated by <code>#</code> symbols. The number of <code>#</code> symbols represents the heading level.</p><pre><code>&lt;h1&gt;Heading 1&lt;/h1&gt;</p><p>&lt;h2&gt;Heading 2&lt;/h2&gt;</p><p>&lt;h3&gt;Heading 3&lt;/h3&gt;</p><p>###### Heading 6
+</code></pre><p>💡 <strong>Best Practice</strong>: Always leave a space between the <code>#</code> and the heading text. This is standard Markdown syntax.</p><h3>2. Paragraphs, Line Breaks, and Horizontal Rules</h3>
+<ul><li><strong>Paragraphs</strong>: Simply leave a blank line to create a new paragraph.</li>
+<li><strong>Line Breaks</strong>: Add <strong>two or more spaces</strong> at the end of the current line, then press Enter.</li>
+<li><strong>Horizontal Rules</strong>: Use three or more consecutive asterisks <code><em></em>*</code> or hyphens <code>---</code>.</li>
+</ul>
+<pre><code>This is the first line.  
+This is the second line (the previous line has two spaces at the end for a hard line break).</p><p>This is another paragraph (there&apos;s a blank line above).</p><p>---
+Above is a horizontal rule.
+</code></pre><h3>3. Text Styles</h3><p>You can add bold, italic, or strikethrough effects to text.</p><pre><code>This is &lt;strong&gt;bold&lt;/strong&gt; text.
+This is &lt;em&gt;italic&lt;/em&gt; text.
+This is &lt;strong&gt;&lt;em&gt;bold and italic&lt;/strong&gt;&lt;/em&gt; text.
+This is ~~strikethrough~~ text.
+</code></pre><h3>4. Lists</h3><p>Lists come in unordered and ordered varieties, and can be nested through indentation.</p><pre><code>- Unordered list item 1
+<ul><li>Unordered list item 2</li>
+<li>Nested sub-item (preceded by two to four spaces)</li>
+<li>Another sub-item</li>
+</ul>
+1. Ordered list item 1
+2. Ordered list item 2
+   1. Nested ordered sub-item
+</code></pre><h3>5. Links</h3><p>Links come in inline and reference styles. For directly displayed URLs, most parsers also support automatic linking.</p><pre><code>This is an inline link to &lt;a href=&quot;https://github.com&quot;&gt;GitHub&lt;/a&gt;.
+This is a reference link: see [Markdown官网][1].
+[1]: https://daringfireball.net/projects/markdown/
+Direct URL: https://bing.com
+</code></pre><p><strong>Rendered Result:</strong>
+<ul><li>This is an inline link to <a href="https://github.com">GitHub</a>.</li>
+<li>This is a reference link: see [Markdown官网][1].</li>
+<li>[1]: https://daringfireball.net/projects/markdown/</li>
+<li>Direct URL: https://bing.com</li>
+</ul>
+<h3>6. Images</h3><p>Image syntax is similar to links, but with an exclamation mark <code>!</code> at the beginning. You can also add a "title" that appears on hover.</p><pre><code>!&lt;a href=&quot;https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png &quot;Cute GitHub Logo&quot;&quot;&gt;Octocat placeholder&lt;/a&gt;
+</code></pre><p><strong>Rendered Result:</strong></p><p>!<a href="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png "Cute GitHub Logo"">Octocat placeholder</a></p><h3>7. Blockquotes</h3><p>When you need to quote someone or emphasize content, use <code>></code>. Blockquotes can be nested and can contain other Markdown elements (like lists or code).</p><pre><code>&gt; This is a blockquote.
+&gt;
+&gt; &gt; This is nested blockquote content.
+&gt;
+&gt; - You can also use lists in blockquotes.
+</code></pre><h3>8. Inline Code and Code Blocks</h3><p>Code is the core of developer documentation. Inline code is wrapped with single backticks; multi-line code blocks use triple backticks.</p><pre><code><code>markdown
+Type </code>npm install<code> in the terminal to install dependencies.</p><p>Here&apos;s a JavaScript code snippet:
+</code></pre>javascript
+function greet(name) {
+  console.log("Hello, " + name);
+}
+<pre><code></code></pre></code></p><p>Here's a JavaScript code snippet:</p><pre><code>function greet(name) {
+  console.log(&quot;Hello, &quot; + name);
+}
+</code></pre><p>💡 <strong>Best Practice</strong>: When using code blocks, always specify the language identifier after the first set of backticks (e.g., <code>javascript</code>, <code>python</code>, <code>bash</code>). This not only enables syntax highlighting but also makes it immediately clear to readers.</p><h2>Common Patterns in GitHub Open Source Projects (GFM Features)</h2><p>GitHub Flavored Markdown (GFM) extends basic syntax, specifically tailored for code hosting and team collaboration.</p><h3>1. Task Lists</h3><p>Commonly used in Issues or Pull Requests for tracking to-do items in open source projects. Checkboxes visually display progress.</p><pre><code>- [x] Improve documentation structure
+<ul><li>[x] Fix homepage bug</li>
+<li>[ ] Write test cases</li>
+</ul></code></pre><p><strong>Rendered Result:</strong>
+<ul><li>[x] Improve documentation structure</li>
+<li>[x] Fix homepage bug</li>
+<li>[ ] Write test cases</li>
+</ul>
+<h3>2. Tables</h3><p>Used for organized display of parameter descriptions or data comparisons. Use <code>:</code> to control alignment.</p><pre><code>| Left-aligned | Center-aligned | Right-aligned |
+| :--- | :---: | ---: |
+| Parameter A | <code>string</code> | Required |
+| Parameter B | <code>number</code> | Optional |
+</code></pre><p><strong>Rendered Result:</strong></p><p>| <strong>Left-aligned</strong> | <strong>Center-aligned</strong> | <strong>Right-aligned</strong> |
+| ---------------- | ------------------ | ----------------- |
+| Parameter A      | <code>string</code>           | Required          |
+| Parameter B      | <code>number</code>           | Optional          |</p><p>💡 <strong>Best Practice</strong>: The number of alignment hyphens <code>-</code> is unlimited, but at least one is needed. Keep the code-level alignment to improve source readability.</p><h3>3. Footnotes</h3><p>Used for supplementary explanations without interrupting the main content flow. Widely supported in GitHub's Markdown.</p><pre><code>This is a technical term that needs explanation[^1].</p><p>[^1]: Here is the detailed explanation and supplementary information for this term.
+</code></pre><p><strong>Rendered Result:</strong></p><p>This is a technical term that needs explanation[^1].</p><p>[^1]: Here is the detailed explanation and supplementary information for this term.</p><h3>4. Automatic Links and Emoji</h3><p>GitHub automatically recognizes plain text URLs or email addresses as links. Additionally, specific shortcuts allow quick insertion of emoji, adding friendliness to communication.</p><pre><code>Visit my blog: https://example.com
+Hello! :smile: :rocket:
+</code></pre><p><strong>Rendered Result:</strong> Visit my blog: https://example.com Hello! :smile: :rocket:</p><h3>5. Mentions and References</h3><p>GitHub-specific social and version control collaboration syntax.
+<ul><li><code>@username</code>: Notify a developer.</li>
+<li><code>#123</code>: Link to Issue or PR #123 in the current repository.</li>
+<li><code>a1b2c3d</code>: Write a commit hash directly, and GitHub will automatically convert it to a link to that commit.</li>
+</ul>
+<strong>Rendered Result:</strong> <em>(These features require no additional syntax; simply typing them in text will be captured by GitHub's parser.)</em></p><h3>6. Badges</h3><p>In <code>README.md</code>, projects often use badges to display build status, license, etc. Usually used in combination with <code>shields.io</code>.</p><pre><code>!&lt;a href=&quot;https://img.shields.io/badge/license-MIT-blue&quot;&gt;license&lt;/a&gt;
+</code></pre><p><strong>Rendered Result:</strong> <em>(A blue badge with white text showing the MIT license)</em>!<a href="https://img.shields.io/badge/license-MIT-blue">license</a>
+<strong>Note</strong>: Badges are essentially images generated online (using the image syntax above), with text and colors changed through parameters.</p><h3>7. Details (Collapsible Blocks)</h3><p>READMEs for open source projects can sometimes be very long. Using collapsible blocks can hide large sections of logs, configuration code, or Q&A.</p><pre><code><code>markdown
+&lt;details&gt;
+  &lt;summary&gt;Click to view detailed configuration code&lt;/summary&gt;
+  
+  </code></pre>json
+  {
+    "version": "1.0.0",
+    "description": "Awesome project"
+  }
+  <pre><code>&lt;/details&gt;
+</code></pre></code></p><p><strong>Rendered Result:</strong> ▶ Click to view detailed configuration code <em>(Expands to show the code block inside when clicked)</em></p><h3>8. Advice on HTML</h3><p>GitHub allows the use of some safe HTML tags (like <code><kbd></code> for keyboard shortcuts, <code><br></code> for forced line breaks, <code><details></code>, etc.).</p><p><strong>Advice</strong>: Unless Markdown cannot achieve it (like collapsible blocks, center alignment, specific colors), try to use pure Markdown to ensure the best portability of documentation across different platforms.</p><h2>Advanced Techniques (Less Common Extended Content)</h2><h3>1. Mathematical Formulas</h3><p>Use <code>LaTeX</code> syntax to write mathematical formulas. GitHub now natively supports this. Use <code>$formula$</code> for inline and <code>$$formula$$</code> for block-level.</p><pre><code>The famous mass-energy equation is $E = mc^2$.</p><p>$$
+\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+$$
+</code></pre><p><strong>Rendered Result:</strong></p><p>$$
+\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
+$$</p><h3>2. Diagrams (Mermaid)</h3><p>Draw diagrams using code. GitHub natively supports Mermaid syntax. Commonly used for flowcharts or architecture diagrams.</p><pre><code><code>txt
+</code></pre>mermaid
+graph TD;
+    A[Client] --> B{Logged in?};
+    B -- Yes --> C[Profile Page];
+    B -- No --> D[Login Page];
+<pre><code></code></pre></code></p><p><strong>Rendered Result:</strong></p><pre><code>graph TD;
+    A[Client] --&gt; B{Logged in?};
+    B -- Yes --&gt; C[Profile Page];
+    B -- No --&gt; D[Login Page];
+</code></pre><h3>3. Internal Anchors and Navigation</h3><p>Used for navigation within long documents. Typically, GitHub automatically generates invisible anchors for all headings (converting headings to lowercase and replacing spaces with hyphens).</p><pre><code>Click here to jump back to &lt;a href=&quot;#table-of-contents&quot;&gt;Table of Contents&lt;/a&gt;.
+Or use HTML to set a custom anchor &lt;a name=&quot;my-anchor&quot;&gt;&lt;/a&gt;
+</code></pre><p><strong>Rendered Result:</strong> <a href="#basic-markdown-syntax-most-commonly-used">Table of Contents</a></p><h3>4. Admonitions</h3><p>Special blocks used in documentation to attract reader attention. GitHub recently officially launched support for these.</p><pre><code>&gt; [!NOTE]
+&gt; This is a note providing useful background information.</p><p>&gt; [!WARNING]
+&gt; This is a warning alerting you to potential risks.
+</code></pre><h3>5. Other Specific Parser Extensions</h3>
+<ul><li><strong>Definition Lists</strong>: <code>Term \n : Definition</code> (supported by some parsers, not natively supported in GFM).</li>
+<li><strong>Superscript and Subscript</strong>: Use <code>^superscript^</code> and <code>~subscript~</code> (recommend using HTML <code><sup></code> and <code><sub></code> directly for compatibility).</li>
+<li><strong>Highlight Marking</strong>: Use <code>==highlighted content==</code> (requires Typora or Markdown Preview Enhanced plugin support).</li>
+</ul>
+<h2>Recommended Reading and Tools</h2><p>You've now mastered the core secrets of Markdown! Theory combined with practice makes perfect. Here are some highly recommended resources:
+<ul><li><strong>Official and Authoritative Specifications</strong>:</li>
+<li><a href="https://github.github.com/gfm/">GitHub Flavored Markdown (GFM) Official Documentation</a> - The ultimate reference for writing open source project documentation.</li>
+<li><a href="https://www.markdownguide.org/">Markdown Official Syntax Guide (John Gruber)</a> - The original document from Markdown's creator.</li>
+<li><strong>Recommended Editors</strong>:</li>
+<li><a href="https://code.visualstudio.com/">VS Code</a> - Extremely powerful with plugins, the top choice for developers.</li>
+<li><a href="https://typora.io/">Typora</a> - The ultimate "What You See Is What You Get" Markdown writing experience.</li>
+<li><a href="https://obsidian.md/">Obsidian</a> - A networked knowledge management tool based on Markdown.</li>
+<li><strong>Online Practice and Tools</strong>:</li>
+<li><a href="https://dillinger.io/">Dillinger</a> - Online Markdown editing and real-time previewer.</li>
+<li><a href="https://shields.io/">Shields.io</a> - Create custom badges for your open source projects.</li>
+</ul>
+Now, open your editor, create a <code>README.md</code>, and start your creative and open source journey!</p>]]></content:encoded>
+      <pubDate>Sun, 23 Jul 2023 00:00:00 GMT</pubDate>
+      <category>tutorial</category>
       <author>duan-deqing@foxmail.com (STYLAN)</author>
     </item>
   
