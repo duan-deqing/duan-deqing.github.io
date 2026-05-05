@@ -47,7 +47,7 @@ export default function Projects({ t }) {
             <a 
               key={index} 
               href={project.link}
-              className="group p-6 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all flex flex-col"
+              className="group p-6 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] dark:hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300 flex flex-col"
               style={{ height: '280px' }}
             >
               {/* 图标和标题 - 水平排列 */}

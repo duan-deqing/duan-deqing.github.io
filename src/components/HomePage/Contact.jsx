@@ -35,10 +35,9 @@ export default function Contact({ t }) {
   const { contact, socialLinks } = config;
 
   return (
-    // 浅灰色背景
     <section
       id="contact"
-      className="py-20 px-6 bg-gray-50 dark:bg-gray-800/50 min-h-[360px]"
+      className="py-20 px-6 min-h-[360px]"
     >
       <div
         style={{ maxWidth: "42rem", margin: "0 auto" }}

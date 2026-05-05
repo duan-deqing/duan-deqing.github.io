@@ -22,24 +22,24 @@
  * ============================================================================
  */
 
-import { useTheme } from '../hooks/useTheme'
-import { useLanguage } from '../hooks/useLanguage'
-import PageHeader from '../components/shared/PageHeader'
-import PageFooter from '../components/shared/PageFooter'
-import PageTitle from '../components/shared/PageTitle'
-import config from '../config'
+import { useTheme } from "../hooks/useTheme";
+import { useLanguage } from "../hooks/useLanguage";
+import PageHeader from "../components/shared/PageHeader";
+import PageFooter from "../components/shared/PageFooter";
+import PageTitle from "../components/shared/PageTitle";
+import config from "../config";
 
 function ProjectsPage() {
-  const { isDark, toggle: toggleTheme } = useTheme()
-  const { lang, toggle: toggleLang, t } = useLanguage()
+  const { isDark, toggle: toggleTheme } = useTheme();
+  const { lang, toggle: toggleLang, t } = useLanguage();
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors w-full flex flex-col">
-      <PageTitle title={t({ en: 'Projects | STYLAN', zh: '项目 | STYLAN' })} />
+      <PageTitle title={t({ en: "Projects | STYLAN", zh: "项目 | STYLAN" })} />
 
       <PageHeader
-        title={t({ en: 'Projects', zh: '项目' })}
-        backToHome={{ en: 'HOME', zh: '主页' }}
+        title={t({ en: "PROJECTS", zh: "项目" })}
+        backToHome={{ en: "BACK TO HOME", zh: "返回主页" }}
         isDark={isDark}
         toggleTheme={toggleTheme}
         lang={lang}
@@ -52,12 +52,12 @@ function ProjectsPage() {
         <section className="px-6 py-16 bg-gray-50 dark:bg-gray-800/50">
           <div className="max-w-6xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-              {t({ en: 'Featured Projects', zh: '精选项目' })}
+              {t({ en: "Featured Projects", zh: "精选项目" })}
             </h1>
             <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-              {t({ 
-                en: 'A showcase of my recent work and personal projects',
-                zh: '我近期工作和个人项目的展示'
+              {t({
+                en: "A showcase of my recent work and personal projects",
+                zh: "项目展示",
               })}
             </p>
           </div>
@@ -72,13 +72,23 @@ function ProjectsPage() {
                   key={index}
                   href={project.link}
                   className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] dark:hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300 flex flex-col"
-                  style={{ minHeight: '280px' }}
+                  style={{ minHeight: "280px" }}
                 >
                   {/* 图标和标题 */}
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-blue-50 dark:bg-blue-900/30 group-hover:scale-110 transition-transform flex-shrink-0">
-                      <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                      <svg
+                        className="w-5 h-5 text-blue-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                        />
                       </svg>
                     </div>
                     <h2 className="text-lg font-semibold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
@@ -88,7 +98,10 @@ function ProjectsPage() {
 
                   {/* 项目描述 */}
                   <div className="flex-grow mb-4">
-                    <p className="text-sm text-gray-500 dark:text-gray-400" style={{ lineHeight: '1.7' }}>
+                    <p
+                      className="text-sm text-gray-500 dark:text-gray-400"
+                      style={{ lineHeight: "1.7" }}
+                    >
                       {t(project.description)}
                     </p>
                   </div>
@@ -113,7 +126,7 @@ function ProjectsPage() {
 
       <PageFooter t={t} />
     </div>
-  )
+  );
 }
 
-export default ProjectsPage
+export default ProjectsPage;

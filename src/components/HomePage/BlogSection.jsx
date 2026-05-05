@@ -36,7 +36,7 @@ export default function BlogSection({ posts, t }) {
   if (displayPosts.length === 0) return null
 
   return (
-    <section className="py-20 px-6">
+    <section className="py-20 px-6 bg-gray-50 dark:bg-gray-800/50">
       <div className="max-w-6xl mx-auto">
         {/* 区块标题 */}
         <div className="text-center mb-12">

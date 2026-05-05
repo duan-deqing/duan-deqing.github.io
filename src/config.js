@@ -90,20 +90,20 @@ const config = {
   // items: 技术栈数组
   skills: [
     {
+      category: { en: "AI", zh: "人工智能" },
+      items: ["RAG", "LangChain", "Prompt", "FAISS", "Flask", "FastAPI"],
+    },
+    {
       category: { en: "Frontend", zh: "前端" },
-      items: ["React", "Vue", "JavaScript", "HTML", "CSS", "Tailwind CSS"],
+      items: ["React", "JavaScript", "HTML", "CSS", "Tailwind CSS"],
     },
     {
       category: { en: "Backend", zh: "后端" },
-      items: ["Node.js", "Python", "SQLite", "PostgreSQL", "Redis"],
+      items: ["Python", "Node.js", "SQLite", "PostgreSQL", "Redis"],
     },
     {
       category: { en: "Tools", zh: "工具" },
-      items: ["Git", "Docker", "OpenCode", "pnpm", "VS Code"],
-    },
-    {
-      category: { en: "Others", zh: "其他" },
-      items: ["RAG", "LangChain", "Prompt", "Linux", "Flask", "FastAPI"],
+      items: ["OpenCode", "Git", "Docker", "pnpm", "VS Code", "Markdown"],
     },
     {
       category: { en: "Hobbies", zh: "爱好" },
@@ -123,31 +123,22 @@ const config = {
   // link: 项目链接（GitHub 或在线演示）
   projects: [
     {
-      title: { en: "E-Commerce Platform", zh: "电商平台" },
+      title: { en: "LangChain RAG Project", zh: "LangChain RAG Demo" },
       description: {
-        en: "A modern e-commerce platform built with React and Node.js, featuring real-time inventory management.",
-        zh: "使用 React 和 Node.js 构建的现代电商平台，具有实时库存管理功能。",
+        en: "LangChain + Tongyi Qianwen's RAG question-answering system supports intelligent question answering with local knowledge bases, automatic document refresh, and automatic vector library management.",
+        zh: "LangChain + 通义千问打造的 RAG 问答系统，支持本地知识库智能问答、文档自动刷新与向量库自动管理。",
       },
-      tags: ["React", "Node.js", "MongoDB"],
-      link: "#",
+      tags: ["Python", "LangChain", "Chroma"],
+      link: "https://github.com/duan-deqing/langchain_rag_easy_demo",
     },
     {
-      title: { en: "Task Management App", zh: "任务管理应用" },
+      title: { en: "<project-title>", zh: "<项目名称>" },
       description: {
-        en: "Collaborative task management tool with real-time updates and team workspaces.",
-        zh: "协作任务管理工具，支持实时更新和团队工作空间。",
+        en: "<project-intro>",
+        zh: "<项目简介>",
       },
-      tags: ["Vue", "Firebase", "Tailwind"],
-      link: "#",
-    },
-    {
-      title: { en: "AI Dashboard", zh: "AI 仪表盘" },
-      description: {
-        en: "Analytics dashboard with machine learning insights and data visualization.",
-        zh: "具有机器学习洞察和数据可视化的分析仪表盘。",
-      },
-      tags: ["Python", "TensorFlow", "D3.js"],
-      link: "#",
+      tags: ["Python", "LangChain", "Chroma"],
+      link: "<project-link>",
     },
   ],
 
