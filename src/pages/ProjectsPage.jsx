@@ -27,6 +27,7 @@ import { useLanguage } from "../hooks/useLanguage";
 import PageHeader from "../components/shared/PageHeader";
 import PageFooter from "../components/shared/PageFooter";
 import PageTitle from "../components/shared/PageTitle";
+import WaveAnimation from "../components/HomePage/WaveAnimation";
 import config from "../config";
 
 function ProjectsPage() {
@@ -49,8 +50,12 @@ function ProjectsPage() {
 
       <main className="w-full pt-16 flex-grow">
         {/* 页面标题区域 */}
-        <section className="px-6 py-16 bg-gray-50 dark:bg-gray-800/50">
-          <div className="max-w-6xl mx-auto text-center">
+        <section className="relative px-6 py-16 bg-gray-50 dark:bg-gray-800/50 overflow-hidden">
+          {/* Wave 动画背景 */}
+          <div className="absolute inset-0 opacity-30">
+            <WaveAnimation color={isDark ? '#a78bfa' : '#8b5cf6'} />
+          </div>
+          <div className="relative z-10 max-w-6xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
               {t({ en: "Featured Projects", zh: "精选项目" })}
             </h1>
@@ -71,7 +76,7 @@ function ProjectsPage() {
                 <a
                   key={index}
                   href={project.link}
-                  className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] dark:hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300 flex flex-col"
+                  className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-[0_0_15px_rgba(139,92,246,0.3)] dark:hover:shadow-[0_0_15px_rgba(139,92,246,0.2)] hover:border-purple-300 dark:hover:border-purple-700 transition-all duration-300 flex flex-col"
                   style={{ minHeight: "280px" }}
                 >
                   {/* 图标和标题 */}

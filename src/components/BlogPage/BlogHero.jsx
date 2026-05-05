@@ -11,15 +11,21 @@
  *
  * 【Props】
  * - t: function - 翻译函数
+ * - isDark: boolean - 是否深色模式
  * ============================================================================
  */
 
 import blogConfig from '../../blogConfig'
+import WaveAnimation from '../HomePage/WaveAnimation'
 
-export default function BlogHero({ t }) {
+export default function BlogHero({ t, isDark }) {
   return (
-    <section className="px-6 pt-24 pb-12 md:pt-32 md:pb-16">
-      <div className="max-w-6xl mx-auto">
+    <section className="relative px-6 pt-24 pb-12 md:pt-32 md:pb-16 bg-gray-50 dark:bg-gray-800/50 overflow-hidden">
+      {/* Wave 动画背景 */}
+      <div className="absolute inset-0 opacity-20">
+        <WaveAnimation color={isDark ? '#f97316' : '#ea580c'} />
+      </div>
+      <div className="relative z-10 max-w-6xl mx-auto">
         <div className="flex items-start justify-between">
           <div>
             {/* 页面标题 */}

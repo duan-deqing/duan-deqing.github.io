@@ -122,7 +122,7 @@ function BlogPage() {
       {/* 主要内容区域 - 使用flex-grow填充剩余空间 */}
       <main className="w-full pt-16 flex-grow">
         {/* 博客标题区域 */}
-        <BlogHero t={t} />
+        <BlogHero t={t} isDark={isDark} />
 
         {/* 分类筛选 */}
         <section className="px-6 py-8">

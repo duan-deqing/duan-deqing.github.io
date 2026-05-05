@@ -54,7 +54,7 @@ export default function BlogSection({ posts, t }) {
             <Link
               key={post.slug}
               to={`/blog/${post.slug}`}
-              className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] dark:hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300"
+              className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-[0_0_15px_rgba(234,88,12,0.3)] dark:hover:shadow-[0_0_15px_rgba(234,88,12,0.2)] hover:border-orange-300 dark:hover:border-orange-700 transition-all duration-300"
             >
               {/* 分类和日期 */}
               <div className="flex items-center gap-3 mb-4">

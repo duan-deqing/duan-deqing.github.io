@@ -29,10 +29,10 @@ export default function BlogPost({ post, t }) {
   return (
     <Link
       to={`/blog/${post.slug}`}
-      className={`group relative bg-white dark:bg-gray-800 rounded-xl border transition-all duration-300 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] dark:hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] block ${
+      className={`group relative bg-white dark:bg-gray-800 rounded-xl border transition-all duration-300 hover:shadow-[0_0_15px_rgba(234,88,12,0.3)] dark:hover:shadow-[0_0_15px_rgba(234,88,12,0.2)] block ${
         post.featured
-          ? 'border-blue-200 dark:border-blue-800 hover:border-blue-400 dark:hover:border-blue-600'
-          : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700'
+          ? 'border-orange-200 dark:border-orange-800 hover:border-orange-400 dark:hover:border-orange-600'
+          : 'border-gray-200 dark:border-gray-700 hover:border-orange-300 dark:hover:border-orange-700'
       }`}
     >
       {/* 精选文章标记 */}

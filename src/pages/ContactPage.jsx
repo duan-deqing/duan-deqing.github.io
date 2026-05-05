@@ -32,6 +32,7 @@ import { useTheme } from "../hooks/useTheme";
 import { useLanguage } from "../hooks/useLanguage";
 import PageHeader from "../components/shared/PageHeader";
 import PageFooter from "../components/shared/PageFooter";
+import WaveAnimation from "../components/HomePage/WaveAnimation";
 import config from "../config";
 
 function ContactPage() {
@@ -105,8 +106,12 @@ function ContactPage() {
 
       <main className="w-full pt-16 flex-grow">
         {/* Hero Section */}
-        <section className="py-16 px-6 bg-gray-50 dark:bg-gray-800/50">
-          <div className="max-w-4xl mx-auto text-center">
+        <section className="relative py-16 px-6 bg-gray-50 dark:bg-gray-800/50 overflow-hidden">
+          {/* Wave 动画背景 */}
+          <div className="absolute inset-0 opacity-30">
+            <WaveAnimation color={isDark ? '#34d399' : '#10b981'} />
+          </div>
+          <div className="relative z-10 max-w-4xl mx-auto text-center">
             <h1
               className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
               style={{ lineHeight: "1.3" }}

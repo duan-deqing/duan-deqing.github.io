@@ -27,6 +27,7 @@ import { useLanguage } from "../hooks/useLanguage";
 import PageHeader from "../components/shared/PageHeader";
 import PageFooter from "../components/shared/PageFooter";
 import PageTitle from "../components/shared/PageTitle";
+import WaveAnimation from "../components/HomePage/WaveAnimation";
 import config from "../config";
 
 function SkillsPage() {
@@ -54,8 +55,12 @@ function SkillsPage() {
 
       <main className="w-full pt-16 flex-grow">
         {/* 页面标题区域 */}
-        <section className="px-6 py-16 bg-gray-50 dark:bg-gray-800/50">
-          <div className="max-w-6xl mx-auto text-center">
+        <section className="relative px-6 py-16 bg-gray-50 dark:bg-gray-800/50 overflow-hidden">
+          {/* Wave 动画背景 */}
+          <div className="absolute inset-0 opacity-30">
+            <WaveAnimation color={isDark ? '#60a5fa' : '#3b82f6'} />
+          </div>
+          <div className="relative z-10 max-w-6xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
               {t({ en: "Skills & Technologies", zh: "技能与技术" })}
             </h1>
