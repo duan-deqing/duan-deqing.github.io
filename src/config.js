@@ -71,6 +71,30 @@ const config = {
       en: "Full-stack developer passionate about building beautiful, performant web applications with modern technologies.",
       zh: "全栈开发者，热衷于使用现代技术构建美观、高性能的 Web 应用。",
     },
+    // Hero 右侧展示区域
+    // type: 'image' | 'svg' | 'code' | 'wave'
+    heroRight: {
+      // Wave 动画（等高线效果）
+      type: "wave",
+      width: 500,
+      height: 400,
+      lines: 30,
+      color: "#3b82f6", // 蓝色
+
+      // 示例1: 图片（取消注释使用）
+      // type: 'image',
+      // src: '/images/hero-illustration.png',
+      // alt: { en: 'Hero illustration', zh: '主视觉插图' },
+
+      // 示例2: SVG 动画（取消注释使用）
+      // type: 'svg',
+      // content: `<svg>...</svg>`,
+
+      // 示例3: 代码展示（取消注释使用）
+      // type: 'code',
+      // code: `console.log('Hello World')`,
+      // language: 'javascript',
+    },
   },
 
   // ==================== 导航链接 ====================
