@@ -213,6 +213,27 @@ function ContactPage() {
                     )}
                   </div>
                 ))}
+                
+                {/* 简历下载按钮 */}
+                <a
+                  href="/resume.pdf"
+                  download
+                  className="flex items-center gap-4 p-4 rounded-full border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-md transition-all group"
+                >
+                  <div className="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-500 dark:text-blue-400 group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {t({ en: "Resume", zh: "简历" })}
+                    </p>
+                    <p className="text-gray-900 dark:text-white font-medium">
+                      {t({ en: "Download PDF", zh: "下载 PDF" })}
+                    </p>
+                  </div>
+                </a>
               </div>
             </div>
 

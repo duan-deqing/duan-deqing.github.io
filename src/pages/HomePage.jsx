@@ -18,6 +18,8 @@
  * ├─────────────────────────────────────┤
  * │  Projects (项目作品)                 │
  * ├─────────────────────────────────────┤
+ * │  Blog (精选博客)                     │
+ * ├─────────────────────────────────────┤
  * │  Contact (联系方式)                  │
  * ├─────────────────────────────────────┤
  * │  PageFooter (页脚)                   │
@@ -29,13 +31,16 @@
  * ============================================================================
  */
 
+import { useState, useEffect } from "react";
 import { useTheme } from "../hooks/useTheme";
 import { useLanguage } from "../hooks/useLanguage";
+import { getAllPosts } from "../utils/markdown";
 import PageTitle from "../components/shared/PageTitle";
 import PageHeader from "../components/shared/PageHeader";
 import Hero from "../components/HomePage/Hero";
 import Skills from "../components/HomePage/Skills";
 import Projects from "../components/HomePage/Projects";
+import BlogSection from "../components/HomePage/BlogSection";
 import Contact from "../components/HomePage/Contact";
 import PageFooter from "../components/shared/PageFooter";
 import config from "../config";
@@ -46,6 +51,23 @@ function HomePage() {
 
   // 获取语言状态、切换函数和翻译函数
   const { lang, toggle: toggleLang, t } = useLanguage();
+
+  // 文章列表状态
+  const [posts, setPosts] = useState([]);
+
+  // 加载文章列表
+  useEffect(() => {
+    const loadPosts = async () => {
+      try {
+        const allPosts = await getAllPosts(lang);
+        setPosts(allPosts);
+      } catch (error) {
+        console.error('[HomePage] Failed to load posts:', error);
+      }
+    };
+
+    loadPosts();
+  }, [lang]);
 
   return (
     // 最外层容器：最小屏幕高度、背景色、主题切换过渡
@@ -74,6 +96,9 @@ function HomePage() {
 
         {/* 项目作品区块 */}
         <Projects t={t} />
+
+        {/* 博客精选区块 */}
+        <BlogSection posts={posts} t={t} />
 
         {/* 联系方式区块 */}
         <Contact t={t} />

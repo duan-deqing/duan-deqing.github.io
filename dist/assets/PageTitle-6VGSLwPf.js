@@ -1,2 +1,0 @@
-import{r as e}from"./rolldown-runtime-S-ySWqyJ.js";import{d as t}from"./react-vendor-BjLs8MdY.js";import{n}from"./useLanguage-CXRqRAG9.js";var r=e(t(),1);function i({title:e,favicon:t}){return(0,r.useEffect)(()=>{let r=e||n.site.pageTitle;r&&(document.title=r);let i=t||n.site.favicon;if(i){let e=document.querySelector(`link[rel~='icon']`);e||(e=document.createElement(`link`),e.rel=`icon`,document.head.appendChild(e)),e.href=i}},[e,t]),null}export{i as t};
-//# sourceMappingURL=PageTitle-6VGSLwPf.js.map

@@ -62,11 +62,14 @@ export default function Contact({ t }) {
             {t(contact.description)}
           </p>
         </div>
-        {/* 联系按钮 - 跳转到联系页面 */}
-        <div className="flex justify-center">
+        {/* 按钮组 */}
+        <div className="flex justify-center gap-4">
           <Link to="/contact" className="btn btn-primary">
             {t({ en: "CONTACT", zh: "联系" })}
           </Link>
+          <a href="/resume.pdf" download className="btn btn-secondary">
+            {t({ en: "DOWNLOAD CV", zh: "下载简历" })}
+          </a>
         </div>
         {/* 社交链接 */}
         <div className="flex justify-center gap-6 mt-8">

@@ -1,0 +1,2 @@
+var e={page:{title:{en:`BLOG`,zh:`博客`},subtitle:{en:`Thoughts, tutorials and insights`,zh:`想法、教程与见解`},backToHome:{en:`BACK TO HOME`,zh:`返回主页`}},categories:[{id:`all`,label:{en:`All`,zh:`全部`}},{id:`tech`,label:{en:`Technology`,zh:`技术`}},{id:`tutorial`,label:{en:`Tutorials`,zh:`教程`}},{id:`thoughts`,label:{en:`Thoughts`,zh:`想法`}},{id:`project`,label:{en:`Projects`,zh:`项目`}}]};export{e as t};
+//# sourceMappingURL=blogConfig-BL9HOMzi.js.map
