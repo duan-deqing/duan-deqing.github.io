@@ -10,6 +10,8 @@
  *
  * 【路由结构】
  * - / : 主页
+ * - /skills : 技能与技术页面
+ * - /projects : 项目页面
  * - /blog : 博客列表页面
  * - /blog/:slug : 博客文章详情页面
  * - /contact : 联系页面
@@ -22,6 +24,8 @@ import { Routes, Route } from 'react-router-dom'
 import Loading from './components/shared/Loading'
 
 const HomePage = lazy(() => import('./pages/HomePage'))
+const SkillsPage = lazy(() => import('./pages/SkillsPage'))
+const ProjectsPage = lazy(() => import('./pages/ProjectsPage'))
 const BlogPage = lazy(() => import('./pages/BlogPage'))
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
@@ -41,6 +45,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/skills" element={<SkillsPage />} />
+      <Route path="/projects" element={<ProjectsPage />} />
       <Route path="/blog" element={<BlogPage />} />
       <Route path="/blog/:slug" element={<BlogPostPage />} />
       <Route path="/contact" element={<ContactPage />} />

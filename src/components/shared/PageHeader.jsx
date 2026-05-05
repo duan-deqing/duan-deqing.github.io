@@ -16,6 +16,8 @@
  * - title: string - 页面标题（子页面模式时显示）
  * - backToHome: object - 返回主页链接文字 { en, zh }（子页面模式时使用）
  * - navLinks: array - 导航链接数组
+ * - showSearch: boolean - 是否显示搜索按钮（默认：false）
+ * - onSearchClick: function - 搜索按钮点击事件
  * - isDark: boolean - 当前是否深色模式
  * - toggleTheme: function - 切换主题函数
  * - lang: string - 当前语言
@@ -33,6 +35,8 @@ export default function PageHeader({
   title,
   backToHome,
   navLinks = [],
+  showSearch = false,
+  onSearchClick,
   isDark,
   toggleTheme,
   lang,
@@ -141,6 +145,29 @@ export default function PageHeader({
 
           {/* 切换按钮组 */}
           <div className="flex items-center gap-2 ml-2 pl-2 border-l border-gray-200 dark:border-gray-700">
+            {/* 搜索按钮 */}
+            {showSearch && (
+              <button
+                onClick={onSearchClick}
+                className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-all active:scale-90"
+                aria-label="Search"
+              >
+                <svg
+                  className="w-5 h-5 text-gray-600 dark:text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </button>
+            )}
+
             <button
               onClick={toggleTheme}
               className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-all active:scale-90 relative"

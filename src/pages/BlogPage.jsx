@@ -37,6 +37,7 @@ import PageHeader from '../components/shared/PageHeader'
 import BlogHero from '../components/BlogPage/BlogHero'
 import CategoryFilter from '../components/BlogPage/CategoryFilter'
 import BlogList from '../components/BlogPage/BlogList'
+import BlogSearch from '../components/BlogPage/BlogSearch'
 import PageFooter from '../components/shared/PageFooter'
 
 function BlogPage() {
@@ -50,6 +51,9 @@ function BlogPage() {
 
   // 当前选中的分类
   const [activeCategory, setActiveCategory] = useState('all')
+
+  // 搜索状态
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
 
   // 加载文章列表
   useEffect(() => {
@@ -73,6 +77,20 @@ function BlogPage() {
     ? posts
     : posts.filter(post => post.category === activeCategory)
 
+  // 处理键盘快捷键
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Ctrl/Cmd + K 打开搜索
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault()
+        setIsSearchOpen(true)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   return (
     // 最外层容器：最小屏幕高度、背景色、主题切换过渡、flex布局
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors w-full flex flex-col">
@@ -83,11 +101,22 @@ function BlogPage() {
       <PageHeader
         title={t(blogConfig.page.title)}
         backToHome={t(blogConfig.page.backToHome)}
+        showSearch={true}
+        onSearchClick={() => setIsSearchOpen(true)}
         isDark={isDark}
         toggleTheme={toggleTheme}
         lang={lang}
         toggleLang={toggleLang}
         t={t}
+      />
+
+      {/* 搜索界面 */}
+      <BlogSearch
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        posts={posts}
+        t={t}
+        isDark={isDark}
       />
 
       {/* 主要内容区域 - 使用flex-grow填充剩余空间 */}

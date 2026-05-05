@@ -29,10 +29,10 @@ export default function BlogPost({ post, t }) {
   return (
     <Link
       to={`/blog/${post.slug}`}
-      className={`group relative bg-white dark:bg-gray-800 rounded-xl border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 block ${
+      className={`group relative bg-white dark:bg-gray-800 rounded-xl border transition-all duration-300 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] dark:hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] block ${
         post.featured
-          ? 'border-blue-200 dark:border-blue-800'
-          : 'border-gray-200 dark:border-gray-700'
+          ? 'border-blue-200 dark:border-blue-800 hover:border-blue-400 dark:hover:border-blue-600'
+          : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700'
       }`}
     >
       {/* 精选文章标记 */}
@@ -46,13 +46,16 @@ export default function BlogPost({ post, t }) {
 
       {/* 文章内容 */}
       <div className="p-6">
-        {/* 分类和日期 */}
+        {/* 分类、日期和阅读时间 */}
         <div className="flex items-center gap-3 mb-4">
           <span className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
             {post.category}
           </span>
           <span className="text-sm text-gray-500 dark:text-gray-400">
             {formatDate(post.date)}
+          </span>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
+            {t(post.readTime)}
           </span>
         </div>
 
@@ -79,11 +82,6 @@ export default function BlogPost({ post, t }) {
               </span>
             ))}
           </div>
-
-          {/* 阅读时间 */}
-          <span className="text-sm text-gray-500 dark:text-gray-400">
-            {t(post.readTime)}
-          </span>
         </div>
       </div>
     </Link>

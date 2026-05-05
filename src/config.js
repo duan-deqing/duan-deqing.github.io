@@ -58,12 +58,12 @@ const config = {
   },
 
   // ==================== 导航链接 ====================
-  // href: 页面内锚点 id 或外部链接
+  // href: 页面路由路径或页面内锚点 id
   // label: 显示的文字（支持中英文）
   navLinks: [
+    { href: "/skills", label: { en: "skills", zh: "技能" } },
+    { href: "/projects", label: { en: "projects", zh: "项目" } },
     { href: "/blog", label: { en: "blog", zh: "博客" } },
-    { href: "#skills", label: { en: "skills", zh: "技能" } },
-    { href: "#projects", label: { en: "projects", zh: "项目" } },
     { href: "/contact", label: { en: "contact", zh: "联系" } },
   ],
 
