@@ -1,0 +1,2 @@
+import{r as e}from"./rolldown-runtime-S-ySWqyJ.js";import{d as t}from"./react-vendor-CSZRijED.js";var n=e(t(),1);function r(){let[e,t]=(0,n.useState)(()=>{let e=localStorage.getItem(`theme`);return e===`dark`||!e&&window.matchMedia(`(prefers-color-scheme: dark)`).matches});return(0,n.useEffect)(()=>{document.documentElement.classList.toggle(`dark`,e),localStorage.setItem(`theme`,e?`dark`:`light`)},[e]),{isDark:e,toggle:()=>t(e=>!e)}}export{r as t};
+//# sourceMappingURL=useTheme-B0VsAXK6.js.map

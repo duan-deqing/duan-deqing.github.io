@@ -440,7 +440,7 @@ function BlogPostPage() {
                       ? '0 10px 40px rgba(0, 0, 0, 0.4)' 
                       : '0 10px 40px rgba(0, 0, 0, 0.15)'
                   }}>
-                    <img src={src} alt={alt} className="w-full h-auto block" />
+                    <img src={src} alt={alt} className="w-full h-auto block" loading="lazy" />
                   </div>
                 ),
                 // 表格样式

@@ -157,7 +157,7 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
           {/* 左侧 - 网站标题 */}
           <a
             href="#"
-            className="text-lg font-semibold text-gray-900 dark:text-white flex-shrink-0"
+            className="text-lg font-semibold text-black dark:text-white flex-shrink-0"
             style={{ fontFamily: '"Geist Pixel", monospace' }}
           >
             {config.site.title}
@@ -170,7 +170,7 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  className="text-sm text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors"
                 >
                   [ <span className="nav-link-text">{t(link.label)}</span> ]
                 </a>
@@ -178,7 +178,7 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  className="text-sm text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white transition-colors"
                 >
                   [ <span className="nav-link-text">{t(link.label)}</span> ]
                 </Link>
@@ -365,7 +365,7 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
                       key={link.href}
                       href={link.href}
                       onClick={handleLinkClick}
-                      className={`block py-2 px-4 text-sm text-right text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 ${
+                      className={`block py-2 px-4 text-sm text-right text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 ${
                         isMenuOpen ? "opacity-100" : "opacity-0"
                       }`}
                       style={{
@@ -379,7 +379,7 @@ export default function Header({ isDark, toggleTheme, lang, toggleLang, t }) {
                       key={link.href}
                       to={link.href}
                       onClick={handleLinkClick}
-                      className={`block py-2 px-4 text-sm text-right text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 ${
+                      className={`block py-2 px-4 text-sm text-right text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 ${
                         isMenuOpen ? "opacity-100" : "opacity-0"
                       }`}
                       style={{
