@@ -45,10 +45,26 @@ const config = {
     },
     // 头像: 使用 emoji 或图片路径 '/avatar.jpg'
     avatar: "👨‍💻",
-    // Hero 页面的主标题
-    title: {
-      en: "Hi, I'm STYLAN",
-      zh: "你好，我是STYLAN",
+    // Hero 页面的主标题 - 前缀（小字）
+    titlePrefix: {
+      en: "Hi, I'm",
+      zh: "你好，我是",
+    },
+    // Hero 页面的主标题 - 名字（大字）
+    titleName: {
+      en: "STYLAN",
+      zh: "STYLAN",
+    },
+    // 个人标签卡片（显示在简介上方）
+    // 每个标签支持中英文，用 | 分隔不同标签组
+    tags: [
+      { en: "AI Application Developer", zh: "AI 应用开发工程师" },
+      { en: "LLM & RAG Practitioner", zh: "LLM & RAG 实践者" },
+    ],
+    // 标签描述（显示在标签下方）
+    tagDescription: {
+      en: "LangChain · Qwen · Vector Database",
+      zh: "LangChain · 通义千问 · 向量数据库",
     },
     // Hero 页面的个人简介
     bio: {

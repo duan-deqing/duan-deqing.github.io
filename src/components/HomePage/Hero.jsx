@@ -42,16 +42,50 @@ export default function Hero({ t }) {
     <section className="px-6 flex items-center justify-center" style={{ height: '100vh' }}>
       <div style={{ maxWidth: '64rem', width: '100%' }}>
         
-        {/* 主标题 - 带逐字动画 */}
-        <div className="min-h-[120px] md:min-h-[144px] lg:min-h-[168px]">
+        {/* 主标题 - 前缀小字 + 名字大字 */}
+        <div className="mb-6">
+          <AnimatedText 
+            as="p" 
+            className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 mb-2" 
+            style={{ lineHeight: '1.4' }}
+          >
+            {t(personal.titlePrefix)}
+          </AnimatedText>
           <AnimatedText 
             as="h1" 
-            className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-gray-900 dark:text-white" 
+            className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-gray-900 dark:text-white" 
             style={{ lineHeight: '1.1' }}
           >
-            {t(personal.title)}
+            {t(personal.titleName)}
           </AnimatedText>
         </div>
+        
+        {/* 个人标签卡片 - 渐变边框动画 */}
+        {personal.tags && personal.tags.length > 0 && (
+          <div className="mb-8">
+            <div className="relative inline-block p-[2px] rounded-2xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-gradient-x">
+              <div className="bg-white dark:bg-gray-900 rounded-2xl px-6 py-4">
+                {/* 标签列表 */}
+                <div className="flex flex-wrap items-center justify-center gap-3">
+                  {personal.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="px-3 py-1.5 text-sm font-medium bg-gradient-to-r from-blue-500/10 to-purple-500/10 dark:from-blue-500/20 dark:to-purple-500/20 rounded-lg text-gray-700 dark:text-gray-200 border border-gray-200/50 dark:border-gray-700/50"
+                    >
+                      {t(tag)}
+                    </span>
+                  ))}
+                </div>
+                {/* 描述文字 */}
+                {personal.tagDescription && (
+                  <p className="mt-3 pt-3 border-t border-gray-200/50 dark:border-gray-700/50 text-sm text-gray-500 dark:text-gray-400 text-center">
+                    {t(personal.tagDescription)}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
         
         {/* 个人简介 - 带逐字动画 */}
         <div className="min-h-[80px] mb-10">
