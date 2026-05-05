@@ -281,9 +281,8 @@ a {
 }
 
 .btn-primary:hover {
-  background-color: #1e40af;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  background-color: #1d4ed8;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
 }
 
 .btn-primary:active {
@@ -302,11 +301,15 @@ a {
 }
 
 .btn-secondary:hover {
-  background-color: #f9fafb;
+  background-color: transparent;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+  border-color: #93c5fd;
 }
 
 .dark .btn-secondary:hover {
-  background-color: #1f2937;
+  background-color: transparent;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
 }
 
 .btn-secondary:active {

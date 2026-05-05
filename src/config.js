@@ -146,8 +146,8 @@ const config = {
   contact: {
     title: { en: "Get in Touch", zh: "联系我" },
     description: {
-      en: "I'm always open to new opportunities and collaborations. Feel free to reach out!",
-      zh: "我始终对新的机会和合作持开放态度。欢迎联系我！",
+      en: "I am always open to new opportunities and look forward to hearing from you. Any ideas for collaboration are welcome.",
+      zh: "持续拥抱新机遇，期待你的消息，任何合作想法都欢迎。",
     },
     // 邮箱地址
     email: "duan-deqing@foxmail.com",
