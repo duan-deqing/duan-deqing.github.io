@@ -5,7 +5,7 @@
     <link>https://duan-deqing.github.io</link>
     <description>Thoughts, tutorials and insights about web development</description>
     <language>zh</language>
-    <lastBuildDate>Tue, 05 May 2026 19:04:46 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 05 May 2026 19:54:56 GMT</lastBuildDate>
     <generator>STYLAN Blog RSS Generator</generator>
     <atom:link href="https://duan-deqing.github.io/rss.xml" rel="self" type="application/rss+xml"/>
     <copyright>© 2026 STYLAN. All rights reserved.</copyright>
@@ -835,12 +835,6 @@ Markdown
 
 [^1]: 这里是对该术语的详细解释和补充说明。
 </code></pre>
-
-<strong>渲染结果：</strong>
-
-这是一个需要解释的专业术语[^1]。
-
-[^1]: 这里是对该术语的详细解释和补充说明。
 
 <h3>4. 自动链接与 Emoji</h3>
 

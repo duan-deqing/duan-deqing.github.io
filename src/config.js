@@ -72,7 +72,7 @@ const config = {
       zh: "全栈开发者，热衷于使用现代技术构建美观、高性能的 Web 应用。",
     },
     // Hero 右侧展示区域
-    // type: 'image' | 'svg' | 'code' | 'wave'
+    // type: 'image' | 'svg' | 'code' | 'wave' | 'rays'
     heroRight: {
       // Wave 动画（等高线效果）
       type: "wave",
@@ -94,6 +94,11 @@ const config = {
       // type: 'code',
       // code: `console.log('Hello World')`,
       // language: 'javascript',
+
+      // 示例4: Rays 光线动画（取消注释使用）
+      // type: 'rays',
+      // color: '#ffffff',
+      // opacity: 0.1,
     },
   },
 

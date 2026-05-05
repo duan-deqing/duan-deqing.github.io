@@ -11,14 +11,21 @@
 
 import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
+import { useTheme } from '../hooks/useTheme'
+import WaveAnimation from '../components/HomePage/WaveAnimation'
 
 function NotFoundPage() {
   const navigate = useNavigate()
   const { t } = useLanguage()
+  const { isDark } = useTheme()
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors flex items-center justify-center">
-      <div className="text-center px-6">
+    <div className="relative min-h-screen bg-white dark:bg-gray-900 transition-colors flex items-center justify-center overflow-hidden">
+      {/* Wave 动画背景 */}
+      <div className="absolute inset-0 opacity-20">
+        <WaveAnimation color={isDark ? '#f87171' : '#ef4444'} />
+      </div>
+      <div className="relative z-10 text-center px-6">
         <h1
           className="text-8xl font-bold text-blue-500 mb-4"
           style={{ fontFamily: 'var(--font-heading)' }}

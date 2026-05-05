@@ -72,17 +72,9 @@ export default function BlogSection({ posts, t }) {
               </h3>
 
               {/* 摘要 */}
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
+              <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
                 {t(post.excerpt)}
               </p>
-
-              {/* 阅读更多 */}
-              <div className="flex items-center text-sm text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
-                <span>{t({ en: 'Read more', zh: '阅读更多' })}</span>
-                <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
             </Link>
           ))}
         </div>

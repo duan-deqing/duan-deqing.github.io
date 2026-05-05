@@ -24,6 +24,7 @@
 import { Link } from 'react-router-dom'
 import config from '../../config'
 import AnimatedText from './AnimatedText'
+import TypewriterText from './TypewriterText'
 import WaveAnimation from './WaveAnimation'
 
 // 渲染右侧内容
@@ -57,6 +58,16 @@ function HeroRightContent({ heroRight, t }) {
             width={heroRight.width || 500}
             height={heroRight.height || 500}
             color={heroRight.color || '#3b82f6'}
+          />
+        </div>
+      )
+
+    case 'rays':
+      return (
+        <div className="relative w-full rounded-2xl overflow-hidden border-0 bg-gray-900 dark:bg-gray-800" style={{ height: '500px' }}>
+          <RaysAnimation
+            color={heroRight.color || '#ffffff'}
+            opacity={heroRight.opacity || 0.1}
           />
         </div>
       )
@@ -96,15 +107,27 @@ function HeroRightContent({ heroRight, t }) {
 export default function Hero({ t }) {
   const { personal, buttons } = config
   const hasHeroRight = personal.heroRight && personal.heroRight.type
+  const isWave = hasHeroRight && personal.heroRight.type === 'wave'
 
   return (
-    <section className="px-6 flex items-center justify-center" style={{ height: '100vh' }}>
-      <div className="max-w-7xl w-full mx-auto">
+    <section className="relative px-6 flex items-center justify-center" style={{ height: '100vh' }}>
+      {/* 移动端 Wave 背景 */}
+      {isWave && (
+        <div className="absolute inset-0 opacity-20 lg:hidden">
+          <WaveAnimation
+            width={800}
+            height={800}
+            color={personal.heroRight.color || '#3b82f6'}
+          />
+        </div>
+      )}
+      
+      <div className="relative z-10 max-w-7xl w-full mx-auto">
         <div className={`grid gap-12 items-center ${hasHeroRight ? 'lg:grid-cols-2' : 'grid-cols-1 justify-items-center'}`}>
           
           {/* 左侧内容 */}
           <div className={hasHeroRight ? '' : 'max-w-3xl'}>
-            {/* 主标题 - 前缀小字 + 名字大字（渐变下划线） */}
+            {/* 主标题 - 前缀小字 + 名字大字（打字机效果） */}
             <div className="mb-6">
               <AnimatedText 
                 as="p" 
@@ -113,14 +136,15 @@ export default function Hero({ t }) {
               >
                 {t(personal.titlePrefix)}
               </AnimatedText>
-              <div className="inline-block">
-                <AnimatedText 
-                  as="h1" 
-                  className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-gray-900 dark:text-white" 
-                  style={{ lineHeight: '1.1' }}
-                >
-                  {t(personal.titleName)}
-                </AnimatedText>
+              <div>
+                <div className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-gray-700 dark:text-gray-200 inline-block" style={{ lineHeight: '1.1' }}>
+                  <TypewriterText 
+                    text={t(personal.titleName)}
+                    speed={120}
+                    loop={true}
+                    loopDelay={5000}
+                  />
+                </div>
                 <div className="h-2 mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full animate-gradient-x" />
               </div>
             </div>
@@ -140,21 +164,21 @@ export default function Hero({ t }) {
             
             {/* 个人标签卡片 */}
             {personal.tags && personal.tags.length > 0 && (
-              <div className="mb-10">
-                <div className={`relative p-[2px] rounded-2xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 animate-gradient-x ${hasHeroRight ? 'inline-block' : 'inline-block'}`}>
-                  <div className="bg-white dark:bg-gray-900 rounded-2xl px-6 py-4">
+              <div className="mb-10 select-none">
+                <div className={`inline-block ${hasHeroRight ? '' : ''}`}>
+                  <div className="px-6 py-4">
                     <div className="flex flex-wrap items-center justify-center gap-3">
                       {personal.tags.map((tag, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1.5 text-sm font-medium bg-gradient-to-r from-blue-500/10 to-purple-500/10 dark:from-blue-500/20 dark:to-purple-500/20 rounded-lg text-gray-700 dark:text-gray-200 border border-gray-200/50 dark:border-gray-700/50"
+                          className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-200 rounded-lg shadow-[0_0_10px_rgba(59,130,246,0.3)] dark:shadow-[0_0_10px_rgba(59,130,246,0.2)]"
                         >
                           {t(tag)}
                         </span>
                       ))}
                     </div>
                     {personal.tagDescription && (
-                      <p className="mt-3 pt-3 border-t border-gray-200/50 dark:border-gray-700/50 text-sm text-gray-500 dark:text-gray-400 text-center">
+                      <p className="mt-3 pt-3 text-sm text-gray-500 dark:text-gray-400 text-center">
                         {t(personal.tagDescription)}
                       </p>
                     )}
@@ -164,7 +188,7 @@ export default function Hero({ t }) {
             )}
             
             {/* 行动按钮 */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 select-none">
               <Link to={buttons.primary.href} className="btn btn-primary">
                 {t(buttons.primary.text)}
               </Link>
@@ -174,7 +198,7 @@ export default function Hero({ t }) {
             </div>
           </div>
 
-          {/* 右侧展示区域 */}
+          {/* 右侧展示区域 - 桌面端 */}
           {hasHeroRight && (
             <div className="hidden lg:block">
               <HeroRightContent heroRight={personal.heroRight} t={t} />
