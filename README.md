@@ -10,8 +10,9 @@
 - **构建工具**：Vite
 - **样式方案**：Tailwind CSS v4
 - **路由**：React Router v7
-- **字体**：Geist Pixel + Geist Mono
+- **字体**：Noto Sans SC + Roboto + Fira Code
 - **Markdown**：react-markdown + rehype-highlight + remark-gfm
+- **动画**：自定义 Wave、Dots、Rays 动画组件
 
 ## 快速开始
 
@@ -34,40 +35,51 @@ pnpm run preview
 ```txt
 ├── public/
 │   ├── fonts/                    # 字体文件
-│   ├── favicon.svg               # 网站图标
-│   └── icons.svg                 # 图标集
+│   ├── images/                   # 图片资源
+│   ├── favicon.ico               # 网站图标
+│   └── rss.xml                   # RSS 订阅
 ├── src/
 │   ├── config.js                 # 主站配置文件
 │   ├── blogConfig.js             # 博客配置文件
+│   ├── theme.js                  # 主题颜色配置
 │   ├── index.css                 # 全局样式和主题
 │   ├── App.jsx                   # 路由配置
 │   ├── main.jsx                  # 应用入口
 │   ├── pages/                    # 页面组件
 │   │   ├── HomePage.jsx          # 主页
+│   │   ├── SkillsPage.jsx        # 技能页面
+│   │   ├── ProjectsPage.jsx      # 项目页面
 │   │   ├── BlogPage.jsx          # 博客列表页
-│   │   └── BlogPostPage.jsx      # 博客文章详情页
-│   ├── components/               # 按页面分类的组件
+│   │   ├── BlogPostPage.jsx      # 博客文章详情页
+│   │   ├── ContactPage.jsx       # 联系页面
+│   │   └── NotFoundPage.jsx      # 404 页面
+│   ├── components/               # 组件
+│   │   ├── shared/               # 通用组件
+│   │   │   ├── PageHeader.jsx    # 通用导航栏
+│   │   │   ├── PageFooter.jsx    # 通用页脚
+│   │   │   ├── PageTitle.jsx     # 页面标题
+│   │   │   └── Loading.jsx       # 加载动画
 │   │   ├── HomePage/             # 主页组件
-│   │   │   ├── Header.jsx        # 导航栏
-│   │   │   ├── Hero.jsx          # 个人介绍
+│   │   │   ├── Hero.jsx          # 个人介绍（含打字机效果）
 │   │   │   ├── Skills.jsx        # 技能展示
 │   │   │   ├── Projects.jsx      # 项目展示
+│   │   │   ├── BlogSection.jsx   # 博客精选
 │   │   │   ├── Contact.jsx       # 联系方式
-│   │   │   ├── Footer.jsx        # 页脚
 │   │   │   ├── AnimatedText.jsx  # 动画文字
-│   │   │   └── PageTitle.jsx     # 页面标题
+│   │   │   ├── TypewriterText.jsx # 打字机效果
+│   │   │   ├── WaveAnimation.jsx # 波浪动画
+│   │   │   ├── DotsAnimation.jsx # 点阵动画
+│   │   │   └── RaysAnimation.jsx # 光线动画
 │   │   └── BlogPage/             # 博客组件
-│   │       ├── BlogHeader.jsx    # 博客导航
 │   │       ├── BlogHero.jsx      # 博客标题
+│   │       ├── BlogSearch.jsx    # 博客搜索
 │   │       ├── CategoryFilter.jsx # 分类筛选
 │   │       ├── BlogList.jsx      # 文章列表
 │   │       ├── BlogPost.jsx      # 文章卡片
-│   │       └── BlogFooter.jsx    # 博客页脚
+│   │       └── TableOfContents.jsx # 目录导航
 │   ├── posts/                    # 博客文章（中文）
 │   │   ├── en/                   # 博客文章（英文）
-│   │   ├── 2026-04-25-getting-started-with-react-hooks.md
-│   │   ├── 2026-04-20-building-modern-portfolio.md
-│   │   └── 2026-04-15-my-journey-into-web-development.md
+│   │   └── img/                  # 文章图片
 │   ├── hooks/                    # 自定义 Hooks
 │   │   ├── useTheme.js           # 主题切换
 │   │   └── useLanguage.js        # 语言切换
@@ -84,43 +96,62 @@ pnpm run preview
 const config = {
   site: {
     title: "STYLAN",
-    pageTitle: "STYLAN - Developer Portfolio",
-    favicon: "/favicon.svg",
+    pageTitle: "STYLAN · 主页",
+    favicon: "/favicon.ico",
   },
   personal: {
     name: { en: "STYLAN", zh: "STYLAN" },
     avatar: "👨‍💻",
-    title: { en: "Hi, I'm STYLAN", zh: "你好，我是STYLAN" },
+    titlePrefix: { en: "Hi, I'm", zh: "你好，我是" },
+    titleName: { en: "STYLAN", zh: "STYLAN" },
     bio: { en: "Full-stack developer...", zh: "全栈开发者..." },
+    tags: [
+      { en: "AI Application Developer", zh: "AI 应用开发工程师" },
+      { en: "LLM & RAG Practitioner", zh: "LLM & RAG 实践者" },
+    ],
+    tagDescription: {
+      en: "LangChain · Qwen · Vector Database",
+      zh: "LangChain · 通义千问 · 向量数据库",
+    },
+    heroRight: {
+      type: "wave",  // 'image' | 'svg' | 'code' | 'wave' | 'dots' | 'rays'
+      width: 500,
+      height: 500,
+      color: "#3b82f6",
+    },
   },
   navLinks: [
-    { href: "/blog", label: { en: "Blog", zh: "博客" } },
-    { href: "#skills", label: { en: "Skills", zh: "技能" } },
-    { href: "#projects", label: { en: "Projects", zh: "项目" } },
-    { href: "#contact", label: { en: "Contact", zh: "联系" } },
+    { href: "/skills", label: { en: "skills", zh: "技能" } },
+    { href: "/projects", label: { en: "projects", zh: "项目" } },
+    { href: "/blog", label: { en: "blog", zh: "博客" } },
+    { href: "/contact", label: { en: "contact", zh: "联系" } },
   ],
   // ... 更多配置
 };
 ```
 
-### 博客配置（src/blogConfig.js）
+### 主题配置（src/theme.js）
 
 ```js
-const blogConfig = {
-  page: {
-    title: { en: "Blog", zh: "博客" },
-    subtitle: {
-      en: "Thoughts, tutorials and insights",
-      zh: "想法、教程与见解",
-    },
+const theme = {
+  nav: {
+    brand: { light: 'text-black', dark: 'dark:text-white' },
+    link: { light: 'text-gray-700', dark: 'dark:text-gray-300' },
   },
-  categories: [
-    { id: "all", label: { en: "All", zh: "全部" } },
-    { id: "tech", label: { en: "Technology", zh: "技术" } },
-    { id: "tutorial", label: { en: "Tutorials", zh: "教程" } },
-  ],
+  // ... 更多颜色配置
 };
 ```
+
+## 页面结构
+
+| 页面 | 路由 | 说明 |
+|------|------|------|
+| 主页 | `/` | 个人介绍、技能、项目、博客精选、联系 |
+| 技能 | `/skills` | 技能分类和技术栈展示 |
+| 项目 | `/projects` | 项目作品展示 |
+| 博客 | `/blog` | 博客文章列表，支持搜索和分类筛选 |
+| 联系 | `/contact` | 联系方式和简历下载 |
+| 404 | `*` | 404 错误页面 |
 
 ## 博客系统
 
@@ -135,7 +166,7 @@ const blogConfig = {
 
 ### 文章格式
 
-````markdown
+```markdown
 ---
 title:
   en: "English Title"
@@ -157,15 +188,7 @@ featured: true
 ## 文章正文内容
 
 这里是 Markdown 格式的正文内容...
-
-### 代码块
-
-```javascript
-function hello() {
-  console.log("Hello, World!");
-}
 ```
-````
 
 ### 支持的分类
 
@@ -181,7 +204,6 @@ function hello() {
 - 点击导航栏右侧的太阳/月亮图标切换主题
 - 主题偏好自动保存到 localStorage
 - 首次访问时跟随系统主题
-- 代码块支持 Everforest Dark（深色）/ One Light（浅色）配色
 
 ### 语言切换
 
@@ -189,31 +211,46 @@ function hello() {
 - 语言偏好自动保存到 localStorage
 - 博客文章根据语言自动切换中英文版本
 
+### 动画效果
+
+- **Wave 动画**：使用 Perlin 噪声生成的波浪效果，支持鼠标交互
+- **Dots 动画**：点阵效果，鼠标靠近时点会被推开
+- **Rays 动画**：彩色渐变光线效果
+- **打字机效果**：标题逐字显示，每 5 秒循环
+
 ### 博客功能
 
 - Markdown 渲染（支持 GFM 语法）
-- 代码语法高亮（Dracula 主题）
+- 代码语法高亮
 - Mac 风格代码块
 - 文章分类筛选
+- 博客搜索（Ctrl+K）
 - 响应式布局
 
-## 自定义样式
+## 自定义
 
-编辑 `src/index.css` 修改主题色：
+### 修改颜色
 
-```css
-body {
-  background-color: #ffffff; /* 浅色模式背景 */
-  color: #111827; /* 浅色模式文字 */
-}
+编辑 `src/theme.js` 修改各组件颜色：
 
-.dark body {
-  background-color: #0f172a; /* 深色模式背景 */
-  color: #f1f5f9; /* 深色模式文字 */
-}
+```js
+const theme = {
+  nav: {
+    brand: { light: 'text-black', dark: 'dark:text-white' },
+    // ...
+  },
+  // ...
+};
+```
 
-::selection {
-  background-color: #3b82f6; /* 选中文字高亮色 */
+### 修改 Hero 右侧展示
+
+编辑 `src/config.js` 中的 `heroRight` 配置：
+
+```js
+heroRight: {
+  type: "wave",  // 可选: 'image' | 'svg' | 'code' | 'wave' | 'dots' | 'rays'
+  // 根据 type 设置相应参数
 }
 ```
 
