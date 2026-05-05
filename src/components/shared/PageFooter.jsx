@@ -17,18 +17,19 @@
  */
 
 import config from '../../config'
+import theme from '../../theme'
 
 export default function PageFooter({ t, copyright, showBackToTop = true }) {
   return (
-    <footer className="py-8 px-6 border-t border-gray-200 dark:border-gray-800">
+    <footer className={`py-8 px-6 border-t ${theme.footer.border}`}>
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+        <p className={`text-sm ${theme.footer.text.light} ${theme.footer.text.dark}`}>
           {copyright || config.footer.copyright}
         </p>
         {showBackToTop && (
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+            className={`text-sm transition-colors ${theme.footer.link.light} ${theme.footer.link.dark} ${theme.footer.link.hoverLight} ${theme.footer.link.hoverDark}`}
           >
             {t({ en: 'BACK TO TOP ↑', zh: '返回顶部 ↑' })}
           </button>

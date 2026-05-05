@@ -10,7 +10,7 @@
  *
  * 【组件结构】
  * ┌─────────────────────────────────────┐
- * │  Header (导航栏)                     │
+ * │  PageHeader (导航栏)                 │
  * ├─────────────────────────────────────┤
  * │  Hero (个人介绍)                     │
  * ├─────────────────────────────────────┤
@@ -20,7 +20,7 @@
  * ├─────────────────────────────────────┤
  * │  Contact (联系方式)                  │
  * ├─────────────────────────────────────┤
- * │  Footer (页脚)                       │
+ * │  PageFooter (页脚)                   │
  * └─────────────────────────────────────┘
  *
  * 【自定义提示】
@@ -31,13 +31,14 @@
 
 import { useTheme } from "../hooks/useTheme";
 import { useLanguage } from "../hooks/useLanguage";
-import PageTitle from "../components/HomePage/PageTitle";
-import Header from "../components/HomePage/Header";
+import PageTitle from "../components/shared/PageTitle";
+import PageHeader from "../components/shared/PageHeader";
 import Hero from "../components/HomePage/Hero";
 import Skills from "../components/HomePage/Skills";
 import Projects from "../components/HomePage/Projects";
 import Contact from "../components/HomePage/Contact";
-import Footer from "../components/HomePage/Footer";
+import PageFooter from "../components/shared/PageFooter";
+import config from "../config";
 
 function HomePage() {
   // 获取主题状态和切换函数
@@ -53,7 +54,9 @@ function HomePage() {
       <PageTitle />
 
       {/* 导航栏：传递主题和语言相关 props */}
-      <Header
+      <PageHeader
+        isHome={true}
+        navLinks={config.navLinks}
         isDark={isDark}
         toggleTheme={toggleTheme}
         lang={lang}
@@ -77,7 +80,7 @@ function HomePage() {
       </main>
 
       {/* 页脚 */}
-      <Footer />
+      <PageFooter t={t} showBackToTop={false} />
     </div>
   );
 }

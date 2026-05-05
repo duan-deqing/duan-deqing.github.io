@@ -5,17 +5,17 @@
  *
  * 【功能说明】
  * 1. 可复用的页面导航栏
- * 2. 支持返回主页链接
- * 3. 支持自定义页面标题
- * 4. 支持自定义导航链接
- * 5. 主题切换和语言切换功能
- * 6. 滚动时自动隐藏/显示
- * 7. 响应式设计
+ * 2. 支持首页模式（显示品牌标题和导航链接）
+ * 3. 支持子页面模式（显示返回主页链接和页面标题）
+ * 4. 主题切换和语言切换功能
+ * 5. 滚动时自动隐藏/显示
+ * 6. 响应式设计
  *
  * 【Props】
- * - title: string - 页面标题（显示在左侧）
- * - backToHome: object - 返回主页链接文字 { en, zh }
- * - navLinks: array - 导航链接数组（可选）
+ * - isHome: boolean - 是否为首页模式（默认：false）
+ * - title: string - 页面标题（子页面模式时显示）
+ * - backToHome: object - 返回主页链接文字 { en, zh }（子页面模式时使用）
+ * - navLinks: array - 导航链接数组
  * - isDark: boolean - 当前是否深色模式
  * - toggleTheme: function - 切换主题函数
  * - lang: string - 当前语言
@@ -24,86 +24,123 @@
  * ============================================================================
  */
 
-import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import theme from "../../theme";
 
-export default function PageHeader({ 
-  title, 
-  backToHome, 
+export default function PageHeader({
+  isHome = false,
+  title,
+  backToHome,
   navLinks = [],
-  isDark, 
-  toggleTheme, 
-  lang, 
-  toggleLang, 
-  t 
+  isDark,
+  toggleTheme,
+  lang,
+  toggleLang,
+  t,
 }) {
-  const [isExpanded, setIsExpanded] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  const [isExpanded, setIsExpanded] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY
+      const currentScrollY = window.scrollY;
 
       if (currentScrollY <= 10) {
-        setIsExpanded(true)
-      } else if (currentScrollY > lastScrollY && currentScrollY - lastScrollY > 5) {
-        setIsExpanded(false)
-      } else if (lastScrollY > currentScrollY && lastScrollY - currentScrollY > 5) {
-        setIsExpanded(true)
+        setIsExpanded(true);
+      } else if (
+        currentScrollY > lastScrollY &&
+        currentScrollY - lastScrollY > 5
+      ) {
+        setIsExpanded(false);
+      } else if (
+        lastScrollY > currentScrollY &&
+        lastScrollY - currentScrollY > 5
+      ) {
+        setIsExpanded(true);
       }
 
-      setLastScrollY(currentScrollY)
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
+  // 渲染导航链接
+  const renderNavLink = (link) => {
+    const isAnchor = link.href.startsWith("#");
+
+    if (isAnchor) {
+      return (
+        <a
+          key={link.href}
+          href={link.href}
+          className={`text-sm transition-colors ${theme.nav.link.light} ${theme.nav.link.dark} ${theme.nav.link.hoverLight} ${theme.nav.link.hoverDark}`}
+        >
+          {isHome ? `[ ${t(link.label)} ]` : t(link.label)}
+        </a>
+      );
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY])
+    return (
+      <Link
+        key={link.href}
+        to={link.href}
+        className={`text-sm transition-colors ${theme.nav.link.light} ${theme.nav.link.dark} ${theme.nav.link.hoverLight} ${theme.nav.link.hoverDark}`}
+      >
+        {isHome ? `[ ${t(link.label)} ]` : t(link.label)}
+      </Link>
+    );
+  };
 
   return (
     <header
       style={{
-        transform: isExpanded ? 'translateY(0)' : 'translateY(-100%)',
-        transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+        transform: isExpanded ? "translateY(0)" : "translateY(-100%)",
+        transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
-      className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-white/90 dark:bg-gray-900/90"
+      className={`fixed top-0 left-0 right-0 z-50 ${theme.nav.background}`}
     >
       <div className="h-16 px-6 md:px-10 flex items-center justify-between">
-        {/* 左侧 - 返回主页和页面标题 */}
-        <div className="flex items-center gap-4">
-          <Link
-            to="/"
-            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+        {/* 左侧 - 品牌标题或返回主页 */}
+        {isHome ? (
+          <a
+            href="#"
+            className={`text-lg font-semibold flex-shrink-0 ${theme.nav.brand.light} ${theme.nav.brand.dark}`}
+            style={{ fontFamily: "monospace" }}
           >
-            [<span className="nav-link-text">{t(backToHome)}</span>]
-          </Link>
-          <span className="text-gray-300 dark:text-gray-600">|</span>
-          <span
-            className="text-lg font-semibold text-gray-900 dark:text-white"
-            style={{ fontFamily: '"Geist Pixel", monospace' }}
-          >
-            {title}
-          </span>
-        </div>
+            STYLAN
+          </a>
+        ) : (
+          <div className="flex items-center gap-4">
+            <Link
+              to="/"
+              className={`text-sm transition-colors ${theme.nav.link.light} ${theme.nav.link.dark} ${theme.nav.link.hoverLight} ${theme.nav.link.hoverDark}`}
+            >
+              [<span className="nav-link-text">{t(backToHome)}</span>]
+            </Link>
+            <span className="text-gray-300 dark:text-gray-600">|</span>
+            <span
+              className={`text-lg font-semibold ${theme.nav.brand.light} ${theme.nav.brand.dark}`}
+              style={{ fontFamily: '"Geist Pixel", monospace' }}
+            >
+              {title}
+            </span>
+          </div>
+        )}
 
         {/* 右侧 - 导航链接和切换按钮组 */}
         <div className="flex items-center gap-4">
           {/* 导航链接 */}
           {navLinks.length > 0 && (
             <nav className="hidden md:flex items-center gap-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  to={link.href}
-                  className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-                >
-                  {t(link.label)}
-                </Link>
-              ))}
+              {navLinks.map(renderNavLink)}
             </nav>
           )}
 
           {/* 切换按钮组 */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 ml-2 pl-2 border-l border-gray-200 dark:border-gray-700">
             <button
               onClick={toggleTheme}
               className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-all active:scale-90 relative"
@@ -111,7 +148,7 @@ export default function PageHeader({
             >
               <svg
                 className={`w-5 h-5 text-blue-500 transition-all duration-300 absolute ${
-                  isDark ? 'rotate-0 scale-100' : 'rotate-90 scale-0'
+                  isDark ? "rotate-0 scale-100" : "rotate-90 scale-0"
                 }`}
                 fill="none"
                 viewBox="0 0 24 24"
@@ -126,7 +163,7 @@ export default function PageHeader({
               </svg>
               <svg
                 className={`w-5 h-5 text-blue-500 dark:text-blue-400 transition-all duration-300 absolute ${
-                  isDark ? '-rotate-90 scale-0' : 'rotate-0 scale-100'
+                  isDark ? "-rotate-90 scale-0" : "rotate-0 scale-100"
                 }`}
                 fill="none"
                 viewBox="0 0 24 24"
@@ -148,14 +185,18 @@ export default function PageHeader({
             >
               <span
                 className={`inline-block transition-all duration-300 absolute ${
-                  lang === 'en' ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
+                  lang === "en"
+                    ? "translate-y-0 opacity-100"
+                    : "-translate-y-full opacity-0"
                 }`}
               >
                 中文
               </span>
               <span
                 className={`inline-block transition-all duration-300 absolute ${
-                  lang === 'zh' ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'
+                  lang === "zh"
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-full opacity-0"
                 }`}
               >
                 EN
@@ -165,5 +206,5 @@ export default function PageHeader({
         </div>
       </div>
     </header>
-  )
+  );
 }

@@ -28,6 +28,7 @@
  * ============================================================================
  */
 
+import { Link } from "react-router-dom";
 import config from "../../config";
 
 export default function Contact({ t }) {
@@ -52,7 +53,6 @@ export default function Contact({ t }) {
             {t(contact.title)}
           </h2>
         </div>
-
         {/* 描述文字 */}
         <div className="min-h-[60px] mb-8">
           <p
@@ -62,14 +62,12 @@ export default function Contact({ t }) {
             {t(contact.description)}
           </p>
         </div>
-
-        {/* 邮箱按钮 */}
+        {/* 联系按钮 - 跳转到联系页面 */}
         <div className="flex justify-center">
-          <a href={`mailto:${contact.email}`} className="btn btn-primary">
-            {t(contact.emailButtonText)}
-          </a>
+          <Link to="/contact" className="btn btn-primary">
+            {t({ en: "CONTACT", zh: "联系" })}
+          </Link>
         </div>
-
         {/* 社交链接 */}
         <div className="flex justify-center gap-6 mt-8">
           {socialLinks.map((link) => (

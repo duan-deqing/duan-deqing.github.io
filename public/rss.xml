@@ -5,7 +5,7 @@
     <link>https://duan-deqing.github.io</link>
     <description>Thoughts, tutorials and insights about web development</description>
     <language>zh</language>
-    <lastBuildDate>Tue, 05 May 2026 13:47:05 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 05 May 2026 14:25:19 GMT</lastBuildDate>
     <generator>STYLAN Blog RSS Generator</generator>
     <atom:link href="https://duan-deqing.github.io/rss.xml" rel="self" type="application/rss+xml"/>
     <copyright>© 2026 STYLAN. All rights reserved.</copyright>
@@ -742,8 +742,6 @@ Markdown 支持 1 到 6 级标题，使用 <code>#</code> 号表示，<code>#</c
 直接使用 URL：&lt;a href=&quot;https://bing.com&quot;&gt;https://bing.com&lt;/a&gt;
 </code></pre>
 
-<strong>渲染结果：</strong><ul><li>这是一个 <a href="https://github.com">GitHub</a> 的行内链接。</li></ul><ul><li>这是一个引用链接：请参考 [Markdown 官网][1]。</li></ul><ul><li>[1]: https://daringfireball.net/projects/markdown/(https://daringfireball.net/projects/markdown/)</li></ul><ul><li>直接使用 URL：<a href="https://bing.com">https://bing.com</a></li></ul>
-
 <h3>6. 图片</h3>
 
 图片的语法与链接类似，只是在最前面多了一个感叹号 <code>!</code>。你还可以为图片添加一个鼠标悬停时显示的“标题”。
@@ -814,9 +812,9 @@ Markdown
 
 <pre><code>
 | 左对齐 | 居中对齐 | 右对齐 |
-| :--- | :---: | ---: |
-| 参数 A | <code>string</code> | 必填 |
-| 参数 B | <code>number</code> | 选填 |
+| :----- | :------: | -----: |
+| 参数 A | <code>string</code> |   必填 |
+| 参数 B | <code>number</code> |   选填 |
 </code></pre>
 
 <strong>渲染结果：</strong>
@@ -869,8 +867,10 @@ GitHub 特有的社交与版本控制协作语法。<ul><li><code>@username</co
 !&lt;a href=&quot;https://img.shields.io/badge/license-MIT-blue&quot;&gt;license&lt;/a&gt;
 </code></pre>
 
-<strong>渲染结果：</strong> _(会显示一个蓝色背景，白字的 MIT 协议小徽章标签)_!<a href="https://img.shields.io/badge/license-MIT-blue">license</a>
-<strong>说明</strong>：徽章本质上就是一张在线生成的图片（运用了前面的图片语法)，通过参数改变文字和颜色。
+<strong>渲染结果：</strong> _(会显示一个蓝色背景，白字的 MIT 协议小徽章标签)_
+!<a href="https://img.shields.io/badge/license-MIT-blue">license</a>
+
+<strong>说明</strong>：徽章本质上就是一张在线生成的图片(运用了前面的图片语法)，通过参数改变文字和颜色。
 
 <h3>7. 折叠块（Details）</h3>
 

@@ -344,12 +344,12 @@ body {
   color: #111827;
 }
 
-a:not(.btn) {
-  color: #1d4ed8;
+a:not(.btn):not(header a):not([class*="nav-link"]) {
+  color: #6b7280;
 }
 
-a:not(.btn):hover {
-  color: #1e40af;
+a:not(.btn):not(header a):not([class*="nav-link"]):hover {
+  color: #374151;
 }
 
 /* 深色模式 */

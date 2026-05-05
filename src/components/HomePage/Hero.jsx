@@ -30,6 +30,7 @@
  * ============================================================================
  */
 
+import { Link } from 'react-router-dom'
 import config from '../../config'
 import AnimatedText from './AnimatedText'
 
@@ -65,9 +66,9 @@ export default function Hero({ t }) {
         
         {/* 行动按钮 - 无动画，小屏幕垂直排列 */}
         <div className="flex flex-col sm:flex-row gap-4">
-          <a href={buttons.primary.href} className="btn btn-primary">
+          <Link to={buttons.primary.href} className="btn btn-primary">
             {t(buttons.primary.text)}
-          </a>
+          </Link>
           <a href={buttons.secondary.href} className="btn btn-secondary">
             {t(buttons.secondary.text)}
           </a>
