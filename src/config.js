@@ -58,47 +58,53 @@ const config = {
     // 个人标签卡片（显示在简介上方）
     // 每个标签支持中英文，用 | 分隔不同标签组
     tags: [
-      { en: "AI Application Developer", zh: "AI 应用开发工程师" },
-      { en: "LLM & RAG Practitioner", zh: "LLM & RAG 实践者" },
+      { en: "AI Application Developer", zh: "AI 应用开发" },
+      { en: "LLM & RAG", zh: "LLM & RAG" },
     ],
     // 标签描述（显示在标签下方）
     tagDescription: {
-      en: "LangChain · Qwen · Vector Database",
-      zh: "LangChain · 通义千问 · 向量数据库",
+      en: "LangChain · RAG · LLM",
+      zh: "LangChain · RAG · 大模型",
     },
     // Hero 页面的个人简介
     bio: {
-      en: "Full-stack developer passionate about building beautiful, performant web applications with modern technologies.",
-      zh: "全栈开发者，热衷于使用现代技术构建美观、高性能的 Web 应用。",
+      en: "AI Application Developer focused on LLM deployment & RAG systems. Proficient in LangChain, major LLMs, and vector databases.",
+      zh: "AI 应用开发，专注大语言模型落地与 RAG 系统构建。熟练使用 LangChain、主流模型和向量数据库，能够将前沿技术转化为落地应用。",
     },
     // Hero 右侧展示区域
-    // type: 'image' | 'svg' | 'code' | 'wave' | 'rays'
+    // type: 'image' | 'svg' | 'code' | 'wave' | 'dots' | 'rays'
     heroRight: {
-      // Wave 动画（等高线效果）
+      // Wave 动画
       type: "wave",
       width: 500,
-      height: 400,
-      lines: 30,
-      color: "#3b82f6", // 蓝色
+      height: 500,
+      color: "#3b82f6",
 
       // 示例1: 图片（取消注释使用）
       // type: 'image',
       // src: '/images/hero-illustration.png',
       // alt: { en: 'Hero illustration', zh: '主视觉插图' },
 
-      // 示例2: SVG 动画（取消注释使用）
+      // 示例2: 光线动画（取消注释使用）
+      // type: "rays",
+      // colors: ['#00F8F1', '#FFBD1E', '#FE848F', '#FFBD1E', '#00F8F1'],
+      // opacity: 1,
+      // speed: 0.5,
+
+      // 示例3: 点阵动画（取消注释使用）
+      // type: "dots",
+      // color: "#9ca3af",
+      // radius: 3,
+      // margin: 20,
+
+      // 示例4: SVG 动画（取消注释使用）
       // type: 'svg',
       // content: `<svg>...</svg>`,
 
-      // 示例3: 代码展示（取消注释使用）
+      // 示例5: 代码展示（取消注释使用）
       // type: 'code',
       // code: `console.log('Hello World')`,
       // language: 'javascript',
-
-      // 示例4: Rays 光线动画（取消注释使用）
-      // type: 'rays',
-      // color: '#ffffff',
-      // opacity: 0.1,
     },
   },
 

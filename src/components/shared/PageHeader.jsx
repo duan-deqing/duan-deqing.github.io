@@ -93,7 +93,9 @@ export default function PageHeader({
           onClick={isMobile ? handleLinkClick : undefined}
         >
           {isHome && !isMobile ? (
-            <>[ <span className="nav-link-text">{t(link.label)}</span> ]</>
+            <>
+              [ <span className="nav-link-text">{t(link.label)}</span> ]
+            </>
           ) : (
             t(link.label)
           )}
@@ -109,7 +111,9 @@ export default function PageHeader({
         onClick={isMobile ? handleLinkClick : undefined}
       >
         {isHome && !isMobile ? (
-          <>[ <span className="nav-link-text">{t(link.label)}</span> ]</>
+          <>
+            [ <span className="nav-link-text">{t(link.label)}</span> ]
+          </>
         ) : (
           t(link.label)
         )}
@@ -129,7 +133,7 @@ export default function PageHeader({
         {/* 左侧 - 品牌标题或返回主页 */}
         {isHome ? (
           <a
-            href="#"
+            href="/"
             className={`text-lg font-semibold flex-shrink-0 ${theme.nav.brand.light} ${theme.nav.brand.dark}`}
             style={{ fontFamily: "monospace" }}
           >
@@ -146,7 +150,7 @@ export default function PageHeader({
             <span className="text-gray-300 dark:text-gray-600">|</span>
             <span
               className={`text-lg font-semibold ${theme.nav.brand.light} ${theme.nav.brand.dark}`}
-              style={{ fontFamily: '"Geist Pixel", monospace' }}
+              style={{ fontFamily: "monospace" }}
             >
               {title}
             </span>

@@ -4,14 +4,13 @@
  * ============================================================================
  *
  * 【功能说明】
- * 1. 使用渐变背景和 clip-path 实现光线效果
+ * 1. 使用 clip-path 和渐变背景实现光线效果
  * 2. 光线向右移动
  * 3. 自适应容器大小
  *
  * 【Props】
  * - colors: array - 渐变颜色数组
- * - opacity: number - 透明度（默认 0.1）
- * - angle: number - 渐变角度（默认 50）
+ * - opacity: number - 透明度（默认 0.3）
  * - speed: number - 动画速度（默认 1）
  * ============================================================================
  */
@@ -20,8 +19,7 @@ import { useEffect, useRef } from 'react'
 
 export default function RaysAnimation({ 
   colors = ['#00F8F1', '#FFBD1E', '#FE848F', '#FFBD1E', '#00F8F1'],
-  opacity = 0.1,
-  angle = 50,
+  opacity = 0.3,
   speed = 1
 }) {
   const containerRef = useRef(null)
@@ -30,7 +28,6 @@ export default function RaysAnimation({
     height: 0,
     rays: [],
     rafId: null,
-    offset: 0,
   })
 
   useEffect(() => {
@@ -42,8 +39,9 @@ export default function RaysAnimation({
     // Ray 对象
     class Ray {
       constructor(width, height) {
+        const gap = 12
         this.x = Math.random() * width
-        this.y = Math.floor(Math.random() * ((height / 12) + 1)) * 12
+        this.y = Math.floor(Math.random() * ((height / gap) + 1)) * gap
         this.width = 50 * Math.random()
         this.velocity = (0.25 + this.width / 50) * speed
         this.d = ''
@@ -123,23 +121,17 @@ export default function RaysAnimation({
 
   return (
     <div
-      className="absolute overflow-hidden"
+      className="absolute"
       style={{
         top: '50%',
         left: '50%',
         width: '200vh',
         height: '200vw',
         transform: 'translate3d(-50%, -50%, 0) rotate(-70deg)',
+        backgroundImage: `repeating-linear-gradient(50deg, ${gradientColors})`,
+        opacity,
       }}
-    >
-      <div
-        ref={containerRef}
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `repeating-linear-gradient(${angle}deg, ${gradientColors})`,
-          opacity,
-        }}
-      />
-    </div>
+      ref={containerRef}
+    />
   )
 }

@@ -26,6 +26,8 @@ import config from '../../config'
 import AnimatedText from './AnimatedText'
 import TypewriterText from './TypewriterText'
 import WaveAnimation from './WaveAnimation'
+import DotsAnimation from './DotsAnimation'
+import RaysAnimation from './RaysAnimation'
 
 // 渲染右侧内容
 function HeroRightContent({ heroRight, t }) {
@@ -62,12 +64,24 @@ function HeroRightContent({ heroRight, t }) {
         </div>
       )
 
+    case 'dots':
+      return (
+        <div className="w-full rounded-2xl overflow-hidden bg-white dark:bg-gray-900" style={{ height: '500px' }}>
+          <DotsAnimation
+            color={heroRight.color || '#6b7280'}
+            radius={heroRight.radius || 3}
+            margin={heroRight.margin || 20}
+          />
+        </div>
+      )
+
     case 'rays':
       return (
-        <div className="relative w-full rounded-2xl overflow-hidden border-0 bg-gray-900 dark:bg-gray-800" style={{ height: '500px' }}>
+        <div className="w-full rounded-2xl overflow-hidden" style={{ height: '500px', background: '#093740' }}>
           <RaysAnimation
-            color={heroRight.color || '#ffffff'}
-            opacity={heroRight.opacity || 0.1}
+            colors={heroRight.colors || ['#00F8F1', '#FFBD1E', '#FE848F', '#FFBD1E', '#00F8F1']}
+            opacity={heroRight.opacity || 1}
+            speed={heroRight.speed || 0.5}
           />
         </div>
       )
