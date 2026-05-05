@@ -46,6 +46,7 @@ function SkillsPage() {
       <PageHeader
         title={t({ en: "SKILLS", zh: "技能" })}
         backToHome={{ en: "BACK TO HOME", zh: "返回主页" }}
+        navLinks={config.navLinks}
         isDark={isDark}
         toggleTheme={toggleTheme}
         lang={lang}

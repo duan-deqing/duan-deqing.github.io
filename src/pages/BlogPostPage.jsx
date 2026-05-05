@@ -23,6 +23,7 @@ import { useTheme } from '../hooks/useTheme'
 import { useLanguage } from '../hooks/useLanguage'
 import { getPostBySlug } from '../utils/markdown'
 import blogConfig from '../blogConfig'
+import config from '../config'
 import PageHeader from '../components/shared/PageHeader'
 import PageFooter from '../components/shared/PageFooter'
 import TableOfContents from '../components/BlogPage/TableOfContents'
@@ -125,6 +126,7 @@ function BlogPostPage() {
         <PageHeader
           title={t(blogConfig.page.title)}
           backToHome={blogConfig.page.backToHome}
+          navLinks={config.navLinks}
           isDark={isDark}
           toggleTheme={toggleTheme}
           lang={lang}
@@ -153,6 +155,7 @@ function BlogPostPage() {
         <PageHeader
           title={t(blogConfig.page.title)}
           backToHome={blogConfig.page.backToHome}
+          navLinks={config.navLinks}
           isDark={isDark}
           toggleTheme={toggleTheme}
           lang={lang}
@@ -204,6 +207,7 @@ function BlogPostPage() {
       <PageHeader
         title={t(blogConfig.page.title)}
         backToHome={blogConfig.page.backToHome}
+        navLinks={config.navLinks}
         isDark={isDark}
         toggleTheme={toggleTheme}
         lang={lang}

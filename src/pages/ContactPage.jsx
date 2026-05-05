@@ -97,6 +97,7 @@ function ContactPage() {
       <PageHeader
         title={t(contactPage.title)}
         backToHome={t(contactPage.backToHome)}
+        navLinks={config.navLinks}
         isDark={isDark}
         toggleTheme={toggleTheme}
         lang={lang}

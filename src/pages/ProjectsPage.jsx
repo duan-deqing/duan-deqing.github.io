@@ -41,6 +41,7 @@ function ProjectsPage() {
       <PageHeader
         title={t({ en: "PROJECTS", zh: "项目" })}
         backToHome={{ en: "BACK TO HOME", zh: "返回主页" }}
+        navLinks={config.navLinks}
         isDark={isDark}
         toggleTheme={toggleTheme}
         lang={lang}
