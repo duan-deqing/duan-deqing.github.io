@@ -150,7 +150,7 @@ const config = {
     },
     {
       category: { en: "Backend", zh: "后端" },
-      items: ["Python", "Node.js", "SQLite", "PostgreSQL", "Redis"],
+      items: ["Python", "Node.js", "SQLite"],
     },
     {
       category: { en: "Tools", zh: "工具" },
@@ -181,6 +181,15 @@ const config = {
       },
       tags: ["Python", "LangChain", "Chroma"],
       link: "https://github.com/duan-deqing/langchain_rag_easy_demo",
+    },
+    {
+      title: { en: "AI CRM", zh: "AI CRM" },
+      description: {
+        en: "An AI smart assistant built based on LangGraph and LangChain, integrating RAG to achieve legal consultation, web search, and database query functions.",
+        zh: "基于 LangGraph 和 LangChain 构建的 AI 智能助手，结合 RAG 实现法律咨询、网络搜索和数据库查询功能。",
+      },
+      tags: ["LangChain", "Langgraph", "SQLite", "Tavily"],
+      link: "https://github.com/duan-deqing/AI_CRM",
     },
     {
       title: { en: "<project-title>", zh: "<项目名称>" },
