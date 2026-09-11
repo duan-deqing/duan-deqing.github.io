@@ -42,7 +42,7 @@ const config = {
     keywords:
       "STYLAN, 个人主页, Portfolio, AI, LLM, RAG, LangChain, React, 全栈开发, 博客",
     url: "https://duan-deqing.github.io",
-    ogImage: "/images/1_1_main-page.png",
+    ogImage: "/images/1_1_main-page.jpg",
   },
 
   // ==================== 个人信息 ====================
@@ -72,13 +72,13 @@ const config = {
     ],
     // 标签描述（显示在标签下方）
     tagDescription: {
-      en: "LangChain · RAG · LLM",
-      zh: "LangChain · RAG · 大模型",
+      en: "LangChain · Vector DB · Full-stack",
+      zh: "LangChain · 向量库 · 全栈",
     },
     // Hero 页面的个人简介
     bio: {
-      en: "AI Application Developer focused on LLM deployment & RAG systems. Proficient in LangChain, major LLMs, and vector databases.",
-      zh: "AI 应用开发，专注大语言模型落地与 RAG 系统构建。熟练使用 LangChain、主流模型和向量数据库，能够将前沿技术转化为落地应用。",
+      en: "AI application developer focused on LLM products and RAG systems. I turn models into reliable tools with clear interfaces.",
+      zh: "AI 应用开发，专注大模型产品与 RAG 系统。用清晰的界面，把模型做成可靠的工具。",
     },
     // Hero 右侧展示区域
     // type: 'image' | 'svg' | 'code' | 'wave' | 'dots' | 'rays'
@@ -127,6 +127,15 @@ const config = {
     { href: "/contact", label: { en: "contact", zh: "联系" } },
   ],
 
+  // 首页左轨锚点（Neo Editorial 编号章节）
+  homeSections: [
+    { id: "about", num: "01", label: { en: "About", zh: "关于" } },
+    { id: "work", num: "02", label: { en: "Work", zh: "项目" } },
+    { id: "writing", num: "03", label: { en: "Writing", zh: "文章" } },
+    { id: "skills", num: "04", label: { en: "Skills", zh: "技能" } },
+    { id: "contact", num: "05", label: { en: "Contact", zh: "联系" } },
+  ],
+
   // ==================== 行动按钮 ====================
   // Hero 页面下方的两个按钮
   buttons: {
@@ -151,7 +160,7 @@ const config = {
   skills: [
     {
       category: { en: "AI", zh: "人工智能" },
-      items: ["RAG", "LangChain", "Prompt", "FAISS", "Flask", "FastAPI"],
+      items: ["RAG", "LangChain", "Prompt"],
     },
     {
       category: { en: "Frontend", zh: "前端" },
@@ -159,7 +168,11 @@ const config = {
     },
     {
       category: { en: "Backend", zh: "后端" },
-      items: ["Python", "Node.js", "SQLite"],
+      items: ["Python", "Flask", "FastAPI", "Node.js"],
+    },
+    {
+      category: { en: "Data", zh: "数据" },
+      items: ["SQLite", "FAISS", "Vector DB"],
     },
     {
       category: { en: "Tools", zh: "工具" },
@@ -183,40 +196,31 @@ const config = {
   // link: 项目链接（GitHub 或在线演示）
   projects: [
     {
-      title: { en: "LangChain RAG Project", zh: "LangChain RAG Demo" },
+      title: { en: "ZensheetCV", zh: "ZensheetCV" },
       description: {
-        en: "LangChain + Tongyi Qianwen's RAG question-answering system supports intelligent question answering with local knowledge bases, automatic document refresh, and automatic vector library management.",
-        zh: "LangChain + 通义千问打造的 RAG 问答系统，支持本地知识库智能问答、文档自动刷新与向量库自动管理。",
+        en: "Online Markdown resume editor with live preview — write a clean CV in Markdown and export it anytime.",
+        zh: "在线 Markdown 简历编辑器，支持实时预览，用 Markdown 写出干净利落的简历并随时导出。",
       },
-      tags: ["Python", "LangChain", "Chroma"],
-      link: "https://github.com/duan-deqing/langchain_rag_easy_demo",
+      tags: ["React", "Markdown", "Tailwind CSS"],
+      link: "https://duan-deqing.github.io/zensheetCV/#/",
     },
     {
-      title: { en: "AI CRM", zh: "AI CRM" },
+      title: { en: "ArtVault", zh: "ArtVault" },
       description: {
-        en: "An AI smart assistant built based on LangGraph and LangChain, integrating RAG to achieve legal consultation, web search, and database query functions.",
-        zh: "基于 LangGraph 和 LangChain 构建的 AI 智能助手，结合 RAG 实现法律咨询、网络搜索和数据库查询功能。",
+        en: "A personal art vault for collecting and showcasing works — browse, organize, and present creative pieces in a calm gallery UI.",
+        zh: "个人艺术作品库：收集与展示作品，用克制的画廊界面浏览、整理与呈现创作内容。",
       },
-      tags: ["LangChain", "Langgraph", "SQLite", "Tavily"],
-      link: "https://github.com/duan-deqing/AI_CRM",
-    },
-    {
-      title: { en: "<project-title>", zh: "<项目名称>" },
-      description: {
-        en: "<project-intro>",
-        zh: "<项目简介>",
-      },
-      tags: ["Python", "LangChain", "Chroma"],
-      link: "<project-link>",
+      tags: ["React", "Vite", "Tailwind CSS"],
+      link: "https://stylan-artvault.vercel.app/",
     },
   ],
 
   // ==================== 联系区块 ====================
   contact: {
-    title: { en: "Get in Touch", zh: "联系我" },
+    title: { en: "Get in touch", zh: "联系我" },
     description: {
-      en: "I am always open to new opportunities and look forward to hearing from you. Any ideas for collaboration are welcome.",
-      zh: "持续拥抱新机遇，期待你的消息，任何合作想法都欢迎。",
+      en: "Open to new opportunities and collaborations. Drop a line anytime.",
+      zh: "持续拥抱新机会，欢迎随时联系，聊聊合作或想法。",
     },
     // 邮箱地址
     email: "duan-deqing@foxmail.com",
@@ -263,7 +267,7 @@ const config = {
         qrcode: "/images/wechat-qrcode.png",
       },
     ],
-    image: "/images/contact-illustration.png",
+    image: "/images/contact-illustration.jpg",
   },
 
   // ==================== 社交链接 ====================

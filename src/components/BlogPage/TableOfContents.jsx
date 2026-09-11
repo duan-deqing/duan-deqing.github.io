@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 
 /**
  * 从 markdown 内容中提取 h2-h4 标题
@@ -47,7 +47,7 @@ function generateId(text) {
  * 桌面端固定在左侧，移动端隐藏
  */
 export default function TableOfContents({ content, onItemClick }) {
-  const [headings] = useState(() => extractHeadings(content))
+  const headings = useMemo(() => extractHeadings(content), [content])
   const [activeId, setActiveId] = useState('')
 
   // 使用 IntersectionObserver 监听标题元素

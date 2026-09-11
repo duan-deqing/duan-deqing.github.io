@@ -5,7 +5,7 @@
     <link>https://duan-deqing.github.io</link>
     <description>STYLAN 的技术博客：AI、LLM、RAG、前端与工程实践相关文章。</description>
     <language>zh</language>
-    <lastBuildDate>Fri, 11 Sep 2026 10:31:51 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 11 Sep 2026 17:17:30 GMT</lastBuildDate>
     <generator>STYLAN Blog RSS Generator</generator>
     <atom:link href="https://duan-deqing.github.io/rss.xml" rel="self" type="application/rss+xml"/>
     <copyright>© 2026 STYLAN. All rights reserved.</copyright>
@@ -47,7 +47,7 @@ Vim 有两种主要的模式：命令模式和插入模式。<ul><li>命令模�
 
 <h2>其他常用命令</h2><ul><li><code>:set number</code>：显示行号。</li></ul><ul><li><code>:set nonumber</code>：隐藏行号。</li></ul><ul><li><code>:find filename</code>：查找并打开名为 filename 的文件。</li></ul><ul><li><code>:help</code>：获取帮助文档。</li></ul>]]></content:encoded>
       <pubDate>Fri, 08 May 2026 00:00:00 GMT</pubDate>
-      <category>Tutorials</category>
+      <category>tutorial</category>
       <author>duan-deqing@foxmail.com (STYLAN)</author>
     </item>
   
@@ -83,7 +83,7 @@ Save and exit in command mode:<ul><li><code>:w</code> : Save the file.</li></ul
 
 <h2>Other commonly used commands</h2><ul><li><code>:set number</code> : Displays line numbers.</li></ul><ul><li><code>:set nonumber</code> : Hides line numbers.</li></ul><ul><li><code>:find filename</code> : Finds and opens the file named filename.</li></ul><ul><li><code>:help</code> : Get help documentation.</li></ul>]]></content:encoded>
       <pubDate>Fri, 08 May 2026 00:00:00 GMT</pubDate>
-      <category>Tutorials</category>
+      <category>tutorial</category>
       <author>duan-deqing@foxmail.com (STYLAN)</author>
     </item>
   

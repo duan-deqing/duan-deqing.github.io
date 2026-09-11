@@ -1,85 +1,65 @@
 /**
- * ============================================================================
- *  Projects.jsx - 项目作品展示区块
- * ============================================================================
- * 
- * 【功能说明】
- * 1. 展示个人项目作品集
- * 2. 固定高度卡片，图标和标题水平排列
- * 3. 悬浮时边框变亮
- * 4. 支持响应式布局（移动端单列，平板2列，桌面3列）
- * 
- * 【布局结构】
- * ┌─────────────────────────────────────┐
- * │         Featured Projects           │
- * ├─────────────┬───────────────────────┤
- * │ [图标] 标题 │ [图标] 标题           │
- * │ 描述文字... │ 描述文字...           │
- * │ [标签] [标签]│ [标签] [标签]         │
- * └─────────────┴───────────────────────┘
- * 
- * 【Props】
- * - t: function - 翻译函数
- * 
- * 【自定义提示】
- * - 修改项目列表: 在 config.js 中修改 projects 数组
- * - 修改卡片高度: 更改 style 中的 height 值
- * ============================================================================
+ * Projects — 02 精选项目
  */
 
 import config from '../../config'
+import SectionKicker from '../shared/SectionKicker'
+import ArrowIcon from '../shared/ArrowIcon'
+import TransitionLink from '../shared/TransitionLink'
 
 export default function Projects({ t }) {
+  const projects = (config.projects || []).filter(
+    (project) => !String(project.title?.en || '').includes('<')
+  )
+
   return (
-    <section id="projects" className="py-20 px-6">
-      <div style={{ maxWidth: '64rem', margin: '0 auto' }}>
-        
-        {/* 区块标题 */}
-        <div className="min-h-[48px] mb-12">
-          <h2 className="text-3xl font-bold text-center text-gray-900 dark:text-white" style={{ lineHeight: '1.3' }}>
-            {t(config.projectsSection.title)}
+    <section className="py-14 sm:py-16 border-t border-line">
+      <div className="section-inner">
+        <SectionKicker num="02" en="SELECTED WORK" zh="精选项目" t={t} id="work" />
+
+        <div className="mb-8 sm:mb-10 flex flex-wrap items-end justify-between gap-4">
+          <h2 className="font-display text-[1.75rem] sm:text-[2.25rem] lg:text-[2.75rem] font-semibold text-ink tracking-[-0.02em] leading-[1.15]">
+            {t(config.projectsSection?.title) ||
+              t({ en: 'Featured projects', zh: '精选项目' })}
           </h2>
+          <TransitionLink
+            to="/projects"
+            className="font-mono-ui text-[11px] tracking-[0.1em] uppercase text-muted hover:text-accent transition-colors inline-flex items-center gap-1.5"
+          >
+            {t({ en: 'All projects', zh: '全部项目' })}
+            <ArrowIcon direction="right" size={12} />
+          </TransitionLink>
         </div>
-        
-        {/* 项目卡片网格 */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {config.projects.map((project, index) => (
-            <a 
-              key={index} 
+
+        <div className="border-t border-line row-link-list">
+          {projects.map((project, index) => (
+            <a
+              key={index}
               href={project.link}
-              className="group p-6 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-[0_0_15px_rgba(139,92,246,0.3)] dark:hover:shadow-[0_0_15px_rgba(139,92,246,0.2)] hover:border-purple-300 dark:hover:border-purple-700 transition-all duration-300 flex flex-col"
-              style={{ height: '280px' }}
+              target={project.link?.startsWith('http') ? '_blank' : undefined}
+              rel={project.link?.startsWith('http') ? 'noopener noreferrer' : undefined}
+              className="row-link"
             >
-              {/* 图标和标题 - 水平排列 */}
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-blue-50 dark:bg-blue-900/30 group-hover:scale-110 transition-transform flex-shrink-0">
-                  <svg className="w-5 h-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white" style={{ lineHeight: '1.4' }}>
-                  {t(project.title)}
-                </h3>
-              </div>
-              
-              {/* 项目描述 - 自动填充剩余空间 */}
-              <div className="flex-grow mb-4">
-                <p className="text-sm text-gray-500 dark:text-gray-400" style={{ lineHeight: '1.7' }}>
+              <span className="row-num">{String(index + 1).padStart(2, '0')}</span>
+              <span>
+                <span className="row-title block">{t(project.title)}</span>
+                <span className="block mt-2.5 text-sm text-muted max-w-3xl leading-[1.7]">
                   {t(project.description)}
-                </p>
-              </div>
-              
-              {/* 技术标签 - 固定在底部 */}
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span 
-                    key={tag} 
-                    className="text-xs px-2 py-1 rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+                </span>
+                <span className="mt-3.5 flex flex-wrap gap-1.5">
+                  {(project.tags || []).map((tag) => (
+                    <span
+                      key={tag}
+                      className="font-mono-ui text-[10px] uppercase tracking-[0.06em] px-2 py-0.5 rounded-sm border border-line text-muted"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </span>
+              </span>
+              <span className="row-meta inline-flex items-center justify-end">
+                <ArrowIcon direction="up-right" size={16} />
+              </span>
             </a>
           ))}
         </div>

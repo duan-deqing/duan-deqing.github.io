@@ -28,7 +28,7 @@
     <meta property="og:url" content="https://duan-deqing.github.io/" />
     <meta
       property="og:image"
-      content="https://duan-deqing.github.io/images/1_1_main-page.png"
+      content="https://duan-deqing.github.io/images/1_1_main-page.jpg"
     />
     <meta property="og:locale" content="zh_CN" />
 
@@ -41,8 +41,22 @@
     />
     <meta
       name="twitter:image"
-      content="https://duan-deqing.github.io/images/1_1_main-page.png"
+      content="https://duan-deqing.github.io/images/1_1_main-page.jpg"
     />
+    <script>
+      // 首屏防主题闪烁
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          var dark =
+            t === 'dark' ||
+            (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) document.documentElement.classList.add('dark');
+          var l = localStorage.getItem('lang');
+          if (l === 'zh') document.documentElement.lang = 'zh-CN';
+        } catch (e) {}
+      })();
+    </script>
     <script>
       // 处理 GitHub Pages SPA 路由重定向
       // https://github.com/rafgraph/spa-github-pages

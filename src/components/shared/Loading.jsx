@@ -1,28 +1,18 @@
 /**
- * ============================================================================
- *  Loading.jsx - 加载动画组件
- * ============================================================================
- *
- * 【功能说明】
- * 1. 全屏加载动画，与主页设计风格一致
- * 2. 支持深色/浅色模式
- * 3. 只显示品牌标识和进度条
- * 4. 进度条完成后调用 onComplete 回调
- *
- * 【Props】
- * - fullScreen: boolean - 是否全屏显示（默认：true）
- * - onComplete: function - 加载完成后的回调函数
- * ============================================================================
+ * Loading — Neo Editorial 首屏
+ * 进度走完且首页资源就绪后由父级卸载；leaving 时淡出
  */
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
-export default function Loading({ fullScreen = true, onComplete }) {
+export default function Loading({ fullScreen = true, onComplete, leaving = false }) {
   const [progress, setProgress] = useState(0)
+  const firedRef = useRef(false)
 
   useEffect(() => {
     const startTime = Date.now()
-    const duration = 500
+    const duration = 320
+    let raf = 0
 
     const animate = () => {
       const elapsed = Date.now() - startTime
@@ -30,39 +20,36 @@ export default function Loading({ fullScreen = true, onComplete }) {
       setProgress(newProgress)
 
       if (newProgress < 100) {
-        requestAnimationFrame(animate)
-      } else if (onComplete) {
-        onComplete()
+        raf = requestAnimationFrame(animate)
+      } else if (!firedRef.current) {
+        firedRef.current = true
+        onComplete?.()
       }
     }
 
-    requestAnimationFrame(animate)
+    raf = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(raf)
   }, [onComplete])
 
   return (
     <div
-      className={`flex items-center justify-center bg-white dark:bg-gray-900 transition-colors ${
+      className={`loading-screen ${leaving ? 'is-leaving' : ''} ${
         fullScreen ? 'min-h-screen' : 'min-h-[400px]'
       }`}
     >
       <div className="text-center px-6">
-        {/* 品牌标识 */}
-        <h1
-          className="text-2xl font-semibold text-black dark:text-white mb-8"
-          style={{ fontFamily: '"Noto Sans SC", "Noto Sans", sans-serif' }}
-        >
+        <p className="font-display text-2xl font-semibold text-ink tracking-tight mb-8">
           STYLAN
-        </h1>
-
-        {/* 进度条 */}
-        <div className="w-48 mx-auto">
-          <div className="h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-blue-600 dark:bg-blue-500 rounded-full transition-none"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
+        </p>
+        <div className="w-40 mx-auto h-px overflow-hidden" style={{ background: 'var(--line)' }}>
+          <div
+            className="h-full"
+            style={{ width: `${progress}%`, background: 'var(--accent)' }}
+          />
         </div>
+        <p className="mt-4 font-mono-ui text-[10px] tracking-[0.14em] uppercase text-muted">
+          {Math.round(progress)}%
+        </p>
       </div>
     </div>
   )

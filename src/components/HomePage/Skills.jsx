@@ -1,83 +1,56 @@
 /**
- * ============================================================================
- *  Skills.jsx - 技能展示区块
- * ============================================================================
- *
- * 【功能说明】
- * 1. 按分类展示技术栈
- * 2. 以卡片形式呈现
- * 3. 支持响应式布局（移动端单列，桌面端三列）
- *
- * 【布局结构】
- * ┌─────────────────────────────────────┐
- * │       Skills & Technologies         │
- * ├───────────┬───────────┬─────────────┤
- * │ Frontend  │ Backend   │ Tools       │
- * │ [React]   │ [Node.js] │ [Git]       │
- * │ [Vue]     │ [Python]  │ [Docker]    │
- * └───────────┴───────────┴─────────────┘
- *
- * 【Props】
- * - t: function - 翻译函数
- *
- * 【自定义提示】
- * - 修改技能列表: 在 config.js 中修改 skills 数组
- * - 修改列数: 更改 grid 的 md:grid-cols-3
- * ============================================================================
+ * Skills — 04 技能摘要（与 /skills 子页卡片一致）
  */
 
-import config from "../../config";
+import { Link } from 'react-router-dom'
+import config from '../../config'
+import SectionKicker from '../shared/SectionKicker'
+import ArrowIcon from '../shared/ArrowIcon'
 
 export default function Skills({ t }) {
+  const skills = config.skills || []
+
   return (
-    // 浅灰色背景，与 Hero 区块区分
-    <section
-      id="skills"
-      className="py-20 px-6 bg-gray-50 dark:bg-gray-800/50 min-h-[400px]"
-    >
-      <div style={{ maxWidth: "64rem", margin: "0 auto" }}>
-        {/* 区块标题 */}
-        <div className="min-h-[48px] mb-12">
-          <h2
-            className="text-3xl font-bold text-center text-gray-900 dark:text-white"
-            style={{ lineHeight: "1.3" }}
-          >
-            {t(config.skillsSection.title)}
+    <section className="py-14 sm:py-16 border-t border-line">
+      <div className="section-inner">
+        <SectionKicker num="04" en="SKILLS" zh="技能" t={t} id="skills" />
+
+        <div className="mb-8 sm:mb-10 flex flex-wrap items-end justify-between gap-4">
+          <h2 className="font-display text-[1.75rem] sm:text-[2.25rem] lg:text-[2.75rem] font-semibold text-ink tracking-[-0.02em] leading-[1.15]">
+            {t({ en: 'Skills & Technologies', zh: '技能与技术' })}
           </h2>
+          <Link
+            to="/skills"
+            className="font-mono-ui text-[11px] tracking-[0.1em] uppercase text-muted hover:text-accent transition-colors inline-flex items-center gap-1.5"
+          >
+            {t({ en: 'Details', zh: '详情' })}
+            <ArrowIcon direction="right" size={12} />
+          </Link>
         </div>
 
-        {/* 技能卡片网格 */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {config.skills.map((skill, index) => (
-            <div
-              key={index}
-              className="group p-6 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] dark:hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] hover:border-blue-300 dark:hover:border-blue-700 transition-all duration-300 min-h-[160px]"
-            >
-              {/* 分类名称 */}
-              <div className="min-h-[32px] mb-4">
-                <h3
-                  className="text-lg font-semibold text-blue-500"
-                  style={{ lineHeight: "1.4" }}
-                >
-                  {t(skill.category)}
-                </h3>
-              </div>
-
-              {/* 技能标签列表 */}
-              <div className="flex flex-wrap gap-2">
-                {skill.items.map((item) => (
-                  <span
+        <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
+          {skills.map((group) => (
+            <div key={t(group.category)} className="soft-card p-6 sm:p-7">
+              <p
+                className="font-mono-ui text-[11px] tracking-[0.12em] uppercase mb-5"
+                style={{ color: 'var(--accent)' }}
+              >
+                {t(group.category)}
+              </p>
+              <ul className="space-y-2.5">
+                {(group.items || []).map((item) => (
+                  <li
                     key={item}
-                    className="px-3 py-1.5 text-sm rounded-md bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+                    className="font-display text-[15px] sm:text-base text-ink border-b border-line pb-2.5 last:border-0 last:pb-0 tracking-tight"
                   >
                     {item}
-                  </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           ))}
         </div>
       </div>
     </section>
-  );
+  )
 }

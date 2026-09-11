@@ -5,7 +5,7 @@
 - **线上地址**：https://duan-deqing.github.io
 - **当前版本**：1.5.4
 
-![主页图片](./public/images/1_1_main-page.png)
+![主页图片](./public/images/1_1_main-page.jpg)
 
 ## 技术栈
 

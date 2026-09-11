@@ -1,50 +1,44 @@
 /**
- * ============================================================================
- *  NotFoundPage.jsx - 404页面
- * ============================================================================
- *
- * 【功能说明】
- * 1. 显示404错误信息
- * 2. 提供返回首页的链接
- * ============================================================================
+ * NotFoundPage
  */
 
 import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
-import { useTheme } from '../hooks/useTheme'
-import WaveAnimation from '../components/HomePage/WaveAnimation'
 import PageTitle from '../components/shared/PageTitle'
+import ArrowIcon from '../components/shared/ArrowIcon'
 
 function NotFoundPage() {
   const navigate = useNavigate()
-  const { t } = useLanguage()
-  const { isDark } = useTheme()
+  const { t, lang } = useLanguage()
 
   return (
-    <div className="relative min-h-screen bg-white dark:bg-gray-900 transition-colors flex items-center justify-center overflow-hidden">
-      <PageTitle title="STYLAN · Not Found" t={t} />
-      {/* Wave 动画背景 */}
-      <div className="absolute inset-0 opacity-20">
-        <WaveAnimation color={isDark ? '#f87171' : '#ef4444'} />
-      </div>
-      <div className="relative z-10 text-center px-6">
+    <div className="relative min-h-screen bg-page flex items-center justify-center overflow-hidden">
+      <PageTitle title="STYLAN · Not Found" t={t} lang={lang} />
+      <div className="absolute inset-0 bg-grid" aria-hidden />
+      <div className="relative z-10 text-center px-6 max-w-lg">
+        <p className="font-mono-ui text-xs tracking-[0.14em] uppercase mb-6" style={{ color: 'var(--accent)' }}>
+          ERROR
+        </p>
         <h1
-          className="text-8xl font-bold text-blue-500 mb-4"
-          style={{ fontFamily: 'var(--font-heading)' }}
+          className="font-display font-bold text-ink mb-4 leading-none"
+          style={{ fontSize: 'clamp(5rem, 20vw, 8rem)' }}
         >
           404
         </h1>
-        <h2 className="text-2xl font-medium text-gray-900 dark:text-white mb-2">
-          {t({ en: 'Page Not Found', zh: '页面未找到' })}
+        <h2 className="font-display text-2xl font-semibold text-ink mb-3">
+          {t({ en: 'Page not found', zh: '页面未找到' })}
         </h2>
-        <p className="text-gray-500 dark:text-gray-400 mb-8">
-          {t({ en: 'The page you are looking for does not exist or has been moved.', zh: '您访问的页面不存在或已被移动' })}
+        <p className="text-muted mb-10">
+          {t({
+            en: 'The page you are looking for does not exist or has been moved.',
+            zh: '您访问的页面不存在或已被移动。',
+          })}
         </p>
-        <button
-          onClick={() => navigate('/')}
-          className="btn btn-primary"
-        >
-          {t({ en: 'BACK TO HOME', zh: '返回首页' })}
+        <button onClick={() => navigate('/')} className="btn btn-primary">
+          <span className="btn-label">{t({ en: 'Back to home', zh: '返回首页' })}</span>
+          <span className="btn-arrow">
+            <ArrowIcon direction="right" size={15} />
+          </span>
         </button>
       </div>
     </div>

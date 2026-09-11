@@ -1,0 +1,13 @@
+.dither-container {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.dither-container canvas {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+}

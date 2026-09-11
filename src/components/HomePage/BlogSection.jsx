@@ -1,92 +1,57 @@
 /**
- * ============================================================================
- *  BlogSection.jsx - 主页博客区块组件
- * ============================================================================
- *
- * 【功能说明】
- * 1. 展示精选博客文章
- * 2. 点击跳转到对应博客文章
- * 3. 支持深色/浅色模式
- *
- * 【Props】
- * - posts: array - 文章列表
- * - t: function - 翻译函数
- * ============================================================================
+ * BlogSection — 03 最新文章
  */
 
 import { Link } from 'react-router-dom'
+import SectionKicker from '../shared/SectionKicker'
+import ArrowIcon from '../shared/ArrowIcon'
+
+function formatDate(dateString, t) {
+  if (!dateString) return ''
+  return new Date(dateString).toLocaleDateString(t({ en: 'en-CA', zh: 'zh-CN' }), {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
+}
 
 export default function BlogSection({ posts, t }) {
-  // 格式化日期
-  const formatDate = (dateString) => {
-    const date = new Date(dateString)
-    const options = { year: 'numeric', month: 'short', day: 'numeric' }
-    return date.toLocaleDateString(t({ en: 'en-US', zh: 'zh-CN' }), options)
-  }
-
-  // 获取精选文章或最新文章（最多3篇）
-  const featuredPosts = posts
-    .filter(post => post.featured)
-    .slice(0, 3)
-  
-  const displayPosts = featuredPosts.length >= 3 
-    ? featuredPosts 
-    : posts.slice(0, 3)
-
-  if (displayPosts.length === 0) return null
+  const display = (posts || []).slice(0, 3)
+  if (display.length === 0) return null
 
   return (
-    <section className="py-20 px-6 bg-gray-50 dark:bg-gray-800/50">
-      <div className="max-w-6xl mx-auto">
-        {/* 区块标题 */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            {t({ en: 'Latest Posts', zh: '最新文章' })}
+    <section className="py-14 sm:py-16 border-t border-line">
+      <div className="section-inner">
+        <SectionKicker num="03" en="WRITING" zh="文章" t={t} id="writing" />
+
+        <div className="mb-8 sm:mb-10 flex flex-wrap items-end justify-between gap-4">
+          <h2 className="font-display text-[1.75rem] sm:text-[2.25rem] lg:text-[2.75rem] font-semibold text-ink tracking-[-0.02em] leading-[1.15]">
+            {t({ en: 'Latest writing', zh: '最新文章' })}
           </h2>
-          <p className="text-gray-500 dark:text-gray-400">
-            {t({ en: 'Check out my recent articles', zh: '查看我最近的文章' })}
-          </p>
-        </div>
-
-        {/* 文章卡片网格 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayPosts.map((post) => (
-            <Link
-              key={post.slug}
-              to={`/blog/${post.slug}`}
-              className="group bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 hover:shadow-[0_0_15px_rgba(234,88,12,0.3)] dark:hover:shadow-[0_0_15px_rgba(234,88,12,0.2)] hover:border-orange-300 dark:hover:border-orange-700 transition-all duration-300"
-            >
-              {/* 分类和日期 */}
-              <div className="flex items-center gap-3 mb-4">
-                <span className="px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
-                  {post.category}
-                </span>
-                <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {formatDate(post.date)}
-                </span>
-              </div>
-
-              {/* 标题 */}
-              <h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
-                {t(post.title)}
-              </h3>
-
-              {/* 摘要 */}
-              <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
-                {t(post.excerpt)}
-              </p>
-            </Link>
-          ))}
-        </div>
-
-        {/* 查看全部按钮 */}
-        <div className="text-center mt-10">
           <Link
             to="/blog"
-            className="btn btn-secondary"
+            className="font-mono-ui text-[11px] tracking-[0.1em] uppercase text-muted hover:text-accent transition-colors inline-flex items-center gap-1.5"
           >
-            {t({ en: 'VIEW ALL POSTS', zh: '查看全部文章' })}
+            {t({ en: 'All posts', zh: '全部文章' })}
+            <ArrowIcon direction="right" size={12} />
           </Link>
+        </div>
+
+        <div className="border-t border-line row-link-list">
+          {display.map((post, index) => (
+            <Link key={post.slug} to={`/blog/${post.slug}`} className="row-link">
+              <span className="row-num">{String(index + 1).padStart(2, '0')}</span>
+              <span>
+                <span className="row-title block">{t(post.title)}</span>
+                <span className="block mt-2.5 text-sm text-muted line-clamp-2 max-w-3xl leading-[1.7]">
+                  {t(post.excerpt)}
+                </span>
+              </span>
+              <span className="row-meta whitespace-nowrap">
+                {formatDate(post.date, t)}
+              </span>
+            </Link>
+          ))}
         </div>
       </div>
     </section>

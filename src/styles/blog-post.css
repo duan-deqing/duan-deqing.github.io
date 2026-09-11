@@ -304,28 +304,23 @@ pre code {
 
 .toc-link {
   display: block;
-  padding: 6px 0;
+  padding: 6px 0 6px 12px;
   font-size: 13px;
   font-weight: 500;
-  color: #9ca3af;
+  color: var(--ink-muted);
   text-decoration: none;
   border-left: 2px solid transparent;
-  padding-left: 12px;
   transition: all 0.15s ease;
   line-height: 1.5;
 }
 
-.dark .toc-link {
-  color: #6b7280;
-}
-
 .toc-link:hover {
-  color: #3b82f6;
+  color: var(--accent);
 }
 
 .toc-active {
-  color: #3b82f6;
-  border-left-color: #3b82f6;
+  color: var(--accent);
+  border-left-color: var(--accent);
   position: relative;
 }
 
@@ -337,7 +332,7 @@ pre code {
   transform: translateY(-50%);
   width: 4px;
   height: 4px;
-  background-color: #3b82f6;
+  background-color: var(--accent);
   border-radius: 50%;
 }
 

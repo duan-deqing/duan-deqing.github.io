@@ -1,167 +1,226 @@
 /**
- * ============================================================================
- *  BlogSearch.jsx - 博客搜索组件
- * ============================================================================
- *
- * 【功能说明】
- * 1. 全屏搜索界面
- * 2. 搜索框在屏幕中间偏上位置
- * 3. 前面有 ">" 符号提示输入位置
- * 4. 输入框只保留底部边界
- * 5. 根据输入内容显示搜索结果
- * 6. 点击结果跳转到对应博客
- *
- * 【Props】
- * - isOpen: boolean - 是否显示搜索界面
- * - onClose: function - 关闭搜索界面
- * - posts: array - 文章列表
- * - t: function - 翻译函数
- * - isDark: boolean - 是否深色模式
- * ============================================================================
+ * BlogSearch — 弹出窗口：顶部输入 + 下方结果（覆盖在博客页之上）
  */
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import theme from '../../theme'
+import blogConfig from '../../blogConfig'
+import ArrowIcon from '../shared/ArrowIcon'
 
-export default function BlogSearch({ isOpen, onClose, posts, t, isDark }) {
+function categoryLabel(id, t) {
+  const cat = blogConfig.categories.find((c) => c.id === id)
+  return cat ? t(cat.label) : id
+}
+
+function formatDate(dateString, t) {
+  if (!dateString) return ''
+  return new Date(dateString).toLocaleDateString(t({ en: 'en-CA', zh: 'zh-CN' }), {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
+}
+
+export default function BlogSearch({ isOpen, onClose, posts, t }) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
+  const [activeIndex, setActiveIndex] = useState(0)
   const inputRef = useRef(null)
+  const listRef = useRef(null)
   const navigate = useNavigate()
 
-  // 打开时自动聚焦输入框
   useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus()
-    }
-    // 关闭时清空搜索
     if (!isOpen) {
       setQuery('')
       setResults([])
-    }
-  }, [isOpen])
-
-  // 搜索逻辑
-  useEffect(() => {
-    if (!query.trim()) {
-      setResults([])
+      setActiveIndex(0)
       return
     }
+    const id = requestAnimationFrame(() => inputRef.current?.focus())
+    return () => cancelAnimationFrame(id)
+  }, [isOpen])
 
-    const searchTerm = query.toLowerCase()
-    const filtered = posts.filter(post => {
-      const title = t(post.title).toLowerCase()
-      const excerpt = t(post.excerpt).toLowerCase()
-      const tags = post.tags.join(' ').toLowerCase()
-      const category = post.category.toLowerCase()
-
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults(posts || [])
+      setActiveIndex(0)
+      return
+    }
+    const term = query.trim().toLowerCase()
+    const filtered = (posts || []).filter((post) => {
+      const title = String(t(post.title) || '').toLowerCase()
+      const excerpt = String(t(post.excerpt) || '').toLowerCase()
+      const tags = (post.tags || []).join(' ').toLowerCase()
+      const category = String(post.category || '').toLowerCase()
       return (
-        title.includes(searchTerm) ||
-        excerpt.includes(searchTerm) ||
-        tags.includes(searchTerm) ||
-        category.includes(searchTerm)
+        title.includes(term) ||
+        excerpt.includes(term) ||
+        tags.includes(term) ||
+        category.includes(term)
       )
     })
-
     setResults(filtered)
+    setActiveIndex(0)
   }, [query, posts, t])
 
-  // 处理键盘事件
-  const handleKeyDown = (e) => {
-    if (e.key === 'Escape') {
+  const openPost = useCallback(
+    (post) => {
+      if (!post) return
       onClose()
-    }
-  }
+      navigate(`/blog/${post.slug}`)
+    },
+    [navigate, onClose]
+  )
 
-  // 点击结果跳转
-  const handleResultClick = (slug) => {
-    onClose()
-    navigate(`/blog/${slug}`)
-  }
+  useEffect(() => {
+    if (!isOpen) return
+    const el = listRef.current?.querySelector(`[data-index="${activeIndex}"]`)
+    el?.scrollIntoView({ block: 'nearest' })
+  }, [activeIndex, isOpen])
+
+  useEffect(() => {
+    if (!isOpen) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [isOpen])
 
   if (!isOpen) return null
 
   return (
     <div
-      className={`fixed inset-0 z-50 ${theme.background.page} transition-colors`}
-      onKeyDown={handleKeyDown}
+      className="fixed inset-0 z-[60] flex items-start justify-center px-4 pt-[8vh] sm:pt-[12vh] pb-8"
+      role="dialog"
+      aria-modal="true"
+      aria-label={t({ en: 'Search posts', zh: '搜索文章' })}
     >
-      {/* 关闭按钮 */}
+      {/* 遮罩 */}
       <button
+        type="button"
+        className="absolute inset-0 cursor-default search-backdrop"
+        aria-label={t({ en: 'Close search', zh: '关闭搜索' })}
         onClick={onClose}
-        className={`absolute top-6 right-6 p-2 ${theme.body.muted.light} ${theme.body.muted.dark} ${theme.link.default.hoverLight} ${theme.link.default.hoverDark} transition-colors`}
-        aria-label="Close search"
-      >
-        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+      />
 
-      {/* 搜索区域 - 屏幕中间偏上 */}
-      <div className="flex flex-col items-center" style={{ marginTop: '20vh' }}>
-        {/* 搜索输入框 */}
-        <div className="w-full max-w-2xl px-6">
-          <input
-            ref={inputRef}
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={t({ en: 'Search posts...', zh: '搜索文章...' })}
-            className={`w-full text-2xl py-3 bg-transparent outline-none transition-colors ${theme.body.primary.light} ${theme.body.primary.dark} placeholder-gray-400 dark:placeholder-gray-500`}
-            style={{ fontFamily: '"Fira Code", "Noto Sans SC", sans-serif' }}
-          />
+      {/* 弹窗本体：上下结构 */}
+      <div className="search-modal">
+        {/* 上：输入区 */}
+        <div className="search-modal-top">
+          <div className="search-input-bar">
+            <svg
+              className="w-4 h-4 shrink-0 text-muted"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              aria-hidden
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"
+              />
+            </svg>
+            <input
+              ref={inputRef}
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') {
+                  e.preventDefault()
+                  onClose()
+                  return
+                }
+                if (e.key === 'ArrowDown') {
+                  e.preventDefault()
+                  setActiveIndex((i) => Math.min(i + 1, results.length - 1))
+                  return
+                }
+                if (e.key === 'ArrowUp') {
+                  e.preventDefault()
+                  setActiveIndex((i) => Math.max(i - 1, 0))
+                  return
+                }
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  openPost(results[activeIndex])
+                }
+              }}
+              placeholder={t({ en: 'Search title, tag, category…', zh: '搜索标题、标签、分类…' })}
+              className="flex-1 min-w-0 bg-transparent outline-none text-[15px] sm:text-base text-ink placeholder:text-muted"
+              autoComplete="off"
+              spellCheck="false"
+            />
+            <kbd className="hidden sm:inline-flex font-mono-ui text-[10px] tracking-wider text-muted border border-line rounded px-1.5 py-0.5">
+              ESC
+            </kbd>
+          </div>
+          <p className="mt-2.5 font-mono-ui text-[10px] tracking-wider text-muted">
+            {results.length}{' '}
+            {t({ en: results.length === 1 ? 'result' : 'results', zh: '条结果' })}
+            <span className="mx-2 opacity-40">·</span>
+            {t({ en: '↑↓ · ↵ open', zh: '↑↓ 选择 · ↵ 打开' })}
+          </p>
         </div>
 
-        {/* 搜索结果 */}
-        <div className="w-full max-w-2xl px-6 mt-8 max-h-[50vh] overflow-y-auto">
-          {query && results.length === 0 && (
-            <p className={`${theme.body.muted.light} ${theme.body.muted.dark} text-center py-4`}>
-              {t({ en: 'No results found', zh: '未找到相关文章' })}
-            </p>
-          )}
-
-          {results.length > 0 && (
-            <div className="space-y-1">
-              {results.map((post, index) => (
-                <button
-                  key={post.slug}
-                  onClick={() => handleResultClick(post.slug)}
-                  className={`w-full text-left p-4 rounded-lg ${theme.background.card} hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors group`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3 mb-1">
-                        <span className={`text-xs px-2 py-0.5 rounded ${theme.background.code} ${theme.body.secondary.light} ${theme.body.secondary.dark}`}>
-                          {post.category}
-                        </span>
-                        <span className={`text-xs ${theme.body.muted.light} ${theme.body.muted.dark}`}>
-                          {post.date}
-                        </span>
-                      </div>
-                      <h3 className={`text-lg font-medium ${theme.body.primary.light} ${theme.body.primary.dark} group-hover:${theme.link.default.light} dark:group-hover:${theme.link.default.dark} transition-colors truncate`}>
-                        {t(post.title)}
-                      </h3>
-                      <p className={`text-sm ${theme.body.muted.light} ${theme.body.muted.dark} mt-1 line-clamp-1`}>
-                        {t(post.excerpt)}
-                      </p>
-                    </div>
-                    <svg className={`w-5 h-5 ${theme.body.muted.light} ${theme.body.muted.dark} ml-4 flex-shrink-0`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
-                </button>
-              ))}
-            </div>
-          )}
-
-          {!query && (
-            <div className="text-center py-8">
-              <p className={`${theme.body.muted.light} ${theme.body.muted.dark}`}>
-                {t({ en: 'Type to search...', zh: '输入关键词开始搜索...' })}
+        {/* 下：结果列表 */}
+        <div ref={listRef} className="search-modal-body">
+          {results.length === 0 && (
+            <div className="px-5 py-12 text-center">
+              <p className="font-display text-lg text-ink mb-1.5">
+                {t({ en: 'No results', zh: '没有找到文章' })}
+              </p>
+              <p className="text-sm text-muted">
+                {t({
+                  en: 'Try another keyword or category.',
+                  zh: '换个关键词，或试试分类名。',
+                })}
               </p>
             </div>
           )}
+
+          {results.map((post, index) => {
+            const active = index === activeIndex
+            return (
+              <button
+                key={post.slug}
+                type="button"
+                data-index={index}
+                onClick={() => openPost(post)}
+                onMouseEnter={() => setActiveIndex(index)}
+                className={`search-result-row ${active ? 'is-active' : ''}`}
+              >
+                <span className="search-result-num">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="search-result-title">{t(post.title)}</span>
+                  <span className="search-result-meta">
+                    <span>{categoryLabel(post.category, t)}</span>
+                    <span aria-hidden>·</span>
+                    <span>{formatDate(post.date, t)}</span>
+                    {post.featured && (
+                      <>
+                        <span aria-hidden>·</span>
+                        <span style={{ color: 'var(--accent)' }}>
+                          {t({ en: 'Featured', zh: '精选' })}
+                        </span>
+                      </>
+                    )}
+                  </span>
+                  {t(post.excerpt) ? (
+                    <span className="search-result-excerpt">{t(post.excerpt)}</span>
+                  ) : null}
+                </span>
+                <span className={`search-result-arrow ${active ? 'is-active' : ''}`}>
+                  <ArrowIcon direction="right" size={16} />
+                </span>
+              </button>
+            )
+          })}
         </div>
       </div>
     </div>

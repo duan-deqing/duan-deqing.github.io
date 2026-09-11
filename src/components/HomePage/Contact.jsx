@@ -1,90 +1,132 @@
 /**
- * ============================================================================
- *  Contact.jsx - 联系方式区块
- * ============================================================================
- *
- * 【功能说明】
- * 1. 展示联系信息和描述
- * 2. 提供邮箱联系按钮
- * 3. 显示社交媒体链接
- *
- * 【布局结构】
- * ┌─────────────────────────────────────┐
- * │          Get in Touch               │
- * │    I'm always open to new...        │
- * │                                     │
- * │          [Email Me]                 │
- * │                                     │
- * │     GitHub   LinkedIn   Twitter     │
- * └─────────────────────────────────────┘
- *
- * 【Props】
- * - t: function - 翻译函数
- *
- * 【自定义提示】
- * - 修改联系信息: 在 config.js 中修改 contact
- * - 修改社交链接: 在 config.js 中修改 socialLinks
- * - 修改邮箱: 在 config.js 中修改 contact.email
- * ============================================================================
+ * Contact — 05 编号联系列表
  */
 
-import { Link } from "react-router-dom";
-import config from "../../config";
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import config from '../../config'
+import SectionKicker from '../shared/SectionKicker'
+import MagneticButton from '../shared/MagneticButton'
+import ArrowIcon from '../shared/ArrowIcon'
 
 export default function Contact({ t }) {
-  const { contact, socialLinks } = config;
+  const { contact, contactPage, socialLinks } = config
+  const [hoveredWechat, setHoveredWechat] = useState(false)
+
+  const rows = [
+    {
+      label: { en: 'GitHub', zh: 'GitHub' },
+      value: 'duan-deqing',
+      href: 'https://github.com/duan-deqing',
+    },
+    {
+      label: { en: 'Email', zh: '邮箱' },
+      value: contact?.email || 'duan-deqing@foxmail.com',
+      href: `mailto:${contact?.email || 'duan-deqing@foxmail.com'}`,
+    },
+    ...(socialLinks || [])
+      .filter((s) => !/github/i.test(s.platform))
+      .map((s) => ({
+        label: { en: s.platform, zh: s.platform },
+        value: s.platform,
+        href: s.url,
+      })),
+    {
+      label: { en: 'WeChat', zh: '微信' },
+      value: '-stylan-',
+      href: null,
+      qrcode: contactPage?.contactMethods?.find((m) => m.icon === 'wechat')?.qrcode,
+    },
+    {
+      label: { en: 'Resume', zh: '简历' },
+      value: { en: 'Download PDF', zh: '下载 PDF' },
+      href: '/resume.pdf',
+    },
+  ]
 
   return (
-    <section
-      id="contact"
-      className="py-20 px-6 min-h-[360px]"
-    >
-      <div
-        style={{ maxWidth: "42rem", margin: "0 auto" }}
-        className="text-center"
-      >
-        {/* 区块标题 */}
-        <div className="min-h-[48px] mb-4">
-          <h2
-            className="text-3xl font-bold text-gray-900 dark:text-white"
-            style={{ lineHeight: "1.3" }}
-          >
-            {t(contact.title)}
+    <section className="py-14 sm:py-16 border-t border-line">
+      <div className="section-inner">
+        <SectionKicker num="05" en="CONTACT" zh="联系" t={t} id="contact" />
+
+        <div className="mb-10 max-w-2xl prose-measure">
+          <h2 className="font-display text-[1.75rem] sm:text-[2.25rem] lg:text-[2.75rem] font-semibold text-ink mb-4 tracking-[-0.02em] leading-[1.15]">
+            {t(contact?.title) || t({ en: 'Get in touch', zh: '联系我' })}
           </h2>
-        </div>
-        {/* 描述文字 */}
-        <div className="min-h-[60px] mb-8">
-          <p
-            className="text-gray-500 dark:text-gray-400"
-            style={{ lineHeight: "1.8" }}
-          >
-            {t(contact.description)}
+          <p className="text-[15px] text-muted leading-[1.8]">
+            {t(contact?.description)}
           </p>
         </div>
-        {/* 按钮组 */}
-        <div className="flex justify-center gap-4">
-          <Link to="/contact" className="btn btn-primary">
-            {t({ en: "CONTACT", zh: "联系" })}
-          </Link>
-          <a href="/resume.pdf" download className="btn btn-secondary">
-            {t({ en: "DOWNLOAD CV", zh: "下载简历" })}
-          </a>
+
+        <div className="border-t border-line relative row-link-list">
+          {rows.map((row, index) => {
+            const content = (
+              <>
+                <span className="row-num">{String(index + 1).padStart(2, '0')}</span>
+                <span>
+                  <span className="row-title block !text-[1.15rem] sm:!text-[1.35rem]">
+                    {t(row.label)}
+                  </span>
+                  <span className="block mt-1.5 font-mono-ui text-[11px] text-muted">
+                    {t(row.value)}
+                  </span>
+                </span>
+                <span className="row-meta inline-flex items-center justify-end">
+                  <ArrowIcon direction="right" size={16} />
+                </span>
+              </>
+            )
+
+            if (row.href) {
+              const external = row.href.startsWith('http')
+              return (
+                <a
+                  key={t(row.label)}
+                  href={row.href}
+                  className="row-link"
+                  target={external ? '_blank' : undefined}
+                  rel={external ? 'noopener noreferrer' : undefined}
+                  download={row.href.endsWith('.pdf') ? true : undefined}
+                >
+                  {content}
+                </a>
+              )
+            }
+
+            return (
+              <div
+                key={t(row.label)}
+                className="row-link cursor-default relative"
+                onMouseEnter={() => row.qrcode && setHoveredWechat(true)}
+                onMouseLeave={() => row.qrcode && setHoveredWechat(false)}
+              >
+                {content}
+                {row.qrcode && hoveredWechat && (
+                  <div className="absolute right-0 top-full z-20 mt-2 p-3 rounded border border-line bg-elevated shadow-xl">
+                    <img
+                      src={row.qrcode}
+                      alt="WeChat"
+                      className="w-36 h-36 sm:w-40 sm:h-40 object-contain"
+                    />
+                    <p className="mt-2 text-center font-mono-ui text-[10px] text-muted">
+                      {t({ en: 'Scan to add', zh: '扫码添加' })}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
-        {/* 社交链接 */}
-        <div className="flex justify-center gap-6 mt-8">
-          {socialLinks.map((link) => (
-            <a
-              key={link.platform}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-            >
-              {link.platform}
-            </a>
-          ))}
+
+        <div className="mt-12">
+          <MagneticButton as={Link} to="/contact" strength={12} variant="secondary">
+            <span className="btn-label">{t({ en: 'Open contact page', zh: '进入联系页' })}</span>
+            <span className="btn-arrow">
+              <ArrowIcon direction="right" size={15} />
+            </span>
+          </MagneticButton>
         </div>
       </div>
     </section>
-  );
+  )
 }

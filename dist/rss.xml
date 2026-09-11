@@ -1,20 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>STYLAN Blog</title>
+    <title>STYLAN · Blog</title>
     <link>https://duan-deqing.github.io</link>
-    <description>Thoughts, tutorials and insights about web development</description>
+    <description>STYLAN 的技术博客：AI、LLM、RAG、前端与工程实践相关文章。</description>
     <language>zh</language>
-    <lastBuildDate>Tue, 05 May 2026 21:51:31 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 11 Sep 2026 17:17:30 GMT</lastBuildDate>
     <generator>STYLAN Blog RSS Generator</generator>
     <atom:link href="https://duan-deqing.github.io/rss.xml" rel="self" type="application/rss+xml"/>
     <copyright>© 2026 STYLAN. All rights reserved.</copyright>
     <image>
       <url>https://duan-deqing.github.io/favicon.ico</url>
-      <title>STYLAN Blog</title>
+      <title>STYLAN · Blog</title>
       <link>https://duan-deqing.github.io</link>
     </image>
     
+    <item>
+      <title>Vim编辑器基础使用教程</title>
+      <link>https://duan-deqing.github.io/blog/vim-basic-tutorial</link>
+      <guid isPermaLink="true">https://duan-deqing.github.io/blog/vim-basic-tutorial</guid>
+      <description>Linux基础文本编辑器Vim使用指南</description>
+      <content:encoded><![CDATA[<h2>启动 Vim</h2>
+
+打开终端，并输入以下命令启动 Vim 编辑器
+
+<pre><code>
+vim
+&lt;h1&gt;或者 vim text.txt&lt;/h1&gt;
+</code></pre>
+
+<h2>模式切换</h2>
+
+Vim 有两种主要的模式：命令模式和插入模式。<ul><li>命令模式：默认启动后的模式，用于导航和执行命令。</li></ul><ul><li>插入模式：按下 <code>i</code> 键进入插入模式，可以输入文本。</li></ul>
+
+<h2>文本导航（文本移动）</h2>
+
+在命令模式下进行文本导航：使用箭头键或 <code>h, j, k, l </code>进行上下左右导航。<ul><li><code>w</code>：向前移动一个单词。</li></ul><ul><li><code>b</code>：向后移动一个单词。</li></ul><ul><li><code>0</code>：移动到行首。</li></ul><ul><li><code>$</code>：移动到行尾。</li></ul><ul><li><code>gg</code>：跳转到文件开头。</li></ul><ul><li><code>G</code>：跳转到文件末尾。</li></ul>
+
+<h2>文本编辑</h2>
+
+在命令模式下进行文本编辑：<ul><li><code>x</code>：删除当前光标所在处的字符。</li></ul><ul><li><code>dd</code>：删除当前行。</li></ul><ul><li><code>yy</code>：复制当前行。</li></ul><ul><li><code>p</code>：粘贴文本。</li></ul>
+
+<h2>保存和退出</h2>
+
+在命令模式下保存和退出：<ul><li><code>:w</code>：保存文件。</li></ul><ul><li><code>:q</code>：退出 Vim。</li></ul><ul><li><code>:wq</code>：保存并退出。</li></ul><ul><li><code>:q!</code>：强制退出（不保存）。</li></ul>
+
+<h2>其他常用命令</h2><ul><li><code>:set number</code>：显示行号。</li></ul><ul><li><code>:set nonumber</code>：隐藏行号。</li></ul><ul><li><code>:find filename</code>：查找并打开名为 filename 的文件。</li></ul><ul><li><code>:help</code>：获取帮助文档。</li></ul>]]></content:encoded>
+      <pubDate>Fri, 08 May 2026 00:00:00 GMT</pubDate>
+      <category>tutorial</category>
+      <author>duan-deqing@foxmail.com (STYLAN)</author>
+    </item>
+  
+    <item>
+      <title>Vim编辑器基础使用教程</title>
+      <link>https://duan-deqing.github.io/blog/vim-basic-tutorial</link>
+      <guid isPermaLink="true">https://duan-deqing.github.io/blog/vim-basic-tutorial</guid>
+      <description>Linux基础文本编辑器Vim使用指南</description>
+      <content:encoded><![CDATA[<h2>Start Vim</h2>
+
+Open the terminal and enter the following command to launch the Vim editor:
+
+<pre><code>
+vim
+&lt;h1&gt;or vim test.txt&lt;/h1&gt;
+</code></pre>
+
+<h2>Mode switching</h2>
+
+Vim has two main modes: command mode and insert mode.<ul><li>Command mode: The default startup mode, used for navigation and executing commands.</li></ul><ul><li>Insert mode: Press the <code>i</code> key to enter insert mode, where you can enter text.</li></ul>
+
+<h2>Text navigation (text movement)</h2>
+
+Navigate text in command mode: Use the arrow keys or <code>h, j, k, l</code> to navigate up, down, left, and right.<ul><li><code>w</code> : Move forward one word.</li></ul><ul><li><code>b</code> : Move one word backward.</li></ul><ul><li><code>0</code> : Move to the beginning of the line.</li></ul><ul><li><code>$</code> : Move to the end of the line.</li></ul><ul><li><code>gg</code> : Jump to the beginning of the file.</li></ul><ul><li><code>G</code> : Jump to the end of the file.</li></ul>
+
+<h2>Text editing</h2>
+
+Edit text in command mode:<ul><li><code>x</code> : Deletes the character at the current cursor position.</li></ul><ul><li><code>dd</code> : Delete the current line.</li></ul><ul><li><code>yy</code> : Copy the current line.</li></ul><ul><li><code>p</code> : Paste text.</li></ul>
+
+<h2>Save and Exit</h2>
+
+Save and exit in command mode:<ul><li><code>:w</code> : Save the file.</li></ul><ul><li><code>:q</code> : Exit Vim.</li></ul><ul><li><code>:wq</code> : Save and exit.</li></ul><ul><li><code>:q!</code> : Force quit (without saving).</li></ul>
+
+<h2>Other commonly used commands</h2><ul><li><code>:set number</code> : Displays line numbers.</li></ul><ul><li><code>:set nonumber</code> : Hides line numbers.</li></ul><ul><li><code>:find filename</code> : Finds and opens the file named filename.</li></ul><ul><li><code>:help</code> : Get help documentation.</li></ul>]]></content:encoded>
+      <pubDate>Fri, 08 May 2026 00:00:00 GMT</pubDate>
+      <category>tutorial</category>
+      <author>duan-deqing@foxmail.com (STYLAN)</author>
+    </item>
+  
     <item>
       <title>React Hooks 入门指南</title>
       <link>https://duan-deqing.github.io/blog/getting-started-with-react-hooks</link>

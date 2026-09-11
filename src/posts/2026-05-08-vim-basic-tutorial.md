@@ -5,7 +5,7 @@ title:
 excerpt:
   en: "Vim Basic Text Editor Usage Guide."
   zh: "Linux基础文本编辑器Vim使用指南"
-category: "Tutorials"
+category: "tutorial"
 readTime:
   en: "3 min read"
   zh: "3 分钟阅读"

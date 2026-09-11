@@ -1,113 +1,94 @@
 /**
- * ============================================================================
- *  HomePage.jsx - 主页面组件
- * ============================================================================
- *
- * 【功能说明】
- * 1. 管理主题状态（深色/浅色模式）
- * 2. 管理语言状态（中/英文）
- * 3. 组合所有页面区块
- *
- * 【组件结构】
- * ┌─────────────────────────────────────┐
- * │  PageHeader (导航栏)                 │
- * ├─────────────────────────────────────┤
- * │  Hero (个人介绍)                     │
- * ├─────────────────────────────────────┤
- * │  Skills (技能展示)                   │
- * ├─────────────────────────────────────┤
- * │  Projects (项目作品)                 │
- * ├─────────────────────────────────────┤
- * │  Blog (精选博客)                     │
- * ├─────────────────────────────────────┤
- * │  Contact (联系方式)                  │
- * ├─────────────────────────────────────┤
- * │  PageFooter (页脚)                   │
- * └─────────────────────────────────────┘
- *
- * 【自定义提示】
- * - 添加新区块: 创建组件后在 <main> 中引入
- * - 修改页面顺序: 调整组件位置
- * ============================================================================
+ * HomePage — 右栏：About 起，Work / Writing / Skills / Contact
+ * 左栏身份信息见 SiteRail（原 Hero）
  */
 
-import { useState, useEffect } from "react";
-import { useTheme } from "../hooks/useTheme";
-import { useLanguage } from "../hooks/useLanguage";
-import { getAllPosts } from "../utils/markdown";
-import PageTitle from "../components/shared/PageTitle";
-import PageHeader from "../components/shared/PageHeader";
-import Hero from "../components/HomePage/Hero";
-import Skills from "../components/HomePage/Skills";
-import Projects from "../components/HomePage/Projects";
-import BlogSection from "../components/HomePage/BlogSection";
-import Contact from "../components/HomePage/Contact";
-import PageFooter from "../components/shared/PageFooter";
-import config from "../config";
+import { useState, useEffect } from 'react'
+import { useLanguage } from '../hooks/useLanguage'
+import { getAllPosts } from '../utils/markdown'
+import SiteLayout from '../components/shared/SiteLayout'
+import About from '../components/HomePage/About'
+import Projects from '../components/HomePage/Projects'
+import BlogSection from '../components/HomePage/BlogSection'
+import Skills from '../components/HomePage/Skills'
+import Contact from '../components/HomePage/Contact'
+import Reveal from '../components/shared/Reveal'
+import config from '../config'
 
-function HomePage() {
-  // 获取主题状态和切换函数
-  const { isDark, toggle: toggleTheme } = useTheme();
-
-  // 获取语言状态、切换函数和翻译函数
-  const { lang, toggle: toggleLang, t } = useLanguage();
-
-  // 文章列表状态
-  const [posts, setPosts] = useState([]);
-
-  // 加载文章列表
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const allPosts = await getAllPosts(lang);
-        setPosts(allPosts);
-      } catch (error) {
-        console.error('[HomePage] Failed to load posts:', error);
-      }
-    };
-
-    loadPosts();
-  }, [lang]);
-
+/** 移动端身份区（桌面由左栏承担） */
+function MobileIntro({ t }) {
   return (
-    // 最外层容器：最小屏幕高度、背景色、主题切换过渡
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors w-full">
-      {/* 设置浏览器标签页标题和图标 */}
-      <PageTitle t={t} lang={lang} />
-
-      {/* 导航栏：传递主题和语言相关 props */}
-      <PageHeader
-        isHome={true}
-        navLinks={config.navLinks}
-        isDark={isDark}
-        toggleTheme={toggleTheme}
-        lang={lang}
-        toggleLang={toggleLang}
-        t={t}
+    <section className="lg:hidden pt-8 pb-10 border-b border-line">
+      <p
+        className="font-mono-ui text-[11px] tracking-[0.14em] uppercase"
+        style={{ color: 'var(--accent)' }}
+      >
+        {t(config.personal?.titlePrefix)}
+      </p>
+      <h1
+        className="mt-3 font-display font-semibold text-ink leading-[0.95] tracking-tight"
+        style={{ fontSize: 'clamp(2.5rem, 12vw, 3.5rem)' }}
+      >
+        {t(config.personal?.titleName) || 'STYLAN'}
+      </h1>
+      <div
+        className="mt-5 h-px w-12"
+        style={{ background: 'var(--accent)' }}
+        aria-hidden
       />
-
-      {/* 主要内容区域 */}
-      <main className="w-full">
-        {/* 个人介绍区块 - 带逐字出现动画 */}
-        <Hero t={t} />
-
-        {/* 技能展示区块 */}
-        <Skills t={t} />
-
-        {/* 项目作品区块 */}
-        <Projects t={t} />
-
-        {/* 博客精选区块 */}
-        <BlogSection posts={posts} t={t} />
-
-        {/* 联系方式区块 */}
-        <Contact t={t} />
-      </main>
-
-      {/* 页脚 */}
-      <PageFooter t={t} showBackToTop={false} />
-    </div>
-  );
+      <p className="mt-5 text-[15px] text-muted leading-[1.75] max-w-prose">
+        {t(config.personal?.bio)}
+      </p>
+      <div className="mt-5 flex flex-wrap gap-2">
+        {(config.personal?.tags || []).map((tag) => (
+          <span key={t(tag)} className="tag-chip">
+            {t(tag)}
+          </span>
+        ))}
+      </div>
+    </section>
+  )
 }
 
-export default HomePage;
+function HomePage() {
+  const { lang, t } = useLanguage()
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      try {
+        const allPosts = await getAllPosts(lang)
+        if (!cancelled) setPosts(allPosts)
+      } catch (error) {
+        console.error('[HomePage] Failed to load posts:', error)
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [lang])
+
+  return (
+    <SiteLayout t={t} lang={lang} showFooter={false}>
+      <MobileIntro t={t} />
+      <Reveal>
+        <About t={t} />
+      </Reveal>
+      <Reveal>
+        <Projects t={t} />
+      </Reveal>
+      <Reveal>
+        <BlogSection posts={posts} t={t} />
+      </Reveal>
+      <Reveal>
+        <Skills t={t} />
+      </Reveal>
+      <Reveal>
+        <Contact t={t} />
+      </Reveal>
+    </SiteLayout>
+  )
+}
+
+export default HomePage
