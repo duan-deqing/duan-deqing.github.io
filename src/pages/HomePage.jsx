@@ -73,7 +73,7 @@ function HomePage() {
     // 最外层容器：最小屏幕高度、背景色、主题切换过渡
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors w-full">
       {/* 设置浏览器标签页标题和图标 */}
-      <PageTitle />
+      <PageTitle t={t} lang={lang} />
 
       {/* 导航栏：传递主题和语言相关 props */}
       <PageHeader

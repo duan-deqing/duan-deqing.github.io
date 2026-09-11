@@ -32,6 +32,7 @@ import { useTheme } from "../hooks/useTheme";
 import { useLanguage } from "../hooks/useLanguage";
 import PageHeader from "../components/shared/PageHeader";
 import PageFooter from "../components/shared/PageFooter";
+import PageTitle from "../components/shared/PageTitle";
 import WaveAnimation from "../components/HomePage/WaveAnimation";
 import config from "../config";
 
@@ -92,7 +93,12 @@ function ContactPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors w-full flex flex-col">
-      <title>{t(contactPage.title)} | STYLAN</title>
+      <PageTitle
+        title={`STYLAN · ${t(contactPage.title)}`}
+        description={contactPage.description}
+        t={t}
+        lang={lang}
+      />
 
       <PageHeader
         title={t(contactPage.title)}

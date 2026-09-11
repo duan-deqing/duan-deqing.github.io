@@ -30,10 +30,19 @@ const config = {
   // 网站标题，显示在导航栏左侧，不参与语言切换
   site: {
     title: "STYLAN",
-    // 浏览器标签页标题: 显示在浏览器标签上
-    pageTitle: "STYLAN · 主页",
+    // 浏览器标签页标题（统一使用 “STYLAN · ” 前缀）
+    pageTitle: "STYLAN · Portfolio",
     // 浏览器标签页图标: 使用图片路径 '/favicon.svg' 或 '/favicon.ico'
     favicon: "/favicon.ico",
+    // SEO：站点描述与关键词（会写入 meta description / keywords / OG）
+    description: {
+      en: "STYLAN's portfolio: AI application developer focused on LLM and RAG. Skills, projects, blog, and contact.",
+      zh: "STYLAN 的个人主页：AI 应用开发工程师，专注 LLM 落地与 RAG 系统。技能、项目、技术博客与联系方式。",
+    },
+    keywords:
+      "STYLAN, 个人主页, Portfolio, AI, LLM, RAG, LangChain, React, 全栈开发, 博客",
+    url: "https://duan-deqing.github.io",
+    ogImage: "/images/1_1_main-page.png",
   },
 
   // ==================== 个人信息 ====================

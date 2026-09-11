@@ -24,9 +24,10 @@ const rootDir = path.join(__dirname, "..");
 
 // 站点配置
 const siteConfig = {
-  title: "STYLAN Blog",
-  description: "Thoughts, tutorials and insights about web development",
-  siteUrl: "https://duan-deqing.github.io", // 替换为你的网站地址
+  title: "STYLAN · Blog",
+  description:
+    "STYLAN 的技术博客：AI、LLM、RAG、前端与工程实践相关文章。",
+  siteUrl: "https://duan-deqing.github.io",
   language: "zh",
   author: {
     name: "STYLAN",

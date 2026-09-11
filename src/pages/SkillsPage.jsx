@@ -38,9 +38,11 @@ function SkillsPage() {
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors w-full flex flex-col">
       <PageTitle
         title={t({
-          en: "Skills & Technologies | STYLAN",
-          zh: "技能与技术 | STYLAN",
+          en: "STYLAN · Skills",
+          zh: "STYLAN · 技能与技术",
         })}
+        t={t}
+        lang={lang}
       />
 
       <PageHeader

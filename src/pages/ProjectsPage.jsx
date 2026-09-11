@@ -36,7 +36,11 @@ function ProjectsPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors w-full flex flex-col">
-      <PageTitle title={t({ en: "Projects | STYLAN", zh: "项目 | STYLAN" })} />
+      <PageTitle
+        title={t({ en: "STYLAN · Projects", zh: "STYLAN · 项目" })}
+        t={t}
+        lang={lang}
+      />
 
       <PageHeader
         title={t({ en: "PROJECTS", zh: "项目" })}

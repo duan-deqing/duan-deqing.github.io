@@ -35,6 +35,7 @@ import { getAllPosts } from '../utils/markdown'
 import blogConfig from '../blogConfig'
 import config from '../config'
 import PageHeader from '../components/shared/PageHeader'
+import PageTitle from '../components/shared/PageTitle'
 import BlogHero from '../components/BlogPage/BlogHero'
 import CategoryFilter from '../components/BlogPage/CategoryFilter'
 import BlogList from '../components/BlogPage/BlogList'
@@ -95,8 +96,13 @@ function BlogPage() {
   return (
     // 最外层容器：最小屏幕高度、背景色、主题切换过渡、flex布局
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors w-full flex flex-col">
-      {/* 设置浏览器标签页标题 */}
-      <title>{t(blogConfig.page.title)} | STYLAN</title>
+      {/* 标题与 SEO */}
+      <PageTitle
+        title={`STYLAN · ${t(blogConfig.page.title)}`}
+        description={blogConfig.page.subtitle}
+        t={t}
+        lang={lang}
+      />
 
       {/* 博客导航栏 */}
       <PageHeader

@@ -26,6 +26,7 @@ import blogConfig from '../blogConfig'
 import config from '../config'
 import PageHeader from '../components/shared/PageHeader'
 import PageFooter from '../components/shared/PageFooter'
+import PageTitle from '../components/shared/PageTitle'
 import TableOfContents from '../components/BlogPage/TableOfContents'
 import '../styles/blog-post.css'
 
@@ -200,8 +201,13 @@ function BlogPostPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors w-full flex flex-col">
-      {/* 设置浏览器标签页标题 */}
-      <title>{t(post.title)} | STYLAN Blog</title>
+      {/* 标题与 SEO */}
+      <PageTitle
+        title={`STYLAN · ${t(post.title)}`}
+        description={post.excerpt}
+        t={t}
+        lang={lang}
+      />
 
       {/* 导航栏 */}
       <PageHeader

@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import { useTheme } from '../hooks/useTheme'
 import WaveAnimation from '../components/HomePage/WaveAnimation'
+import PageTitle from '../components/shared/PageTitle'
 
 function NotFoundPage() {
   const navigate = useNavigate()
@@ -21,6 +22,7 @@ function NotFoundPage() {
 
   return (
     <div className="relative min-h-screen bg-white dark:bg-gray-900 transition-colors flex items-center justify-center overflow-hidden">
+      <PageTitle title="STYLAN · Not Found" t={t} />
       {/* Wave 动画背景 */}
       <div className="absolute inset-0 opacity-20">
         <WaveAnimation color={isDark ? '#f87171' : '#ef4444'} />
