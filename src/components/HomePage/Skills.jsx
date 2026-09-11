@@ -8,7 +8,10 @@ import SectionKicker from '../shared/SectionKicker'
 import ArrowIcon from '../shared/ArrowIcon'
 
 export default function Skills({ t }) {
-  const skills = config.skills || []
+  // 首页摘要不展示 Hobbies（完整列表见 /skills）
+  const skills = (config.skills || []).filter(
+    (group) => !/hobbies/i.test(group.category?.en || String(group.category || '')),
+  )
 
   return (
     <section className="py-14 sm:py-16 border-t border-line">

@@ -1,5 +1,5 @@
 /**
- * Contact — 05 编号联系列表
+ * Contact — 05 编号联系列表（数据来自 config.contactPage）
  */
 
 import { useState } from 'react'
@@ -10,33 +10,17 @@ import MagneticButton from '../shared/MagneticButton'
 import ArrowIcon from '../shared/ArrowIcon'
 
 export default function Contact({ t }) {
-  const { contact, contactPage, socialLinks } = config
+  const { contact, contactPage } = config
   const [hoveredWechat, setHoveredWechat] = useState(false)
 
+  const methods = contactPage?.contactMethods || []
   const rows = [
-    {
-      label: { en: 'GitHub', zh: 'GitHub' },
-      value: 'duan-deqing',
-      href: 'https://github.com/duan-deqing',
-    },
-    {
-      label: { en: 'Email', zh: '邮箱' },
-      value: contact?.email || 'duan-deqing@foxmail.com',
-      href: `mailto:${contact?.email || 'duan-deqing@foxmail.com'}`,
-    },
-    ...(socialLinks || [])
-      .filter((s) => !/github/i.test(s.platform))
-      .map((s) => ({
-        label: { en: s.platform, zh: s.platform },
-        value: s.platform,
-        href: s.url,
-      })),
-    {
-      label: { en: 'WeChat', zh: '微信' },
-      value: '-stylan-',
-      href: null,
-      qrcode: contactPage?.contactMethods?.find((m) => m.icon === 'wechat')?.qrcode,
-    },
+    ...methods.map((method) => ({
+      label: method.label,
+      value: method.value,
+      href: method.href,
+      qrcode: method.qrcode,
+    })),
     {
       label: { en: 'Resume', zh: '简历' },
       value: { en: 'Download PDF', zh: '下载 PDF' },

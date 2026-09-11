@@ -12,8 +12,6 @@ import { AppSettingsProvider } from './hooks/AppSettings'
 import { ScrollToTop } from './components/shared/PageTransition'
 import SiteRail from './components/shared/SiteRail'
 import SubpageHeader from './components/shared/SubpageHeader'
-import PixelBlastBg from './components/shared/PixelBlastBg'
-import ShapeGridBg from './components/shared/ShapeGridBg'
 import config from './config'
 
 const HomePage = lazy(() => import('./pages/HomePage'))
@@ -147,9 +145,6 @@ function Boot() {
 
   return (
     <>
-      {/* 浅色 Shape Grid（官方）/ 深色 Pixel Blast */}
-      <ShapeGridBg />
-      <PixelBlastBg patternDensity={1.3} />
       <ScrollToTop />
       <AppShell />
     </>

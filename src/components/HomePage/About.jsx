@@ -4,7 +4,7 @@
 
 import config from '../../config'
 
-const FOCUS = [
+const DEFAULT_FOCUS = [
   { en: 'LLM applications', zh: '大模型应用' },
   { en: 'RAG systems', zh: 'RAG 检索增强' },
   { en: 'Full-stack delivery', zh: '全栈交付' },
@@ -12,6 +12,8 @@ const FOCUS = [
 ]
 
 export default function About({ t }) {
+  const focus = config.about?.focus || DEFAULT_FOCUS
+
   return (
     <section id="about" className="pt-8 sm:pt-0 pb-14 sm:pb-16 scroll-mt-20 lg:scroll-mt-8">
       <p className="section-kicker mb-5 sm:mb-6">
@@ -53,7 +55,7 @@ export default function About({ t }) {
           {t({ en: 'Focus', zh: '方向' })}
         </p>
         <ul>
-          {FOCUS.map((item) => (
+          {focus.map((item) => (
             <li
               key={item.en}
               className="py-3 border-b border-line font-display text-[15px] sm:text-base text-ink tracking-tight"

@@ -1,9 +1,10 @@
-# STYLAN Site · Design Spec v2（定稿）
+# STYLAN Site · Design Spec v2
 
-> 状态：**P0–P5 已实施**（可继续微调）  
+> 状态：**主体已实施**（表现层为 SiteRail 左轨 + 静态 CSS 网格，非独立 Hero 全屏页）  
 > 主方向：**A · Neo Editorial** + 少量 **B · Soft Glass**  
-> 用户锁定：Roboto Display · 双主题对等 · Hero 极细网格 · 项目**无** hover 预览  
+> 用户锁定：Roboto Display · 双主题对等 · 极细网格 · 项目**无** hover 预览  
 > 布局参考：[brittanychiang.com](https://brittanychiang.com/) · [oiloil.org](https://www.oiloil.org/)
+> 实现说明：全屏交互画布（ShapeGrid / PixelBlast / Dither）已移除，背景改为纯 CSS 网格 + 径向光晕；Display 字体为本地 Roboto，不使用 Clash Display。
 
 ---
 
@@ -227,7 +228,7 @@
 | P0 | SplitText（Hero）· Magnet（Contact CTA） |
 | P1 | 命令面板搜索、微信玻璃浮层、CountUp（可选） |
 | P1 | DecryptedText 仅 AI 关键词 1 处 |
-| 不做 | 项目 hover 预览图、Aurora/Orb 满屏、GridMotion 全页、TiltedCard |
+| 不做 | 项目 hover 预览图、Aurora/Orb 满屏、GridMotion 全页、TiltedCard、全屏交互画布（ShapeGrid/PixelBlast/Dither） |
 
 ---
 
@@ -264,7 +265,7 @@
 ## 10. 明确不做
 
 - 项目卡 hover 大图预览  
-- 全站 3D / 重粒子  
+- 全站 3D / 重粒子 / 全屏交互画布  
 - 第二强调色体系  
 - 改 Markdown 约定与路由  
 

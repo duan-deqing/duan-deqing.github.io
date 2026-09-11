@@ -80,10 +80,10 @@ const config = {
       en: "AI application developer focused on LLM products and RAG systems. I turn models into reliable tools with clear interfaces.",
       zh: "AI 应用开发，专注大模型产品与 RAG 系统。用清晰的界面，把模型做成可靠的工具。",
     },
-    // Hero 右侧展示区域
+    // Hero 右侧展示区域（legacy：当前首页由 SiteRail 承担身份区，此项暂不渲染）
     // type: 'image' | 'svg' | 'code' | 'wave' | 'dots' | 'rays'
     heroRight: {
-      // Wave 动画
+      // Wave 动画（legacy）
       type: "wave",
       width: 500,
       height: 500,
@@ -135,6 +135,16 @@ const config = {
     { id: "skills", num: "04", label: { en: "Skills", zh: "技能" } },
     { id: "contact", num: "05", label: { en: "Contact", zh: "联系" } },
   ],
+
+  // ==================== About 方向列表 ====================
+  about: {
+    focus: [
+      { en: "LLM applications", zh: "大模型应用" },
+      { en: "RAG systems", zh: "RAG 检索增强" },
+      { en: "Full-stack delivery", zh: "全栈交付" },
+      { en: "Design-aware engineering", zh: "有设计感的工程" },
+    ],
+  },
 
   // ==================== 行动按钮 ====================
   // Hero 页面下方的两个按钮
