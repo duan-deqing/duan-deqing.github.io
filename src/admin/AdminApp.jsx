@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { adminApi } from './api'
 import { contentSchema } from './schema'
 import ConfigSection from './sections/ConfigSection'
+import PostsSection from './sections/PostsSection'
 import { getIn, setIn } from './lib/objectPath'
 import { validateDoc } from './lib/validate'
 
@@ -148,7 +149,7 @@ export default function AdminApp() {
             {NAV.find((item) => item.id === activeId)?.label}
           </h2>
           {activeId === 'posts' ? (
-            <p className="text-sm text-muted">文章管理将在后续任务接入。</p>
+            <PostsSection />
           ) : (
             (() => {
               const section = contentSchema.find((item) => item.id === activeId)
