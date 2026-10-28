@@ -1,5 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { adminApi } from './api'
+import { contentSchema } from './schema'
+import ConfigSection from './sections/ConfigSection'
+import { getIn, setIn } from './lib/objectPath'
+import { validateDoc } from './lib/validate'
 
 const PREVIEW_PAGES = [
   ['/', '首页'],
@@ -9,18 +13,7 @@ const PREVIEW_PAGES = [
   ['/contact', '联系'],
 ]
 
-const NAV = [
-  ['site', '站点信息'],
-  ['personal', '个人信息'],
-  ['nav', '导航'],
-  ['about', '关于'],
-  ['skills', '技能'],
-  ['projects', '项目'],
-  ['contact', '联系'],
-  ['footer', '页脚'],
-  ['blog', '博客设置'],
-  ['posts', '文章管理'],
-]
+const NAV = [...contentSchema.map(({ id, label }) => ({ id, label })), { id: 'posts', label: '文章管理' }]
 
 export default function AdminApp() {
   const [docs, setDocs] = useState(null)
@@ -71,6 +64,11 @@ export default function AdminApp() {
 
   const save = useCallback(async () => {
     if (!docs) return
+    const errors = validateDoc(contentSchema, docs)
+    if (errors.length) {
+      setStatus({ kind: 'error', text: errors[0] })
+      return
+    }
     setSaving(true)
     setStatus({ kind: '', text: '' })
     try {
@@ -113,8 +111,6 @@ export default function AdminApp() {
     )
   }
 
-  const doc = activeId === 'blog' || activeId === 'posts' ? docs.blog : docs.site
-
   return (
     <div className="admin-shell">
       <header className="admin-topbar">
@@ -136,7 +132,7 @@ export default function AdminApp() {
 
       <div className="admin-body">
         <nav className="admin-nav">
-          {NAV.map(([id, label]) => (
+          {NAV.map(({ id, label }) => (
             <button
               key={id}
               className={`admin-nav-btn ${activeId === id ? 'is-active' : ''}`}
@@ -149,11 +145,28 @@ export default function AdminApp() {
 
         <main className="admin-main">
           <h2 className="font-display text-xl mb-4">
-            {NAV.find(([id]) => id === activeId)?.[1]}
+            {NAV.find((item) => item.id === activeId)?.label}
           </h2>
-          <pre className="text-[11px] text-muted overflow-auto">
-            {JSON.stringify(activeId === 'posts' ? { note: '文章管理将在后续任务接入' } : doc, null, 2)}
-          </pre>
+          {activeId === 'posts' ? (
+            <p className="text-sm text-muted">文章管理将在后续任务接入。</p>
+          ) : (
+            (() => {
+              const section = contentSchema.find((item) => item.id === activeId)
+              if (!section) return null
+              return (
+                <ConfigSection
+                  section={section}
+                  value={getIn(docs[section.doc], section.path)}
+                  onChange={(next) =>
+                    setDocs((prev) => ({
+                      ...prev,
+                      [section.doc]: setIn(prev[section.doc], section.path, next),
+                    }))
+                  }
+                />
+              )
+            })()
+          )}
         </main>
 
         <aside className="admin-preview">
