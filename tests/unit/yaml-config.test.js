@@ -23,11 +23,21 @@ test('stringify 带文件头且可回读', () => {
   assert.deepEqual(parseYamlDoc(text), sample)
 })
 
-test('中文长句不被折行', () => {
-  const long = { text: '这是一段很长很长的中文说明，用来确认 YAML 输出不会在中途自动折行，否则后台保存会不断产生无意义 diff。' }
+test('长句不被折行', () => {
+  const long = {
+    description: {
+      en: "I'd love to hear from you! Whether you have a question, a project idea, or just want to say hello, feel free to reach out.",
+    },
+  }
   const text = stringifyYamlDoc(long)
-  const body = text.split('\n').filter((line) => line.includes('text:'))
-  assert.equal(body.length, 1)
+  assert.ok(text.startsWith(YAML_HEADER))
+  const body = text.slice(YAML_HEADER.length).trimEnd()
+  const lines = body.split('\n')
+  assert.equal(lines.length, 2)
+  assert.equal(
+    lines[1],
+    "  en: I'd love to hear from you! Whether you have a question, a project idea, or just want to say hello, feel free to reach out."
+  )
 })
 
 test('writeYamlFile 写入临时目录后可读回，revision 为数字', () => {
