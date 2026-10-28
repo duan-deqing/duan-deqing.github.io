@@ -50,6 +50,10 @@ export function validateDoc(sections, docs) {
   for (const section of sections) {
     const value = getIn(docs[section.doc], section.path)
     if (section.list) {
+      if (value !== undefined && value !== null && !Array.isArray(value)) {
+        errors.push(`${section.label}：列表数据格式错误`)
+        continue
+      }
       const items = Array.isArray(value) ? value : []
       items.forEach((item, index) => {
         errors.push(...validateFields(section.list.fields || [], item, `${section.label} #${index + 1} / `))

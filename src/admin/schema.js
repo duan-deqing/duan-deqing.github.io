@@ -69,6 +69,7 @@ export const contentSchema = [
     doc: 'site',
     path: ['skills'],
     list: {
+      type: 'objectList',
       label: '技能分类',
       fields: [
         bilingual('category', '分类名', 'i18nText', { required: true }),
@@ -82,6 +83,7 @@ export const contentSchema = [
     doc: 'site',
     path: ['projects'],
     list: {
+      type: 'objectList',
       label: '项目',
       fields: [
         bilingual('title', '名称', 'i18nText', { required: true }),

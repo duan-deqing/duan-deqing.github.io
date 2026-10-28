@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { validateValue, validateDoc } from '../../src/admin/lib/validate.js'
+import { contentSchema } from '../../src/admin/schema.js'
 
 test('必填与格式校验', () => {
   assert.equal(validateValue({ type: 'text', required: true }, ''), '必填')
@@ -37,4 +38,21 @@ test('validateDoc 覆盖嵌套对象与列表', () => {
   assert.ok(errors.some((message) => message.includes('标题')))
   assert.ok(errors.some((message) => message.includes('邮箱')))
   assert.ok(errors.some((message) => message.includes('技能')))
+})
+
+test('列表数据不是数组时校验失败', () => {
+  const sections = [{
+    id: 'skills', label: '技能', doc: 'site', path: ['skills'],
+    list: { type: 'objectList', label: '技能分类', fields: [] },
+  }]
+  const errors = validateDoc(sections, { site: { skills: 'oops' }, blog: {} })
+  assert.ok(errors.some((message) => message.includes('列表数据格式错误')))
+})
+
+test('所有 list 区块都声明了 objectList 类型', () => {
+  const listSections = contentSchema.filter((section) => section.list)
+  assert.ok(listSections.length >= 2)
+  for (const section of listSections) {
+    assert.equal(section.list.type, 'objectList', `${section.id} 缺少 objectList 类型`)
+  }
 })
