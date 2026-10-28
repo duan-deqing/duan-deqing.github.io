@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
@@ -79,17 +79,26 @@ function titleIsValid(title) {
     : Boolean(title && String(title.en || '').trim() && String(title.zh || '').trim())
 }
 
-export default function PostEditor({ state, onClose, onSaved }) {
+export default function PostEditor({ state, onClose, onSaved, onDirtyChange }) {
   const isNew = Boolean(state.isNew)
   const [lang, setLang] = useState(state.lang || 'zh')
-  const [date, setDate] = useState(today())
+  const [initialDate] = useState(today)
+  const [date, setDate] = useState(initialDate)
   const [slug, setSlug] = useState('')
-  const [frontmatter, setFrontmatter] = useState({ ...EMPTY, date: today() })
+  const [frontmatter, setFrontmatter] = useState({ ...EMPTY, date: initialDate })
+  const [snapshot, setSnapshot] = useState(
+    isNew ? JSON.stringify({ frontmatter: { ...EMPTY, date: initialDate }, body: '', date: initialDate, slug: '' }) : null
+  )
   const [body, setBody] = useState('')
   const [revision, setRevision] = useState(null)
   const [categories, setCategories] = useState([])
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
+  const saveRef = useRef(null)
+
+  const postDirty =
+    snapshot !== null &&
+    JSON.stringify({ frontmatter, body, date, slug }) !== snapshot
 
   useEffect(() => {
     let cancelled = false
@@ -113,11 +122,14 @@ export default function PostEditor({ state, onClose, onSaved }) {
       .then((post) => {
         if (cancelled) return
         const meta = parsePostFilename(state.filename)
-        setFrontmatter({ ...EMPTY, ...post.frontmatter, date: post.frontmatter.date || meta.date })
-        setDate(String(post.frontmatter.date || meta.date || today()))
+        const nextDate = String(post.frontmatter.date || meta.date || today())
+        const nextFrontmatter = { ...EMPTY, ...post.frontmatter, date: post.frontmatter.date || meta.date }
+        setFrontmatter(nextFrontmatter)
+        setDate(nextDate)
         setSlug(meta.slug)
         setBody(post.body)
         setRevision(post.revision)
+        setSnapshot(JSON.stringify({ frontmatter: nextFrontmatter, body: post.body, date: nextDate, slug: meta.slug }))
       })
       .catch((err) => {
         if (!cancelled) setError(err.message)
@@ -126,6 +138,22 @@ export default function PostEditor({ state, onClose, onSaved }) {
       cancelled = true
     }
   }, [isNew, state.lang, state.filename])
+
+  useEffect(() => {
+    if (!postDirty) return undefined
+    const handler = (event) => {
+      event.preventDefault()
+      event.returnValue = ''
+    }
+    window.addEventListener('beforeunload', handler)
+    return () => window.removeEventListener('beforeunload', handler)
+  }, [postDirty])
+
+  useEffect(() => {
+    onDirtyChange?.(postDirty)
+  }, [postDirty, onDirtyChange])
+
+  useEffect(() => () => onDirtyChange?.(false), [onDirtyChange])
 
   const filename = isNew ? buildPostFilename({ date, slug, lang }) : state.filename
   const previewDir =
@@ -158,6 +186,24 @@ export default function PostEditor({ state, onClose, onSaved }) {
     }
   }
 
+  function handleClose() {
+    if (postDirty && !window.confirm('文章有未保存的更改，确定返回列表？')) return
+    onClose()
+  }
+
+  saveRef.current = handleSave
+
+  useEffect(() => {
+    const handler = (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') {
+        event.preventDefault()
+        saveRef.current?.()
+      }
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
+
   async function handleUpload(event) {
     const file = event.target.files?.[0]
     if (!file) return
@@ -174,7 +220,7 @@ export default function PostEditor({ state, onClose, onSaved }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <button className="admin-btn" onClick={onClose}>← 返回列表</button>
+        <button className="admin-btn" onClick={handleClose}>← 返回列表</button>
         <div className="flex items-center gap-3">
           {error && <span className="admin-error">{error}</span>}
           <button className="admin-btn admin-btn-primary" disabled={saving} onClick={handleSave}>

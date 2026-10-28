@@ -4,6 +4,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fm from 'front-matter'
 import { writeYamlFile, readYamlFile, fileRevision } from './lib/yaml-config.js'
+import { writeFileAtomic } from './lib/fs-atomic.js'
 import { isLoopback, isSameOrigin, isPostFileName, assertInside, isAllowedImage } from './lib/admin-validation.js'
 import { parsePost, serializePost, validateFrontmatter, normalizePostDate } from './lib/post-content.js'
 import { parsePostFilename, postImageDirName } from '../src/utils/postFilename.js'
@@ -202,7 +203,7 @@ async function savePost(lang, filename, payload) {
   } else if (typeof revision === 'number') {
     throw Object.assign(new Error('文章已被删除，请刷新列表'), { status: 409 })
   }
-  await fsp.writeFile(file, serializePost(frontmatter, body), 'utf8')
+  writeFileAtomic(file, serializePost(frontmatter, body))
   return { revision: fs.statSync(file).mtimeMs }
 }
 
@@ -309,7 +310,11 @@ export default function adminPlugin() {
       })
       server.middlewares.use(API_PREFIX, (req, res) => {
         handle(req, res).catch((err) => {
-          sendJson(res, err.status || 500, { error: err.message || '服务器错误' })
+          const isYaml = err?.name === 'YAMLParseError'
+          const status = err.status || (isYaml ? 400 : 500)
+          const message = err.status || isYaml ? err.message : '服务器错误'
+          if (!err.status && !isYaml) console.error('[admin]', err)
+          sendJson(res, status, { error: message })
         })
       })
     },

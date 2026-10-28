@@ -7,7 +7,7 @@ function displayTitle(title) {
   return title?.zh || title?.en || '（无标题）'
 }
 
-export default function PostsSection() {
+export default function PostsSection({ onDirtyChange }) {
   const [posts, setPosts] = useState([])
   const [lang, setLang] = useState('all')
   const [loading, setLoading] = useState(true)
@@ -56,6 +56,7 @@ export default function PostsSection() {
       <PostEditor
         state={editing}
         onClose={() => setEditing(null)}
+        onDirtyChange={onDirtyChange}
         onSaved={() => {
           setEditing(null)
           setReloadToken((value) => value + 1)

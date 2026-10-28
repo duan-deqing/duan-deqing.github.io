@@ -173,7 +173,7 @@ featured: true                # true 会出现在主页「最新文章」优先�
 - **博客搜索**：博客页 `Ctrl/Cmd + K`，按标题/摘要/标签/分类过滤
 - **文章目录**：桌面端左侧浮动 TOC，基于 h2–h4
 - **代码块**：Mac 风格窗口 + rehype-highlight 高亮
-- **动画**：Reveal 滚动入场 / AnimatedText 逐字出现 / MagneticButton 磁吸按钮 / 页面切换过渡
+- **动画**：Reveal 滚动入场 / MagneticButton 磁吸按钮 / 页面切换过渡
 - **RSS**：`pnpm run rss` 或 build 时生成 `public/rss.xml`
 - **GitHub Pages SPA**：`public/404.html` + `index.html` 内重定向脚本（spa-github-pages 方案）
 

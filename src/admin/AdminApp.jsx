@@ -26,6 +26,7 @@ export default function AdminApp() {
   const [previewPath, setPreviewPath] = useState('/')
   const [status, setStatus] = useState({ kind: '', text: '' })
   const [saving, setSaving] = useState(false)
+  const [postDirty, setPostDirty] = useState(false)
   const iframeRef = useRef(null)
 
   const dirty = useMemo(
@@ -64,7 +65,7 @@ export default function AdminApp() {
   }, [dirty])
 
   const save = useCallback(async () => {
-    if (!docs) return
+    if (!docs || saving || !dirty) return
     const errors = validateDoc(contentSchema, docs)
     if (errors.length) {
       setStatus({ kind: 'error', text: errors[0] })
@@ -83,10 +84,11 @@ export default function AdminApp() {
     } finally {
       setSaving(false)
     }
-  }, [docs, revision])
+  }, [docs, revision, saving, dirty])
 
   useEffect(() => {
     const handler = (event) => {
+      if (activeId === 'posts') return
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') {
         event.preventDefault()
         save()
@@ -94,7 +96,13 @@ export default function AdminApp() {
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [save])
+  }, [save, activeId])
+
+  function goTo(id) {
+    if (activeId === 'posts' && postDirty && !window.confirm('文章有未保存的更改，确定离开？')) return
+    setPostDirty(false)
+    setActiveId(id)
+  }
 
   if (!docs) {
     return (
@@ -137,7 +145,7 @@ export default function AdminApp() {
             <button
               key={id}
               className={`admin-nav-btn ${activeId === id ? 'is-active' : ''}`}
-              onClick={() => setActiveId(id)}
+              onClick={() => goTo(id)}
             >
               {label}
             </button>
@@ -149,7 +157,7 @@ export default function AdminApp() {
             {NAV.find((item) => item.id === activeId)?.label}
           </h2>
           {activeId === 'posts' ? (
-            <PostsSection />
+            <PostsSection onDirtyChange={setPostDirty} />
           ) : (
             (() => {
               const section = contentSchema.find((item) => item.id === activeId)
