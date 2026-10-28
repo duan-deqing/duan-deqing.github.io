@@ -89,6 +89,7 @@ export default function AdminApp() {
     if (!window.confirm('撤销所有未保存的更改？')) return
     setDocs(JSON.parse(JSON.stringify(baseline)))
     setStatus({ kind: '', text: '' })
+    iframeRef.current?.contentWindow?.location.reload()
   }, [dirty, baseline])
 
   const closePreview = useCallback(() => setPreviewOpen(false), [])
@@ -171,7 +172,6 @@ export default function AdminApp() {
         <main className="admin-main">
           <div className="admin-page">
             <div className="admin-page-head">
-              <p className="admin-breadcrumb">内容管理 / {activeItem.label}</p>
               <h2 className="admin-page-title">{activeItem.label}</h2>
               <p className="admin-page-desc">
                 {activeId === 'posts'

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 const PAGES = [
   { path: '/', label: '首页' },
@@ -23,10 +23,26 @@ export default function PreviewDrawer({
   onDeviceChange,
   iframeRef,
 }) {
+  const closeRef = useRef(null)
+  const restoreRef = useRef(null)
+  const iframeDocRef = useRef(null)
+  const iframeKeydownRef = useRef(null)
+
+  const detachIframeKeydown = useCallback(() => {
+    const doc = iframeDocRef.current
+    const handler = iframeKeydownRef.current
+    if (doc && handler) doc.removeEventListener('keydown', handler)
+    iframeDocRef.current = null
+    iframeKeydownRef.current = null
+  }, [])
+
   useEffect(() => {
     if (!open) return undefined
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    restoreRef.current = document.activeElement
+    closeRef.current?.focus()
+
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') onClose()
     }
@@ -34,21 +50,45 @@ export default function PreviewDrawer({
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
       document.body.style.overflow = previousOverflow
+      detachIframeKeydown()
+      const restore = restoreRef.current
+      restoreRef.current = null
+      if (restore && restore.isConnected) restore.focus()
     }
-  }, [open, onClose])
+  }, [open, onClose, detachIframeKeydown])
+
+  const handleIframeLoad = useCallback(
+    (event) => {
+      detachIframeKeydown()
+      const doc = event.target.contentDocument
+      if (!doc) return
+      const handleKeyDown = (keyEvent) => {
+        if (keyEvent.key === 'Escape') onClose()
+      }
+      doc.addEventListener('keydown', handleKeyDown)
+      iframeDocRef.current = doc
+      iframeKeydownRef.current = handleKeyDown
+    },
+    [onClose, detachIframeKeydown]
+  )
 
   if (!open) return null
 
   const width = DEVICES.find((item) => item.id === device)?.width || '100%'
 
   return (
-    <div className="preview-backdrop" onClick={onClose}>
+    <div
+      className="preview-backdrop"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose()
+      }}
+    >
       <div
         className="preview-drawer"
         role="dialog"
         aria-modal="true"
         aria-label="站点预览"
-        onClick={(event) => event.stopPropagation()}
+        tabIndex={-1}
       >
         <header className="preview-head">
           <div className="preview-head-group">
@@ -73,6 +113,8 @@ export default function PreviewDrawer({
                   type="button"
                   className={`admin-tab ${device === item.id ? 'is-active' : ''}`}
                   aria-pressed={device === item.id}
+                  title={item.width}
+                  aria-label={`${item.label} ${item.width}`}
                   onClick={() => onDeviceChange(item.id)}
                 >
                   {item.label}
@@ -86,7 +128,9 @@ export default function PreviewDrawer({
             >
               刷新
             </button>
-            <button type="button" className="admin-btn" onClick={onClose}>关闭</button>
+            <button type="button" className="admin-btn" ref={closeRef} onClick={onClose}>
+              关闭
+            </button>
           </div>
         </header>
 
@@ -96,6 +140,7 @@ export default function PreviewDrawer({
             src={page}
             title="站点预览"
             style={{ width }}
+            onLoad={handleIframeLoad}
           />
         </div>
       </div>
