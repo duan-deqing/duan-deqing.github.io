@@ -162,9 +162,18 @@ async function getPost(lang, filename) {
     throw Object.assign(new Error('非法文章文件名'), { status: 400 })
   }
   const file = assertInside(dir, path.join(dir, filename))
-  const text = await fsp.readFile(file, 'utf8')
+  let text
+  let stat
+  try {
+    text = await fsp.readFile(file, 'utf8')
+    stat = await fsp.stat(file)
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw Object.assign(new Error('文章不存在'), { status: 404 })
+    }
+    throw err
+  }
   const { frontmatter, body } = parsePost(text)
-  const stat = await fsp.stat(file)
   return { frontmatter, body, revision: stat.mtimeMs }
 }
 
@@ -230,7 +239,12 @@ async function handle(req, res) {
   const postMatch = route.match(/^\/posts\/(zh|en)\/([^/]+)$/)
   if (postMatch) {
     const [, lang, rawName] = postMatch
-    const filename = decodeURIComponent(rawName)
+    let filename
+    try {
+      filename = decodeURIComponent(rawName)
+    } catch {
+      throw Object.assign(new Error('非法文章文件名'), { status: 400 })
+    }
     if (method === 'GET') return sendJson(res, 200, await getPost(lang, filename))
     if (method === 'PUT') return sendJson(res, 200, await savePost(lang, filename, await readJson(req)))
     if (method === 'DELETE') return sendJson(res, 200, await deletePost(lang, filename))
