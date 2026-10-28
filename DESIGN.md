@@ -184,7 +184,7 @@
 ### 04 Skills
 
 - 编号 `04` + `SKILLS / 技能`
-- 四列或两行分组：AI / Frontend / Backend / Tools（从 config 读）
+- 四列或两行分组：AI / Frontend / Backend / Tools（从 site.yaml 读）
 - Hobbies 不进主列表，可进 About 末尾一句或省略
 - 独立 `/skills` 页可做更全版本，首页只摘要
 
@@ -291,8 +291,9 @@
 ```text
 src/
   main.jsx / App.jsx          # 路由与懒加载入口保留
-  config.js                   # 主站内容配置（扩展字段，不删旧字段）
-  blogConfig.js               # 博客分类与页面文案
+  content/site.yaml           # 全站内容配置（扩展字段，不删旧字段）
+  content/blog.yaml           # 博客分类与页面文案
+  admin/                      # 本地内容后台（仅 dev，不参与构建）
   theme.js                    # 可升级为 token 映射，但继续可被组件引用
   index.css                   # 全局样式入口
   pages/                      # 页面组件目录不变
@@ -316,22 +317,22 @@ public/（字体、图片、404、rss）
 | **文章渲染** | `react-markdown` + GFM + highlight + Mac 代码块 | **保留**。优化：rehype-slug / autolink、外链 `rel`、图片尺寸、表格与引用样式对齐新 token |
 | **双语** | `useLanguage` + `{en,zh}` + `posts/` vs `posts/en/` | **保留**。优化：升为 Context，避免多实例不同步；语言切换时 TOC/标题/SEO 一并刷新 |
 | **主题** | `useTheme` + `html.dark` + localStorage | **保留**。优化：Context 化；首屏防闪烁脚本（可选）；token 驱动明暗 |
-| **RSS** | `scripts/generate-rss.js` 挂在 `build` | **保留**。优化：站点 title/description 与 `config.js` 单源；修正文章 URL；HTML 转换更稳 |
+| **RSS** | `scripts/generate-rss.js` 挂在 `build` | **保留**。优化：站点 title/description 与 `content/site.yaml` 单源；修正文章 URL；HTML 转换更稳 |
 | **搜索 Ctrl+K** | `BlogSearch` 过滤 posts | **保留**。优化 UI 为命令面板；逻辑仍用已有 posts 列表 |
-| **分类筛选** | `blogConfig.categories` + frontmatter `category` | **保留**。优化：卡片显示翻译后的分类名；校验/统一 id 小写（修 `Tutorials` 类不一致） |
+| **分类筛选** | `blog.yaml` 的 `categories` + frontmatter `category` | **保留**。优化：卡片显示翻译后的分类名；校验/统一 id 小写（修 `Tutorials` 类不一致） |
 | **文章 TOC** | `TableOfContents` + heading id | **保留**。优化：`useMemo` 随 content 更新；scroll 改为只监听必要事件 |
 | **简历下载** | `public/resume.pdf` | **保留**，Contact 行展示 |
 | **微信二维码** | Contact 浮层 | **保留**，样式改轻玻璃 |
 | **GitHub Pages SPA** | `404.html` + index 重定向脚本 | **保留**，404 视觉对齐新设计 |
 | **SEO** | index meta + `PageTitle` | **保留并延续** `STYLAN · ` 标题约定 |
-| **动画配置项** | `heroRight.type` wave/dots/rays… | **保留配置能力**；首页默认改为网格 Hero，wave 等仍可在 config 切换或标为 legacy |
+| **动画配置项** | `heroRight.type` wave/dots/rays… | **保留配置能力**；首页默认改为网格 Hero，wave 等仍可在 `site.yaml` 切换或标为 legacy |
 | **Loading 首屏** | `Loading` + lazy 路由 | **保留**；缩短时长、样式对齐；并补上缺失的 `<Suspense>` 包裹 |
 
 ### 12.3 明确禁止的「重构过界」
 
 - 不把博客改成 CMS / 远程 MD  
 - 不删除中英双文章目录约定  
-- 不把 `config.js` 拆成必须手改多文件才能换文案  
+- 不把 `content/site.yaml` 拆成必须手改多文件才能换文案  
 - 不移除主题/语言切换  
 - 不在改视觉时顺手删掉 RSS、搜索、TOC、简历、二维码  
 
@@ -348,7 +349,7 @@ public/（字体、图片、404、rss）
 
 | 层 | 改不改 |
 |----|--------|
-| 数据/约定（posts、config 字段、路由） | 原则上不改；可**新增**可选字段 |
+| 数据/约定（posts、site.yaml 字段、路由） | 原则上不改；可**新增**可选字段 |
 | 工具层（markdown.js、generate-rss） | 可修 bug、可增强，不换产品形态 |
 | Hook 层 | 可升 Context，对外 API 尽量保持 `useTheme()` / `useLanguage()` |
 | 组件/页面 JSX + CSS | **主要改造面**（布局、排版、动效） |

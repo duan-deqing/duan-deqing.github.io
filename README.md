@@ -58,8 +58,10 @@ pnpm run preview
 ├── src/
 │   ├── main.jsx                  # 入口（BrowserRouter）
 │   ├── App.jsx                   # 路由与懒加载
-│   ├── config.js                 # 主站内容配置（改这里自定义站点）
-│   ├── blogConfig.js             # 博客页面与分类配置
+│   ├── content/
+│   │   ├── site.yaml             # 全站内容配置
+│   │   └── blog.yaml             # 博客页面与分类配置
+│   ├── admin/                    # 本地内容后台（仅 dev，不参与构建）
 │   ├── theme.js                  # Tailwind 类名颜色映射
 │   ├── index.css                 # 全局样式、字体、深色模式
 │   ├── pages/                    # 页面组件
@@ -93,22 +95,15 @@ pnpm run preview
 
 日常维护**只需要改配置文件和文章**，一般不用动组件代码。
 
-### 主站配置 `src/config.js`
+### 内容配置 `src/content/site.yaml`
 
-可改内容：站点标题、个人信息、导航、Hero 右侧动画、技能、项目、联系、社交链接、页脚版权。
+可改内容：站点信息、个人信息、导航、关于、技能、项目、联系、社交链接、页脚。
 
-多语言字段统一写成 `{ en: "...", zh: "..." }`；不参与切换的写成普通字符串。
+多语言字段写成 `{ en: "...", zh: "..." }`；不参与切换的写普通字符串。字段说明见 `src/admin/schema.js`。
 
-Hero 右侧 `personal.heroRight.type` 可选：
+### 博客配置 `src/content/blog.yaml`
 
-- `wave` — Perlin 噪声波浪（默认）
-- `dots` — 点阵
-- `rays` — 光线
-- `image` / `svg` / `code`
-
-### 博客配置 `src/blogConfig.js`
-
-分类 id 必须与文章 frontmatter 的 `category` **完全一致**（小写）：
+分类 id 必须与文章 frontmatter 的 `category` 完全一致（小写）：
 
 | id | 中文标签 | 英文标签 |
 |----|----------|----------|
@@ -122,6 +117,18 @@ Hero 右侧 `personal.heroRight.type` 可选：
 ### 主题 `src/theme.js`
 
 用 Tailwind 类名描述各区域 light/dark 颜色；真正生效还需 `index.css` 的 `@custom-variant dark`。
+
+### 本地内容后台
+
+```bash
+pnpm dev
+```
+
+打开 http://localhost:5173/admin ，可按区块编辑配置、管理文章、上传图片，右侧实时预览。
+
+- 后台只在 `vite dev` 存在，`pnpm build` 的产物不包含 `admin.html` 与 `src/admin/**`；
+- 保存会直接改写 `src/content/*.yaml` 与 `src/posts/**/*.md`，用 git 查看和回滚改动；
+- 接口只监听本机回环地址。
 
 ## 写博客
 
@@ -141,7 +148,7 @@ title:
 excerpt:
   en: "English excerpt"
   zh: "中文摘要"
-category: "tutorial"          # 必须是 blogConfig 里的 id
+category: "tutorial"          # 必须是 blog.yaml categories 里的 id
 readTime:
   en: "5 min read"
   zh: "5 分钟阅读"
