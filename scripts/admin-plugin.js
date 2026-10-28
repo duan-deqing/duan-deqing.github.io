@@ -1,16 +1,18 @@
 import fs from 'node:fs'
+import fsp from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import {
-  writeYamlFile,
-  readYamlFile,
-  fileRevision,
-} from './lib/yaml-config.js'
-import { isLoopback, isSameOrigin } from './lib/admin-validation.js'
+import fm from 'front-matter'
+import { writeYamlFile, readYamlFile, fileRevision } from './lib/yaml-config.js'
+import { isLoopback, isSameOrigin, isPostFileName, assertInside } from './lib/admin-validation.js'
+import { parsePost, serializePost, validateFrontmatter, normalizePostDate } from './lib/post-content.js'
+import { parsePostFilename } from '../src/utils/postFilename.js'
 
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)))
 const SITE_FILE = path.join(ROOT, 'src/content/site.yaml')
 const BLOG_FILE = path.join(ROOT, 'src/content/blog.yaml')
+const POSTS_ZH = path.join(ROOT, 'src/posts')
+const POSTS_EN = path.join(ROOT, 'src/posts/en')
 const MAX_BODY = 5 * 1024 * 1024
 const API_PREFIX = '/__admin/api'
 
@@ -119,6 +121,95 @@ function saveConfig(body) {
   return { revision: { site: fileRevision(SITE_FILE), blog: fileRevision(BLOG_FILE) } }
 }
 
+function postsDir(lang) {
+  if (lang !== 'zh' && lang !== 'en') {
+    throw Object.assign(new Error('未知语言'), { status: 400 })
+  }
+  return lang === 'en' ? POSTS_EN : POSTS_ZH
+}
+
+async function listPosts() {
+  const out = []
+  for (const [lang, dir] of [['zh', POSTS_ZH], ['en', POSTS_EN]]) {
+    const entries = await fsp.readdir(dir, { withFileTypes: true })
+    for (const entry of entries) {
+      if (!entry.isFile() || !entry.name.endsWith('.md')) continue
+      const file = path.join(dir, entry.name)
+      const text = await fsp.readFile(file, 'utf8')
+      const { attributes } = fm(text)
+      const meta = parsePostFilename(entry.name)
+      const stat = await fsp.stat(file)
+      out.push({
+        lang,
+        filename: entry.name,
+        slug: meta.slug,
+        date: normalizePostDate(attributes.date) || meta.date,
+        title: attributes.title ?? '',
+        excerpt: attributes.excerpt ?? '',
+        category: attributes.category ?? '',
+        tags: attributes.tags ?? [],
+        featured: Boolean(attributes.featured),
+        mtime: stat.mtimeMs,
+      })
+    }
+  }
+  return out.sort((a, b) => new Date(b.date) - new Date(a.date))
+}
+
+async function getPost(lang, filename) {
+  const dir = postsDir(lang)
+  if (!isPostFileName(filename)) {
+    throw Object.assign(new Error('非法文章文件名'), { status: 400 })
+  }
+  const file = assertInside(dir, path.join(dir, filename))
+  const text = await fsp.readFile(file, 'utf8')
+  const { frontmatter, body } = parsePost(text)
+  const stat = await fsp.stat(file)
+  return { frontmatter, body, revision: stat.mtimeMs }
+}
+
+async function savePost(lang, filename, payload) {
+  const dir = postsDir(lang)
+  if (!isPostFileName(filename)) {
+    throw Object.assign(new Error('非法文章文件名'), { status: 400 })
+  }
+  const { frontmatter, body, revision } = payload || {}
+  const blog = readYamlFile(BLOG_FILE)
+  const errors = validateFrontmatter(frontmatter, blog?.categories || [])
+  if (errors.length) {
+    throw Object.assign(new Error(errors.join('；')), { status: 400 })
+  }
+  const file = assertInside(dir, path.join(dir, filename))
+  const exists = fs.existsSync(file)
+  if (exists) {
+    if (revision === null || revision === undefined) {
+      throw Object.assign(new Error('同名文章已存在'), { status: 409 })
+    }
+    if (typeof revision !== 'number' || Math.round(fs.statSync(file).mtimeMs) !== Math.round(revision)) {
+      throw Object.assign(new Error('文件已被外部修改，请刷新后再保存'), { status: 409 })
+    }
+  } else if (typeof revision === 'number') {
+    throw Object.assign(new Error('文章已被删除，请刷新列表'), { status: 409 })
+  }
+  await fsp.writeFile(file, serializePost(frontmatter, body), 'utf8')
+  return { revision: fs.statSync(file).mtimeMs }
+}
+
+async function deletePost(lang, filename) {
+  const dir = postsDir(lang)
+  if (!isPostFileName(filename)) {
+    throw Object.assign(new Error('非法文章文件名'), { status: 400 })
+  }
+  const file = assertInside(dir, path.join(dir, filename))
+  try {
+    await fsp.unlink(file)
+    return { ok: true }
+  } catch (err) {
+    if (err.code === 'ENOENT') throw Object.assign(new Error('文章不存在'), { status: 404 })
+    throw err
+  }
+}
+
 async function handle(req, res) {
   guard(req)
   const url = new URL(req.url, 'http://localhost')
@@ -130,6 +221,19 @@ async function handle(req, res) {
   }
   if (route === '/config' && method === 'PUT') {
     return sendJson(res, 200, saveConfig(await readJson(req)))
+  }
+
+  if (route === '/posts' && method === 'GET') {
+    return sendJson(res, 200, await listPosts())
+  }
+
+  const postMatch = route.match(/^\/posts\/(zh|en)\/([^/]+)$/)
+  if (postMatch) {
+    const [, lang, rawName] = postMatch
+    const filename = decodeURIComponent(rawName)
+    if (method === 'GET') return sendJson(res, 200, await getPost(lang, filename))
+    if (method === 'PUT') return sendJson(res, 200, await savePost(lang, filename, await readJson(req)))
+    if (method === 'DELETE') return sendJson(res, 200, await deletePost(lang, filename))
   }
 
   return sendJson(res, 404, { error: '未知接口' })
