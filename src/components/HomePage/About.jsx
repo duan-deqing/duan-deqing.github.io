@@ -2,7 +2,7 @@
  * About — 右栏纯文字介绍（Brittany 式）+ 方向列表
  */
 
-import config from '../../config'
+import config from '../../content/site.yaml'
 
 const DEFAULT_FOCUS = [
   { en: 'LLM applications', zh: '大模型应用' },

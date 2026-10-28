@@ -17,7 +17,7 @@
  */
 
 import { useEffect } from 'react'
-import config from '../../config'
+import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 
 function upsertMeta(attr, key, content) {

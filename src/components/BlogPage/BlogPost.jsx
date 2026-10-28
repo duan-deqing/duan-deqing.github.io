@@ -4,7 +4,7 @@
  */
 
 import { Link } from 'react-router-dom'
-import blogConfig from '../../blogConfig'
+import blogConfig from '../../content/blog.yaml'
 
 function formatDate(dateString, t) {
   if (!dateString) return ''

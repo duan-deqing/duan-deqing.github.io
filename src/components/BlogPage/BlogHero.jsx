@@ -2,7 +2,7 @@
  * BlogHero — 编辑部风格博客页头
  */
 
-import blogConfig from '../../blogConfig'
+import blogConfig from '../../content/blog.yaml'
 import ArrowIcon from '../shared/ArrowIcon'
 
 export default function BlogHero({ t }) {

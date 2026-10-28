@@ -13,7 +13,7 @@ import BlogSection from '../components/HomePage/BlogSection'
 import Skills from '../components/HomePage/Skills'
 import Contact from '../components/HomePage/Contact'
 import Reveal from '../components/shared/Reveal'
-import config from '../config'
+import config from '../content/site.yaml'
 
 /** 移动端身份区（桌面由左栏承担） */
 function MobileIntro({ t }) {

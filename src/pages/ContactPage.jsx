@@ -7,7 +7,7 @@ import { useLanguage } from '../hooks/useLanguage'
 import SubPageShell from '../components/shared/SubPageShell'
 import ArrowIcon from '../components/shared/ArrowIcon'
 import CopyButton from '../components/shared/CopyButton'
-import config from '../config'
+import config from '../content/site.yaml'
 
 function ContactPage() {
   const { lang, t } = useLanguage()

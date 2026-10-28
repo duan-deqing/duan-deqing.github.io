@@ -4,7 +4,7 @@
 
 import { useLanguage } from '../hooks/useLanguage'
 import SubPageShell from '../components/shared/SubPageShell'
-import config from '../config'
+import config from '../content/site.yaml'
 
 function SkillsPage() {
   const { lang, t } = useLanguage()

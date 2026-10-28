@@ -3,7 +3,7 @@
  */
 
 import { Link } from 'react-router-dom'
-import config from '../../config'
+import config from '../../content/site.yaml'
 import SectionKicker from '../shared/SectionKicker'
 import ArrowIcon from '../shared/ArrowIcon'
 

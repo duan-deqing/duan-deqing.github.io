@@ -3,7 +3,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import config from '../../config'
+import config from '../../content/site.yaml'
 import { useTheme } from '../../hooks/useTheme'
 import { useLanguage } from '../../hooks/useLanguage'
 import TransitionLink from './TransitionLink'

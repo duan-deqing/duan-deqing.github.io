@@ -4,7 +4,7 @@
 
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import config from '../../config'
+import config from '../../content/site.yaml'
 import { useTheme } from '../../hooks/useTheme'
 import { useLanguage } from '../../hooks/useLanguage'
 import ArrowIcon from './ArrowIcon'

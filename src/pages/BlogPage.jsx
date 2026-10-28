@@ -5,14 +5,14 @@
 import { useState, useEffect } from 'react'
 import { useLanguage } from '../hooks/useLanguage'
 import { getAllPosts } from '../utils/markdown'
-import blogConfig from '../blogConfig'
+import blogConfig from '../content/blog.yaml'
 import SubPageShell from '../components/shared/SubPageShell'
 import BlogHero from '../components/BlogPage/BlogHero'
 import CategoryFilter from '../components/BlogPage/CategoryFilter'
 import BlogList from '../components/BlogPage/BlogList'
 import BlogSearch from '../components/BlogPage/BlogSearch'
 import SearchTrigger from '../components/BlogPage/SearchTrigger'
-import config from '../config'
+import config from '../content/site.yaml'
 
 function BlogPage() {
   const { lang, t } = useLanguage()

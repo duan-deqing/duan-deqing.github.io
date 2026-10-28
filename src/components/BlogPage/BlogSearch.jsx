@@ -4,7 +4,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import blogConfig from '../../blogConfig'
+import blogConfig from '../../content/blog.yaml'
 import ArrowIcon from '../shared/ArrowIcon'
 
 function categoryLabel(id, t) {

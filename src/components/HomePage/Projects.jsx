@@ -2,7 +2,7 @@
  * Projects — 02 精选项目
  */
 
-import config from '../../config'
+import config from '../../content/site.yaml'
 import SectionKicker from '../shared/SectionKicker'
 import ArrowIcon from '../shared/ArrowIcon'
 import TransitionLink from '../shared/TransitionLink'

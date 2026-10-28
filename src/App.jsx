@@ -12,7 +12,7 @@ import { AppSettingsProvider } from './hooks/AppSettings'
 import { ScrollToTop } from './components/shared/PageTransition'
 import SiteRail from './components/shared/SiteRail'
 import SubpageHeader from './components/shared/SubpageHeader'
-import config from './config'
+import config from './content/site.yaml'
 
 const HomePage = lazy(() => import('./pages/HomePage'))
 const SkillsPage = lazy(() => import('./pages/SkillsPage'))

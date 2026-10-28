@@ -5,7 +5,7 @@
 import { useLanguage } from '../hooks/useLanguage'
 import SubPageShell from '../components/shared/SubPageShell'
 import ArrowIcon from '../components/shared/ArrowIcon'
-import config from '../config'
+import config from '../content/site.yaml'
 
 function ProjectsPage() {
   const { lang, t } = useLanguage()
