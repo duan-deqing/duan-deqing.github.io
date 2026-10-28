@@ -6,10 +6,12 @@ import { adminApi } from '../api'
 import {
   buildPostFilename,
   parsePostFilename,
+  postImageDirName,
   isValidPostDate,
   isValidPostSlug,
 } from '../../utils/postFilename'
 import Field from '../components/Field'
+import { resolvePreviewImages } from '../lib/preview'
 
 const EMPTY = {
   title: { en: '', zh: '' },
@@ -22,7 +24,9 @@ const EMPTY = {
 }
 
 function today() {
-  return new Date().toISOString().slice(0, 10)
+  const now = new Date()
+  const pad = (value) => String(value).padStart(2, '0')
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
 }
 
 function BiTextField({ label, value, onChange, multiline = false, help = '' }) {
@@ -124,6 +128,11 @@ export default function PostEditor({ state, onClose, onSaved }) {
   }, [isNew, state.lang, state.filename])
 
   const filename = isNew ? buildPostFilename({ date, slug, lang }) : state.filename
+  const previewDir =
+    !isNew || (isValidPostDate(date) && isValidPostSlug(slug))
+      ? postImageDirName(filename)
+      : ''
+  const previewBody = resolvePreviewImages(body, previewDir)
 
   async function handleSave() {
     setError('')
@@ -263,7 +272,7 @@ export default function PostEditor({ state, onClose, onSaved }) {
         <p className="admin-label-text mb-3">预览</p>
         <div className="prose-admin">
           <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
-            {body || '（暂无正文）'}
+            {previewBody || '（暂无正文）'}
           </ReactMarkdown>
         </div>
       </div>
