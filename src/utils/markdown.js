@@ -26,6 +26,7 @@
  */
 
 import fm from 'front-matter'
+import { parsePostFilename } from './postFilename'
 
 // 使用 Vite 的 import.meta.glob 动态导入所有 markdown 文件
 const allMarkdownFiles = import.meta.glob('../**/*.md', { query: '?raw', import: 'default', eager: false })
@@ -56,30 +57,6 @@ for (const path in allMarkdownFiles) {
  */
 function getFilesByLang(lang) {
   return lang === 'en' ? enMarkdownFiles : zhMarkdownFiles
-}
-
-/**
- * 从文件名中解析日期和 slug
- * @param {string} filename - 文件名（不含路径和扩展名）
- * @returns {{ date: string, slug: string }} 解析结果
- */
-function parseFilename(filename) {
-  // 移除 -en 后缀（如果存在）
-  const cleanFilename = filename.replace(/-en$/, '')
-  
-  // 文件名格式: yyyy-mm-dd-post-title
-  const match = cleanFilename.match(/^(\d{4}-\d{2}-\d{2})-(.+)$/)
-  if (match) {
-    return {
-      date: match[1],
-      slug: match[2]
-    }
-  }
-  // 如果不符合格式，整个文件名作为 slug
-  return {
-    date: '',
-    slug: cleanFilename
-  }
 }
 
 /**
@@ -154,7 +131,7 @@ export async function getAllPosts(lang = 'zh') {
       const pathParts = path.split('/')
       const filenameWithExt = pathParts[pathParts.length - 1]
       const filename = filenameWithExt.replace('.md', '')
-      const { date: fileDate, slug } = parseFilename(filename)
+      const { date: fileDate, slug } = parsePostFilename(filename)
 
       // 优先使用 frontmatter 中的日期，否则使用文件名中的日期
       const date = data.date || fileDate
@@ -189,7 +166,7 @@ export async function getPostBySlug(slug, lang = 'zh') {
       const pathParts = path.split('/')
       const filenameWithExt = pathParts[pathParts.length - 1]
       const filename = filenameWithExt.replace('.md', '')
-      const { date: fileDate, slug: fileSlug } = parseFilename(filename)
+      const { date: fileDate, slug: fileSlug } = parsePostFilename(filename)
 
       if (fileSlug === slug) {
         const content = await markdownFiles[path]()
@@ -237,7 +214,7 @@ export async function getPostByFilename(filename, lang = 'zh') {
     try {
       const content = await markdownFiles[targetPath]()
       const { attributes: data, body: markdownContent } = fm(content)
-      const { date: fileDate, slug } = parseFilename(filename)
+      const { date: fileDate, slug } = parsePostFilename(filename)
 
       // 处理图片路径
       const processedContent = processImagePaths(markdownContent, filename, isEnglish)
@@ -269,7 +246,7 @@ export async function getAllSlugs(lang = 'zh') {
   for (const path in markdownFiles) {
     const pathParts = path.split('/')
     const filename = pathParts[pathParts.length - 1].replace('.md', '')
-    const { slug } = parseFilename(filename)
+    const { slug } = parsePostFilename(filename)
     slugs.push(slug)
   }
 
