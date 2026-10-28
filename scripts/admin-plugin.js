@@ -4,15 +4,17 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fm from 'front-matter'
 import { writeYamlFile, readYamlFile, fileRevision } from './lib/yaml-config.js'
-import { isLoopback, isSameOrigin, isPostFileName, assertInside } from './lib/admin-validation.js'
+import { isLoopback, isSameOrigin, isPostFileName, assertInside, isAllowedImage } from './lib/admin-validation.js'
 import { parsePost, serializePost, validateFrontmatter, normalizePostDate } from './lib/post-content.js'
-import { parsePostFilename } from '../src/utils/postFilename.js'
+import { parsePostFilename, postImageDirName } from '../src/utils/postFilename.js'
 
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)))
 const SITE_FILE = path.join(ROOT, 'src/content/site.yaml')
 const BLOG_FILE = path.join(ROOT, 'src/content/blog.yaml')
 const POSTS_ZH = path.join(ROOT, 'src/posts')
 const POSTS_EN = path.join(ROOT, 'src/posts/en')
+const POST_IMG = path.join(ROOT, 'src/posts/img')
+const PUBLIC_IMAGES = path.join(ROOT, 'public/images')
 const MAX_BODY = 5 * 1024 * 1024
 const API_PREFIX = '/__admin/api'
 
@@ -219,6 +221,41 @@ async function deletePost(lang, filename) {
   }
 }
 
+async function uniqueName(dir, name) {
+  const ext = path.extname(name)
+  const base = name.slice(0, -ext.length)
+  let candidate = name
+  let index = 1
+  while (fs.existsSync(path.join(dir, candidate))) {
+    candidate = `${base}-${index}${ext}`
+    index += 1
+  }
+  return candidate
+}
+
+async function saveUpload(target, name, post, buffer) {
+  if (!isAllowedImage(name, target)) {
+    throw Object.assign(new Error('不支持的图片类型或文件名'), { status: 400 })
+  }
+  let dir
+  let urlPrefix
+  if (target === 'post') {
+    if (!post || !isPostFileName(post)) {
+      throw Object.assign(new Error('缺少有效的文章文件名'), { status: 400 })
+    }
+    dir = path.join(POST_IMG, postImageDirName(post))
+    urlPrefix = ''
+  } else {
+    dir = PUBLIC_IMAGES
+    urlPrefix = '/images/'
+  }
+  await fsp.mkdir(dir, { recursive: true })
+  const finalName = await uniqueName(dir, name)
+  const file = assertInside(dir, path.join(dir, finalName))
+  await fsp.writeFile(file, buffer)
+  return { path: `${urlPrefix}${finalName}` }
+}
+
 async function handle(req, res) {
   guard(req)
   const url = new URL(req.url, 'http://localhost')
@@ -248,6 +285,14 @@ async function handle(req, res) {
     if (method === 'GET') return sendJson(res, 200, await getPost(lang, filename))
     if (method === 'PUT') return sendJson(res, 200, await savePost(lang, filename, await readJson(req)))
     if (method === 'DELETE') return sendJson(res, 200, await deletePost(lang, filename))
+  }
+
+  if (route === '/upload' && method === 'POST') {
+    const target = url.searchParams.get('target') === 'post' ? 'post' : 'site'
+    const name = url.searchParams.get('name') || ''
+    const post = url.searchParams.get('post') || ''
+    const buffer = await readBody(req)
+    return sendJson(res, 200, await saveUpload(target, name, post, buffer))
   }
 
   return sendJson(res, 404, { error: '未知接口' })
