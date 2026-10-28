@@ -1,18 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { adminApi } from './api'
 import { contentSchema } from './schema'
 import ConfigSection from './sections/ConfigSection'
 import PostsSection from './sections/PostsSection'
+import PreviewDrawer from './components/PreviewDrawer'
 import { getIn, setIn } from './lib/objectPath'
 import { validateDoc } from './lib/validate'
-
-const PREVIEW_PAGES = [
-  ['/', '首页'],
-  ['/skills', '技能'],
-  ['/projects', '项目'],
-  ['/blog', '博客'],
-  ['/contact', '联系'],
-]
 
 const NAV = [...contentSchema.map(({ id, label }) => ({ id, label })), { id: 'posts', label: '文章管理' }]
 
@@ -23,7 +16,9 @@ export default function AdminApp() {
   const [activeId, setActiveId] = useState(
     () => sessionStorage.getItem('stylan-admin-section') || 'site'
   )
+  const [previewOpen, setPreviewOpen] = useState(false)
   const [previewPath, setPreviewPath] = useState('/')
+  const [previewDevice, setPreviewDevice] = useState('desktop')
   const [status, setStatus] = useState({ kind: '', text: '' })
   const [saving, setSaving] = useState(false)
   const [postDirty, setPostDirty] = useState(false)
@@ -33,6 +28,9 @@ export default function AdminApp() {
     () => Boolean(docs && baseline && JSON.stringify(docs) !== JSON.stringify(baseline)),
     [docs, baseline]
   )
+
+  const activeItem = NAV.find((item) => item.id === activeId) || NAV[0]
+  const activeSection = contentSchema.find((item) => item.id === activeId)
 
   const load = useCallback(async () => {
     setStatus({ kind: '', text: '' })
@@ -86,6 +84,15 @@ export default function AdminApp() {
     }
   }, [docs, revision, saving, dirty])
 
+  const discardChanges = useCallback(() => {
+    if (!dirty || !baseline) return
+    if (!window.confirm('撤销所有未保存的更改？')) return
+    setDocs(JSON.parse(JSON.stringify(baseline)))
+    setStatus({ kind: '', text: '' })
+  }, [dirty, baseline])
+
+  const closePreview = useCallback(() => setPreviewOpen(false), [])
+
   useEffect(() => {
     const handler = (event) => {
       if (activeId === 'posts') return
@@ -107,15 +114,24 @@ export default function AdminApp() {
   if (!docs) {
     return (
       <div className="admin-shell">
-        <div className="admin-topbar">
-          <strong>STYLAN · 内容后台</strong>
-          <button className="admin-btn" onClick={load}>重试</button>
-        </div>
-        <div className="admin-main">
-          <p className="text-sm text-muted">
-            {status.text || '正在加载配置…'}
-          </p>
-        </div>
+        <header className="admin-topbar">
+          <div className="admin-topbar-left">
+            <strong className="admin-brand">STYLAN 内容后台</strong>
+            <span className="admin-breadcrumb">内容管理 / {activeItem.label}</span>
+          </div>
+          <div className="admin-topbar-actions">
+            <button className="admin-btn" onClick={load}>重试</button>
+          </div>
+        </header>
+        <main className="admin-main">
+          <div className="admin-page">
+            <div className="admin-panel">
+              <div className="admin-panel-body">
+                <p className="text-sm text-muted">{status.text || '正在加载配置…'}</p>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
     )
   }
@@ -123,82 +139,92 @@ export default function AdminApp() {
   return (
     <div className="admin-shell">
       <header className="admin-topbar">
-        <div className="flex items-center gap-3">
-          <strong className="font-display">STYLAN · 内容后台</strong>
-          {dirty && <span className="admin-badge">未保存</span>}
+        <div className="admin-topbar-left">
+          <strong className="admin-brand">STYLAN 内容后台</strong>
+          <span className="admin-breadcrumb">内容管理 / {activeItem.label}</span>
         </div>
-        <div className="flex items-center gap-3">
-          {status.text && (
-            <span className={status.kind === 'error' ? 'admin-error' : 'text-[12px] text-muted'}>
-              {status.text}
-            </span>
-          )}
+        <div className="admin-topbar-actions">
+          {dirty && <span className="admin-badge">未保存</span>}
+          <button className="admin-btn" onClick={discardChanges} disabled={!dirty}>撤销</button>
           <button className="admin-btn admin-btn-primary" onClick={save} disabled={saving || !dirty}>
-            {saving ? '保存中…' : '保存更改'}
+            {saving ? '保存中…' : '保存'}
           </button>
+          <button className="admin-btn" onClick={() => setPreviewOpen((value) => !value)}>预览</button>
         </div>
       </header>
 
       <div className="admin-body">
-        <nav className="admin-nav">
+        <nav className="admin-nav" aria-label="后台导航">
           {NAV.map(({ id, label }) => (
-            <button
-              key={id}
-              className={`admin-nav-btn ${activeId === id ? 'is-active' : ''}`}
-              onClick={() => goTo(id)}
-            >
-              {label}
-            </button>
+            <Fragment key={id}>
+              {id === 'posts' && <div className="admin-nav-divider" />}
+              <button
+                className={`admin-nav-btn ${activeId === id ? 'is-active' : ''}`}
+                onClick={() => goTo(id)}
+              >
+                {label}
+              </button>
+            </Fragment>
           ))}
         </nav>
 
         <main className="admin-main">
-          <h2 className="font-display text-xl mb-4">
-            {NAV.find((item) => item.id === activeId)?.label}
-          </h2>
-          {activeId === 'posts' ? (
-            <PostsSection onDirtyChange={setPostDirty} />
-          ) : (
-            (() => {
-              const section = contentSchema.find((item) => item.id === activeId)
-              if (!section) return null
-              return (
-                <ConfigSection
-                  section={section}
-                  value={getIn(docs[section.doc], section.path)}
-                  onChange={(next) =>
-                    setDocs((prev) => ({
-                      ...prev,
-                      [section.doc]: setIn(prev[section.doc], section.path, next),
-                    }))
-                  }
-                />
-              )
-            })()
-          )}
-        </main>
+          <div className="admin-page">
+            <div className="admin-page-head">
+              <p className="admin-breadcrumb">内容管理 / {activeItem.label}</p>
+              <h2 className="admin-page-title">{activeItem.label}</h2>
+              <p className="admin-page-desc">
+                {activeId === 'posts'
+                  ? '按语言筛选文章，编辑与新建均写入本地 Markdown 文件。'
+                  : '修改后点击右上角「保存」写入本地 YAML 配置。'}
+              </p>
+            </div>
 
-        <aside className="admin-preview">
-          <div className="flex items-center gap-2 p-2 border-b" style={{ borderColor: 'var(--line)' }}>
-            <select
-              className="admin-input"
-              value={previewPath}
-              onChange={(event) => setPreviewPath(event.target.value)}
-            >
-              {PREVIEW_PAGES.map(([value, label]) => (
-                <option key={value} value={value}>{label}</option>
-              ))}
-            </select>
-            <button
-              className="admin-btn"
-              onClick={() => iframeRef.current?.contentWindow?.location.reload()}
-            >
-              刷新
-            </button>
+            <section className="admin-panel">
+              <header className="admin-panel-head">
+                <span className="admin-panel-title">
+                  {activeId === 'posts' ? '文章列表' : '字段设置'}
+                </span>
+                {status.text ? (
+                  <span className={status.kind === 'error' ? 'admin-error' : 'admin-panel-note'}>
+                    {status.text}
+                  </span>
+                ) : (
+                  <span className="admin-panel-note">
+                    {activeId === 'posts' ? '本地 Markdown 文件' : '改动需保存后生效'}
+                  </span>
+                )}
+              </header>
+              <div className="admin-panel-body">
+                {activeId === 'posts' ? (
+                  <PostsSection onDirtyChange={setPostDirty} />
+                ) : activeSection ? (
+                  <ConfigSection
+                    section={activeSection}
+                    value={getIn(docs[activeSection.doc], activeSection.path)}
+                    onChange={(next) =>
+                      setDocs((prev) => ({
+                        ...prev,
+                        [activeSection.doc]: setIn(prev[activeSection.doc], activeSection.path, next),
+                      }))
+                    }
+                  />
+                ) : null}
+              </div>
+            </section>
           </div>
-          <iframe ref={iframeRef} src={previewPath} title="站点预览" />
-        </aside>
+        </main>
       </div>
+
+      <PreviewDrawer
+        open={previewOpen}
+        onClose={closePreview}
+        page={previewPath}
+        onPageChange={setPreviewPath}
+        device={previewDevice}
+        onDeviceChange={setPreviewDevice}
+        iframeRef={iframeRef}
+      />
     </div>
   )
 }
