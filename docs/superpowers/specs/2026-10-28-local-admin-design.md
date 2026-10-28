@@ -50,7 +50,7 @@
 
 后台**不作为 SPA 内的 `/admin` 路由**，而是 dev-only 的独立 HTML 入口 `admin.html`，由 dev 中间件把 `/admin` 重写到它。原因有两点：
 
-1. 站点入口 `App.jsx` 会导入 `site.yaml`，保存配置时 Vite HMR 会触发整页刷新；若后台与站点处于同一模块图，后台表单状态会被连带刷新。独立入口的模块图不包含站点配置，保存不会打断后台。
+1. 站点入口 `App.jsx` 会导入 `site.yaml`，保存配置时 Vite 的整页刷新会广播给所有已连接页面，后台仍可能被整体刷新。独立入口让后台的模块图不包含站点配置，刷新后只需重新拉取配置；后台把当前区块写入 `sessionStorage`，刷新后回到原区块。保存动作本身在刷新前已完成持久化，不会丢数据。
 2. 构建隔离从“依赖 Rollup 消除死分支”变为**结构性保证**：`vite build` 的入口只有 `index.html`，`admin.html` 与 `src/admin/**` 从设计上就不会进入构建。
 
 ## 4. 总体架构
@@ -367,7 +367,7 @@ import blogConfig from '../content/blog.yaml'   // src/pages/BlogPage.jsx
 |---|---|
 | Vite 开发服务器对 `admin.html` 的 HTML 管线行为与预期不符 | 降级为直接访问 `/admin.html`，去掉 `/admin` 重写；不影响其余设计 |
 | Tailwind 自动扫描会把少量后台专用工具类写进生产 CSS | 接受；产物中不含任何后台 JS/HTML，验收只检查代码与入口 |
-| 保存配置触发站点整页 HMR 刷新 | 预览本来就是 iframe，后台独立入口不受影响 |
+| 保存配置触发整页刷新，后台页面也会被刷新 | 保存先落盘，当前区块写入 `sessionStorage`，刷新后回到原区块；未保存内容只在外部改动 YAML 时可能丢失 |
 | 现有文章 frontmatter 有双语和纯字符串两种形态 | 编辑器逐字段提供模式切换，读入时按实际类型初始化 |
 | 后台直接改写源文件 | 依赖 git 兜底；写盘用 tmp + rename，revision 检测外部修改 |
 
