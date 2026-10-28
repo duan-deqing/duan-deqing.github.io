@@ -1,0 +1,240 @@
+# 此文件由本地管理后台维护；字段说明见 src/admin/schema.js 与 README。
+site:
+  title: STYLAN
+  pageTitle: STYLAN · Portfolio
+  favicon: /favicon.ico
+  description:
+    en: "STYLAN's portfolio: AI application developer focused on LLM and RAG. Skills, projects, blog, and contact."
+    zh: STYLAN 的个人主页：AI 应用开发工程师，专注 LLM 落地与 RAG 系统。技能、项目、技术博客与联系方式。
+  keywords: STYLAN, 个人主页, Portfolio, AI, LLM, RAG, LangChain, React, 全栈开发, 博客
+  url: https://duan-deqing.github.io
+  ogImage: /images/1_1_main-page.jpg
+personal:
+  name:
+    en: STYLAN
+    zh: STYLAN
+  avatar: 👨‍💻
+  titlePrefix:
+    en: Hi, I'm
+    zh: 你好，我是
+  titleName:
+    en: STYLAN
+    zh: STYLAN
+  tags:
+    - en: AI Application Developer
+      zh: AI 应用开发
+    - en: LLM & RAG
+      zh: LLM & RAG
+  tagDescription:
+    en: LangChain · Vector DB · Full-stack
+    zh: LangChain · 向量库 · 全栈
+  bio:
+    en: AI application developer focused on LLM products and RAG systems. I turn models into reliable tools with clear interfaces.
+    zh: AI 应用开发，专注大模型产品与 RAG 系统。用清晰的界面，把模型做成可靠的工具。
+  heroRight:
+    type: wave
+    width: 500
+    height: 500
+    color: "#3b82f6"
+navLinks:
+  - href: /skills
+    label:
+      en: skills
+      zh: 技能
+  - href: /projects
+    label:
+      en: projects
+      zh: 项目
+  - href: /blog
+    label:
+      en: blog
+      zh: 博客
+  - href: /contact
+    label:
+      en: contact
+      zh: 联系
+homeSections:
+  - id: about
+    num: "01"
+    label:
+      en: About
+      zh: 关于
+  - id: work
+    num: "02"
+    label:
+      en: Work
+      zh: 项目
+  - id: writing
+    num: "03"
+    label:
+      en: Writing
+      zh: 文章
+  - id: skills
+    num: "04"
+    label:
+      en: Skills
+      zh: 技能
+  - id: contact
+    num: "05"
+    label:
+      en: Contact
+      zh: 联系
+about:
+  focus:
+    - en: LLM applications
+      zh: 大模型应用
+    - en: RAG systems
+      zh: RAG 检索增强
+    - en: Full-stack delivery
+      zh: 全栈交付
+    - en: Design-aware engineering
+      zh: 有设计感的工程
+buttons:
+  primary:
+    text:
+      en: CONTACT
+      zh: 联系
+    href: /contact
+  secondary:
+    text:
+      en: PROJECTS
+      zh: 项目
+    href: "#projects"
+skillsSection:
+  title:
+    en: Skills & Technologies
+    zh: 技能与技术
+skills:
+  - category:
+      en: AI
+      zh: 人工智能
+    items:
+      - RAG
+      - LangChain
+      - Prompt
+  - category:
+      en: Frontend
+      zh: 前端
+    items:
+      - React
+      - JavaScript
+      - HTML
+      - CSS
+      - Tailwind CSS
+  - category:
+      en: Backend
+      zh: 后端
+    items:
+      - Python
+      - Flask
+      - FastAPI
+      - Node.js
+  - category:
+      en: Data
+      zh: 数据
+    items:
+      - SQLite
+      - FAISS
+      - Vector DB
+  - category:
+      en: Tools
+      zh: 工具
+    items:
+      - OpenCode
+      - Git
+      - Docker
+      - pnpm
+      - VS Code
+      - Markdown
+  - category:
+      en: Hobbies
+      zh: 爱好
+    items:
+      - Gaming
+      - Music
+      - Animation
+      - Computer
+      - Tech
+      - ACG
+projectsSection:
+  title:
+    en: Featured Projects
+    zh: 精选项目
+projects:
+  - title:
+      en: ZensheetCV
+      zh: ZensheetCV
+    description:
+      en: Online Markdown resume editor with live preview — write a clean CV in Markdown and export it anytime.
+      zh: 在线 Markdown 简历编辑器，支持实时预览，用 Markdown 写出干净利落的简历并随时导出。
+    tags:
+      - React
+      - Markdown
+      - Tailwind CSS
+    link: https://duan-deqing.github.io/zensheetCV/#/
+  - title:
+      en: ArtVault
+      zh: ArtVault
+    description:
+      en: A personal art vault for collecting and showcasing works — browse, organize, and present creative pieces in a calm gallery UI.
+      zh: 个人艺术作品库：收集与展示作品，用克制的画廊界面浏览、整理与呈现创作内容。
+    tags:
+      - React
+      - Vite
+      - Tailwind CSS
+    link: https://stylan-artvault.vercel.app/
+contact:
+  title:
+    en: Get in touch
+    zh: 联系我
+  description:
+    en: Open to new opportunities and collaborations. Drop a line anytime.
+    zh: 持续拥抱新机会，欢迎随时联系，聊聊合作或想法。
+  email: duan-deqing@foxmail.com
+  emailButtonText:
+    en: Email Me
+    zh: 发送邮件
+contactPage:
+  title:
+    en: CONTACT
+    zh: 联系
+  backToHome:
+    en: BACK TO HOME
+    zh: 返回主页
+  description:
+    en: I'd love to hear from you! Whether you have a question, a project idea, or just want to say hello, feel free to reach out.
+    zh: 很高兴收到你的来信！无论你有问题、项目想法，还是只想打个招呼，都欢迎联系我。
+  contactMethods:
+    - icon: email
+      label:
+        en: Email
+        zh: 邮箱
+      value: duan-deqing@foxmail.com
+      href: mailto:duan-deqing@foxmail.com
+    - icon: github
+      label:
+        en: GitHub
+        zh: GitHub
+      value: duan-deqing
+      href: https://github.com/duan-deqing
+    - icon: bilibili
+      label:
+        en: Bilibili
+        zh: B站
+      value: -stylan-
+      href: https://space.bilibili.com/18756460
+    - icon: wechat
+      label:
+        en: WeChat
+        zh: 微信
+      value: -stylan-
+      href: null
+      qrcode: /images/wechat-qrcode.png
+  image: /images/contact-illustration.jpg
+socialLinks:
+  - platform: GitHub
+    url: https://github.com/duan-deqing
+  - platform: Bilibili
+    url: https://space.bilibili.com/18756460
+footer:
+  copyright: © 2026 STYLAN. All rights reserved.
