@@ -325,7 +325,7 @@ public/（字体、图片、404、rss）
 | **微信二维码** | Contact 浮层 | **保留**，样式改轻玻璃 |
 | **GitHub Pages SPA** | `404.html` + index 重定向脚本 | **保留**，404 视觉对齐新设计 |
 | **SEO** | index meta + `PageTitle` | **保留并延续** `STYLAN · ` 标题约定 |
-| **动画配置项** | `heroRight.type` wave/dots/rays… | **保留配置能力**；首页默认改为网格 Hero，wave 等仍可在 `site.yaml` 切换或标为 legacy |
+| **动画配置项** | `heroRight.type` wave/dots/rays… | **组件已移除**；`heroRight` 仅作为遗留字段留在 `site.yaml`，不再生效，可删除 |
 | **Loading 首屏** | `Loading` + lazy 路由 | **保留**；缩短时长、样式对齐；并补上缺失的 `<Suspense>` 包裹 |
 
 ### 12.3 明确禁止的「重构过界」
