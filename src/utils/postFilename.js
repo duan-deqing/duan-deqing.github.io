@@ -35,7 +35,7 @@ export function postImageDirName(filename) {
 }
 
 export function isValidPostSlug(slug) {
-  return SLUG_RE.test(String(slug))
+  return typeof slug === 'string' && SLUG_RE.test(slug)
 }
 
 export function isValidPostDate(date) {

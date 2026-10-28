@@ -39,3 +39,20 @@ test('slug 与日期校验', () => {
   assert.equal(isValidPostDate('2026-02-31'), false)
   assert.equal(isValidPostDate('2026-1-1'), false)
 })
+
+test('兼容带 .md 与不带扩展名的输入', () => {
+  assert.deepEqual(parsePostFilename('2023-07-23-markdown-tutorial-en'), {
+    date: '2023-07-23', slug: 'markdown-tutorial', isEnglish: true,
+  })
+  assert.deepEqual(parsePostFilename('2026-04-20-building-modern-portfolio'), {
+    date: '2026-04-20', slug: 'building-modern-portfolio', isEnglish: false,
+  })
+  assert.equal(postImageDirName('2026-04-20-building-modern-portfolio'), '2026-04-20-building-modern-portfolio')
+})
+
+test('非字符串 slug 一律不合法', () => {
+  assert.equal(isValidPostSlug(undefined), false)
+  assert.equal(isValidPostSlug(null), false)
+  assert.equal(isValidPostSlug(123), false)
+  assert.equal(isValidPostSlug(''), false)
+})
