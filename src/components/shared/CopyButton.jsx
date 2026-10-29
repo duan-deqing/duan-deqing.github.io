@@ -86,7 +86,7 @@ export default function CopyButton({ value, label, className = '' }) {
     <button
       type="button"
       onClick={onClick}
-      className={`copy-btn ${isCopied ? 'is-copied' : ''} ${isError ? 'is-error' : ''} ${className}`}
+      className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border border-line px-2.5 py-1 font-mono-ui text-[10px] uppercase tracking-[0.06em] text-muted transition-colors hover:border-ink/25 hover:text-ink ${className}`}
       aria-label={isCopied ? label?.copied || 'Copied' : label?.copy || 'Copy'}
       title={
         isCopied
