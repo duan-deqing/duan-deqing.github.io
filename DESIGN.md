@@ -211,7 +211,7 @@
 - 代码块：头部 `rounded-t-lg` 描边 + `--code-header`（#F9FAFB / #111113）+ 14px 中性灰点 + 语言标题 + h-7 Copy（固定 56px 文案宽度、300ms 淡入上移、hover `--code-bg`、复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯。
 - 公式：行内 KaTeX 1.08em；`$$...$$` 为居中卡片（`--code-header` 底、1px `--line`、8px 圆角、16px 内边距、横向滚动），字号 1.15em；KaTeX 仅在文章含公式时按需加载。
 - 视频：` ```video ` 块（`url` + `title`）；16:9、圆角 12px + 1px 描边、黑底、进入视口再挂载 iframe/video；标题作为 12px muted 居中说明。
-- 图集：` ```carousel ` 块，每行一张 Markdown 图片；`scroll-snap` 单图轮播、方形 `object-cover`、圆角描边；左右 h-8 圆形描边按钮，caption 随滑动更新并 `aria-live`；移动端同样可滑。
+- 图集：` ```carousel ` 块，每行一张 Markdown 图片；`scroll-snap` 单图轮播、方形 `object-cover`、圆角描边；桌面左右 h-8 圆形描边按钮位于图片外侧（4px 间距），移动端叠加在图片内；支持鼠标拖拽、触控滑动与键盘方向键，caption 随滑动更新并 `aria-live`。
 
 ### 5.7 徽标与空状态
 
