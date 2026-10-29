@@ -80,7 +80,7 @@
 
 - 参考站字体分别为 Inter/DM Mono 与 Geist；全站统一用 Geist（用户已确认），首页用 Geist 复刻 antfu 的排版比例。
 - onur 只有浅色；深色按第 4 节令牌推导。
-- 本站为双语；参考站为单语，语言切换放入侧栏底部与首页导航。
+- 本站为双语；参考站为单语，语言与主题控制放在子页内容区右上角（与首页导航同位置同样式），移动端在顶栏。
 - 本站无浏览量；列表元信息用「日期 · 分类」替代 Views。
 
 ## 4. 设计令牌
@@ -219,7 +219,8 @@ App
 
 ### 5.3 子页壳（onur）
 
-- 桌面侧栏固定、独立滚动：名片 → 主导航（Home / Projects / Blog / Skills / Contact，编号 1–5，active 黑底白字）→ 分隔线 → Online（GitHub / Bilibili / Bluesky / Email / RSS，带 ↗）→ 底部主题与语言。
+- 桌面侧栏固定、独立滚动：名片 → 主导航（Home / Projects / Blog / Skills / Contact，编号 1–5，active 黑底白字）→ 分隔线 → Online（GitHub / Bilibili / Bluesky / Email / RSS，带 ↗）；侧栏不再放主题/语言按钮。
+- 主题/语言控制固定在内容区右上角（`right: 32px; top: 24px`，随内容滚动），使用与首页相同的裸图标组（组内 4px、无边框、60% 不透明度、hover 100%）。
 - 侧栏在 ≥1024 显示；<1024 隐藏，改为 48px sticky 顶栏：左菜单按钮、中当前页标题、右主题。
 - 移动菜单为底部抽屉（80vh、顶部圆角、上滑 300ms），内容复用 `MenuContent`，主题与语言控件在抽屉内；Esc、遮罩点击、路由变化均可关闭，焦点在打开时锁定、关闭后归还。
 - 内容区 `max-width: 768px` 居中；`ScrollArea` 保证侧栏固定、内容滚动。

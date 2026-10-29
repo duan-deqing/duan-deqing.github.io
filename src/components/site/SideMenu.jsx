@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ThemeLangControls from './ThemeLangControls'
 import MenuContent, { NAV_ITEMS } from './MenuContent'
 
 function isEditable(target) {
@@ -28,9 +27,6 @@ export default function SideMenu() {
     <aside className="hidden lg:flex lg:h-dvh lg:w-60 lg:shrink-0 lg:flex-col lg:border-r lg:border-line lg:bg-sidebar xl:w-72">
       <div className="flex-1 overflow-y-auto p-3">
         <MenuContent />
-      </div>
-      <div className="border-t border-line p-3">
-        <ThemeLangControls variant="sidebar" className="justify-between" />
       </div>
     </aside>
   )
