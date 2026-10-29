@@ -1,368 +1,300 @@
-# STYLAN Site · Design Spec v3
+# STYLAN Site · Design System v4
 
-> 状态：**v3 已实施**（2026-10-29 重构）
-> 主方向：**居中单列 · 低饱和卡片 · 系统字体**
-> 参考：antfu.me（项目卡片网格）· onur.dev（博客排版）
-> 设计规格：`docs/superpowers/specs/2026-10-29-redesign-antfu-onur-design.md`
-> 说明：左轨布局、Web 字体、网格背景与重型动效已移除。
-
-> **历史说明**：§2、§3.3–§3.4、§4、§5、§7–§9 描述的是 v2 方案（Brittany 式左轨、Roboto/FiraCode、网格背景、入场动效、首屏 Loading），已于 v3 移除，仅作历史记录，不再是实现依据。**当前实现以本文件 §1、§3.1–§3.2 与设计规格为准**：
-
-| 项目 | v3 现状 |
-|------|---------|
-| 布局 | 顶部导航（sticky）+ 居中单列，内容容器 `max-width: 72rem` |
-| 字体 | 系统字体栈（`--font-sans` / `--font-mono`），无 `@font-face`、无 Google Fonts |
-| 背景 | 纯色 `--bg`，无网格/光晕/渐变 |
-| 动效 | 仅颜色、边框、背景 150ms 过渡；无滚动 Reveal、无磁吸按钮、无逐字动画 |
-| 加载 | 无首屏 Loading 门；首页静态导入，子页 `lazy` + `Suspense` 占位 |
+> 状态：**v4 设计契约**（2026-10-29 重构）
+> 参考：首页 [antfu.me](https://github.com/antfu/antfu.me) · 博客/子页/后台 [onur.dev](https://github.com/suyalcinkaya/onur.dev)
+> 实现规格：[2026-10-29-v4-strict-reference-redesign-design.md](./docs/superpowers/specs/2026-10-29-v4-strict-reference-redesign-design.md)
+> 本文是实现依据；与规格冲突时以规格为准，并同步修正本文。
 
 ---
 
-## 1. 设计原则
+## 1. 方向
 
-1. **内容优先**：居中单列、克制的字号层级与留白，装饰只服务于信息层级。
-2. **唯一强调色**：蓝 `#2563EB`（dark `#60A5FA`），仅用于链接、焦点环、活动标签、当前路由。
-3. **低饱和**：卡片用 `--bg-elevated` + 1px `--line` 描边，不用渐变、阴影、光晕。
-4. **双主题对等**：Light / Dark 都是完整一等公民，默认跟随系统，可手动切换。
-5. **原结构与原功能全保留**：只升级表现层与局部实现质量；不改目录约定、路由语义、内容数据源（详见 §12）。
-
----
-
-## 2. 布局总纲（v2 · 历史）
-
-> 本节为 v2 的「左轨 + 锚点」方案，v3 已改为顶部导航 + 居中单列；保留仅供追溯。
-
-### 从 Brittany 借
-
-| 元素 | 用法 |
-|------|------|
-| **桌面左侧固定轨** | 姓名、一句话定位、锚点导航、底部社交；右侧滚动内容 |
-| **锚点式首页** | About / Work / Writing / Contact 同页锚点 + 独立子页 |
-| **经历时间线** | 年份 + 角色 + 描述 + 技术标签，列表而非卡片堆 |
-
-### 从 Oil 借
-
-| 元素 | 用法 |
-|------|------|
-| **编号章节** | `01` `02` `03` + mono 中英标签（`WORK / 项目`） |
-| **超大 Display 标题** | 姓名 / 区块标题用 Roboto（`--font-display`） |
-| **联系列表** | `01 GitHub →` `02 Email →` 编号外链行 |
-| **文章行** | 日期 + 标题 + 摘要，可带封面（可选） |
-| **角标 meta** | `ENGINEER · AI · OPEN-SOURCE` 一类 mono 标签 |
-
-**不借**：Oil 的大型交互 demo 画廊、咨询付费模块、满屏产品轮播——你站不需要。
+1. **两套壳，一套语言**：首页是 antfu 式文本文档；其余页面是 onur 式侧栏工作区。二者共享字型、灰阶、链接色与组件规则。
+2. **中性优先**：页面只由白、zinc/gray 灰阶与黑构成；蓝色只属于正文链接和焦点环。
+3. **黑即主色**：主按钮、选中导航、active 胶囊用黑底白字（深色反之），不再使用蓝色按钮。
+4. **内容密度**：列表行与表格承载信息；不用大卡片、彩色 chips、渐变面板填充页面。
+5. **双主题对等**：浅色为参考站原样；深色按同一语义推导，不另起一套风格。
+6. **克制动效**：只有首页阶梯入场与颜色/位移过渡；尊重 `prefers-reduced-motion`。
 
 ---
 
-## 3. 视觉系统
+## 2. 颜色
 
-### 3.1 颜色令牌（v3，与 `src/index.css` 一致）
+### 2.1 令牌
 
 | Token | Light | Dark | 用途 |
 | --- | --- | --- | --- |
-| `--bg` | `#FAFAF9` | `#0E0E10` | 页面底色 |
-| `--bg-elevated` | `#FFFFFF` | `#17171A` | 卡片、面板 |
-| `--bg-subtle` | `#F4F4F2` | `#1D1D20` | 标签底、代码底 |
-| `--ink` | `#18181B` | `#ECECEE` | 主文字 |
-| `--ink-muted` | `#71717A` | `#A1A1AA` | 次要文字 |
-| `--line` | `#E7E5E4` | `#27272A` | 分割线、描边 |
-| `--accent` | `#2563EB` | `#60A5FA` | 唯一强调色 |
-| `--accent-soft` | `rgba(37,99,235,.08)` | `rgba(96,165,250,.12)` | 选中底、hover 底 |
+| `--bg` | `#FFFFFF` | `#09090B` | 页面底色 |
+| `--bg-sidebar` | `#FAFAFA` | `#111113` | 子页侧栏、后台导航 |
+| `--bg-subtle` | `#F4F4F5` | `#18181B` | 代码底、标签底、浅 hover |
+| `--bg-hover` | `#E5E7EB` | `#27272A` | 导航/列表行 hover |
+| `--line` | `#E5E7EB` | `#27272A` | 描边、分隔线 |
+| `--line-strong` | `#D1D5DB` | `#3F3F46` | hover 描边、引用线 |
+| `--heading` | `#000000` | `#FAFAFA` | 标题 |
+| `--ink` | `#111827` | `#E4E4E7` | 正文 |
+| `--muted` | `#6B7280` | `#A1A1AA` | 日期、表头、次要文字 |
+| `--muted-strong` | `#4B5563` | `#D4D4D8` | 职位、次级正文 |
+| `--accent` | `#2563EB` | `#60A5FA` | 正文链接、焦点环 |
+| `--accent-strong` | `#1D4ED8` | `#93C5FD` | 链接 hover |
+| `--active-bg` | `#000000` | `#FAFAFA` | 选中导航、active 胶囊 |
+| `--active-fg` | `#FFFFFF` | `#09090B` | 选中导航文字 |
+| `--code-bg` | `#F3F4F6` | `#18181B` | 行内码 |
+| `--code-line` | `#9CA3AF` | `#52525B` | 代码行号 |
+| `--overlay` | `rgb(0 0 0 / .20)` | `rgb(0 0 0 / .60)` | 对话框/抽屉遮罩 |
+| `--glow` | `rgb(173 109 244 / .25)` | `rgb(96 165 250 / .12)` | 文章页顶部光晕 |
 
-强调色仅用于链接、焦点环、活动标签、当前路由。不使用渐变、阴影、光晕、网格背景。
+### 2.2 使用规则
 
-### 3.2 字体（v3：系统字体栈，无 Web 字体）
+- `--accent`：正文链接、焦点环、文章链接。**不得**用于按钮背景、导航选中、标签底、卡片描边。
+- `--active-bg` / `--active-fg`：侧栏导航选中、筛选 active、后台分区 active、分段控件 active。
+- 卡片：`background: var(--bg)`、`border: 1px solid var(--line)`、`border-radius: 8px`；不用阴影。
+- 按钮/输入框唯一阴影：`0 1px 2px rgb(0 0 0 / .05)`；深色不用阴影。
+- 选区：浅色黑底白字，深色白底黑字。
+- 图片：12px 圆角 + 1px `--line`。
+- 装饰光晕仅文章页一处，`pointer-events: none`，不参与语义色。
+
+---
+
+## 3. 字体与排版
 
 ```css
---font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC",
-  "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
---font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-  "Liberation Mono", monospace;
+--font-sans: "Geist Sans", system-ui, -apple-system, "Segoe UI",
+  "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+--font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 ```
 
-- 全站只使用上面两个 CSS 变量：正文 / 标题用 `--font-sans`，元信息、标签、代码用 `--font-mono`。
-- **不加载任何 Web 字体**：无 Google Fonts `@import`、无 `@font-face`、无字体文件请求；`public/fonts/` 为历史遗留，当前未被引用。
-- Roboto / FiraCode Nerd Font 与 `--font-display` / `--font-heading` / `--font-body` / `--font-post` 旧变量均已删除，字体不做 CDN 回退。
+- Geist Sans / Geist Mono 自托管（`public/fonts/*.woff2`，OFL-1.1），`font-display: swap`；只预加载 Sans。
+- 中文由系统 CJK 字体回退；不加载中文 Web 字体。
 
-字号层级见设计规格 §5.3：h1 `clamp(2rem, 5vw, 3rem)` / 600 / `-0.03em`；区块标题 1.5rem / 600；卡片标题 0.9375rem / 600；正文 0.9375rem–1rem / 1.75；文章正文 1.0625rem / 1.85；元信息 0.6875–0.75rem mono 大写。
+| 角色 | 规格 |
+| --- | --- |
+| 页面 h1 | 24px（≥768px 30px）/ 600 / `letter-spacing: -0.025em` / `--heading` |
+| 区块 h2 | 18px（≥768px 20px）/ 600 / `-0.02em` |
+| 行标题 | 14px / 500 / `--heading` |
+| 首页正文 | 16px / 1.75 / 65ch |
+| 文章正文 | 16px / 1.75 / 68ch；段落下 20px |
+| 次要文字 | 14px / 1.6 / `--muted` |
+| 日期/表头 | 14px / `font-variant-numeric: tabular-nums` / `--muted` |
+| 导航 | 14px / 500 |
+| 代码 | 13px Geist Mono；行号同尺寸 `--code-line` |
+| 徽标/说明 | 12px；不使用全大写 mono kicker |
 
-### 3.3 网格与间距（v2 · 历史）
+规则：
 
-> v3 已取消网格背景：间距基准 4px，区块纵向 64px（移动）/ 96px（桌面），容器 `max-width: 72rem`，圆角 8–10px，详见规格 §5.4。以下为 v2 记录。
-
-- 基准 8px；区块间距 96–160px（移动 64–80px）
-- 容器 `max-width: 1120–1200px`
-- 圆角 4–8px；描边 `1px solid var(--line)`
-- **Hero 极细网格**：CSS 背景网格，线宽 1px，间距 48–64px，颜色 `var(--line)` 或 accent @ 4–6% opacity；Light/Dark 都要清晰但不抢戏
-
-### 3.4 动效（v2 · 历史；v3 仅保留 150ms 颜色/边框过渡）
-
-| 场景 | 方案 | 时长 |
-|------|------|------|
-| Hero 姓名 | SplitText 逐字 | 0.6–0.8s |
-| 区块入场 | fade + 12px 上移 + stagger | 0.4–0.5s |
-| Hover 链接/行 | 颜色/背景微变 | 150ms |
-| 主 CTA | Magnet（仅 1 处） | 跟随 |
-| 数字 | CountUp（可选） | ~1s |
-| 全局 | `prefers-reduced-motion` 全关动画 | — |
-
-**签名时刻（仅 3 个）**  
-1. Hero：Roboto 大姓名 + 网格底 + mono 角标  
-2. Work：编号大列表（无 hover 预览图）  
-3. Contact：编号外链行 + 一处磁性邮箱按钮  
+- 一个页面最多三级标题层级；h1 每页一个。
+- 链接默认为 `--accent`，hover 下划线 + `text-underline-offset: 4px`。
+- 正文段落宽度不超过 68ch；首页 65ch。
+- 不用字重 300、斜体长文、渐变文字。
 
 ---
 
-## 4. 全局导航（v2 · 历史）
+## 4. 布局
 
-> v3 已改为：sticky 顶部导航（品牌 + Projects / Blog / Skills / Contact + 主题/语言 + 移动端菜单）+ 居中单列内容，不再有左轨与锚点高亮。以下为 v2 记录。
-
-### 桌面（≥1024px）— Brittany 轨
+### 4.1 首页壳（antfu）
 
 ```text
-┌────────────┬──────────────────────────────────────┐
-│ STYLAN     │                                      │
-│ AI Dev     │         右侧内容滚动区                │
-│            │                                      │
-│ 01 About   │                                      │
-│ 02 Work    │                                      │
-│ 03 Writing │                                      │
-│ 04 Skills  │                                      │
-│ 05 Contact │                                      │
-│            │                                      │
-│ [GitHub]   │                                      │
-│ [Bilibili] │                                      │
-│ theme/lang │                                      │
-└────────────┴──────────────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│ STYLAN                        Projects Blog│
+│                               Skills Contact│
+│                                              │
+│           65ch 居中正文                       │
+│           自我介绍（内联链接）                 │
+│           Find me on …                       │
+│           ─────────────                      │
+│           Writing（年份水印 + 文章行）         │
+│                                              │
+│ © 2026 STYLAN · RSS                          │
+└──────────────────────────────────────────────┘
 ```
 
-- 左轨宽 `280–320px`，`position: sticky; top: 0; height: 100vh`
-- 锚点高亮当前 section（IntersectionObserver）
-- 独立子页（/blog /blog/:slug 等）左轨变为：品牌 + 返回 + 简短 nav
-- 移动端：顶栏 + 全屏菜单（Oil 式大号编号列表）
+- wordmark 固定左上 20px；导航固定右上 32px、链接间距 20px、默认 60% 不透明度。
+- 主列 `max-width: 65ch`，`padding: 40px 28px`。
+- 移动端顶部为普通文档流，导航收进菜单面板。
+- 页面无侧栏、无大标题、无项目卡片。
 
-### 子页顶栏（Blog/文章详情等）
-
-细顶栏 56–64px：左品牌 mono，右 nav / theme / lang；可沿用「下滚隐藏」。
-
----
-
-## 5. 首页结构（单页锚点 + 子页）
+### 4.2 子页壳（onur）
 
 ```text
-[Hero 00]
-[About 01]
-[Work 02]
-[Writing 03]
-[Skills 04]
-[Contact 05]
+┌────────────┬───────────────────────────────┐
+│ 头像 STYLAN │                               │
+│ AI Dev     │       max-width: 768px        │
+│            │                               │
+│ 1 Home     │       PageTitle               │
+│ 2 Projects │       content …               │
+│ 3 Blog     │                               │
+│ 4 Skills   │                               │
+│ 5 Contact  │                               │
+│ ─────────  │                               │
+│ Online     │                               │
+│ GitHub ↗   │                               │
+│ …          │                               │
+│ 主题 · 语言 │                               │
+└────────────┴───────────────────────────────┘
 ```
 
-### 00 Hero
+- 侧栏：240px（≥1024）/ 288px（≥1280），`--bg-sidebar`，右边框，独立滚动。
+- 内容：`max-width: 768px`，`padding: 32px 24px`（桌面 `96px 32px 64px`）。
+- 移动：48px sticky 顶栏 + 底部抽屉菜单。
+- 子页无全站页脚。
 
-- 全屏（min-height 100vh），背景 **极细网格**
-- 左/中：Roboto 姓名 `STYLAN`；下方一句定位（中英）
-- mono 角标：`AI APPLICATION DEVELOPER` · `LLM / RAG` · `BASED IN CN`
-- CTA：`Contact`（磁性）+ `View work →`
-- **无** Wave/Dots/Rays 大动画；可选角落实时时间（mono，可关）
-- 中英：标题结构固定，文案走 `t()`
+### 4.3 后台壳
 
-### 01 About
+- 240px 侧栏 + 内容区（`max-width: 896px`）。
+- 内容区顶部 56px sticky 操作栏：面包屑 + 撤销/保存/预览。
+- <1024：侧栏变横向分区条。
 
-- 编号 `01` + 标签 `ABOUT / 关于`
-- 2–3 段短文（专注 LLM 落地与 RAG…）
-- 右侧或下方：技能关键词 chips（AI · LangChain · React · …）
+### 4.4 间距与圆角
 
-### 02 Work（项目）
+- 基准 4px；常用 4 / 8 / 12 / 16 / 24 / 32 / 40 / 64。
+- 列表行纵向 16px；页面标题下 24px；区块之间 40–64px。
+- 圆角：按钮/输入 6px；卡片/导航项 8px；图片 12px；移动抽屉顶部 16px。
 
-- 编号 `02` + `SELECTED WORK / 精选项目`
-- **大列表**（非三列卡、**无 hover 预览图**）：
+---
 
-```text
-01  LangChain RAG Demo          Python · LangChain · Chroma     2025  ↗
-02  AI CRM                      LangGraph · SQLite · Tavily     2025  ↗
-03  …
+## 5. 组件规则
+
+### 5.1 导航
+
+- 子页导航项：`rounded-lg`、`padding: 8px`、14px/500；默认 `hover: bg-hover`；选中 `bg-active-bg text-active-fg`；快捷键徽标 20px、1px 描边。
+- 首页导航：纯文本，60% 不透明度，hover 100%；无背景、无边框。
+- 当前路由必须 `aria-current="page"`。
+
+### 5.2 按钮
+
+| 类型 | 规格 |
+| --- | --- |
+| Primary | 黑底白字（深色白底黑字），h-9、px-4、6px 圆角、14px/500 |
+| Outline | 透明底、1px `--line`、`--ink` 文字、极轻阴影 |
+| Ghost | 无边框、hover `--bg-subtle` |
+| Icon | 32–36px 方形、居中 16px SVG |
+
+- 按钮文字不使用蓝色；图标与文字间距 8px。
+- 禁用态 50% 不透明度，`cursor: not-allowed`。
+
+### 5.3 列表与表格
+
+- 博客行：分组年列 + 日期 + 标题 + 分类；行 `border-top: 1px --line`；hover 时同组其他行 `--muted` 50%，当前行 `--ink`。
+- 项目/后台表格：外层 `rounded-lg` 描边；表头 14px `--muted`、h-10；行 `border-top`；hover `--bg-subtle` 50%。
+- 不使用斑马纹、彩色状态点。
+
+### 5.4 表单
+
+- label 14px/500；输入 h-9、6px 圆角、1px `--line`、白底；focus 2px `--accent` 环。
+- textarea 最小 96px；正文/代码类字段用 Mono。
+- 双语字段成组排列，组间 16px。
+
+### 5.5 对话框 / 抽屉
+
+- 遮罩 `--overlay`；面板白底、1px 描边、8px 圆角、`shadow-xl`。
+- 搜索面板 `max-width: 512px`；预览抽屉 720px / 90vw，右侧滑入。
+- 移动菜单从底部滑入，80vh，顶部 16px 圆角。
+- Esc、遮罩点击、路由变化关闭；焦点锁定与归还。
+
+### 5.6 代码
+
+- 行内码：`--code-bg`、6px 圆角、13px Mono，前后反引号装饰。
+- 代码块：白底 + 1px 描边、13px、行号 `--code-line`、横向滚动；无窗口红绿灯。
+
+### 5.7 徽标与空状态
+
+- 徽标：12px、`--bg-subtle` 底、`--muted` 文字、4px 圆角；不用彩色。
+- 空状态：14px `--muted`，句式简短（`{ nothing here yet }`）。
+
+---
+
+## 6. 页面构图
+
+| 页面 | 构图 |
+| --- | --- |
+| `/` | Intro 三段 → Find me on → hr → Writing（5 篇）→ 页脚 |
+| `/blog` | h1 + 副标题 + RSS/Search → 分类/标签 → 年/日期/标题/分类 表格 |
+| `/blog/:slug` | 返回 → h1 → 日期·阅读时长·分类 → 正文 68ch + 右侧 TOC |
+| `/projects` | h1 + 说明 + GitHub → 项目表格（移动卡片） |
+| `/skills` | h1 + 说明 → 分类定义行（160px + 内容） |
+| `/contact` | h1 + 说明 → 主/次按钮 → 联系链接列表 → 社交行 |
+| `404` | h1 `Not found` + 一句说明 + 返回链接 |
+| `/admin.html` | 侧栏 + 操作栏 + 卡片表单 / 表格 / 预览抽屉 |
+
+---
+
+## 7. 动效
+
+| 场景 | 规格 |
+| --- | --- |
+| 首页入场 | 1s、上移 10px、90ms 阶梯；仅 `/` |
+| 链接/导航 hover | 颜色/背景 150–300ms |
+| 抽屉/对话框 | 透明度 + 位移 300ms |
+| 主题切换 | 即时换色，无过渡动画 |
+| `prefers-reduced-motion` | 关闭入场与所有位移动画 |
+
+---
+
+## 8. 无障碍
+
+- 焦点环：2px `--accent`，offset 2px；不得 `outline: none` 后不补替代。
+- 正文与次要文字对比度 ≥ 4.5:1。
+- 图标按钮必须有 `aria-label`；装饰图标 `aria-hidden`。
+- 表格用真实语义标签；列表链接整行可点但保留文本可选。
+- 抽屉/对话框焦点锁定与归还；Esc 关闭。
+- 移动端可点击目标 ≥ 40×40px（导航项行高 ≥ 40px）。
+
+---
+
+## 9. Do / Don't
+
+**Do**
+
+- 白底、zinc 侧栏、黑标题、灰正文、蓝链接。
+- 用描边和留白分层，而不是阴影和圆角卡片堆叠。
+- 列表优先：日期、标题、分类横向对齐，`tabular-nums`。
+- 选中态用黑底白字；按钮主色用黑。
+- 中文与英文都保持同一字号与行高。
+
+**Don't**
+
+- 不用蓝色按钮、蓝色选中底、彩色 chips、渐变卡片。
+- 不用全大写 mono 小标签、超大 Hero 标题、首页项目卡片。
+- 不用玻璃拟态、彩色阴影、光晕铺满页面。
+- 不在列表行里塞摘要、标签、封面图。
+- 不引入第二套强调色或第二套字体。
+
+---
+
+## 10. 实现映射（Tailwind v4）
+
+```css
+@theme inline {
+  --color-page: var(--bg);
+  --color-sidebar: var(--bg-sidebar);
+  --color-subtle: var(--bg-subtle);
+  --color-hover: var(--bg-hover);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-heading: var(--heading);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-muted-strong: var(--muted-strong);
+  --color-accent: var(--accent);
+  --color-active: var(--active-bg);
+  --color-active-fg: var(--active-fg);
+}
 ```
 
-- 行 hover：背景 `--accent-soft` 或底边线变 accent；整行可点外链
-- 底部：`More on GitHub →`
-
-### 03 Writing（最新文章）
-
-- 编号 `03` + `WRITING / 文章`
-- 3 条精选：`日期 mono` + 标题（大一号）+ 一行摘要 → `/blog/:slug`
-- `All posts →` 进 `/blog`
-
-### 04 Skills
-
-- 编号 `04` + `SKILLS / 技能`
-- 四列或两行分组：AI / Frontend / Backend / Tools（从 site.yaml 读）
-- Hobbies 不进主列表，可进 About 末尾一句或省略
-- 独立 `/skills` 页可做更全版本，首页只摘要
-
-### 05 Contact
-
-- 编号 `05` + `CONTACT / 联系`
-- 一句欢迎语
-- **编号外链行**（Oil 式）：
-
-```text
-01  GitHub     duan-deqing          →
-02  Email      duan-deqing@…        →
-03  Bilibili   -stylan-             →
-04  WeChat     扫码                  [浮层二维码]
-05  Resume     PDF                  →
-```
-
-- 微信：轻玻璃浮层（blur + 线框，B 元素）
-- 页脚：`© 2026 STYLAN` + 主题/语言（若未在左轨）
+- 所有颜色必须走变量；禁止在组件里写十六进制颜色（代码高亮除外）。
+- 所有间距使用 4px 倍数；禁止任意值 `[13px]` 一类散落尺寸（代码字号与行高除外）。
+- 深色只允许通过 `.dark` 覆盖变量，不允许在组件里写 `dark:` 颜色分支（布局/显示切换除外）。
 
 ---
 
-## 6. 子页
+## 11. 验收清单
 
-| 路由 | 布局 |
-|------|------|
-| `/skills` | 顶栏 + 编号章节 + 完整分类网格 |
-| `/projects` | 与 Home Work 同列表，可多项目、分年 |
-| `/blog` | 时间线/编辑列表 + mono 分类 chip + Ctrl+K 命令面板（轻玻璃） |
-| `/blog/:slug` | 窄栏正文 + 侧 TOC + Mac 代码块（accent 高亮） |
-| `/contact` | 可与 Home 05 同构，或全页放大版 |
-| `404` | mono `404` + 网格底 + 返回 |
-
----
-
-## 7. React Bits / 实现选型
-
-| 优先 | 用途 |
-|------|------|
-| P0 | Display 字体（Roboto 本地）、CSS 变量 token、左轨导航、Hero 网格 |
-| P0 | SplitText（Hero）· Magnet（Contact CTA） |
-| P1 | 命令面板搜索、微信玻璃浮层、CountUp（可选） |
-| P1 | DecryptedText 仅 AI 关键词 1 处 |
-| 不做 | 项目 hover 预览图、Aurora/Orb 满屏、GridMotion 全页、TiltedCard、全屏交互画布（ShapeGrid/PixelBlast/Dither） |
-
----
-
-## 8. 组件改造映射
-
-| 现有 | 目标 |
-|------|------|
-| `WaveAnimation` Hero | 删除或移出首页默认 |
-| `TypewriterText` | 可选保留短词；主标题用 SplitText |
-| `Projects` 三列卡 | 编号大列表 |
-| `BlogSection` 三卡 | Writing 编号行 |
-| `PageHeader` | 桌面左轨 + 移动全屏菜单；子页细顶栏 |
-| `Contact` 区块 | 编号外链行 + 玻璃二维码 |
-| `theme.js` | 扩展为 CSS 变量 + 少量工具类 |
-| `index.css` | Display 字体（Roboto）、网格、token、reduced-motion |
-
----
-
-## 9. 实施阶段
-
-> 每阶段验收必须包含：**博客能开、文章能读、主题/语言能切、搜索/TOC/简历仍在**（回归清单见 §12）。
-
-| 阶段 | 内容 | 验收 |
-|------|------|------|
-| **P0** | Token + 字体 + 网格 utility + 基础组件肤 + 功能回归基线 | 无 JS 可辨新皮；原功能清单可跑 |
-| **P1** | 左轨导航 + Hero + Home 五段 | 首屏定调；配置驱动内容仍在 |
-| **P2** | Skills/Projects/Contact/404 | 子页统一；简历/二维码/外链正常 |
-| **P3** | Blog 列表/正文/搜索面板 + markdown 体验优化 | 分类/搜索/TOC/双语文章正常 |
-| **P4** | SplitText/Magnet/入场 + reduced-motion + Hook Context 化 | 手感；多处主题语言同步 |
-| **P5** | 响应式/双主题细节/SEO/RSS | 可上线 |
-
----
-
-## 10. 明确不做
-
-- 项目卡 hover 大图预览  
-- 全站 3D / 重粒子 / 全屏交互画布  
-- 第二强调色体系  
-- 改 Markdown 约定与路由  
-
----
-
-## 11. 参考
-
-- https://brittanychiang.com/ — 左轨 + 锚点 + 时间线  
-- https://www.oiloil.org/ — 编号章节 + mono 角标 + 联系行 + 文章列表  
-- https://www.dennissnellenberg.com/ — 大字与 CTA  
-- https://emilkowal.ski/ — 克制与密度  
-- https://linear.app/ — 暗色玻璃质感（仅菜单/面板）  
-- Display 字体：本地 Roboto（`public/fonts`），token 见 §3.2  
-
----
-
-## 12. 原项目结构与功能保留（硬约束）
-
-> 实施红线：**不得推倒现有工程结构**。新设计是「换皮 + 局部重构表现层」，不是重写站点。
-
-### 12.1 目录与入口（保持）
-
-```text
-src/
-  main.jsx / App.jsx          # 路由与懒加载入口保留
-  content/site.yaml           # 全站内容配置（扩展字段，不删旧字段）
-  content/blog.yaml           # 博客分类与页面文案
-  admin/                      # 本地内容后台（仅 dev，不参与构建）
-  theme.js                    # 可升级为 token 映射，但继续可被组件引用
-  index.css                   # 全局样式入口
-  pages/                      # 页面组件目录不变
-  components/
-    shared/  HomePage/  BlogPage/
-  posts/  + en/ + img/        # Markdown 文章约定不变
-  hooks/useTheme.js  useLanguage.js
-  utils/markdown.js
-  styles/blog-post.css
-scripts/generate-rss.js
-public/（图片、404、robots.txt、rss；`public/fonts/` 为历史遗留、当前未引用）
-```
-
-路由语义保持：`/` `/skills` `/projects` `/blog` `/blog/:slug` `/contact` `*`。
-
-### 12.2 功能清单：保留 → 优化方向
-
-| 功能 | 现状 | 处理 |
-|------|------|------|
-| **Markdown 博客解析** | `utils/markdown.js` + `front-matter` + `import.meta.glob`；中/英分目录 | **保留管线**。优化：统一 slug/日期解析；图片路径解析更稳；缺字段兜底；解析错误可见；可选 `marked`/`remark` 仅用于 RSS，**不替换**前端 `react-markdown` 渲染链 |
-| **文章渲染** | `react-markdown` + GFM + highlight + Mac 代码块 | **保留**。优化：rehype-slug / autolink、外链 `rel`、图片尺寸、表格与引用样式对齐新 token |
-| **双语** | `useLanguage` + `{en,zh}` + `posts/` vs `posts/en/` | **保留**。优化：升为 Context，避免多实例不同步；语言切换时 TOC/标题/SEO 一并刷新 |
-| **主题** | `useTheme` + `html.dark` + localStorage | **保留**。优化：Context 化；首屏防闪烁脚本（可选）；token 驱动明暗 |
-| **RSS** | `scripts/generate-rss.js` 挂在 `build` | **保留**。优化：站点 title/description 与 `content/site.yaml` 单源；修正文章 URL；HTML 转换更稳 |
-| **搜索 Ctrl+K** | `BlogSearch` 过滤 posts | **保留**。优化 UI 为命令面板；逻辑仍用已有 posts 列表 |
-| **分类筛选** | `blog.yaml` 的 `categories` + frontmatter `category` | **保留**。优化：卡片显示翻译后的分类名；校验/统一 id 小写（修 `Tutorials` 类不一致） |
-| **文章 TOC** | `TableOfContents` + heading id | **保留**。优化：`useMemo` 随 content 更新；scroll 改为只监听必要事件 |
-| **简历下载** | `public/resume.pdf` | **保留**，Contact 行展示 |
-| **微信二维码** | Contact 浮层 | **保留**，样式改轻玻璃 |
-| **GitHub Pages SPA** | `404.html` + index 重定向脚本 | **保留**，404 视觉对齐新设计 |
-| **SEO** | index meta + `PageTitle` | **保留并延续** `STYLAN · ` 标题约定 |
-| **动画配置项** | `heroRight.type` wave/dots/rays… | **组件已移除**；`heroRight` 仅作为遗留字段留在 `site.yaml`，不再生效，可删除 |
-| **Loading 首屏** | `Loading` + lazy 路由 | **v3 已移除**：首页静态导入，子页 `lazy` + `Suspense`（占位预留一屏高度以避免 CLS）；无启动 Loading 门 |
-
-### 12.3 明确禁止的「重构过界」
-
-- 不把博客改成 CMS / 远程 MD  
-- 不删除中英双文章目录约定  
-- 不把 `content/site.yaml` 拆成必须手改多文件才能换文案  
-- 不移除主题/语言切换  
-- 不在改视觉时顺手删掉 RSS、搜索、TOC、简历、二维码  
-
-### 12.4 建议的「优化」优先级（与视觉阶段并行）
-
-| 优先 | 项 |
-|------|----|
-| P0 | `Suspense` 补全；分类 id 与文案显示统一；`useTheme`/`useLanguage` Context 化 |
-| P1 | TOC 与语言切换同步；markdown 图片/字段容错；RSS 配置单源 |
-| P2 | 文章正文排版组件化（避免 BlogPostPage 内巨型 components 对象无限膨胀） |
-| P3 | 性能：配图压缩、可选关闭 prod sourcemap |
-
-### 12.5 与视觉改造的边界
-
-| 层 | 改不改 |
-|----|--------|
-| 数据/约定（posts、site.yaml 字段、路由） | 原则上不改；可**新增**可选字段 |
-| 工具层（markdown.js、generate-rss） | 可修 bug、可增强，不换产品形态 |
-| Hook 层 | 可升 Context，对外 API 尽量保持 `useTheme()` / `useLanguage()` |
-| 组件/页面 JSX + CSS | **主要改造面**（布局、排版、动效） |
-| 依赖 | 不引入任何 Web 字体资源（系统字体栈），不引入动画库；`react-markdown` 链保留 |
+- [ ] 首页为 65ch 文本流，无项目卡片与技能网格。
+- [ ] 子页为 240/288px 侧栏 + 768px 内容区；移动端 48px 顶栏 + 底部抽屉。
+- [ ] 浅色为纯白 / zinc-50 / gray-200 / 黑 / 蓝链接；深色为等价推导。
+- [ ] 全站 Geist Sans + Geist Mono，自托管，无第三方字体请求。
+- [ ] 博客列表为年/日期/标题/分类表格，无摘要与标签。
+- [ ] 文章页 68ch + TOC + 行号代码块 + 圆角描边图片。
+- [ ] 项目页为表格（移动卡片）；技能页为定义行；联系页为链接列表。
+- [ ] 后台为 onur 式侧栏 + 卡片表单 + 表格 + 预览抽屉。
+- [ ] 移动端 Lighthouse：三条页面 Performance ≥ 90，其余 ≥ 95。
+- [ ] 双主题、双语、搜索、筛选、TOC、RSS、简历、二维码全部可用。
