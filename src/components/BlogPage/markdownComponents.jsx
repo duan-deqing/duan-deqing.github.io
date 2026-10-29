@@ -1,3 +1,4 @@
+import { cloneElement } from 'react'
 import { headingId, getTextContent } from '../../utils/markdownHeading'
 
 const heading = (level) => {
@@ -59,8 +60,8 @@ export const markdownComponents = {
     </blockquote>
   ),
 
-  code({ inline, className, children, ...props }) {
-    if (!inline && /language-/.test(className || '')) {
+  code({ block, node, className, children, ...props }) {
+    if (block) {
       return (
         <code className={className} {...props}>
           {children}
@@ -78,10 +79,10 @@ export const markdownComponents = {
     )
   },
 
-  pre({ children, ...props }) {
+  pre({ children, node, ...props }) {
     const codeChild = children?.props
     const className = codeChild?.className || ''
-    const match = /language-(\w+)/.exec(className)
+    const match = /language-([\w+#-]+)/.exec(className)
     const language = match ? match[1] : 'code'
 
     return (
@@ -93,7 +94,7 @@ export const markdownComponents = {
           {...props}
           className="overflow-x-auto bg-elevated px-4 py-5 font-mono text-[0.875rem] leading-[1.7]"
         >
-          {children}
+          {cloneElement(children, { block: true })}
         </pre>
       </div>
     )

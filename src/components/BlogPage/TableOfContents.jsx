@@ -1,37 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { headingId } from '../../utils/markdownHeading'
-
-// 标题可能带行内链接/强调/行内代码，取其纯文本，才能与 ReactMarkdown 渲染出的 id 对齐
-function plainHeadingText(text) {
-  return text
-    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-    .replace(/[`*_~]/g, '')
-    .trim()
-}
-
-function extractHeadings(content) {
-  if (!content) return []
-
-  const seen = new Set()
-  return content
-    .replace(/\r\n?/g, '\n')
-    .split('\n')
-    .map((line) => line.trim().match(/^(#{2,4})\s+(.+)$/))
-    .filter(Boolean)
-    .map((match) => {
-      const level = match[1].length
-      const text = plainHeadingText(match[2].trim())
-      let id = headingId(text)
-      if (seen.has(id)) {
-        let counter = 2
-        while (seen.has(`${id}-${counter}`)) counter += 1
-        id = `${id}-${counter}`
-      }
-      seen.add(id)
-      return { level, text, id }
-    })
-}
+import { extractHeadings } from '../../utils/markdownHeading'
 
 export default function TableOfContents({ content, onItemClick }) {
   const headings = useMemo(() => extractHeadings(content), [content])

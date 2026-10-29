@@ -86,7 +86,7 @@ export default function BlogPostPage() {
       />
 
       <div className="py-10 sm:py-12 xl:grid xl:grid-cols-[minmax(0,68ch)_12rem] xl:justify-center xl:gap-12">
-        <article className="min-w-0">
+        <article className="mx-auto w-full min-w-0 max-w-[68ch] xl:max-w-none">
           <Link
             to="/blog"
             className="mb-8 inline-flex items-center gap-2 font-mono-ui text-[11px] uppercase tracking-[0.08em] text-muted transition-colors hover:text-accent"
@@ -162,7 +162,7 @@ export default function BlogPostPage() {
         </article>
 
         <aside className="hidden xl:block">
-          <div className="sticky top-24">
+          <div className="sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto">
             <TableOfContents content={post.content} />
           </div>
         </aside>
