@@ -31,17 +31,29 @@ export default function HomePage() {
   const { lang, t } = useLanguage()
   const [posts, setPosts] = useState([])
   const [failed, setFailed] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let cancelled = false
+    // 语言切换时先清空旧列表并复位状态，避免闪现上一语言的文章
+    setPosts([])
+    setFailed(false)
+    setLoading(true)
+
     getAllPosts(lang)
       .then((value) => {
-        if (!cancelled) setPosts(value)
+        if (cancelled) return
+        setPosts(value)
+        setFailed(false)
       })
       .catch((error) => {
         console.error('[HomePage] Failed to load posts:', error)
         if (!cancelled) setFailed(true)
       })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+
     return () => {
       cancelled = true
     }
@@ -60,6 +72,8 @@ export default function HomePage() {
         t={t}
         lang={lang}
       />
+
+      <h1 className="sr-only">{t(config.personal.name)}</h1>
 
       <div className="slide-enter-content">
         <p className="mb-6 text-base leading-[1.75]">
@@ -95,14 +109,14 @@ export default function HomePage() {
                 I write about building AI products in my{' '}
                 <Link className="link" to="/blog">blog</Link>. Say hi via{' '}
                 <Link className="link" to="/contact">contact</Link> or{' '}
-                <a className="link" href={`mailto:${email}`}>{email}</a>.
+                <SiteLink className="link" href={`mailto:${email}`}>{email}</SiteLink>.
               </>
             ),
             zh: (
               <>
                 我在<Link className="link" to="/blog">博客</Link>里记录 AI 产品的构建，
                 欢迎通过<Link className="link" to="/contact">联系页</Link>或{' '}
-                <a className="link" href={`mailto:${email}`}>{email}</a> 找我。
+                <SiteLink className="link" href={`mailto:${email}`}>{email}</SiteLink> 找我。
               </>
             ),
           })}
@@ -145,7 +159,13 @@ export default function HomePage() {
             </Link>
           </div>
 
-          {failed ? (
+          {loading ? (
+            <div className="space-y-2 py-2" aria-hidden="true">
+              {[0, 1, 2, 3].map((row) => (
+                <div key={row} className="h-9 rounded-md bg-subtle" />
+              ))}
+            </div>
+          ) : failed ? (
             <p className="py-6 text-sm text-muted">
               {t({ en: 'Unable to load posts.', zh: '文章加载失败。' })}
             </p>
