@@ -4,6 +4,7 @@
  */
 
 import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react'
+import { animateThemeChange } from '../utils/themeTransition'
 
 const ThemeCtx = createContext(null)
 const LangCtx = createContext(null)
@@ -32,7 +33,9 @@ export function AppSettingsProvider({ children }) {
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en'
   }, [lang])
 
-  const toggleTheme = useCallback(() => setIsDark((v) => !v), [])
+  const toggleTheme = useCallback((event) => {
+    animateThemeChange(event, (nextDark) => setIsDark(nextDark))
+  }, [])
   const toggleLang = useCallback(() => setLang((v) => (v === 'en' ? 'zh' : 'en')), [])
 
   const t = useCallback(

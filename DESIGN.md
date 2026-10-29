@@ -224,7 +224,7 @@
 | 首页入场 | 1s、上移 10px、90ms 阶梯；仅 `/` |
 | 链接/导航 hover | 颜色/背景 150–300ms |
 | 抽屉/对话框 | 透明度 + 位移 300ms |
-| 主题切换 | 即时换色，无过渡动画 |
+| 主题切换 | View Transition 圆形扩散（点击位置为圆心，400ms ease-out；切到深色反向）；不支持 API 或 reduced-motion 时即时换色 |
 | `prefers-reduced-motion` | 关闭入场与所有位移动画 |
 
 ---

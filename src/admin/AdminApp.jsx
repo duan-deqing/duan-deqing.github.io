@@ -6,6 +6,7 @@ import PostsSection from './sections/PostsSection'
 import PreviewDrawer from './components/PreviewDrawer'
 import { getIn, setIn } from './lib/objectPath'
 import { validateDoc } from './lib/validate'
+import { animateThemeChange } from '../utils/themeTransition'
 
 const NAV = [...contentSchema.map(({ id, label }) => ({ id, label })), { id: 'posts', label: '文章管理' }]
 
@@ -28,12 +29,12 @@ export default function AdminApp() {
   const iframeRef = useRef(null)
   const activeNavRef = useRef(null)
 
-  const toggleAdminTheme = useCallback(() => {
-    const next = !dark
-    setDark(next)
-    document.documentElement.classList.toggle('dark', next)
-    localStorage.setItem('theme', next ? 'dark' : 'light')
-  }, [dark])
+  const toggleAdminTheme = useCallback((event) => {
+    animateThemeChange(event, (nextDark) => {
+      setDark(nextDark)
+      localStorage.setItem('theme', nextDark ? 'dark' : 'light')
+    })
+  }, [])
 
   const dirty = useMemo(
     () => Boolean(docs && baseline && JSON.stringify(docs) !== JSON.stringify(baseline)),

@@ -179,6 +179,7 @@
 - 图标为内联 SVG，16px，`stroke-width: 1.5`，无图标库依赖；外链统一 `↗`（ArrowUpRight）。
 - 首页内容使用 `slide-enter`：1s、`translateY(10px)`、90ms 阶梯；仅首页。
 - 其余交互只做颜色/背景/边框 150–300ms 过渡；抽屉 `transform 300ms`。
+- 主题切换与 antfu.me 一致：以点击位置为圆心的 View Transition 圆形扩散，400ms `ease-out`；切到深色时反向收缩；不支持 View Transition 或 `prefers-reduced-motion` 时即时换色。
 - `prefers-reduced-motion` 下关闭入场与过渡位移；抽屉直接显示。
 
 ## 5. 页面架构
