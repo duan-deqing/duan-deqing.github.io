@@ -20,7 +20,7 @@
 - 路由语义保持不变：`/` `/projects` `/blog` `/blog/:slug` `/skills` `/contact` `*`。
 - 内容源保持 YAML + Markdown；双语、主题、搜索、TOC、RSS、简历、二维码、后台 API/校验逻辑全部保留。
 - 后台只改表现层与布局，不改 `adminApi`、`validate.js`、`preview.js`、文件读写协议。
-- 每个任务结束执行 `pnpm lint && pnpm test && pnpm build`（任务内另注明更小的验证命令），然后本地 commit（不 push）。
+- 每个任务结束执行 `pnpm test && pnpm build`（任务内另注明更小的验证命令），然后本地 commit（不 push）。`pnpm lint` 当前不可用（仓库未声明 eslint），不要把它当作门禁。
 - 提交信息使用中文 Conventional Commits（`feat:` / `fix:` / `refactor:` / `docs:` / `chore:`）。
 - 浏览器 QA 尺寸：1440×900、390×844、320×568；主题与语言各测一遍。
 - 不修改工作区中与本计划无关的 `dist/`、`public/rss.xml`、`OPTIMIZATION.md`、`public/site-structure.svg`、`src/posts/2026-09-16-two-sum.md`。
@@ -1283,29 +1283,29 @@ git commit -m "feat: 首页改为 antfu 式文本流与年份文章列表"
 ### Task 5: 清理旧首页组件与旧壳
 
 **Files:**
-- Delete: `src/components/HomePage/Hero.jsx`、`AboutSection.jsx`、`ProjectGrid.jsx`、`ProjectCard.jsx`、`SkillsSection.jsx`、`ContactCta.jsx`
+- Delete: `src/components/HomePage/Hero.jsx`、`AboutSection.jsx`、`SkillsSection.jsx`、`ContactCta.jsx`
 - Delete: `src/components/shared/SiteHeader.jsx`、`SiteFooter.jsx`、`ThemeLangControls.jsx`
 - Keep for later: `PostRow.jsx`、`PostRowSkeleton.jsx`（博客页在 Task 10 前仍引用）
+- Deferred to Task 7: `ProjectGrid.jsx`、`ProjectCard.jsx`（`ProjectsPage` 仍引用，Task 7 重写后删除）
 
 - [ ] **Step 1: 确认无引用**
 
 ```bash
-grep -rn "Hero\|AboutSection\|ProjectGrid\|ProjectCard\|SkillsSection\|ContactCta\|SiteHeader\|SiteFooter\|shared/ThemeLangControls" src --include="*.jsx" --include="*.js" | grep -v "components/HomePage\|components/shared/SiteHeader\|components/shared/SiteFooter\|components/shared/ThemeLangControls"
+grep -rn "components/HomePage/Hero\|components/HomePage/AboutSection\|components/HomePage/SkillsSection\|components/HomePage/ContactCta\|components/shared/SiteHeader\|components/shared/SiteFooter\|components/shared/ThemeLangControls" src --include="*.jsx" --include="*.js"
 ```
 
-预期：无输出（或仅有历史注释）。
+预期：无输出。`ProjectGrid/ProjectCard` 仍被 `ProjectsPage` 引用，按裁定保留到 Task 7。
 
 - [ ] **Step 2: 删除文件**
 
 ```bash
-git rm src/components/HomePage/Hero.jsx src/components/HomePage/AboutSection.jsx src/components/HomePage/ProjectGrid.jsx src/components/HomePage/ProjectCard.jsx src/components/HomePage/SkillsSection.jsx src/components/HomePage/ContactCta.jsx
+git rm src/components/HomePage/Hero.jsx src/components/HomePage/AboutSection.jsx src/components/HomePage/SkillsSection.jsx src/components/HomePage/ContactCta.jsx
 git rm src/components/shared/SiteHeader.jsx src/components/shared/SiteFooter.jsx src/components/shared/ThemeLangControls.jsx
 ```
 
 - [ ] **Step 3: 全量验证 M1**
 
 ```bash
-pnpm lint
 pnpm test
 pnpm build
 ```
@@ -1737,6 +1737,7 @@ git commit -m "feat: 实现 onur 式侧栏与移动抽屉子页壳"
 **Files:**
 - Create: `src/components/projects/ProjectTable.jsx`
 - Rewrite: `src/pages/ProjectsPage.jsx`
+- Delete: `src/components/HomePage/ProjectGrid.jsx`、`ProjectCard.jsx`（本任务重写后不再被引用）
 
 **Interfaces:**
 - `ProjectTable({ projects })`：项目字段 `title`（i18n）、`description`（i18n）、`tags`、`link`、`repo`、`icon`。
@@ -1903,7 +1904,13 @@ pnpm dev
 
 检查 `/projects`：桌面表格 3 列、hover 浅底；390px 下为卡片列表；项目链接可点击。
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 4: 删除旧项目组件**
+
+```bash
+git rm src/components/HomePage/ProjectGrid.jsx src/components/HomePage/ProjectCard.jsx
+```
+
+- [ ] **Step 5: Commit**
 
 ```bash
 git add src/pages/ProjectsPage.jsx src/components/projects/ProjectTable.jsx
