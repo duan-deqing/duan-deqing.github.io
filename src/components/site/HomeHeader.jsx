@@ -4,7 +4,6 @@ import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
 import ThemeLangControls from './ThemeLangControls'
-import BackgroundToggle from '../../backgrounds/BackgroundToggle'
 import { CloseIcon, MenuIcon } from './icons'
 
 export default function HomeHeader({ background, onCycleBackground }) {
@@ -48,16 +47,20 @@ export default function HomeHeader({ background, onCycleBackground }) {
             </Link>
           ))}
           {onCycleBackground ? (
-            <BackgroundToggle variant={background} onCycle={onCycleBackground} />
-          ) : null}
-          <ThemeLangControls />
+            <ThemeLangControls
+              background={background}
+              onCycleBackground={onCycleBackground}
+            />
+          ) : (
+            <ThemeLangControls />
+          )}
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
-          {onCycleBackground ? (
-            <BackgroundToggle variant={background} onCycle={onCycleBackground} />
-          ) : null}
-          <ThemeLangControls />
+          <ThemeLangControls
+            background={background}
+            onCycleBackground={onCycleBackground}
+          />
           <button
             type="button"
             className="grid size-8 place-items-center rounded-md text-ink hover:bg-subtle"

@@ -1,6 +1,7 @@
 import { useLanguage } from '../../hooks/useLanguage'
 import { useTheme } from '../../hooks/useTheme'
 import { cn } from '../../utils/cn'
+import BackgroundToggle from '../../backgrounds/BackgroundToggle'
 import { MoonIcon, SunIcon } from './icons'
 
 const BASE = 'inline-flex h-8 items-center justify-center gap-1.5'
@@ -9,7 +10,12 @@ const ICON_BUTTON =
 const SIDEBAR_BUTTON =
   'rounded-md px-2 text-xs font-medium text-muted-strong transition-colors hover:bg-hover hover:text-ink'
 
-export default function ThemeLangControls({ variant = 'icon', className }) {
+export default function ThemeLangControls({
+  variant = 'icon',
+  className,
+  background,
+  onCycleBackground,
+}) {
   const { isDark, toggle: toggleTheme } = useTheme()
   const { lang, toggle: toggleLang, t } = useLanguage()
   const showLabels = variant === 'sidebar'
@@ -27,6 +33,9 @@ export default function ThemeLangControls({ variant = 'icon', className }) {
 
   return (
     <div className={cn('flex items-center gap-1', className)}>
+      {!showLabels && onCycleBackground ? (
+        <BackgroundToggle variant={background} onCycle={onCycleBackground} />
+      ) : null}
       <button
         type="button"
         className={cn(BASE, showLabels ? SIDEBAR_BUTTON : ICON_BUTTON)}
