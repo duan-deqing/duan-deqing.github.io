@@ -279,9 +279,9 @@ App
 - 移动：每条项目变卡片：标题 + 描述 + 技术栈文本 + 链接；`rounded-lg border p-4`。
 - 不使用 antfu 的三列 350px 项目网格（本项目路由归属 onur 页面）。
 
-### 6.5 技能页 `/skills`
+### 6.5 Stack 页 `/skills`
 
-- 页头：h1 `Skills` + 一段说明。
+- 页头：h1 `Stack / 技术栈` + 一段说明。
 - 每个分类一行：桌面 `grid-cols-[160px_1fr]`，分类名 14px/500 `text-heading`，技术项为 14px 文本、`·` 分隔、可换行；行间 `border-t`、纵向 24px。
 - 不使用 chips、卡片、图标。
 - 移动：分类名在上，技术项在下。

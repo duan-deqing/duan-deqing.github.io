@@ -10,7 +10,7 @@ export default function SkillsPage() {
   return (
     <div className="mx-auto w-full max-w-3xl">
       <PageTitle
-        title={`STYLAN · ${t({ en: 'Skills', zh: '技能' })}`}
+        title={`STYLAN · ${t({ en: 'Stack', zh: '技术栈' })}`}
         description={t({
           en: 'The tools and technologies I use to build AI products.',
           zh: '我用来构建 AI 产品的工具与技术。',
@@ -19,7 +19,7 @@ export default function SkillsPage() {
         lang={lang}
       />
       <PageHeading
-        title={t({ en: 'Skills', zh: '技能' })}
+        title={t({ en: 'Stack', zh: '技术栈' })}
         description={t({
           en: 'Tools I reach for when building and shipping.',
           zh: '构建与交付时常用的工具。',
