@@ -87,7 +87,7 @@ export const markdownComponents = {
 
     return (
       <div className="my-6 overflow-hidden rounded-lg border border-line">
-        <div className="border-b border-line bg-subtle px-4 py-2 font-mono-ui text-[10px] uppercase tracking-[0.08em] text-muted">
+        <div className="border-b border-line bg-subtle px-4 py-2 font-mono-ui text-[10px] uppercase tracking-[0.08em] text-ink/75">
           {language}
         </div>
         <pre

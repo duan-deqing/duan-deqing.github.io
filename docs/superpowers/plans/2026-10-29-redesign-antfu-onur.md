@@ -1902,7 +1902,7 @@ export default function BlogPostPage() {
 - [ ] **Step 9: 跑测试与浏览器检查**
 
 Run: `pnpm lint && pnpm test && pnpm build`
-Expected: 全绿；访问 `/blog/two-sum`：
+Expected: 全绿；访问 `/blog/getting-started-with-react-hooks`：
 - 68ch 正文、章节标题间距、代码块横向滚动。
 - ≥1280px 右侧 TOC 粘性吸顶并高亮；窄屏为折叠目录。
 - 明暗主题下代码配色正常。
@@ -2608,7 +2608,7 @@ git commit -m "chore: 移除旧布局组件与动效代码"
       "url": [
         "http://localhost:4173/",
         "http://localhost:4173/blog",
-        "http://localhost:4173/blog/two-sum"
+        "http://localhost:4173/blog/getting-started-with-react-hooks"
       ],
       "numberOfRuns": 1
     },
