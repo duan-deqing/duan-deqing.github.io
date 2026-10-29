@@ -238,7 +238,7 @@ App
 2. `<hr>`。
 3. **Find me on**：GitHub / Bilibili / RSS，正文式链接（16px / 600、图标 1.2em / `inline-block` / 75% 不透明度 / `text-bottom` 对齐、图标与文字间隔 4px、链接间距 8px）；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`，`border 0.3s ease-in-out`；下一行 `Or mail me at` + mono 字体邮箱链接。首页内所有带底线链接字重 600，页脚链接例外（400）。
 4. `<hr>`。
-5. **Stack**：h2 `Stack / 技术栈` + 介绍段落（`text-ink`）；`ul.list-disc pl-6`、`gap-0.5`、marker `--code-line`；每行分类为蓝色 `/skills` 链接 + ↗ + `—` + `·` 连接的技术项（muted）；链接仿 onur `.link`，仅 hover 下划线。
+5. **Stack**：无可见标题；介绍段落（`text-ink`）+ `ul.list-disc pl-6`、`gap-0.5`、marker `--code-line`；每行分类为蓝色 `/skills` 链接 + ↗ + `—` + `·` 连接的技术项（muted）；链接仿 onur `.link`，仅 hover 下划线。
 6. **Footer**：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 antfu/antfu.me`，14px、50% 不透明度；许可与来源为链接，无 RSS/社交图标。
 
 规则：

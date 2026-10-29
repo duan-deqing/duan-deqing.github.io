@@ -121,14 +121,8 @@ export default function HomePage() {
 
         <hr className="home-divider" />
 
-        <section aria-labelledby="home-stack">
-          <h2
-            id="home-stack"
-            className="text-lg font-semibold tracking-tight text-heading md:text-xl"
-          >
-            {t({ en: 'Stack', zh: '技术栈' })}
-          </h2>
-          <p className="mb-4 mt-2 text-base leading-[1.75] text-ink">
+        <section aria-label={t({ en: 'Stack', zh: '技术栈' })}>
+          <p className="mb-4 text-base leading-[1.75] text-ink">
             {t({
               en: 'Tools and technologies I use to build and ship AI products.',
               zh: '我用来构建与交付 AI 产品的工具与技术。',
