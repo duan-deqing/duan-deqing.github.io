@@ -135,28 +135,22 @@ pnpm dev
 
 ### 文件命名
 
-- 中文：`src/posts/yyyy-mm-dd-post-title.md`
+- 中文：`src/posts/zh/yyyy-mm-dd-post-title.md`
 - 英文：`src/posts/en/yyyy-mm-dd-post-title-en.md`
 - 配图：`src/posts/img/yyyy-mm-dd-post-title/xxx.jpg`（文件夹名与文章文件名去掉日期前缀后的 slug 对应更稳妥时，请与 `utils/markdown.js` 的匹配规则一致：文件夹名 = 文章文件名去掉 `-en`）
 
 ### Frontmatter 模板
 
+中文和英文分别只写本语言内容，字段与英文版保持一致（字符串，不写 `en/zh` 对象）：
+
 ```markdown
 ---
-title:
-  en: "English Title"
-  zh: "中文标题"
-excerpt:
-  en: "English excerpt"
-  zh: "中文摘要"
-category: "tutorial"          # 必须是 blog.yaml categories 里的 id
-readTime:
-  en: "5 min read"
-  zh: "5 分钟阅读"
-author:
-  en: "STYLAN"
-  zh: "STYLAN"
-tags: ["React", "JavaScript"]
+title: "构建现代个人主页"
+excerpt: "使用 React 和 Tailwind CSS 创建精美开发者主页的分步指南。"
+category: "tech"              # 必须是 blog.yaml categories 里的 id
+readTime: "8 分钟阅读"
+author: "STYLAN"
+tags: ["React", "Tailwind CSS", "Portfolio"]
 featured: true                # true 会在文章页显示「精选」标记
 ---
 
@@ -165,6 +159,8 @@ featured: true                # true 会在文章页显示「精选」标记
 支持 GFM 表格、任务列表、代码块语法高亮。
 ```
 
+英文版放在 `src/posts/en/`，使用相同字段的英文值，例如 `title: "Building a Modern Portfolio Website"`、`readTime: "8 min read"`。
+
 正文里的第一个 `# 一级标题` 会被自动去掉，避免和页面标题重复。
 
 ## 功能特性
@@ -172,9 +168,9 @@ featured: true                # true 会在文章页显示「精选」标记
 - **主题切换**：导航栏太阳/月亮按钮；偏好写入 `localStorage`，首次访问跟随系统
 - **语言切换**：导航栏「中文 / EN」；博客中英文分目录存放，切换语言会重新加载对应版本
 - **博客搜索与筛选**：博客页 `Ctrl/Cmd + K` 按标题/摘要/标签/分类过滤；分类 + 标签文本筛选可组合生效
-- **文章目录**：≥1280px 右侧 sticky TOC，小屏折叠为正文上方的 `<details>`
+- **文章目录**：移动端折叠为正文上方的 `<details>`；桌面三栏布局与 onur 一致不显示 TOC
 - **代码块**：rehype-highlight 高亮 + 行号，13px Mono、横向滚动；文章正文 68ch / 16px / 1.75 排版
-- **布局与动效**：首页 antfu 式 65ch 文本流，子页 onur 式侧栏（240/288px）+ 普通子页 768px 内容区；文章页 ≥1280 扩展至 1024px 以容纳右侧 200px TOC。仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮、无首屏 Loading 页（首页静态导入，子页懒加载）
+- **布局与动效**：首页 antfu 式 65ch 文本流；子页 onur 式侧栏（240/288px）；博客为写作列表栏 + 右侧文章；文章 768px。仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮（子页懒加载）
 - **RSS**：`pnpm run rss` 或 build 时生成 `public/rss.xml`
 - **GitHub Pages SPA**：`public/404.html` + `index.html` 内重定向脚本（spa-github-pages 方案）
 

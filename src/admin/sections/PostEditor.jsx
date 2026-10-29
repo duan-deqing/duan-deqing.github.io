@@ -14,8 +14,8 @@ import Field from '../components/Field'
 import { resolvePreviewImages } from '../lib/preview'
 
 const EMPTY = {
-  title: { en: '', zh: '' },
-  excerpt: { en: '', zh: '' },
+  title: '',
+  excerpt: '',
   readTime: '',
   author: 'STYLAN',
   category: '',

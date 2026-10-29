@@ -78,7 +78,7 @@ Links come in inline and reference styles. For directly displayed URLs, most par
 
 ```markdown
 This is an inline link to [GitHub](https://github.com).
-This is a reference link: see [Markdown官网][1].
+This is a reference link: see [Markdown documentation][1].
 [1]: https://daringfireball.net/projects/markdown/
 Direct URL: https://bing.com
 ```
@@ -86,7 +86,7 @@ Direct URL: https://bing.com
 **Rendered Result:**
 
 - This is an inline link to [GitHub](https://github.com).
-- This is a reference link: see [Markdown官网][1].
+- This is a reference link: see [Markdown documentation][1].
 - [1]: https://daringfireball.net/projects/markdown/
 - Direct URL: https://bing.com
 

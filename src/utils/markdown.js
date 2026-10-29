@@ -8,7 +8,7 @@
  * 例如: 2026-04-25-getting-started-with-react-hooks.md
  *
  * 【文件夹结构】
- * - src/posts/ (中文文章)
+ * - src/posts/zh/ (中文文章)
  * - src/posts/en/ (英文文章)
  * - src/posts/img/ (文章图片)
  *
@@ -43,7 +43,7 @@ for (const path in allMarkdownFiles) {
     if (path.includes('/posts/en/')) {
       // 英文文章
       enMarkdownFiles[path] = allMarkdownFiles[path]
-    } else if (path.includes('/posts/')) {
+    } else if (path.includes('/posts/zh/')) {
       // 中文文章
       zhMarkdownFiles[path] = allMarkdownFiles[path]
     }

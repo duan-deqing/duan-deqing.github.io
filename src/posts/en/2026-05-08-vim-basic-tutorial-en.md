@@ -1,19 +1,11 @@
 ---
-title:
-  en: "Vim Editor Basic Usage Tutorial"
-  zh: "Vim编辑器基础使用教程"
-excerpt:
-  en: "Vim Basic Text Editor Usage Guide."
-  zh: "Linux基础文本编辑器Vim使用指南"
+title: "Vim Editor Basic Usage Tutorial"
+excerpt: "Vim Basic Text Editor Usage Guide."
 category: "tutorial"
-readTime:
-  en: "3 min read"
-  zh: "3 分钟阅读"
-author:
-  en: "STYLAN"
-  zh: "STYLAN"
-tags: ["Tutorial", "Tools"]
-featured: false # 是否精选
+readTime: "3 min read"
+author: "STYLAN"
+tags: ["Tutorial","Tools"]
+featured: false
 ---
 
 # Vim Editor Basic Usage Tutorial

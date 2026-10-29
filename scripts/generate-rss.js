@@ -152,7 +152,7 @@ function markdownToHtml(md) {
  */
 async function generateRSS() {
   // 读取中文文章
-  const zhDir = path.join(rootDir, "src", "posts");
+  const zhDir = path.join(rootDir, "src", "posts", "zh");
   const enDir = path.join(rootDir, "src", "posts", "en");
 
   const zhFiles = getMarkdownFiles(zhDir);

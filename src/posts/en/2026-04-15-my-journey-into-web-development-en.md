@@ -96,4 +96,4 @@ Looking back on my web development journey, although full of challenges, every s
 
 Thank you for reading my story, hope it gives you some inspiration!
 
-![娜娜莉](./img/2026-04-15-my-journey-into-web-development/132578575_p0.jpg)
+![Illustration](./img/2026-04-15-my-journey-into-web-development/132578575_p0.jpg)

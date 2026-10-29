@@ -1,18 +1,10 @@
 ---
-title:
-  en: "Building a Modern Portfolio Website"
-  zh: "构建现代个人主页"
-excerpt:
-  en: "A step-by-step guide to creating a stunning developer portfolio with React and Tailwind CSS."
-  zh: "使用 React 和 Tailwind CSS 创建精美开发者主页的分步指南。"
+title: "构建现代个人主页"
+excerpt: "使用 React 和 Tailwind CSS 创建精美开发者主页的分步指南。"
 category: "tech"
-readTime:
-  en: "8 min read"
-  zh: "8 分钟阅读"
-author:
-  en: "STYLAN"
-  zh: "STYLAN"
-tags: ["React", "Tailwind CSS", "Portfolio"]
+readTime: "8 分钟阅读"
+author: "STYLAN"
+tags: ["React","Tailwind CSS","Portfolio"]
 featured: true
 ---
 

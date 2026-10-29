@@ -1,18 +1,10 @@
 ---
-title:
-  en: "Markdown Tutorial"
-  zh: "Markdown 指南：从基础到 GitHub 开源贡献"
-excerpt:
-  en: "A comprehensive guide to Markdown syntax, editors, and advanced features."
-  zh: "一份全面的 Markdown 语法、编辑器和高级功能指南。"
+title: "Markdown 指南：从基础到 GitHub 开源贡献"
+excerpt: "一份全面的 Markdown 语法、编辑器和高级功能指南。"
 category: "tutorial"
-readTime:
-  en: "10 min read"
-  zh: "10 分钟阅读"
-author:
-  en: "STYLAN"
-  zh: "STYLAN"
-tags: ["Markdown", "Tutorial", "Documentation"]
+readTime: "10 分钟阅读"
+author: "STYLAN"
+tags: ["Markdown","Tutorial","Documentation"]
 featured: false
 ---
 

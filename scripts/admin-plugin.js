@@ -12,7 +12,7 @@ import { parsePostFilename, postImageDirName } from '../src/utils/postFilename.j
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)))
 const SITE_FILE = path.join(ROOT, 'src/content/site.yaml')
 const BLOG_FILE = path.join(ROOT, 'src/content/blog.yaml')
-const POSTS_ZH = path.join(ROOT, 'src/posts')
+const POSTS_ZH = path.join(ROOT, 'src/posts/zh')
 const POSTS_EN = path.join(ROOT, 'src/posts/en')
 const POST_IMG = path.join(ROOT, 'src/posts/img')
 const PUBLIC_IMAGES = path.join(ROOT, 'public/images')

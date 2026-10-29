@@ -132,4 +132,4 @@ Building a modern personal portfolio is not complex, the key is:
 
 Hopefully this article helps you!
 
-![娜娜莉](./img/2026-04-20-building-modern-portfolio/138765453_p0.jpg)
+![Illustration](./img/2026-04-20-building-modern-portfolio/138765453_p0.jpg)

@@ -114,4 +114,4 @@ React Hooks provides a more concise and intuitive way to write React components.
 
 Hopefully this article helps you get started with React Hooks!
 
-![娜娜莉](./img/2026-04-25-getting-started-with-react-hooks/134637964_p0.jpg)
+![Illustration](./img/2026-04-25-getting-started-with-react-hooks/134637964_p0.jpg)

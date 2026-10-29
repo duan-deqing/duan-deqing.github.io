@@ -1,18 +1,10 @@
 ---
-title:
-  en: "My Journey into Web Development"
-  zh: "我的 Web 开发之旅"
-excerpt:
-  en: "Reflecting on my experiences and lessons learned while transitioning into web development."
-  zh: "回顾我转型 Web 开发过程中的经验和教训。"
+title: "我的 Web 开发之旅"
+excerpt: "回顾我转型 Web 开发过程中的经验和教训。"
 category: "thoughts"
-readTime:
-  en: "6 min read"
-  zh: "6 分钟阅读"
-author:
-  en: "STYLAN"
-  zh: "STYLAN"
-tags: ["Career", "Web Development"]
+readTime: "6 分钟阅读"
+author: "STYLAN"
+tags: ["Career","Web Development"]
 featured: false
 ---
 
