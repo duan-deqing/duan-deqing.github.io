@@ -48,6 +48,8 @@ export default function SearchDialog({ open, posts, onClose, t }) {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={(event) => {
+            // 输入法组合期间（中文/日文候选）方向键与 Enter 属于 IME，不触发列表导航
+            if (event.nativeEvent?.isComposing || event.keyCode === 229) return
             if (event.key === 'ArrowDown') {
               event.preventDefault()
               setActiveIndex((value) => Math.min(value + 1, Math.max(results.length - 1, 0)))
@@ -63,7 +65,10 @@ export default function SearchDialog({ open, posts, onClose, t }) {
           className="h-9 w-full bg-transparent text-sm text-ink outline-none placeholder:text-muted"
           aria-label={t({ en: 'Search posts', zh: '搜索文章' })}
         />
-        <kbd className="rounded border border-line bg-subtle px-1.5 py-0.5 text-[11px] text-muted">
+        <kbd
+          aria-hidden="true"
+          className="rounded border border-line bg-subtle px-1.5 py-0.5 text-[11px] text-muted"
+        >
           ESC
         </kbd>
       </div>

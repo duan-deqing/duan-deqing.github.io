@@ -39,17 +39,18 @@ export default function WritingList({ groups, t }) {
                 <time dateTime={post.date}>{formatDate(post.date, t)}</time>
               </td>
               <th scope="row" className="py-4 text-left align-baseline font-normal">
+                <div className="mb-1 flex justify-between gap-2 md:hidden">
+                  <time dateTime={post.date} className="text-xs text-muted">
+                    {formatDate(post.date, t)}
+                  </time>
+                  <span className="text-xs text-muted">{categoryLabel(post.category, t)}</span>
+                </div>
                 <Link
                   to={`/blog/${post.slug}`}
                   className="font-medium text-heading transition-colors after:absolute after:inset-0 hover:text-accent"
                 >
                   {t(post.title)}
                 </Link>
-                <div className="mt-1 flex flex-wrap gap-2 text-xs text-muted md:hidden">
-                  <time dateTime={post.date}>{formatDate(post.date, t)}</time>
-                  <span aria-hidden="true">·</span>
-                  <span>{categoryLabel(post.category, t)}</span>
-                </div>
               </th>
               <td className="hidden py-4 pl-4 text-right align-baseline text-muted md:table-cell">
                 {categoryLabel(post.category, t)}

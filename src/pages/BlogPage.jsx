@@ -16,6 +16,7 @@ import { RssIcon, SearchIcon } from '../components/site/icons'
 export default function BlogPage() {
   const { lang, t } = useLanguage()
   const [posts, setPosts] = useState([])
+  const [failed, setFailed] = useState(false)
   const [loading, setLoading] = useState(true)
   const [category, setCategory] = useState('all')
   const [tag, setTag] = useState(null)
@@ -23,6 +24,7 @@ export default function BlogPage() {
 
   useEffect(() => {
     let cancelled = false
+    setFailed(false)
     setLoading(true)
     getAllPosts(lang)
       .then((value) => {
@@ -30,6 +32,7 @@ export default function BlogPage() {
       })
       .catch((error) => {
         console.error('[BlogPage] Failed to load posts:', error)
+        if (!cancelled) setFailed(true)
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
@@ -53,6 +56,10 @@ export default function BlogPage() {
   const tags = useMemo(() => collectTags(posts), [posts])
   const filtered = useMemo(() => filterPosts(posts, { category, tag }), [posts, category, tag])
   const groups = useMemo(() => groupPostsByYear(filtered), [filtered])
+
+  useEffect(() => {
+    if (tag && !tags.includes(tag)) setTag(null)
+  }, [tag, tags])
 
   return (
     <div className="mx-auto w-full max-w-3xl">
@@ -80,7 +87,10 @@ export default function BlogPage() {
             <Button variant="outline" onClick={() => setSearchOpen(true)}>
               <SearchIcon size={15} />
               {t({ en: 'Search', zh: '搜索' })}
-              <kbd className="rounded border border-line bg-subtle px-1 text-[10px] text-muted">
+              <kbd
+                aria-hidden="true"
+                className="rounded border border-line bg-subtle px-1 text-[10px] text-muted"
+              >
                 ⌘K
               </kbd>
             </Button>
@@ -98,7 +108,15 @@ export default function BlogPage() {
         t={t}
       />
 
-      {loading ? <WritingRowSkeleton /> : <WritingList groups={groups} t={t} />}
+      {loading ? (
+        <WritingRowSkeleton />
+      ) : failed ? (
+        <p className="py-8 text-sm text-muted">
+          {t({ en: 'Unable to load posts.', zh: '文章加载失败。' })}
+        </p>
+      ) : (
+        <WritingList groups={groups} t={t} />
+      )}
 
       <SearchDialog open={searchOpen} posts={posts} onClose={() => setSearchOpen(false)} t={t} />
     </div>
