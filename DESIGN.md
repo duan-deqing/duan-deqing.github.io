@@ -130,7 +130,7 @@
 │ 1 Home     │       PageTitle               │
 │ 2 Projects │       content …               │
 │ 3 Blog     │                               │
-│ 4 Skills   │                               │
+│ 4 Stack    │                               │
 │ 5 Contact  │                               │
 │ ─────────  │                               │
 │ Online     │                               │
@@ -141,6 +141,7 @@
 ```
 
 - 侧栏：240px（≥1024）/ 288px（≥1280），`--bg-sidebar`，右边框，独立滚动。
+- 导航图标与 onur 一致：Home 房子、Projects 文件夹、Blog 钢笔、Stack 魔杖星光（WandSparkles）、Contact 邮件。
 - 内容：普通页面 `max-width: 768px`，`padding: 32px 24px`（桌面 `96px 32px 64px`）；文章页 ≥1280px 扩展到 1024px 以容纳 200px TOC。
 - 移动：48px sticky 顶栏 + 底部抽屉菜单。
 - 子页无全站页脚。
@@ -181,7 +182,7 @@
 
 ### 5.3 列表与表格
 
-- 博客行：分组年列 + 日期 + 标题 + 分类；行 `border-top: 1px --line`；hover 时同组其他行 `--muted` 50%，当前行 `--ink`。
+- 博客行：onur writing 列表，标题 14px/500 + 元信息「日期 · 分类」；行 `rounded-lg p-2`、列表 `gap-1`，hover `--bg-hover`；扁平列表，无年列与表头。
 - 项目/后台表格：外层 `rounded-lg` 描边；表头 14px `--muted`、h-10；行 `border-top`；hover `--bg-subtle` 50%。
 - 不使用斑马纹、彩色状态点。
 
@@ -215,7 +216,7 @@
 | 页面 | 构图 |
 | --- | --- |
 | `/` | Intro 三段 → hr → Find me on → hr → Stack → 页脚 |
-| `/blog` | h1 + 副标题 + RSS/Search → 分类/标签 → 年/日期/标题/分类 grid 行（视觉上表格式） |
+| `/blog` | h1 + 副标题 + RSS/Search → 分类/标签选择框 → onur writing 列表（标题 + 日期·分类） |
 | `/blog/:slug` | 返回 → h1 → 日期·阅读时长·分类 → 正文 68ch + 右侧 TOC |
 | `/projects` | h1 + 说明 + GitHub → 项目表格（移动卡片） |
 | `/skills` | h1 `Stack` + 说明 → onur 式分类 bullet 列表（蓝色分类链接 + ↗ + `—` + 技术项） |
@@ -303,7 +304,7 @@
 - [x] 子页为 240/288px 侧栏 + 768px 内容区；移动端 48px 顶栏 + 底部抽屉。
 - [x] 浅色为纯白 / zinc-50 / gray-200 / 黑 / 蓝链接；深色为等价推导。
 - [x] 全站 Geist Sans + Geist Mono，自托管，无第三方字体请求。
-- [x] 博客列表为年/日期/标题/分类 grid 行（视觉上表格式），无摘要与标签。
+- [x] 博客列表为 onur writing 行（标题 + 日期 · 分类），分类/标签为选择框，无摘要与年份列。
 - [x] 文章页 68ch + TOC + 行号代码块 + 圆角描边图片。
 - [x] 项目页为表格（移动卡片）；技能页为 onur 式 bullet 列表；联系页为链接列表。
 - [x] 后台为 onur 式侧栏 + 卡片表单 + 表格 + 预览抽屉。

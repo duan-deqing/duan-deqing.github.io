@@ -8,7 +8,7 @@ import {
   MailIcon,
   PenIcon,
   RssIcon,
-  SparklesIcon,
+  WandSparklesIcon,
   platformIcon,
 } from './icons'
 
@@ -16,7 +16,7 @@ const NAV_ICONS = {
   '/': HomeIcon,
   '/projects': FolderIcon,
   '/blog': PenIcon,
-  '/skills': SparklesIcon,
+  '/skills': WandSparklesIcon,
   '/contact': MailIcon,
 }
 

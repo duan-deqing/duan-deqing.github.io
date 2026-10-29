@@ -175,19 +175,6 @@
     border-top: 1px solid color-mix(in srgb, var(--muted) 30%, transparent);
   }
 
-  .writing-list .writing-row {
-    transition: opacity 0.2s ease;
-  }
-
-  .writing-list:hover .writing-row {
-    opacity: 0.35;
-  }
-
-  .writing-list .writing-row:hover,
-  .writing-list .writing-row:focus-visible {
-    opacity: 1;
-  }
-
   .inline-code {
     display: inline-block;
     border-radius: 6px;
@@ -291,10 +278,6 @@
 
     .qr-bubble-enter {
       animation: none;
-    }
-
-    .writing-list .writing-row {
-      transition: none;
     }
   }
 }

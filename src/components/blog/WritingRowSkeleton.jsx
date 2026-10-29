@@ -1,12 +1,10 @@
 export default function WritingRowSkeleton({ rows = 6 }) {
   return (
-    <div aria-hidden="true">
+    <div aria-hidden="true" className="flex flex-col gap-1">
       {Array.from({ length: rows }).map((_, index) => (
-        <div key={index} className="flex items-center gap-4 border-t border-line py-4">
-          <span className="hidden h-4 w-12 rounded bg-subtle md:block" />
-          <span className="hidden h-4 w-20 rounded bg-subtle md:block" />
-          <span className="h-4 flex-1 rounded bg-subtle" />
-          <span className="hidden h-4 w-16 rounded bg-subtle md:block" />
+        <div key={index} className="flex min-h-[69px] flex-col gap-2 rounded-lg p-2">
+          <span className="h-4 w-3/4 rounded bg-subtle" />
+          <span className="h-3.5 w-40 rounded bg-subtle" />
         </div>
       ))}
     </div>

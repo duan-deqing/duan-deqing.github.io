@@ -27,7 +27,7 @@
 2. 浅色严格对齐 onur 的 white / zinc-50 / gray-200 / black / blue-600 体系；深色按同一语义推导。
 3. 全站自托管 Geist Sans + Geist Mono，中文回退系统字体。
 4. 首页只保留：自我介绍（内联链接）、社交与邮箱、技术栈、页脚；移除首页项目卡片、技能网格、联系 CTA。
-5. 博客列表改为 onur 式「年 / 日期 / 标题 / 分类」表格行；文章页改为 onur 式排版 + 保留 TOC。
+5. 博客列表改为 onur writing 行（标题 + 日期 · 分类）；文章页改为 onur 式排版 + 保留 TOC。
 6. 项目页改为 onur `workspace` 式表格；技能页改为 onur 式 bullet 列表；联系页改为 onur 文本页 + 链接列表。
 7. 后台在保留全部功能的前提下，视觉与布局重做为 onur 风格。
 8. 移动端 Lighthouse Performance ≥ 90（`/`、`/blog`、`/blog/<slug>`），A11y / Best Practices / SEO ≥ 95。
@@ -55,7 +55,7 @@
 | 分隔线 | `#8884`（约 27% 灰） | `--line` |
 | 选区 | `#8884` | 浅色黑底白字 / 深色白底黑字（onur 规则） |
 | 入场 | `slide-enter` 1s、90ms 阶梯、上移 10px | 仅首页启用 |
-| 文章列表 | 年份 `text-8em` 描边水印 + 标题/日期 | 不用于首页；首页改为技术栈，博客列表使用年份列 |
+| 文章列表 | 年份 `text-8em` 描边水印 + 标题/日期 | 不用于首页；首页改为技术栈，博客列表使用 onur writing 行 |
 | 项目网格 | 350px 卡片、图标 + 名称 + 描述、hover `#88888811` | 不采用三列网格；`/projects` 按 onur 表格实现（见 6.4） |
 
 ### 3.2 onur.dev（博客、子页、后台）
@@ -68,7 +68,7 @@
 | 内容区 | `px-6 pt-8 pb-8 lg:px-8 lg:pt-24 lg:pb-16`；`mx-auto max-w-3xl` | 所有子页 |
 | 移动顶栏 | `h-12` sticky，白底，边框 | 子页移动端 |
 | 页面标题 | `PageTitle` → `h1 text-2xl md:text-3xl`，`mb-6` | 所有子页 |
-| 文章列表 | 14px；表头灰字；年 / 日期 / 标题列；行 `border-t`、`py-4`；hover 时整组变灰、当前行变深 | 博客列表 |
+| 文章列表 | `WritingLink`：14px；标题 + 日期；行 `rounded-lg p-2`、列表 `gap-1`，hover `bg-gray-200`；无表头与年列 | 博客列表采用该行样式，保留分类/标签选择框与搜索 |
 | 链接 | `text-blue-600 hover:underline underline-offset-4` | 改为黑色文字 + 常态 30% 灰线 + hover `--link-underline` 底线 |
 | 按钮 | h-9、rounded-md、`shadow-xs`；primary 黑底白字；outline 白底灰边 | 博客操作、联系页、后台 |
 | 表格 | 外层 `rounded-lg border`；表头 `h-10` 灰字；行 hover `bg-gray-100/50` | 项目页、后台文章列表 |
@@ -81,7 +81,7 @@
 - 参考站字体分别为 Inter/DM Mono 与 Geist；全站统一用 Geist（用户已确认），首页用 Geist 复刻 antfu 的排版比例。
 - onur 只有浅色；深色按第 4 节令牌推导。
 - 本站为双语；参考站为单语，语言切换放入侧栏底部与首页导航。
-- 本站无浏览量；博客列表第四列用「分类」替代 Views。
+- 本站无浏览量；列表元信息用「日期 · 分类」替代 Views。
 
 ## 4. 设计令牌
 
@@ -256,12 +256,11 @@ App
 ### 6.2 博客列表 `/blog`
 
 - 页头：h1（默认文案改为 `Writing` / `写作`，可在后台修改）+ 副标题 + 右侧 `RSS`（outline）与 `Search ⌘K`（outline）。
-- 筛选：分类按钮组（All / Technology / Tutorials / Thoughts / Projects），active 黑底白字 rounded-md；标签行用 12px 文本按钮，active 加下划线并变 `text-ink`。
-- 列表（桌面）：CSS grid 行（视觉上近似表格）：表头 `Year | Date | Title | Category`（14px muted）；按年分组，年份只在组首行显示；行 `border-t`、`py-4`；标题 14px/500；hover 时同一组其他行降到 30% 文本色，当前行保持 `text-ink`；整行可点。
-- 移动：去掉 Year/Category 列；日期在标题上方；分类在右侧；行高略减。
-- 不显示摘要与标签（列表保持 onur 的极简密度）；标签只在筛选区出现。
+- 筛选：保留原有分类；分类与标签都使用原生选择框（`select`）显示，分类含「全部分类」，标签含「全部标签」，右侧自定义 chevron；不再使用分类按钮组与标签文本行。
+- 列表：onur writing 行——扁平列表（按日期倒序，不再按年分组），每行 `rounded-lg p-2`、`gap-1`，标题 14px/500，元信息「日期 · 分类」14px `--muted`；列表 `gap-1`；hover `--bg-hover`；无表头、无年列、无行边框。
+- 不显示摘要与标签；标签只用于筛选。
 - 空状态：`{ nothing here yet }` 风格的双语短句。
-- 搜索：`⌘K / Ctrl+K` 打开 onur 式对话框（白底、rounded-lg、描边、overlay 20% 黑、输入框 h-9、结果行 hover `bg-subtle`、键盘上下选择、Esc 关闭、焦点锁定）。
+- 搜索：保留 `⌘K / Ctrl+K` 打开 onur 式对话框（白底、rounded-lg、描边、overlay 20% 黑、输入框 h-9、结果行 hover `bg-subtle`、键盘上下选择、Esc 关闭、焦点锁定）。
 - 加载：行骨架与最终行同高，避免 CLS。
 
 ### 6.3 文章页 `/blog/:slug`

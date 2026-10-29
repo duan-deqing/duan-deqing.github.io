@@ -3,7 +3,6 @@ import blogConfig from '../content/blog.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import { getAllPosts } from '../utils/markdown'
 import { collectTags, filterPosts } from '../utils/blogFilters'
-import { groupPostsByYear } from '../utils/postGroups'
 import PageTitle from '../components/shared/PageTitle'
 import PageHeading from '../components/site/PageHeading'
 import WritingFilterBar from '../components/blog/WritingFilterBar'
@@ -55,7 +54,6 @@ export default function BlogPage() {
 
   const tags = useMemo(() => collectTags(posts), [posts])
   const filtered = useMemo(() => filterPosts(posts, { category, tag }), [posts, category, tag])
-  const groups = useMemo(() => groupPostsByYear(filtered), [filtered])
 
   useEffect(() => {
     if (tag && !tags.includes(tag)) setTag(null)
@@ -115,7 +113,7 @@ export default function BlogPage() {
           {t({ en: 'Unable to load posts.', zh: '文章加载失败。' })}
         </p>
       ) : (
-        <WritingList groups={groups} t={t} />
+        <WritingList posts={filtered} t={t} />
       )}
 
       <SearchDialog open={searchOpen} posts={posts} onClose={() => setSearchOpen(false)} t={t} />
