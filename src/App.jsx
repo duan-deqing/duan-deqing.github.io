@@ -1,28 +1,32 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { AppSettingsProvider } from './hooks/AppSettings'
 import ScrollToTop from './components/shared/ScrollToTop'
-import SiteHeader from './components/shared/SiteHeader'
-import SiteFooter from './components/shared/SiteFooter'
+import HomeLayout from './layouts/HomeLayout'
+import SubpageLayout from './layouts/SubpageLayout'
 import HomePage from './pages/HomePage'
 
-const SkillsPage = lazy(() => import('./pages/SkillsPage'))
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'))
 const BlogPage = lazy(() => import('./pages/BlogPage'))
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage'))
+const SkillsPage = lazy(() => import('./pages/SkillsPage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 function prefetchSubpages() {
   const loaders = [
-    () => import('./pages/SkillsPage'),
     () => import('./pages/ProjectsPage'),
     () => import('./pages/BlogPage'),
+    () => import('./pages/SkillsPage'),
     () => import('./pages/ContactPage'),
   ]
   loaders.forEach((load) => {
     load().catch(() => {})
   })
+}
+
+function page(element) {
+  return <Suspense fallback={<div className="min-h-[60vh]" aria-hidden />}>{element}</Suspense>
 }
 
 export default function App() {
@@ -41,25 +45,20 @@ export default function App() {
 
   return (
     <AppSettingsProvider>
-      <div className="flex min-h-screen flex-col bg-page text-ink">
-        <ScrollToTop />
-        <SiteHeader />
-        <main className="container-page flex-1">
-          {/* 占位高度需 ≥ 一屏：否则首屏会先露出页脚，路由 chunk 到位后页脚被推走（CLS）。 */}
-          <Suspense fallback={<div className="container-page min-h-[100vh]" aria-hidden />}>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/skills" element={<SkillsPage />} />
-              <Route path="/projects" element={<ProjectsPage />} />
-              <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/:slug" element={<BlogPostPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </Suspense>
-        </main>
-        <SiteFooter />
-      </div>
+      <ScrollToTop />
+      <Routes>
+        <Route element={<HomeLayout />}>
+          <Route path="/" element={<HomePage />} />
+        </Route>
+        <Route element={<SubpageLayout />}>
+          <Route path="/projects" element={page(<ProjectsPage />)} />
+          <Route path="/blog" element={page(<BlogPage />)} />
+          <Route path="/blog/:slug" element={page(<BlogPostPage />)} />
+          <Route path="/skills" element={page(<SkillsPage />)} />
+          <Route path="/contact" element={page(<ContactPage />)} />
+          <Route path="*" element={page(<NotFoundPage />)} />
+        </Route>
+      </Routes>
     </AppSettingsProvider>
   )
 }
