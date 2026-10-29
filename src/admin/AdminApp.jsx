@@ -22,7 +22,17 @@ export default function AdminApp() {
   const [status, setStatus] = useState({ kind: '', text: '' })
   const [saving, setSaving] = useState(false)
   const [postDirty, setPostDirty] = useState(false)
+  const [dark, setDark] = useState(() =>
+    typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+  )
   const iframeRef = useRef(null)
+
+  const toggleAdminTheme = useCallback(() => {
+    const next = !dark
+    setDark(next)
+    document.documentElement.classList.toggle('dark', next)
+    localStorage.setItem('theme', next ? 'dark' : 'light')
+  }, [dark])
 
   const dirty = useMemo(
     () => Boolean(docs && baseline && JSON.stringify(docs) !== JSON.stringify(baseline)),
@@ -115,64 +125,92 @@ export default function AdminApp() {
   if (!docs) {
     return (
       <div className="admin-shell">
-        <header className="admin-topbar">
-          <div className="admin-topbar-left">
-            <strong className="admin-brand">STYLAN 内容后台</strong>
-            <span className="admin-breadcrumb">内容管理 / {activeItem.label}</span>
+        <aside className="admin-sidebar">
+          <div className="admin-brand-block">
+            <span className="admin-brand">STYLAN</span>
+            <span className="admin-brand-sub">内容后台</span>
           </div>
-          <div className="admin-topbar-actions">
-            <button className="admin-btn" onClick={load}>重试</button>
-          </div>
-        </header>
-        <main className="admin-main">
-          <div className="admin-page">
-            <div className="admin-panel">
-              <div className="admin-panel-body">
-                <p className="text-sm text-muted">{status.text || '正在加载配置…'}</p>
-              </div>
+        </aside>
+        <div className="admin-workspace">
+          <header className="admin-topbar">
+            <div className="admin-topbar-left">
+              <span className="admin-breadcrumb">内容管理 / {activeItem.label}</span>
             </div>
-          </div>
-        </main>
+            <div className="admin-topbar-actions">
+              <button className="admin-btn" onClick={load}>重试</button>
+            </div>
+          </header>
+          <main className="admin-main">
+            <div className="admin-page">
+              <p className="text-sm text-muted">{status.text || '正在加载配置…'}</p>
+            </div>
+          </main>
+        </div>
       </div>
     )
   }
 
   return (
     <div className="admin-shell">
-      <header className="admin-topbar">
-        <div className="admin-topbar-left">
-          <strong className="admin-brand">STYLAN 内容后台</strong>
-          <span className="admin-breadcrumb">内容管理 / {activeItem.label}</span>
+      <aside className="admin-sidebar">
+        <div className="admin-brand-block">
+          <span className="admin-brand">STYLAN</span>
+          <span className="admin-brand-sub">内容后台</span>
         </div>
-        <div className="admin-topbar-actions">
-          {dirty && <span className="admin-badge">未保存</span>}
-          <button className="admin-btn" onClick={discardChanges} disabled={!dirty}>撤销</button>
-          <button className="admin-btn admin-btn-primary" onClick={save} disabled={saving || !dirty}>
-            {saving ? '保存中…' : '保存'}
-          </button>
-          <button className="admin-btn" onClick={() => setPreviewOpen((value) => !value)}>预览</button>
-        </div>
-      </header>
 
-      <div className="admin-body">
         <nav className="admin-nav" aria-label="后台导航">
-          {NAV.map(({ id, label }) => (
+          {NAV.map(({ id, label }, index) => (
             <Fragment key={id}>
               {id === 'posts' && <div className="admin-nav-divider" />}
               <button
                 className={`admin-nav-btn ${activeId === id ? 'is-active' : ''}`}
                 onClick={() => goTo(id)}
+                aria-current={activeId === id ? 'page' : undefined}
               >
-                {label}
+                <span>{label}</span>
+                <span className="admin-nav-index" aria-hidden="true">{index + 1}</span>
               </button>
             </Fragment>
           ))}
         </nav>
 
+        <div className="admin-sidebar-footer">
+          <button type="button" className="admin-text-btn" onClick={toggleAdminTheme}>
+            {dark ? '浅色主题' : '深色主题'}
+          </button>
+          <a className="admin-text-btn" href="/" target="_blank" rel="noopener noreferrer">
+            打开前台 ↗
+          </a>
+        </div>
+      </aside>
+
+      <div className="admin-workspace">
+        <header className="admin-topbar">
+          <div className="admin-topbar-left">
+            <span className="admin-breadcrumb">内容管理 / {activeItem.label}</span>
+          </div>
+          <div className="admin-topbar-actions">
+            {dirty ? <span className="admin-badge">未保存</span> : null}
+            <button className="admin-btn" onClick={discardChanges} disabled={!dirty}>
+              撤销
+            </button>
+            <button
+              className="admin-btn admin-btn-primary"
+              onClick={save}
+              disabled={saving || !dirty}
+            >
+              {saving ? '保存中…' : '保存'}
+            </button>
+            <button className="admin-btn" onClick={() => setPreviewOpen((value) => !value)}>
+              预览
+            </button>
+          </div>
+        </header>
+
         <main className="admin-main">
           <div className="admin-page">
             <div className="admin-page-head">
-              <h2 className="admin-page-title">{activeItem.label}</h2>
+              <h1 className="admin-page-title">{activeItem.label}</h1>
               <p className="admin-page-desc">
                 {activeId === 'posts'
                   ? '按语言筛选文章，编辑与新建均写入本地 Markdown 文件。'
@@ -186,7 +224,7 @@ export default function AdminApp() {
                   {activeId === 'posts' ? '文章列表' : '字段设置'}
                 </span>
                 {status.text ? (
-                  <span className={status.kind === 'error' ? 'admin-error' : 'admin-panel-note'}>
+                  <span className={status.kind === 'error' ? 'admin-error' : 'admin-ok'}>
                     {status.text}
                   </span>
                 ) : (
