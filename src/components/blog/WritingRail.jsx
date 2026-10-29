@@ -10,7 +10,7 @@ import { RssIcon, SearchIcon } from '../site/icons'
 
 export default function WritingRail() {
   const { pathname } = useLocation()
-  const { t } = useLanguage()
+  const { lang, t } = useLanguage()
   const {
     filtered,
     tags,
@@ -76,7 +76,12 @@ export default function WritingRail() {
             {t({ en: 'Unable to load posts.', zh: '文章加载失败。' })}
           </p>
         ) : (
-          <WritingList posts={filtered} activeSlug={activeSlug} t={t} />
+          <WritingList
+            posts={filtered}
+            activeSlug={activeSlug}
+            resetKey={`${lang}:${category}:${tag ?? 'all'}`}
+            t={t}
+          />
         )}
       </div>
     </aside>

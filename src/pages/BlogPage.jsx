@@ -78,7 +78,11 @@ export default function BlogPage() {
           {t({ en: 'Unable to load posts.', zh: '文章加载失败。' })}
         </p>
       ) : (
-        <WritingList posts={filtered} t={t} />
+        <WritingList
+          posts={filtered}
+          resetKey={`${lang}:${category}:${tag ?? 'all'}`}
+          t={t}
+        />
       )}
     </div>
   )

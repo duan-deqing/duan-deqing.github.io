@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { cn } from '../../utils/cn'
 import { categoryLabel, formatDate } from '../../utils/postFormat'
 
-export default function WritingList({ posts, t, activeSlug }) {
+export default function WritingList({ posts, t, activeSlug, resetKey }) {
   if (!posts?.length) {
     return (
       <p className="py-8 text-sm text-muted">
@@ -12,11 +12,15 @@ export default function WritingList({ posts, t, activeSlug }) {
   }
 
   return (
-    <ul className="flex flex-col gap-1 text-sm">
-      {posts.map((post) => {
+    <ul key={resetKey} className="flex flex-col gap-1 text-sm">
+      {posts.map((post, index) => {
         const active = activeSlug === post.slug
         return (
-          <li key={post.slug}>
+          <li
+            key={post.slug}
+            className="writing-card-enter"
+            style={{ '--card-index': Math.min(index, 12) }}
+          >
             <Link
               to={`/blog/${post.slug}`}
               aria-current={active ? 'page' : undefined}

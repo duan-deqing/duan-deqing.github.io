@@ -256,6 +256,11 @@
     animation: slide-enter 1s both 1;
   }
 
+  .writing-card-enter {
+    animation: slide-enter 0.5s both 1;
+    animation-delay: calc(var(--card-index, 0) * 25ms);
+  }
+
   @keyframes slide-enter {
     from {
       opacity: 0;
@@ -277,6 +282,10 @@
     }
 
     .qr-bubble-enter {
+      animation: none;
+    }
+
+    .writing-card-enter {
       animation: none;
     }
   }

@@ -267,7 +267,7 @@ App
 - 不显示摘要与标签；标签只用于筛选。
 - 空状态：`{ nothing here yet }` 风格的双语短句。
 - 搜索：`⌘K / Ctrl+K` 在博客路由内全局打开 onur 式对话框（白底、rounded-lg、描边、overlay 20% 黑、输入框 h-9、结果行 hover `bg-subtle`、键盘上下选择、Esc 关闭、焦点锁定）。
-- 加载：列表行骨架与最终行同高，避免 CLS。
+- 加载：列表行骨架与最终行同高并带 pulse；数据就绪后卡片以 `slide-enter` 0.5s + 25ms 阶梯入场（最多 12 张，筛选与语言切换重播），`prefers-reduced-motion` 下无动画。
 
 ### 6.3 文章页 `/blog/:slug`
 

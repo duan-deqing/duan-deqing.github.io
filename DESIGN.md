@@ -238,6 +238,7 @@
 | 语言切换 | 重放首页加载效果：内容用 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场；reduced-motion 下无动画 |
 | 子页导航 / 加载 | 与首页相同：页面根节点使用 `.slide-enter-content`，`slide-enter` 1s + 90ms 阶梯；路由 key 重挂载；懒加载时居中 16px spinner（sr-only Loading）；reduced-motion 下无动画 |
 | 二维码气泡关闭 | 关闭前保留 0.5s，随后气泡快照采样为 Canvas 粒子，立即散开并沿贝塞尔曲线汇聚到触发按钮，约 0.6s；reduced-motion 下 0.5s 后直接关闭 |
+| Writing 列表 | 加载时骨架脉冲；卡片以 `slide-enter` 0.5s + 25ms 阶梯入场（筛选/语言切换重播，最多 12 张）；reduced-motion 下关闭 |
 | `prefers-reduced-motion` | 关闭入场与所有位移动画 |
 
 ---
