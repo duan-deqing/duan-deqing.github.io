@@ -80,7 +80,7 @@ skillsSection:
     zh: 技能与技术
 skills:
   - category:
-      en: AI
+      en: Artificial Intelligence
       zh: 人工智能
     items:
       - RAG
