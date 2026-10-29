@@ -206,7 +206,7 @@ App
 - 桌面：wordmark 在左上 `1.25rem`、导航在右上 `2rem`，随页面滚动（与 antfu 的 NavBar 一致，不吸顶）；链接 60% 不透明度、hover 100%，间距 20px；主题/语言图标在导航末尾。
 - 移动：顶部普通流式排布（不固定），wordmark 左、菜单按钮右；展开为全屏面板，导航项大号、分隔线。
 - 主列：`max-width: 65ch`，居中，`padding: 2.5rem 1.75rem`。
-- 页脚：版权 + RSS + 社交，12px、50% 不透明度。
+- 页脚：`© 2026 STYLAN` 单行，14px、50% 不透明度，与 65ch 正文对齐；无边框、无社交图标（与 antfu 一致）。
 
 ### 5.3 子页壳（onur）
 
@@ -236,7 +236,7 @@ App
 2. **Find me on**：GitHub / Bilibili / Email / RSS，图标 + 文字，14px；邮箱行用等宽字体 `duan-deqing@foxmail.com`。
 3. `<hr>`。
 4. **Writing**：标题 `Writing / 写作` + 最新 5 篇文章；年份水印（2026 / 2023）+ 标题 + 日期；底部 `All posts →`。
-5. **Footer**：`© 2026 STYLAN` + RSS + 社交。
+5. **Footer**：`© 2026 STYLAN` 单行，14px、50% 不透明度；无 RSS/社交图标。
 
 规则：
 

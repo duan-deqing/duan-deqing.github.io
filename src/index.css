@@ -243,6 +243,11 @@
   .slide-enter-content > :nth-child(9) { --enter-stage: 9; }
   .slide-enter-content > :nth-child(10) { --enter-stage: 10; }
 
+  .home-footer-enter {
+    animation: slide-enter 1s both 1;
+    animation-delay: 1200ms;
+  }
+
   @keyframes slide-enter {
     from {
       opacity: 0;
@@ -256,6 +261,10 @@
 
   @media (prefers-reduced-motion: reduce) {
     .slide-enter-content > * {
+      animation: none;
+    }
+
+    .home-footer-enter {
       animation: none;
     }
 
