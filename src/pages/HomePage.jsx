@@ -42,7 +42,7 @@ export default function HomePage() {
 
       <h1 className="sr-only">{t(config.personal.name)}</h1>
 
-      <div className="slide-enter-content">
+      <div className="home-links-bold slide-enter-content">
         <p className="mb-6 text-base leading-[1.75]">
           {t({ en: "Hey, I'm ", zh: '你好，我是 ' })}
           <strong className="font-semibold text-heading">{t(config.personal.name)}</strong>

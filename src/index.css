@@ -145,6 +145,11 @@
     color: var(--heading);
   }
 
+  .home-links-bold .link,
+  .home-links-bold .social-link {
+    font-weight: 600;
+  }
+
   .link:hover,
   .social-link:hover,
   .footer-link:hover {
