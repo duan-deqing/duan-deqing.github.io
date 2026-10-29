@@ -1,28 +1,18 @@
-/**
- * BlogList — 编辑列表（分类切换时错落入场）
- */
-
-import BlogPost from './BlogPost'
+import PostRow from '../HomePage/PostRow'
 
 export default function BlogList({ posts, t }) {
-  if (!posts || posts.length === 0) {
+  if (!posts?.length) {
     return (
-      <div className="py-16 text-muted font-mono-ui text-sm">
-        {t({ en: 'No posts found in this category', zh: '该分类下暂无文章' })}
-      </div>
+      <p className="py-12 font-mono-ui text-sm text-muted">
+        {t({ en: 'No posts found. Try another filter.', zh: '没有匹配的文章，试试其他筛选。' })}
+      </p>
     )
   }
 
   return (
-    <div className="border-t border-line row-link-list">
-      {posts.map((post, index) => (
-        <div
-          key={post.slug}
-          className="blog-list-item"
-          style={{ animationDelay: `${Math.min(index * 45, 360)}ms` }}
-        >
-          <BlogPost post={post} t={t} index={index} />
-        </div>
+    <div className="border-t border-line">
+      {posts.map((post) => (
+        <PostRow key={post.slug} post={post} t={t} />
       ))}
     </div>
   )

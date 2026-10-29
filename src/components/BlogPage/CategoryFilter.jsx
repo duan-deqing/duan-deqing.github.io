@@ -1,22 +1,21 @@
-/**
- * CategoryFilter — 分类胶囊筛选
- */
+import TagChip from '../shared/TagChip'
 
 export default function CategoryFilter({ categories, activeCategory, onCategoryChange, t }) {
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-1.5">
       {categories.map((category) => {
         const active = activeCategory === category.id
         return (
-          <button
+          <TagChip
             key={category.id}
+            as="button"
             type="button"
-            onClick={() => onCategoryChange(category.id)}
-            className={`tag-chip tag-chip-lg ${active ? 'is-active' : ''}`}
+            active={active}
             aria-pressed={active}
+            onClick={() => onCategoryChange(category.id)}
           >
             {t(category.label)}
-          </button>
+          </TagChip>
         )
       })}
     </div>

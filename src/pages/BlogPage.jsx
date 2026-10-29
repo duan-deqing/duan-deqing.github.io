@@ -1,24 +1,22 @@
-/**
- * BlogPage — 列表 + 分类 + Ctrl+K 搜索（功能保留）
- */
-
-import { useState, useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLanguage } from '../hooks/useLanguage'
 import { getAllPosts } from '../utils/markdown'
+import { collectTags, filterPosts } from '../utils/blogFilters'
 import blogConfig from '../content/blog.yaml'
-import SubPageShell from '../components/shared/SubPageShell'
+import PageTitle from '../components/shared/PageTitle'
 import BlogHero from '../components/BlogPage/BlogHero'
 import CategoryFilter from '../components/BlogPage/CategoryFilter'
+import TagFilter from '../components/BlogPage/TagFilter'
 import BlogList from '../components/BlogPage/BlogList'
 import BlogSearch from '../components/BlogPage/BlogSearch'
 import SearchTrigger from '../components/BlogPage/SearchTrigger'
-import config from '../content/site.yaml'
 
-function BlogPage() {
+export default function BlogPage() {
   const { lang, t } = useLanguage()
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState('all')
+  const [activeTag, setActiveTag] = useState(null)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
 
   useEffect(() => {
@@ -40,9 +38,9 @@ function BlogPage() {
   }, [lang])
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault()
+    const handleKeyDown = (event) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+        event.preventDefault()
         setIsSearchOpen(true)
       }
     }
@@ -50,51 +48,63 @@ function BlogPage() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  const filteredPosts =
-    activeCategory === 'all'
-      ? posts
-      : posts.filter((post) => post.category === activeCategory)
+  const tags = useMemo(() => collectTags(posts), [posts])
+  const filteredPosts = useMemo(
+    () => filterPosts(posts, { category: activeCategory, tag: activeTag }),
+    [posts, activeCategory, activeTag]
+  )
 
   return (
-    <SubPageShell title={`STYLAN · ${t(blogConfig.page.title)}`} t={t} lang={lang}>
+    <>
+      <PageTitle
+        title={`STYLAN · ${t(blogConfig.page.title)}`}
+        description={t(blogConfig.page.subtitle)}
+        t={t}
+        lang={lang}
+      />
       <BlogHero t={t} />
+
+      <section className="flex flex-col gap-4 py-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <CategoryFilter
+            categories={blogConfig.categories}
+            activeCategory={activeCategory}
+            onCategoryChange={setActiveCategory}
+            t={t}
+          />
+          <SearchTrigger
+            onClick={() => setIsSearchOpen(true)}
+            t={t}
+            isMac={
+              typeof navigator !== 'undefined' &&
+              /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)
+            }
+          />
+        </div>
+        <TagFilter
+          tags={tags}
+          activeTag={activeTag}
+          onTagChange={setActiveTag}
+          t={t}
+        />
+      </section>
+
+      <section className="pb-12">
+        {loading ? (
+          <p className="py-12 font-mono-ui text-sm text-muted">
+            {t({ en: 'Loading…', zh: '加载中…' })}
+          </p>
+        ) : (
+          <BlogList posts={filteredPosts} t={t} />
+        )}
+      </section>
+
       <BlogSearch
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         posts={posts}
         t={t}
       />
-
-      <section className="py-6 border-b border-line flex flex-wrap items-center justify-between gap-4">
-        <CategoryFilter
-          categories={blogConfig.categories}
-          activeCategory={activeCategory}
-          onCategoryChange={setActiveCategory}
-          t={t}
-        />
-        <SearchTrigger
-          onClick={() => setIsSearchOpen(true)}
-          t={t}
-          isMac={typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)}
-        />
-      </section>
-
-      <section className="py-6 flex-grow">
-        {loading ? (
-          <div className="py-16 text-muted font-mono-ui text-sm">
-            {t({ en: 'Loading…', zh: '加载中…' })}
-          </div>
-        ) : (
-          <BlogList
-            key={`${lang}-${activeCategory}`}
-            posts={filteredPosts}
-            t={t}
-          />
-        )}
-      </section>
-
-    </SubPageShell>
+    </>
   )
 }
-
-export default BlogPage
