@@ -1,7 +1,9 @@
+import { Link } from 'react-router-dom'
 import config from '../content/site.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/shared/PageTitle'
 import PageHeading from '../components/site/PageHeading'
+import { ArrowUpRightIcon } from '../components/site/icons'
 
 export default function SkillsPage() {
   const { lang, t } = useLanguage()
@@ -33,7 +35,10 @@ export default function SkillsPage() {
             key={t(group.category)}
             className="pl-2 text-base leading-[1.75] marker:text-[var(--code-line)]"
           >
-            <span className="text-accent">{t(group.category)}</span>
+            <Link to="/skills" replace className="stack-link">
+              {t(group.category)}
+              <ArrowUpRightIcon size={14} className="ml-1 inline-block align-text-bottom" />
+            </Link>
             <span> — {(group.items || []).join(' · ')}</span>
           </li>
         ))}
