@@ -62,7 +62,8 @@ pnpm run preview
 │   ├── App.jsx                   # 路由与懒加载
 │   ├── content/
 │   │   ├── site.yaml             # 全站内容配置
-│   │   └── blog.yaml             # 博客页面与分类配置
+│   │   ├── blog.yaml             # 博客页面与分类配置
+│   │   └── quotes.yaml           # 博客空态随机语录（中英双语）
 │   ├── admin/                    # 本地内容后台（仅 dev，不参与构建）
 │   ├── index.css                 # 全局样式、字体、深色模式
 │   ├── pages/                    # 页面组件
@@ -118,6 +119,10 @@ pnpm run preview
 | `project` | 项目 | Projects |
 
 > 注意：文章里不要写 `Tutorials`、`Technology` 这类展示文案，要写 id（如 `tutorial`），否则分类筛选点不出来。
+
+### 博客空态语录 `src/content/quotes.yaml`
+
+`quotes` 下每条包含 `en` / `zh`；进入 `/blog` 且未选择文章时，桌面右侧空态会随机显示其中一条，切换语言时显示同一条的对应语言版本。
 
 ### 本地内容后台
 

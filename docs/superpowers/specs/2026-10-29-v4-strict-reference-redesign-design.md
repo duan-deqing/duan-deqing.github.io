@@ -271,7 +271,7 @@ App
 - 桌面（≥1024）为 onur writing 三栏 master-detail：导航栏（240/288）+ 写作列表栏（320/384，`--bg-sidebar`、右边框）+ 右侧内容区；列表栏常驻，点击列表项在右侧切换文章。
 - 列表栏头部：`Writing` 14px/600 + `RSS feed`（outline、电台图标）；下一行为字段式搜索触发器（h-9、放大镜 + `Search posts…` + `⌘K` 徽标）；再下一行为分类与标签自定义 listbox 选择器：触发器 h-9、圆角描边；菜单为 `rounded-lg border border-line bg-page p-1 shadow-lg`，选项 text-xs、hover `bg-hover`、当前项 `font-medium` + check 图标；支持 ↑/↓/Home/End/Enter/Esc、点击外部关闭；展开 120ms，`prefers-reduced-motion` 下关闭。选择器无可见 label（`aria-label` + 「全部分类 / 全部标签」），保留原有分类与 `⌘K` 搜索。
 - 列表：onur `WritingLink` 行——按日期倒序的扁平列表；14px，标题 `font-medium`，元信息「日期 · 分类」`--muted`；行 `rounded-lg p-2`、列表 `gap-1`、hover `--bg-hover`；当前文章 `bg-active` + `text-active-fg`、元信息 70% 不透明度，`aria-current="page"`；无表头、无年列、无行边框。
-- `/blog`：右侧为空内容区，显示 16px 点状底纹（`bg-dots`：`radial-gradient(var(--line) 1px, transparent 1px)`）；`/blog/:slug`：右侧白底文章，列表栏保持可见并高亮当前文章。
+- `/blog`：右侧为空内容区，显示 16px 点状底纹（`bg-dots`：`radial-gradient(var(--line) 1px, transparent 1px)`），中央居中随机显示一条双语语录（`src/content/quotes.yaml`，18px `--muted-strong`、600ms 入场、reduced-motion 关闭）；`/blog/:slug`：右侧白底文章，列表栏保持可见并高亮当前文章。
 - 移动（<1024）：不显示列表栏；`/blog` 为列表页（`Writing` 标题 + 副标题 + RSS/Search + 选择框 + 列表），点击进入 `/blog/:slug` 文章页。
 - 不显示摘要与标签；标签只用于筛选。
 - 空状态：`{ nothing here yet }` 风格的双语短句。
@@ -347,7 +347,8 @@ App
 - `src/components/site/HomeHeader.jsx`、`SideMenu.jsx`、`MenuContent.jsx`、`NavItem.jsx`、`MobileHeader.jsx`、`MobileMenuSheet.jsx`
 - `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`
 - `src/components/site/Button.jsx`、`IconButton.jsx`、`SiteLink.jsx`
-- `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`WritingTable.jsx`、`SearchDialog.jsx`、`SearchTrigger.jsx`、`RssButton.jsx`
+- `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`WritingTable.jsx`、`SearchDialog.jsx`、`SearchTrigger.jsx`、`RssButton.jsx`、`BlogQuote.jsx`
+- `src/content/quotes.yaml`（博客空态双语语录）
 - `src/components/projects/ProjectTable.jsx`
 - `src/components/contact/WechatDialog.jsx`
 - `src/utils/cn.js`（轻量类名合并）

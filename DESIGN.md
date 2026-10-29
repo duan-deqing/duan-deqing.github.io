@@ -144,7 +144,7 @@
 - 导航图标与 onur 一致：Home 房子、Projects 文件夹、Blog 钢笔、Stack 魔杖星光（WandSparkles）、Contact 邮件。
 - 侧栏 Home 指向子页 `/home`（onur 式首页）；顶部头像/姓名卡片是指向 `/`（antfu 首页）的唯一入口，头像读取 `personal.avatar`，当前为 GitHub 头像 URL。
 - 内容：普通页面 `max-width: 768px`，`padding: 32px 24px`（桌面 `96px 32px 64px`）。
-- 博客路由为 onur 式三栏：导航栏 + 320/384px 写作列表栏（`--bg-sidebar`、右边框、标题 + RSS/Search + 选择框 + 列表）+ 右侧内容区；`/blog` 内容区为空并显示 16px 点状底纹，`/blog/:slug` 为白底文章（`max-width: 768px`），列表栏常驻并高亮当前文章。
+- 博客路由为 onur 式三栏：导航栏 + 320/384px 写作列表栏（`--bg-sidebar`、右边框、标题 + RSS/Search + 选择框 + 列表）+ 右侧内容区；`/blog` 内容区为空并显示 16px 点状底纹，中央居中随机显示一条双语语录（`src/content/quotes.yaml`，18px muted、600ms 入场）；`/blog/:slug` 为白底文章（`max-width: 768px`），列表栏常驻并高亮当前文章。
 - 移动：48px sticky 顶栏 + 底部抽屉菜单；博客为「列表页 → 文章页」两页。
 - 子页无全站页脚。
 
@@ -222,7 +222,7 @@
 | --- | --- |
 | `/` | Intro 三段 → hr → Find me on → hr → Stack → 页脚 |
 | `/home` | 子页 Home（onur）：两段介绍（Hello + focus 链接）→ Writing 标题 → 年/日期/标题/分类表格；桌面无可见大标题 |
-| `/blog` | 三栏：导航 + 写作列表栏（标题 + RSS/Search + 分类/标签选择框 + onur writing 行）+ 右侧点状空内容区 |
+| `/blog` | 三栏：导航 + 写作列表栏（标题 + RSS/Search + 分类/标签选择框 + onur writing 行）+ 右侧点状空内容区（中央随机显示 `quotes.yaml` 的一条语录） |
 | `/blog/:slug` | 三栏同 `/blog`，列表栏高亮当前文章，右侧白底文章（返回链接仅移动端显示，TOC 为移动端折叠块） |
 | `/projects` | h1 + 说明 + GitHub → 项目表格（移动卡片） |
 | `/skills` | h1 `Stack` + 说明 → onur 式分类 bullet 列表（蓝色分类链接 + ↗ + `—` + 技术项） |

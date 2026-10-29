@@ -5,6 +5,7 @@ import MobileMenuSheet from '../components/site/MobileMenuSheet'
 import SideMenu from '../components/site/SideMenu'
 import ThemeLangControls from '../components/site/ThemeLangControls'
 import { BlogProvider } from '../components/blog/BlogProvider'
+import BlogQuote from '../components/blog/BlogQuote'
 import WritingRail from '../components/blog/WritingRail'
 import { cn } from '../utils/cn'
 
@@ -41,6 +42,7 @@ export default function BlogLayout() {
               <div className="absolute right-8 top-6 z-20 hidden lg:block">
                 <ThemeLangControls />
               </div>
+              {!isPost ? <BlogQuote /> : null}
               <main className="mx-auto w-full max-w-5xl px-6 pb-16 pt-8 lg:px-8 lg:pb-16 lg:pt-24">
                 <Outlet />
               </main>
