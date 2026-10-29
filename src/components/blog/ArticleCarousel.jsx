@@ -97,7 +97,7 @@ export default function ArticleCarousel({ source }) {
           onLostPointerCapture={endDrag}
           style={{ scrollSnapType: dragging ? 'none' : undefined }}
           className={cn(
-            'article-carousel-track flex snap-x snap-mandatory overflow-x-auto rounded-xl border border-line bg-page lg:mx-9',
+            'article-carousel-track flex snap-x snap-mandatory overflow-x-auto lg:mx-9',
             dragging ? 'cursor-grabbing select-none' : 'cursor-grab'
           )}
         >
@@ -107,17 +107,19 @@ export default function ArticleCarousel({ source }) {
               role="group"
               aria-roledescription="slide"
               aria-label={`${index + 1} / ${count}`}
-              className="w-full shrink-0 snap-center"
+              className="w-full shrink-0 snap-center px-3 py-1"
             >
-              <img
-                src={image.src}
-                alt={image.alt}
-                loading="lazy"
-                decoding="async"
-                draggable={false}
-                onDragStart={(event) => event.preventDefault()}
-                className="aspect-square w-full select-none object-cover"
-              />
+              <div className="overflow-hidden rounded-xl border border-line bg-page shadow-sm dark:shadow-none">
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  loading="lazy"
+                  decoding="async"
+                  draggable={false}
+                  onDragStart={(event) => event.preventDefault()}
+                  className="aspect-square w-full select-none object-cover"
+                />
+              </div>
             </div>
           ))}
         </div>
