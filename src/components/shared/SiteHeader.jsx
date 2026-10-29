@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
-import TransitionLink from './TransitionLink'
 import ThemeLangControls from './ThemeLangControls'
 
 export default function SiteHeader() {
@@ -34,18 +33,18 @@ export default function SiteHeader() {
     <>
       <header className="sticky top-0 z-40 border-b border-line bg-page">
         <div className="container-page flex h-14 items-center justify-between gap-4">
-          <TransitionLink
+          <Link
             to="/"
             className="text-[15px] font-semibold tracking-[-0.02em] text-ink"
           >
             STYLAN
-          </TransitionLink>
+          </Link>
 
           <nav aria-label="Main" className="hidden items-center gap-0.5 md:flex">
             {links.map((link) => {
               const active = pathname === link.href
               return (
-                <TransitionLink
+                <Link
                   key={link.href}
                   to={link.href}
                   aria-current={active ? 'page' : undefined}
@@ -54,7 +53,7 @@ export default function SiteHeader() {
                   }`}
                 >
                   {t(link.label)}
-                </TransitionLink>
+                </Link>
               )
             })}
           </nav>
@@ -78,22 +77,22 @@ export default function SiteHeader() {
       {open && (
         <div className="fixed inset-0 z-30 bg-page pt-14 md:hidden">
           <nav aria-label="Mobile" className="container-page flex flex-col py-6">
-            <TransitionLink
+            <Link
               to="/"
               onClick={() => setOpen(false)}
               className="border-b border-line py-4 text-xl font-semibold tracking-[-0.02em] text-ink"
             >
               {t({ en: 'Home', zh: '首页' })}
-            </TransitionLink>
+            </Link>
             {links.map((link) => (
-              <TransitionLink
+              <Link
                 key={link.href}
                 to={link.href}
                 onClick={() => setOpen(false)}
                 className="border-b border-line py-4 text-xl font-semibold tracking-[-0.02em] text-ink"
               >
                 {t(link.label)}
-              </TransitionLink>
+              </Link>
             ))}
           </nav>
         </div>
