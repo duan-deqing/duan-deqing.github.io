@@ -21,7 +21,9 @@
 | 包管理 | pnpm |
 | 部署 | GitHub Pages（Actions 自动构建） |
 
-字体：系统字体栈（`system-ui` / `-apple-system` / `PingFang SC` / `Microsoft YaHei` 等），等宽部分用 `ui-monospace` / `Consolas`；**不加载任何 Web 字体**（无 Google Fonts、无 `@font-face`、无字体文件请求），`public/fonts/` 为历史遗留、当前未引用。
+字体：自托管 [Geist Sans / Geist Mono](https://vercel.com/font)（`public/fonts/*.woff2`，SIL OFL 1.1），中文回退到 `PingFang SC` / `Microsoft YaHei` 等系统字体；不请求第三方字体服务。
+
+设计：首页参考 [antfu.me](https://github.com/antfu/antfu.me) 的 65ch 文本流，博客/项目/技能/联系与后台参考 [onur.dev](https://github.com/suyalcinkaya/onur.dev) 的侧栏与表格体系；完整令牌与规则见 `DESIGN.md`。
 
 ## 快速开始
 
@@ -47,7 +49,7 @@ pnpm run preview
 ```txt
 ├── .github/workflows/deploy.yml  # GitHub Pages 自动部署
 ├── public/
-│   ├── fonts/                    # 历史字体文件（当前未引用）
+│   ├── fonts/                    # Geist 字体与许可
 │   ├── images/                   # 图片资源
 │   ├── favicon.ico
 │   ├── 404.html                  # GitHub Pages SPA 重定向兜底
@@ -64,10 +66,13 @@ pnpm run preview
 │   ├── admin/                    # 本地内容后台（仅 dev，不参与构建）
 │   ├── index.css                 # 全局样式、字体、深色模式
 │   ├── pages/                    # 页面组件
+│   ├── layouts/                  # HomeLayout（antfu 首页）/ SubpageLayout（onur 子页）
 │   ├── components/
-│   │   ├── shared/               # SiteHeader / SiteFooter / PageHeader / 主题语言控件
-│   │   ├── HomePage/             # Hero、关于、项目卡片、文章行、技能、联系
-│   │   └── BlogPage/             # 列表、搜索、筛选、目录
+│   │   ├── site/                 # 侧栏、移动抽屉、按钮、图标、主题语言
+│   │   ├── blog/                 # 文章表格、筛选、搜索、骨架
+│   │   ├── projects/             # 项目表格
+│   │   ├── contact/              # 微信二维码弹窗
+│   │   └── shared/               # PageTitle / SocialIcon / ArrowIcon / ScrollToTop
 │   ├── posts/                    # 中文文章 Markdown
 │   │   ├── en/                   # 英文文章
 │   │   └── img/<文章名>/          # 文章配图
@@ -168,7 +173,7 @@ featured: true                # true 会在文章页显示「精选」标记
 - **博客搜索与筛选**：博客页 `Ctrl/Cmd + K` 按标题/摘要/标签/分类过滤；分类 + 标签 chips 筛选可组合生效
 - **文章目录**：≥1280px 右侧 sticky TOC，小屏折叠为正文上方的 `<details>`
 - **代码块**：带语言标签的代码块 + rehype-highlight 高亮
-- **布局与动效**：顶部导航 + 居中单列（内容 `max-width: 72rem`）；仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮、无首屏 Loading 页（首页静态导入，子页懒加载）
+- **布局与动效**：首页 antfu 式 65ch 文本流，子页 onur 式侧栏（240/288px）+ 768px 内容区；仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮、无首屏 Loading 页（首页静态导入，子页懒加载）
 - **RSS**：`pnpm run rss` 或 build 时生成 `public/rss.xml`
 - **GitHub Pages SPA**：`public/404.html` + `index.html` 内重定向脚本（spa-github-pages 方案）
 

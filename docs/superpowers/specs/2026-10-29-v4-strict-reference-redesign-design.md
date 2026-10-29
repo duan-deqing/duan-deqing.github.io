@@ -343,7 +343,7 @@ App
 ### 7.4 保留
 
 - 路由、`utils/markdown.js`、`utils/blogFilters.js`、`postFormat`、`markdownHeading`、`hooks/AppSettings`、`useTheme`、`useLanguage`
-- `PageTitle`（SEO）、`CopyButton`、`ScrollToTop`、`SocialIcon`、`ArrowIcon`
+- `PageTitle`（SEO）、`ScrollToTop`、`SocialIcon`、`ArrowIcon`
 - 后台 API、schema、校验、预览逻辑、`scripts/generate-rss.js`、测试
 
 ### 7.5 内容与数据
