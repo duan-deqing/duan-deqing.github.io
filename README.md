@@ -70,6 +70,7 @@ pnpm run preview
 │   ├── components/
 │   │   ├── site/                 # 侧栏、移动抽屉、按钮、图标、主题语言
 │   │   ├── blog/                 # 文章表格、筛选、搜索、骨架
+│   │   ├── BlogPage/             # 文章 TOC 与 Markdown 渲染组件
 │   │   ├── projects/             # 项目表格
 │   │   ├── contact/              # 微信二维码弹窗
 │   │   └── shared/               # PageTitle / SocialIcon / ArrowIcon / ScrollToTop
@@ -173,7 +174,7 @@ featured: true                # true 会在文章页显示「精选」标记
 - **博客搜索与筛选**：博客页 `Ctrl/Cmd + K` 按标题/摘要/标签/分类过滤；分类 + 标签 chips 筛选可组合生效
 - **文章目录**：≥1280px 右侧 sticky TOC，小屏折叠为正文上方的 `<details>`
 - **代码块**：带语言标签的代码块 + rehype-highlight 高亮
-- **布局与动效**：首页 antfu 式 65ch 文本流，子页 onur 式侧栏（240/288px）+ 768px 内容区；仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮、无首屏 Loading 页（首页静态导入，子页懒加载）
+- **布局与动效**：首页 antfu 式 65ch 文本流，子页 onur 式侧栏（240/288px）+ 普通子页 768px 内容区；文章页 ≥1280 扩展至 1024px 以容纳右侧 200px TOC。仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮、无首屏 Loading 页（首页静态导入，子页懒加载）
 - **RSS**：`pnpm run rss` 或 build 时生成 `public/rss.xml`
 - **GitHub Pages SPA**：`public/404.html` + `index.html` 内重定向脚本（spa-github-pages 方案）
 
