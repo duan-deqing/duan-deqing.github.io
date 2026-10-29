@@ -292,7 +292,7 @@ App
 - 行内码：`--code-bg` 底、6px 圆角、13px Mono，采用 onur 的反引号装饰（`::before/::after` 为 `` ` ``）。
 - 代码块：头部 `rounded-t-lg border` + `--code-header`（#F9FAFB / #111113）+ 14px 中性灰点 + 语言标题 + h-7 Copy（`w-14` 固定文案宽度、300ms 淡入上移、hover `--code-bg`、复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯装饰。
 - 公式：remark-math + rehype-katex + katex；行内 1.08em；`$$...$$` 为居中卡片（`--code-header` 底、1px `--line`、8px 圆角、16px 内边距、横向滚动），字号 1.15em；仅当文章含 `$` 时动态加载 KaTeX 与 CSS，加载中显示「Rendering formulas…」，失败时回退原文。
-- 媒体块：` ```video `（`url` + `title`，支持 YouTube / Vimeo / Bilibili / 直链 mp4/webm/ogg，其他地址回退链接；16:9、圆角 12px、1px 描边、黑底、进入视口再挂载、12px muted caption）；` ```carousel `（每行一张 Markdown 图片，图片路径规则与普通图片一致；Embla 单图轮播（`align: start` + `loop`，与 onur 一致，惯性拖拽后吸附），每张图独立卡片（`rounded-xl`、描边、`shadow-sm`）铺满幻灯片，幻灯片之间 24px 间距，桌面相对正文左右各内缩 4px、接近满宽；桌面左右 h-8 圆形按钮在图片外侧、移动端叠加在图片内，支持鼠标拖拽/触控滑动/键盘方向键、首尾循环切换、caption 随选中项更新并 aria-live；不启用 raw HTML）。
+- 媒体块：` ```video `（`url` + `title`，支持 YouTube / Vimeo / Bilibili / 直链 mp4/webm/ogg，其他地址回退链接；16:9、圆角 12px、1px 描边、黑底、进入视口再挂载、12px muted caption、各平台显式 `autoplay=0` 不自动播放）；` ```carousel `（每行一张 Markdown 图片，图片路径规则与普通图片一致；Embla 单图轮播（`align: start` + `loop`，与 onur 一致，惯性拖拽后吸附），每张图独立卡片（`rounded-xl`、描边、`shadow-sm`）铺满幻灯片，幻灯片之间 24px 间距，桌面相对正文左右各内缩 4px、接近满宽；桌面左右 h-8 圆形按钮在图片外侧、移动端叠加在图片内，支持鼠标拖拽/触控滑动/键盘方向键、首尾循环切换、caption 随选中项更新并 aria-live；不启用 raw HTML）。
 - TOC：移动端为正文上方折叠 `<details>`（「On this page」）；桌面三栏下不显示 200px sticky TOC（右侧内容区宽度与 onur 一致）。
 - 阅读进度/上一篇下一篇：不做（参考站没有）。
 

@@ -51,7 +51,10 @@ export function getVideoEmbed(url = '') {
   if (host === 'youtu.be') {
     const id = path.split('/').filter(Boolean)[0]
     if (id) {
-      return { type: 'iframe', src: `https://www.youtube-nocookie.com/embed/${id}` }
+      return {
+        type: 'iframe',
+        src: `https://www.youtube-nocookie.com/embed/${id}?autoplay=0`,
+      }
     }
   }
 
@@ -59,14 +62,20 @@ export function getVideoEmbed(url = '') {
     const isPathId = /^\/(embed|shorts|live|v)\//.test(path)
     const id = isPathId ? path.split('/')[2] : parsed.searchParams.get('v')
     if (id) {
-      return { type: 'iframe', src: `https://www.youtube-nocookie.com/embed/${id}` }
+      return {
+        type: 'iframe',
+        src: `https://www.youtube-nocookie.com/embed/${id}?autoplay=0`,
+      }
     }
   }
 
   if (host === 'vimeo.com' || host === 'player.vimeo.com') {
     const match = path.match(/(?:video\/)?(\d+)/)
     if (match) {
-      return { type: 'iframe', src: `https://player.vimeo.com/video/${match[1]}` }
+      return {
+        type: 'iframe',
+        src: `https://player.vimeo.com/video/${match[1]}?autoplay=0`,
+      }
     }
   }
 
@@ -76,7 +85,7 @@ export function getVideoEmbed(url = '') {
     if (bvid) {
       return {
         type: 'iframe',
-        src: `https://player.bilibili.com/player.html?bvid=${bvid}&page=1`,
+        src: `https://player.bilibili.com/player.html?bvid=${bvid}&page=1&autoplay=0`,
       }
     }
     const aid =
@@ -84,7 +93,7 @@ export function getVideoEmbed(url = '') {
     if (aid) {
       return {
         type: 'iframe',
-        src: `https://player.bilibili.com/player.html?aid=${aid}&page=1`,
+        src: `https://player.bilibili.com/player.html?aid=${aid}&page=1&autoplay=0`,
       }
     }
   }

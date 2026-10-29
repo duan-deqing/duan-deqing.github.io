@@ -22,19 +22,19 @@ test('parseVideoBlock 读取 key-value 与裸 URL', () => {
 test('getVideoEmbed 识别 YouTube / Vimeo / Bilibili / 直链', () => {
   assert.deepEqual(getVideoEmbed('https://www.youtube.com/watch?v=abc123'), {
     type: 'iframe',
-    src: 'https://www.youtube-nocookie.com/embed/abc123',
+    src: 'https://www.youtube-nocookie.com/embed/abc123?autoplay=0',
   })
   assert.deepEqual(getVideoEmbed('https://youtu.be/abc123'), {
     type: 'iframe',
-    src: 'https://www.youtube-nocookie.com/embed/abc123',
+    src: 'https://www.youtube-nocookie.com/embed/abc123?autoplay=0',
   })
   assert.deepEqual(getVideoEmbed('https://vimeo.com/123456'), {
     type: 'iframe',
-    src: 'https://player.vimeo.com/video/123456',
+    src: 'https://player.vimeo.com/video/123456?autoplay=0',
   })
   assert.deepEqual(getVideoEmbed('https://www.bilibili.com/video/BV1xx411c7mD'), {
     type: 'iframe',
-    src: 'https://player.bilibili.com/player.html?bvid=BV1xx411c7mD&page=1',
+    src: 'https://player.bilibili.com/player.html?bvid=BV1xx411c7mD&page=1&autoplay=0',
   })
   assert.deepEqual(getVideoEmbed('https://cdn.test/video.mp4'), {
     type: 'video',
