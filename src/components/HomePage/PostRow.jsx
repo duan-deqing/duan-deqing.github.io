@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
 import { categoryLabel, formatDate } from '../../utils/postFormat'
 
-export default function PostRow({ post, t, showTags = true }) {
+export default function PostRow({ post, t, showTags = true, headingLevel = 3 }) {
+  const Heading = headingLevel === 2 ? 'h2' : 'h3'
+
   return (
     <Link
       to={`/blog/${post.slug}`}
@@ -12,9 +14,9 @@ export default function PostRow({ post, t, showTags = true }) {
       </time>
 
       <div className="min-w-0">
-        <h3 className="text-[1.125rem] font-semibold leading-snug tracking-[-0.01em] text-ink transition-colors group-hover:text-accent">
+        <Heading className="text-[1.125rem] font-semibold leading-snug tracking-[-0.01em] text-ink transition-colors group-hover:text-accent">
           {t(post.title)}
-        </h3>
+        </Heading>
         <p className="mt-1.5 line-clamp-2 text-[13px] leading-[1.7] text-muted">
           {t(post.excerpt)}
         </p>

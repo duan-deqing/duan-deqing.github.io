@@ -119,36 +119,49 @@ function processImagePaths(content, filename, isEnglish) {
  * @returns {Promise<Array>} 文章列表
  */
 export async function getAllPosts(lang = 'zh') {
-  const posts = []
   const markdownFiles = getFilesByLang(lang)
 
-  for (const path in markdownFiles) {
-    try {
-      const content = await markdownFiles[path]()
-      const { attributes: data } = fm(content)
+  // 并行加载所有 markdown chunk（串行 await 会让每个 chunk 各等一个 RTT，
+  // 直接拖慢博客列表的首屏渲染 / LCP）。
+  const posts = await Promise.all(
+    Object.keys(markdownFiles).map(async (path) => {
+      try {
+        const content = await markdownFiles[path]()
+        const { attributes: data } = fm(content)
 
-      // 从文件名提取信息
-      const pathParts = path.split('/')
-      const filenameWithExt = pathParts[pathParts.length - 1]
-      const filename = filenameWithExt.replace('.md', '')
-      const { date: fileDate, slug } = parsePostFilename(filename)
+        // 从文件名提取信息
+        const pathParts = path.split('/')
+        const filenameWithExt = pathParts[pathParts.length - 1]
+        const filename = filenameWithExt.replace('.md', '')
+        const { date: fileDate, slug } = parsePostFilename(filename)
 
-      // 优先使用 frontmatter 中的日期，否则使用文件名中的日期
-      const date = data.date || fileDate
+        // 优先使用 frontmatter 中的日期，否则使用文件名中的日期
+        const date = data.date || fileDate
 
-      posts.push({
-        ...data,
-        date,
-        slug,
-        filename
-      })
-    } catch (error) {
-      console.error(`Error loading ${path}:`, error)
-    }
-  }
+        return {
+          ...data,
+          date,
+          slug,
+          filename
+        }
+      } catch (error) {
+        console.error(`Error loading ${path}:`, error)
+        return null
+      }
+    })
+  )
 
   // 按日期降序排序
-  return posts.sort((a, b) => new Date(b.date) - new Date(a.date))
+  return posts.filter(Boolean).sort((a, b) => new Date(b.date) - new Date(a.date))
+}
+
+/**
+ * 获取某语言下的文章数量（来自 import.meta.glob 的键，不加载文件内容）
+ * @param {string} lang - 语言代码 ('zh' 或 'en')
+ * @returns {number} 文章数量
+ */
+export function getPostCount(lang = 'zh') {
+  return Object.keys(getFilesByLang(lang)).length
 }
 
 /**

@@ -110,7 +110,7 @@
   }
 
   .tag-chip.is-active {
-    color: var(--accent);
+    color: var(--ink);
     border-color: var(--accent);
     background: var(--accent-soft);
   }

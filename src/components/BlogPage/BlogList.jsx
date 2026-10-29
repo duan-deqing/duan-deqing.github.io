@@ -12,7 +12,7 @@ export default function BlogList({ posts, t }) {
   return (
     <div className="border-t border-line">
       {posts.map((post) => (
-        <PostRow key={post.slug} post={post} t={t} />
+        <PostRow key={post.slug} post={post} t={t} headingLevel={2} />
       ))}
     </div>
   )

@@ -45,7 +45,8 @@ export default function App() {
         <ScrollToTop />
         <SiteHeader />
         <main className="container-page flex-1">
-          <Suspense fallback={<div className="container-page min-h-[50vh]" aria-hidden />}>
+          {/* 占位高度需 ≥ 一屏：否则首屏会先露出页脚，路由 chunk 到位后页脚被推走（CLS）。 */}
+          <Suspense fallback={<div className="container-page min-h-[100vh]" aria-hidden />}>
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/skills" element={<SkillsPage />} />

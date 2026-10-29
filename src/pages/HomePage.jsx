@@ -9,6 +9,7 @@ import Hero from '../components/HomePage/Hero'
 import AboutSection from '../components/HomePage/AboutSection'
 import ProjectGrid from '../components/HomePage/ProjectGrid'
 import PostRow from '../components/HomePage/PostRow'
+import PostRowSkeleton from '../components/HomePage/PostRowSkeleton'
 import SkillsSection from '../components/HomePage/SkillsSection'
 import ContactCta from '../components/HomePage/ContactCta'
 
@@ -80,7 +81,7 @@ export default function HomePage() {
         {posts === null && !failed ? (
           <div className="border-t border-line" aria-hidden>
             {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="h-[4.5rem] border-b border-line sm:h-[5rem]" />
+              <PostRowSkeleton key={index} />
             ))}
           </div>
         ) : failed ? (

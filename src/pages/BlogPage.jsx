@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLanguage } from '../hooks/useLanguage'
-import { getAllPosts } from '../utils/markdown'
+import { getAllPosts, getPostCount } from '../utils/markdown'
 import { collectTags, filterPosts } from '../utils/blogFilters'
 import blogConfig from '../content/blog.yaml'
 import PageTitle from '../components/shared/PageTitle'
@@ -8,6 +8,7 @@ import BlogHero from '../components/BlogPage/BlogHero'
 import CategoryFilter from '../components/BlogPage/CategoryFilter'
 import TagFilter from '../components/BlogPage/TagFilter'
 import BlogList from '../components/BlogPage/BlogList'
+import PostRowSkeleton from '../components/HomePage/PostRowSkeleton'
 import BlogSearch from '../components/BlogPage/BlogSearch'
 import SearchTrigger from '../components/BlogPage/SearchTrigger'
 
@@ -81,19 +82,26 @@ export default function BlogPage() {
             }
           />
         </div>
-        <TagFilter
-          tags={tags}
-          activeTag={activeTag}
-          onTagChange={setActiveTag}
-          t={t}
-        />
+        {loading && !tags.length ? (
+          // Reserve the tag row height so inserting it after posts resolve does not shift the list.
+          <div className="h-[1.4375rem]" aria-hidden />
+        ) : (
+          <TagFilter
+            tags={tags}
+            activeTag={activeTag}
+            onTagChange={setActiveTag}
+            t={t}
+          />
+        )}
       </section>
 
       <section className="pb-12">
         {loading ? (
-          <p className="py-12 font-mono-ui text-sm text-muted">
-            {t({ en: 'Loading…', zh: '加载中…' })}
-          </p>
+          <div className="border-t border-line">
+            {Array.from({ length: getPostCount(lang) }).map((_, index) => (
+              <PostRowSkeleton key={index} />
+            ))}
+          </div>
         ) : (
           <BlogList posts={filteredPosts} t={t} />
         )}
