@@ -2,6 +2,8 @@ import { lazy, Suspense, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { AppSettingsProvider } from './hooks/AppSettings'
 import ScrollToTop from './components/shared/ScrollToTop'
+import PageFallback from './components/site/PageFallback'
+import PageTransition from './components/site/PageTransition'
 import HomeLayout from './layouts/HomeLayout'
 import SubpageLayout from './layouts/SubpageLayout'
 import HomePage from './pages/HomePage'
@@ -26,7 +28,11 @@ function prefetchSubpages() {
 }
 
 function page(element) {
-  return <Suspense fallback={<div className="min-h-[60vh]" aria-hidden />}>{element}</Suspense>
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <PageTransition>{element}</PageTransition>
+    </Suspense>
+  )
 }
 
 export default function App() {

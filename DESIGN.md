@@ -234,6 +234,7 @@
 | 抽屉/对话框 | 透明度 + 位移 300ms |
 | 主题切换 | View Transition 圆形扩散（点击位置为圆心，400ms ease-out；切到深色反向）；不支持 API 或 reduced-motion 时即时换色 |
 | 语言切换 | 重放首页加载效果：内容用 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场；reduced-motion 下无动画 |
+| 子页导航 / 加载 | 内容 `key={pathname}` 重挂载，300ms 淡入 + 8px 上移；懒加载时居中 16px spinner（sr-only Loading）；reduced-motion 下无动画 |
 | `prefers-reduced-motion` | 关闭入场与所有位移动画 |
 
 ---
