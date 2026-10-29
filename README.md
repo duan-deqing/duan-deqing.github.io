@@ -16,6 +16,7 @@
 | 样式方案 | Tailwind CSS v4（`@tailwindcss/vite`） |
 | 路由 | React Router v7 |
 | Markdown | react-markdown + remark-gfm + rehype-highlight |
+| 图集轮播 | embla-carousel-react |
 | Frontmatter | front-matter |
 | RSS | feed（`scripts/generate-rss.js`） |
 | 包管理 | pnpm |
@@ -186,7 +187,7 @@ title: 视频标题
 
 - 视频支持 YouTube / Vimeo / Bilibili / 直链 mp4、webm、ogg；其他地址会回退为普通链接。视频进入视口后才加载，避免阻塞首屏。
 - 图集每行一张 Markdown 图片，图片路径规则与普通图片一致；`title` 会作为该图说明，滑动/切换时更新。
-- 图集为单图轮播：每张图片为独立圆角描边卡片，卡片铺满可用宽度、只留 24px 幻灯片间距，接近正文满宽；桌面按钮在图片外侧、移动端叠加在图片内；支持鼠标拖拽、触控滑动与键盘方向键；后台预览同样支持这两种块。
+- 图集为单图循环轮播（Embla，`align: start` + `loop`，与 onur 一致）：每张图片为独立圆角描边卡片，卡片铺满可用宽度、只留 24px 幻灯片间距，接近正文满宽；桌面按钮在图片外侧、移动端叠加在图片内；支持惯性拖拽、触控滑动与键盘方向键，首尾循环切换；后台预览同样支持这两种块。
 
 ## 功能特性
 
