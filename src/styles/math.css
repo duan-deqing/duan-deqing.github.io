@@ -1,0 +1,23 @@
+.katex {
+  color: inherit;
+  font-size: 1.08em;
+}
+
+.katex-display {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--code-header);
+  color: var(--ink);
+}
+
+.katex-display > .katex {
+  font-size: 1.15em;
+}
+
+p:has(> .katex-display) {
+  margin: 0;
+}

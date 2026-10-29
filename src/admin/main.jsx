@@ -1,7 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '../index.css'
+import 'katex/dist/katex.min.css'
 import './admin.css'
+import '../styles/math.css'
 import AdminApp from './AdminApp'
 
 try {

@@ -31,7 +31,7 @@
 6. 项目页改为 onur `workspace` 式表格；技能页改为 onur 式 bullet 列表；联系页改为 onur 文本页 + 链接列表。
 7. 后台在保留全部功能的前提下，视觉与布局重做为 onur 风格。
 8. 移动端 Lighthouse Performance ≥ 90（`/`、`/blog`、`/blog/<slug>`），A11y / Best Practices / SEO ≥ 95。
-9. 不新增运行时依赖（不引入 shadcn/Radix/cva/vaul/framer-motion/图标库）。
+9. 不新增 UI 运行时依赖（不引入 shadcn/Radix/cva/vaul/framer-motion/图标库）；公式渲染使用 remark-math + rehype-katex + katex，并按需加载。
 
 ### 非目标
 
@@ -291,6 +291,7 @@ App
 - 链接黑色 + 常态浅灰底线 + hover 深灰底线；图片圆角 12px + 描边 + 居中小字说明。
 - 行内码：`--code-bg` 底、6px 圆角、13px Mono，采用 onur 的反引号装饰（`::before/::after` 为 `` ` ``）。
 - 代码块：头部 `rounded-t-lg border` + `--code-header`（#F9FAFB / #111113）+ 14px 中性灰点 + 语言标题 + h-7 Copy（`w-14` 固定文案宽度、300ms 淡入上移、hover `--code-bg`、复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯装饰。
+- 公式：remark-math + rehype-katex + katex；行内 1.08em；`$$...$$` 为居中卡片（`--code-header` 底、1px `--line`、8px 圆角、16px 内边距、横向滚动），字号 1.15em；仅当文章含 `$` 时动态加载 KaTeX 与 CSS，加载中显示「Rendering formulas…」，失败时回退原文。
 - TOC：移动端为正文上方折叠 `<details>`（「On this page」）；桌面三栏下不显示 200px sticky TOC（右侧内容区宽度与 onur 一致）。
 - 阅读进度/上一篇下一篇：不做（参考站没有）。
 
@@ -353,6 +354,7 @@ App
 - `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`
 - `src/components/site/Button.jsx`、`IconButton.jsx`、`SiteLink.jsx`
 - `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`WritingTable.jsx`、`SearchDialog.jsx`、`SearchTrigger.jsx`、`RssButton.jsx`、`BlogQuote.jsx`
+- `src/styles/math.css`（KaTeX 行内/块级公式样式）
 - `src/content/quotes.yaml`（博客空态双语语录）
 - `src/components/projects/ProjectTable.jsx`
 - `src/components/contact/WechatDialog.jsx`
@@ -400,7 +402,7 @@ App
 ## 9. 性能
 
 1. 字体：仅 2 个 woff2（约 22KB + 26KB，Latin 子集），本地自托管；只预加载 Sans；`font-display: swap`。
-2. 不新增运行时依赖；图标内联。
+2. 不新增 UI 运行时依赖；图标内联。公式使用 remark-math / rehype-katex / katex，且仅在文章含公式时动态加载 KaTeX 与 CSS。
 3. 首屏无大图；文章图片懒加载 + 圆角描边。
 4. 首页静态导入；子页保留 `lazy` + `Suspense`，fallback 高度与最终布局一致。
 5. 删除所有旧动画代码与无用 CSS。

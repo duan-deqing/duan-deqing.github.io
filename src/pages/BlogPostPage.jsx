@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -12,6 +12,7 @@ import TableOfContents from '../components/BlogPage/TableOfContents'
 import { markdownComponents } from '../components/BlogPage/markdownComponents'
 import rehypeCodeLines from '../utils/rehypeCodeLines'
 import { ArrowUpRightIcon } from '../components/site/icons'
+import '../styles/math.css'
 import '../styles/blog-post.css'
 
 export default function BlogPostPage() {
@@ -21,6 +22,13 @@ export default function BlogPostPage() {
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+  const [math, setMath] = useState(null)
+  const [mathFailed, setMathFailed] = useState(false)
+  const hasMath = useMemo(
+    () => Boolean(post && /\$[^$\n]+\$|\$\$[\s\S]*?\$\$/.test(post.content)),
+    [post]
+  )
+  const mathPending = hasMath && !math && !mathFailed
 
   useEffect(() => {
     let cancelled = false
@@ -43,6 +51,31 @@ export default function BlogPostPage() {
       cancelled = true
     }
   }, [slug, lang])
+
+  useEffect(() => {
+    if (!post || !hasMath || math) return undefined
+    let cancelled = false
+    setMathFailed(false)
+    Promise.all([
+      import('remark-math'),
+      import('rehype-katex'),
+      import('katex/dist/katex.min.css'),
+    ])
+      .then(([remarkMathModule, rehypeKatexModule]) => {
+        if (cancelled) return
+        setMath({
+          remarkMath: remarkMathModule.default,
+          rehypeKatex: rehypeKatexModule.default,
+        })
+      })
+      .catch((err) => {
+        console.error('Failed to load math renderer:', err)
+        if (!cancelled) setMathFailed(true)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [post, hasMath, math])
 
   if (loading) {
     return (
@@ -118,13 +151,23 @@ export default function BlogPostPage() {
         </details>
 
         <article className="article-content min-w-0">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeHighlight, rehypeCodeLines]}
-            components={markdownComponents}
-          >
-            {post.content}
-          </ReactMarkdown>
+          {mathPending ? (
+            <p className="py-8 text-sm text-muted">
+              {t({ en: 'Rendering formulas…', zh: '正在渲染公式…' })}
+            </p>
+          ) : (
+            <ReactMarkdown
+              remarkPlugins={math ? [remarkGfm, math.remarkMath] : [remarkGfm]}
+              rehypePlugins={
+                math
+                  ? [rehypeHighlight, math.rehypeKatex, rehypeCodeLines]
+                  : [rehypeHighlight, rehypeCodeLines]
+              }
+              components={markdownComponents}
+            >
+              {post.content}
+            </ReactMarkdown>
+          )}
         </article>
       </div>
     </div>

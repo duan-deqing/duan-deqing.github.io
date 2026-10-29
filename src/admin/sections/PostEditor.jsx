@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
 import rehypeHighlight from 'rehype-highlight'
+import rehypeKatex from 'rehype-katex'
 import { adminApi } from '../api'
 import {
   buildPostFilename,
@@ -319,7 +321,10 @@ export default function PostEditor({ state, onClose, onSaved, onDirtyChange }) {
       <div className="admin-subpanel">
         <p className="admin-label-text mb-3">预览</p>
         <div className="prose-admin">
-          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm, remarkMath]}
+            rehypePlugins={[rehypeHighlight, rehypeKatex]}
+          >
             {previewBody || '（暂无正文）'}
           </ReactMarkdown>
         </div>
