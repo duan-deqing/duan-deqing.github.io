@@ -11,6 +11,8 @@ import {
   platformIcon,
 } from '../components/site/icons'
 
+const WECHAT_CLOSE_DELAY = 1000
+
 function SocialLink({ href, label, Icon }) {
   return (
     <SiteLink
@@ -28,6 +30,7 @@ function WechatSocialLink({ method, t }) {
   const buttonRef = useRef(null)
   const bubbleRef = useRef(null)
   const effectRef = useRef(null)
+  const closeTimerRef = useRef(0)
   const label = t(method.label || { en: 'WeChat', zh: '微信' })
   const qrLabel = t({ en: 'WeChat QR code', zh: '微信二维码' })
 
@@ -36,20 +39,33 @@ function WechatSocialLink({ method, t }) {
     effectRef.current = null
   }
 
+  const cancelPendingClose = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current)
+      closeTimerRef.current = 0
+    }
+  }
+
   const openBubble = () => {
+    cancelPendingClose()
     cancelEffect()
     setOpen(true)
   }
 
   const closeBubble = () => {
-    if (open && bubbleRef.current && buttonRef.current) {
-      cancelEffect()
-      effectRef.current = disperseTo(bubbleRef.current, buttonRef.current)
-    }
-    setOpen(false)
+    if (!open || closeTimerRef.current) return
+    closeTimerRef.current = window.setTimeout(() => {
+      closeTimerRef.current = 0
+      if (bubbleRef.current && buttonRef.current) {
+        cancelEffect()
+        effectRef.current = disperseTo(bubbleRef.current, buttonRef.current)
+      }
+      setOpen(false)
+    }, WECHAT_CLOSE_DELAY)
   }
 
   useEffect(() => () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current)
     effectRef.current?.cancel()
   }, [])
 

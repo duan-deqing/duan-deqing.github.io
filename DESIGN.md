@@ -114,7 +114,7 @@
 - 主列 `max-width: 65ch`，`padding: 40px 28px`。首页正文颜色为 `--home-body`（#555/#BBB，对应 antfu 的 `--fg`）；标题用 `--heading`，链接用 `--heading`。
 - Stack 区块无可见标题：介绍（`text-ink`）+ `list-disc` 列表（`pl-6`、`gap-2px`、marker `--code-line`）；每行分类为蓝色 `/skills` 链接 + ↗ + `—` + 技术项（muted）；链接仿 onur `.link`，hover 下划线、无常态底线。
 - 背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条，40fps，停笔后静止）；右上角按钮循环 `plum → dots → none` 并写入 `localStorage.home-background`；也可通过 `src/backgrounds/index.js` 的 `HOME_BACKGROUND` 切换默认值；背景层固定 `z-0`，内容 `z-10`；其他页面可直接引用 `<BackgroundLayer variant="dots" />`；`prefers-reduced-motion` 下关闭。
-- “Find me on” 使用正文链接样式：16px / 400（`font-weight: inherit`），图标 1.2em（约 19px）、`inline-block`、75% 不透明度、`text-bottom` 对齐，图标与文字间隔 4px，链接间距 8px；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`（#555/#BBB），`border 0.3s ease-in-out`，底线常驻不挤压布局。平台为 GitHub / Bilibili / Bluesky / WeChat；WeChat 在 hover/focus 时显示二维码气泡（触摸端点击切换），气泡桌面端位于按钮右侧并垂直居中、移动端位于按钮上方，以 `slide-enter` 1s 入场；关闭时气泡像素分解为粒子并汇聚到 WeChat 按钮（`src/utils/dispersion.js`），reduced-motion 下直接关闭。下方 `Or mail me at` + mono 邮箱。
+- “Find me on” 使用正文链接样式：16px / 400（`font-weight: inherit`），图标 1.2em（约 19px）、`inline-block`、75% 不透明度、`text-bottom` 对齐，图标与文字间隔 4px，链接间距 8px；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`（#555/#BBB），`border 0.3s ease-in-out`，底线常驻不挤压布局。平台为 GitHub / Bilibili / Bluesky / WeChat；WeChat 在 hover/focus 时显示二维码气泡（触摸端点击切换），气泡桌面端位于按钮右侧并垂直居中、移动端位于按钮上方，以 `slide-enter` 1s 入场；关闭前先保留 1s，随后气泡像素分解为粒子并汇聚到 WeChat 按钮（`src/utils/dispersion.js`），reduced-motion 下 1s 后直接关闭。下方 `Or mail me at` + mono 邮箱。
 - 区块之间使用 50px 居中短分割线，上下 `2em`（与 antfu 的 `.prose hr` 一致）。
 - 页脚：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 antfu/antfu.me`，14px、50% 不透明度，与 65ch 正文对齐；链接使用同一 1px 底线规则；窄屏可换行，无边框、无社交图标（与 antfu 一致）。
 - 移动端顶部为普通文档流，导航收进菜单面板。
@@ -235,7 +235,7 @@
 | 主题切换 | View Transition 圆形扩散（点击位置为圆心，400ms ease-out；切到深色反向）；不支持 API 或 reduced-motion 时即时换色 |
 | 语言切换 | 重放首页加载效果：内容用 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场；reduced-motion 下无动画 |
 | 子页导航 / 加载 | 与首页相同：页面根节点使用 `.slide-enter-content`，`slide-enter` 1s + 90ms 阶梯；路由 key 重挂载；懒加载时居中 16px spinner（sr-only Loading）；reduced-motion 下无动画 |
-| 二维码气泡关闭 | 气泡快照采样为 Canvas 粒子，立即散开并沿贝塞尔曲线汇聚到触发按钮，约 0.6s；reduced-motion 下直接关闭 |
+| 二维码气泡关闭 | 关闭前保留 1s，随后气泡快照采样为 Canvas 粒子，立即散开并沿贝塞尔曲线汇聚到触发按钮，约 0.6s；reduced-motion 下 1s 后直接关闭 |
 | `prefers-reduced-motion` | 关闭入场与所有位移动画 |
 
 ---
