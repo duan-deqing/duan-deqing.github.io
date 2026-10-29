@@ -11,7 +11,7 @@ export default function ProjectsPage() {
   const projects = config.projects || []
 
   return (
-    <div className="mx-auto w-full max-w-3xl">
+    <div className="slide-enter-content mx-auto w-full max-w-3xl">
       <PageTitle
         title={`STYLAN · ${t({ en: 'Projects', zh: '项目' })}`}
         description={t({

@@ -62,7 +62,7 @@ export default function BlogPage() {
   }, [tag, tags])
 
   return (
-    <div className="mx-auto w-full max-w-3xl">
+    <div className="slide-enter-content mx-auto w-full max-w-3xl">
       <PageTitle
         title={`STYLAN · ${t(blogConfig.page.title)}`}
         description={t(blogConfig.page.subtitle)}

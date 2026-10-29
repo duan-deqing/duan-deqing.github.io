@@ -8,7 +8,7 @@ export default function SkillsPage() {
   const groups = config.skills || []
 
   return (
-    <div className="mx-auto w-full max-w-3xl">
+    <div className="slide-enter-content mx-auto w-full max-w-3xl">
       <PageTitle
         title={`STYLAN · ${t({ en: 'Stack', zh: '技术栈' })}`}
         description={t({

@@ -183,7 +183,7 @@
 - 其余交互只做颜色/背景/边框 150–300ms 过渡；抽屉 `transform 300ms`。
 - 主题切换与 antfu.me 一致：以点击位置为圆心的 View Transition 圆形扩散，400ms `ease-out`；切到深色时反向收缩；不支持 View Transition 或 `prefers-reduced-motion` 时即时换色。
 - 语言切换：重放首页加载效果（内容 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场）；`prefers-reduced-motion` 下无动画。
-- 子页导航：内容 `key={pathname}` 重挂载，300ms 淡入 + 8px 上移；懒加载 `Suspense` fallback 为居中 16px spinner + sr-only Loading；`prefers-reduced-motion` 下无动画。
+- 子页导航：与首页相同的 `.slide-enter-content`（`slide-enter` 1s + 90ms 阶梯）；路由 key 重挂载；懒加载 `Suspense` fallback 为居中 16px spinner + sr-only Loading；`prefers-reduced-motion` 下无动画。
 - `prefers-reduced-motion` 下关闭入场与过渡位移；抽屉直接显示。
 
 ## 5. 页面架构

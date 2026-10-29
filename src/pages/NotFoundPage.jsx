@@ -8,7 +8,7 @@ export default function NotFoundPage() {
   const { lang, t } = useLanguage()
 
   return (
-    <div className="mx-auto w-full max-w-3xl">
+    <div className="slide-enter-content mx-auto w-full max-w-3xl">
       <PageTitle
         title={`STYLAN · ${t({ en: 'Not found', zh: '页面未找到' })}`}
         description={t({

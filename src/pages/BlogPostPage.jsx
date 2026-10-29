@@ -81,7 +81,7 @@ export default function BlogPostPage() {
         type="article"
       />
 
-      <div className="relative">
+      <div className="slide-enter-content relative">
         <Link
           to="/blog"
           className="inline-flex items-center gap-1 text-sm text-muted-strong transition-colors hover:text-ink"
