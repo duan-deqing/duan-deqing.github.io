@@ -91,7 +91,7 @@ export default function ContactPage() {
                 href={method.href}
                 target={method.href.startsWith('http') ? '_blank' : undefined}
                 rel={method.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="flex items-center justify-between gap-4 border-b border-line py-4 text-sm transition-colors hover:text-accent"
+                className="flex items-center justify-between gap-4 border-b border-line py-4 text-sm transition-colors hover:bg-subtle/50"
               >
                 {content}
               </a>
@@ -103,7 +103,7 @@ export default function ContactPage() {
               key={label}
               type="button"
               onClick={() => setWechat(method)}
-              className="flex w-full items-center justify-between gap-4 border-b border-line py-4 text-left text-sm transition-colors hover:text-accent"
+              className="flex w-full items-center justify-between gap-4 border-b border-line py-4 text-left text-sm transition-colors hover:bg-subtle/50"
             >
               {content}
             </button>

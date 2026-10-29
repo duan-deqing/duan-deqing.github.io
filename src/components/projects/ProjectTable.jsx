@@ -95,7 +95,7 @@ export default function ProjectTable({ projects }) {
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="-m-1 rounded p-1 text-accent"
+                    className="-m-1 rounded p-1 text-heading transition-opacity hover:opacity-70"
                     aria-label={t({ en: `Visit ${title}`, zh: `访问 ${title}` })}
                   >
                     <ArrowUpRightIcon size={16} />

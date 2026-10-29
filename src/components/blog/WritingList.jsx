@@ -28,7 +28,7 @@ export default function WritingList({ groups, t }) {
             <li key={post.slug} className="border-t border-line">
               <Link
                 to={`/blog/${post.slug}`}
-                className={`writing-row grid grid-cols-1 gap-x-4 py-4 text-heading transition-colors hover:text-accent md:items-baseline ${GRID_COLUMNS}`}
+                className={`writing-row grid grid-cols-1 gap-x-4 py-4 text-heading md:items-baseline ${GRID_COLUMNS}`}
               >
                 <span className="hidden text-muted tabular-nums md:block">
                   {index === 0 ? group.year : ''}

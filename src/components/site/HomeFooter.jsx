@@ -13,7 +13,7 @@ export default function HomeFooter() {
       <div className="flex text-sm opacity-50">
         <span>
           <a
-            className="underline-offset-2 hover:underline"
+            className="footer-link"
             href={LICENSE_URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -23,7 +23,7 @@ export default function HomeFooter() {
           {copyright}
           {' · '}
           <a
-            className="underline-offset-2 hover:underline"
+            className="footer-link"
             href={REFERENCE_URL}
             target="_blank"
             rel="noopener noreferrer"

@@ -133,24 +133,21 @@
 }
 
 @layer components {
-  .link {
-    color: var(--accent);
+  .link,
+  .social-link,
+  .footer-link {
     text-decoration: none;
-    border-bottom: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
-    transition: border 0.3s ease-in-out;
-  }
-
-  .link:hover {
-    border-bottom: 1px solid var(--accent-strong);
-  }
-
-  .social-link {
     border-bottom: 1px solid rgba(125, 125, 125, 0.3);
-    text-decoration: none;
     transition: border 0.3s ease-in-out;
   }
 
-  .social-link:hover {
+  .link {
+    color: var(--heading);
+  }
+
+  .link:hover,
+  .social-link:hover,
+  .footer-link:hover {
     border-bottom: 1px solid var(--link-underline);
   }
 

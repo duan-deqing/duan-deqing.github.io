@@ -69,7 +69,7 @@
 | 移动顶栏 | `h-12` sticky，白底，边框 | 子页移动端 |
 | 页面标题 | `PageTitle` → `h1 text-2xl md:text-3xl`，`mb-6` | 所有子页 |
 | 文章列表 | 14px；表头灰字；年 / 日期 / 标题列；行 `border-t`、`py-4`；hover 时整组变灰、当前行变深 | 博客列表 |
-| 链接 | `text-blue-600 hover:underline underline-offset-4` | 蓝色正文链接改为常态 30% 蓝线 + hover `--accent-strong` 底线 |
+| 链接 | `text-blue-600 hover:underline underline-offset-4` | 改为黑色文字 + 常态 30% 灰线 + hover `--link-underline` 底线 |
 | 按钮 | h-9、rounded-md、`shadow-xs`；primary 黑底白字；outline 白底灰边 | 博客操作、联系页、后台 |
 | 表格 | 外层 `rounded-lg border`；表头 `h-10` 灰字；行 hover `bg-gray-100/50` | 项目页、后台文章列表 |
 | 代码块 | 13px、行号灰色、横向滚动 | 文章代码块 |
@@ -101,9 +101,9 @@
 | `--ink` | `#111827` | `#E4E4E7` | 正文 |
 | `--muted` | `#6B7280` | `#A1A1AA` | 次要文字、日期、表头 |
 | `--muted-strong` | `#4B5563` | `#D4D4D8` | 次级正文、职位 |
-| `--accent` | `#2563EB` | `#60A5FA` | 正文链接、焦点环 |
-| `--accent-strong` | `#1D4ED8` | `#93C5FD` | 链接 hover |
-| `--link-underline` | `#555555` | `#BBBBBB` | 社交链接 hover 下边框 |
+| `--accent` | `#2563EB` | `#60A5FA` | 焦点环、文章光晕、后台链接 |
+| `--accent-strong` | `#1D4ED8` | `#93C5FD` | 强调色深阶（备用） |
+| `--link-underline` | `#555555` | `#BBBBBB` | 正文/社交/页脚链接 hover 下边框 |
 | `--active-bg` | `#000000` | `#FAFAFA` | 选中导航、active 胶囊 |
 | `--active-fg` | `#FFFFFF` | `#09090B` | 选中导航文字 |
 | `--code-bg` | `#F3F4F6` | `#18181B` | 行内码底 |
@@ -262,7 +262,7 @@ App
 
 - 顶部：`← Writing` 返回链接 → h1 → 元信息 `日期 · 阅读时长 · 分类` → 标签（12px 文本，不用彩色 chips）。
 - 顶部背景：一层 onur 式径向光晕（`--glow`），高度 320px，`pointer-events: none`，内容在其上；仅 ≥1280px（`xl`）显示，移动端隐藏以免降低 `text-muted` 元信息对比度。
-- 正文：68ch；段落 16px/1.75；h2 20px/600、上间距 40px、`scroll-mt-24`；h3 18px；列表紧凑；引用左侧 1px `--line-strong`、muted；链接蓝 + 常态浅蓝底线 + hover 深蓝底线；图片圆角 12px + 描边 + 居中小字说明。
+- 正文：68ch；段落 16px/1.75；h2 20px/600、上间距 40px、`scroll-mt-24`；h3 18px；列表紧凑；引用左侧 1px `--line-strong`、muted；链接黑色 + 常态浅灰底线 + hover 深灰底线；图片圆角 12px + 描边 + 居中小字说明。
 - 行内码：`--code-bg` 底、6px 圆角、13px Mono，采用 onur 的反引号装饰（`::before/::after` 为 `` ` ``）。
 - 代码块：白底描边卡片、13px、行号 `--code-line`、横向滚动；不使用 Mac 红绿灯装饰。
 - TOC：≥1280px 右侧 200px sticky（top 96px）；标题 `On this page` 12px muted；项 14px；当前项 `text-ink` + 左侧 2px 黑线；移动端折叠为正文上方 `<details>`。
@@ -271,7 +271,7 @@ App
 ### 6.4 项目页 `/projects`
 
 - 页头：h1 `Projects` + 一段说明 + `GitHub ↗`（outline 按钮）。
-- 桌面：onur `workspace` 表格——外层 `rounded-lg border`，表头 `Project | Stack | Link`，行 `py-3 px-4`，hover `bg-subtle/50`；项目名 14px/500，前置 emoji 图标；Stack 为 14px muted 文本；Link 为蓝色文字 + ↗。
+- 桌面：onur `workspace` 表格——外层 `rounded-lg border`，表头 `Project | Stack | Link`，行 `py-3 px-4`，hover `bg-subtle/50`；项目名 14px/500，前置 emoji 图标；Stack 为 14px muted 文本；Link 为黑色文字 + 常态底线 + ↗。
 - 移动：每条项目变卡片：标题 + 描述 + 技术栈文本 + 链接；`rounded-lg border p-4`。
 - 不使用 antfu 的三列 350px 项目网格（本项目路由归属 onur 页面）。
 
