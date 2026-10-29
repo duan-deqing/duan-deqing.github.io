@@ -2,11 +2,11 @@ import { useLocation } from 'react-router-dom'
 import blogConfig from '../../content/blog.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { useBlog } from './BlogProvider'
-import Button from '../site/Button'
+import RssButton from './RssButton'
+import SearchTrigger from './SearchTrigger'
 import WritingFilterBar from './WritingFilterBar'
 import WritingList from './WritingList'
 import WritingRowSkeleton from './WritingRowSkeleton'
-import { RssIcon, SearchIcon } from '../site/icons'
 
 export default function WritingRail() {
   const { pathname } = useLocation()
@@ -33,29 +33,9 @@ export default function WritingRail() {
           <span className="text-sm font-semibold tracking-tight text-heading">
             {t(blogConfig.page.title)}
           </span>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              className="px-2"
-              aria-label={t({ en: 'Search posts', zh: '搜索文章' })}
-              onClick={openSearch}
-            >
-              <SearchIcon size={15} />
-            </Button>
-            <Button
-              as="a"
-              variant="outline"
-              size="sm"
-              href="/rss.xml"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <RssIcon size={15} />
-              RSS
-            </Button>
-          </div>
+          <RssButton />
         </div>
+        <SearchTrigger className="mt-2" onClick={openSearch} />
         <WritingFilterBar
           className="mt-2"
           categories={blogConfig.categories}

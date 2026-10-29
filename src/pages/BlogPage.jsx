@@ -3,11 +3,11 @@ import { useLanguage } from '../hooks/useLanguage'
 import { useBlog } from '../components/blog/BlogProvider'
 import PageTitle from '../components/shared/PageTitle'
 import PageHeading from '../components/site/PageHeading'
+import RssButton from '../components/blog/RssButton'
+import SearchTrigger from '../components/blog/SearchTrigger'
 import WritingFilterBar from '../components/blog/WritingFilterBar'
 import WritingList from '../components/blog/WritingList'
 import WritingRowSkeleton from '../components/blog/WritingRowSkeleton'
-import Button from '../components/site/Button'
-import { RssIcon, SearchIcon } from '../components/site/icons'
 
 export default function BlogPage() {
   const { lang, t } = useLanguage()
@@ -34,31 +34,10 @@ export default function BlogPage() {
       <PageHeading
         title={t(blogConfig.page.title)}
         description={t(blogConfig.page.subtitle)}
-        actions={
-          <>
-            <Button
-              as="a"
-              variant="outline"
-              href="/rss.xml"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <RssIcon size={15} />
-              RSS
-            </Button>
-            <Button variant="outline" onClick={openSearch}>
-              <SearchIcon size={15} />
-              {t({ en: 'Search', zh: '搜索' })}
-              <kbd
-                aria-hidden="true"
-                className="rounded border border-line bg-subtle px-1 text-[10px] text-muted-strong"
-              >
-                ⌘K
-              </kbd>
-            </Button>
-          </>
-        }
+        actions={<RssButton />}
       />
+
+      <SearchTrigger className="mb-3" onClick={openSearch} />
 
       <WritingFilterBar
         className="mb-4"

@@ -269,13 +269,13 @@ App
 ### 6.2 博客 `/blog` 与 `/blog/:slug`
 
 - 桌面（≥1024）为 onur writing 三栏 master-detail：导航栏（240/288）+ 写作列表栏（320/384，`--bg-sidebar`、右边框）+ 右侧内容区；列表栏常驻，点击列表项在右侧切换文章。
-- 列表栏头部：`Writing` 14px/600 + Search 图标按钮 + `RSS`（outline），下一行为分类与标签自定义 listbox 选择器：触发器 h-9、圆角描边；菜单为 `rounded-lg border border-line bg-page p-1 shadow-lg`，选项 text-xs、hover `bg-hover`、当前项 `font-medium` + check 图标；支持 ↑/↓/Home/End/Enter/Esc、点击外部关闭；展开 120ms，`prefers-reduced-motion` 下关闭。选择器无可见 label（`aria-label` + 「全部分类 / 全部标签」），保留原有分类与 `⌘K` 搜索。
+- 列表栏头部：`Writing` 14px/600 + `RSS feed`（outline、电台图标）；下一行为字段式搜索触发器（h-9、放大镜 + `Search posts…` + `⌘K` 徽标）；再下一行为分类与标签自定义 listbox 选择器：触发器 h-9、圆角描边；菜单为 `rounded-lg border border-line bg-page p-1 shadow-lg`，选项 text-xs、hover `bg-hover`、当前项 `font-medium` + check 图标；支持 ↑/↓/Home/End/Enter/Esc、点击外部关闭；展开 120ms，`prefers-reduced-motion` 下关闭。选择器无可见 label（`aria-label` + 「全部分类 / 全部标签」），保留原有分类与 `⌘K` 搜索。
 - 列表：onur `WritingLink` 行——按日期倒序的扁平列表；14px，标题 `font-medium`，元信息「日期 · 分类」`--muted`；行 `rounded-lg p-2`、列表 `gap-1`、hover `--bg-hover`；当前文章 `bg-active` + `text-active-fg`、元信息 70% 不透明度，`aria-current="page"`；无表头、无年列、无行边框。
 - `/blog`：右侧为空内容区，显示 16px 点状底纹（`bg-dots`：`radial-gradient(var(--line) 1px, transparent 1px)`）；`/blog/:slug`：右侧白底文章，列表栏保持可见并高亮当前文章。
 - 移动（<1024）：不显示列表栏；`/blog` 为列表页（`Writing` 标题 + 副标题 + RSS/Search + 选择框 + 列表），点击进入 `/blog/:slug` 文章页。
 - 不显示摘要与标签；标签只用于筛选。
 - 空状态：`{ nothing here yet }` 风格的双语短句。
-- 搜索：`⌘K / Ctrl+K` 在博客路由内全局打开 onur 式对话框（白底、rounded-lg、描边、overlay 20% 黑、输入框 h-9、结果行 hover `bg-subtle`、键盘上下选择、Esc 关闭、焦点锁定）。
+- 搜索：字段式触发器 + `⌘K / Ctrl+K` 在博客路由内打开命令面板式对话框（`max-w-xl`、纯白面板、无内边距、h-14 输入行、Posts 结果列表、底部快捷键提示；打开 180ms 淡入缩放；键盘上下选择、Enter 打开、Esc 关闭、焦点锁定）。
 - 加载：列表行骨架与最终行同高并带 pulse；数据就绪后卡片以 `slide-enter` 0.5s + 25ms 阶梯入场（最多 12 张，筛选与语言切换重播），`prefers-reduced-motion` 下无动画。
 
 ### 6.3 文章页 `/blog/:slug`
@@ -319,10 +319,11 @@ App
 
 ### 6.8 搜索对话框
 
-- 结构：遮罩 + 面板（`max-w-lg`、白底、`rounded-lg`、1px 描边、`shadow-xl`）。
-- 顶部输入（图标 + input + `ESC` 提示），下方结果列表（日期 + 标题 + 分类）。
-- 选中行 `bg-subtle`，不用蓝色底；标题保持 `text-ink`。
-- 空状态与无结果文案沿用双语。
+- 结构：遮罩 + `max-w-xl` 面板（白底、`rounded-lg`、1px 描边、`shadow-xl`、无内边距）；打开 180ms 淡入 + 轻微缩放上移，`prefers-reduced-motion` 下关闭。
+- 顶部 h-14 输入行：放大镜 + 16px 输入 + `ESC` 徽标；下方 `Posts` 小标题 + 结果列表（标题 + 日期 · 分类）。
+- 结果行 `rounded-md px-3 py-2.5`；当前行 `bg-hover`，其余 hover `bg-subtle`；不用蓝色底。
+- 底部提示条：`↑↓ 选择`、`↵ 打开`、`esc 关闭` 与结果数量，11px muted。
+- 空状态与无结果文案沿用双语；焦点锁定、Esc、上下选择、Enter 打开、IME 保护保持。
 
 ### 6.9 后台 `/admin.html`（dev only）
 
@@ -346,7 +347,7 @@ App
 - `src/components/site/HomeHeader.jsx`、`SideMenu.jsx`、`MenuContent.jsx`、`NavItem.jsx`、`MobileHeader.jsx`、`MobileMenuSheet.jsx`
 - `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`
 - `src/components/site/Button.jsx`、`IconButton.jsx`、`SiteLink.jsx`
-- `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`WritingTable.jsx`、`SearchDialog.jsx`
+- `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`WritingTable.jsx`、`SearchDialog.jsx`、`SearchTrigger.jsx`、`RssButton.jsx`
 - `src/components/projects/ProjectTable.jsx`
 - `src/components/contact/WechatDialog.jsx`
 - `src/utils/cn.js`（轻量类名合并）

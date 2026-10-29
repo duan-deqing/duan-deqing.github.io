@@ -12,6 +12,7 @@ export default function Modal({
   children,
   panelClassName = '',
   maxWidth = 'max-w-lg',
+  flush = false,
 }) {
   const panelRef = useRef(null)
   const restoreRef = useRef(null)
@@ -100,7 +101,8 @@ export default function Modal({
         aria-label={label}
         tabIndex={-1}
         className={cn(
-          'relative max-h-[min(90dvh,720px)] w-full overflow-y-auto rounded-lg border border-line bg-page p-5 shadow-xl',
+          'relative max-h-[min(90dvh,720px)] w-full overflow-y-auto rounded-lg border border-line bg-page shadow-xl',
+          flush ? 'p-0' : 'p-5',
           maxWidth,
           panelClassName
         )}

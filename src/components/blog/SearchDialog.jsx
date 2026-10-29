@@ -6,6 +6,14 @@ import { searchPosts } from '../../utils/blogSearch'
 import { SearchIcon } from '../site/icons'
 import { cn } from '../../utils/cn'
 
+function Kbd({ children }) {
+  return (
+    <kbd className="rounded border border-line bg-subtle px-1 py-0.5 font-mono text-[10px] font-medium text-muted-strong">
+      {children}
+    </kbd>
+  )
+}
+
 export default function SearchDialog({ open, posts, onClose, t }) {
   const [query, setQuery] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
@@ -39,12 +47,23 @@ export default function SearchDialog({ open, posts, onClose, t }) {
   }
 
   return (
-    <Modal open={open} onClose={onClose} label={t({ en: 'Search posts', zh: '搜索文章' })}>
-      <div className="flex items-center gap-2 border-b border-line pb-2">
-        <SearchIcon size={16} className="shrink-0 text-muted" />
+    <Modal
+      open={open}
+      onClose={onClose}
+      label={t({ en: 'Search posts', zh: '搜索文章' })}
+      maxWidth="max-w-xl"
+      flush
+      panelClassName="search-dialog-enter"
+    >
+      <div className="flex h-14 items-center gap-3 border-b border-line px-4">
+        <SearchIcon size={18} className="shrink-0 text-muted" />
         <input
           ref={inputRef}
           type="search"
+          id="blog-search-input"
+          name="search"
+          autoComplete="off"
+          spellCheck="false"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           onKeyDown={(event) => {
@@ -62,40 +81,86 @@ export default function SearchDialog({ open, posts, onClose, t }) {
             }
           }}
           placeholder={t({ en: 'Search posts…', zh: '搜索文章…' })}
-          className="h-9 w-full bg-transparent text-sm text-ink placeholder:text-muted"
+          className="h-full min-w-0 flex-1 bg-transparent text-base text-ink placeholder:text-muted focus-visible:outline-none"
           aria-label={t({ en: 'Search posts', zh: '搜索文章' })}
         />
-        <kbd
-          aria-hidden="true"
-          className="rounded border border-line bg-subtle px-1.5 py-0.5 text-[11px] text-muted-strong"
-        >
-          ESC
-        </kbd>
+        <Kbd>ESC</Kbd>
       </div>
 
-      <div ref={listRef} className="mt-2 max-h-[50vh] overflow-y-auto">
+      <div className="px-2 py-2">
         {results.length === 0 ? (
-          <p className="py-6 text-sm text-muted">{t({ en: 'No results.', zh: '没有结果。' })}</p>
+          <div className="px-6 py-12 text-center">
+            <p className="text-sm font-medium text-heading">
+              {t({ en: 'No results', zh: '没有结果' })}
+            </p>
+            <p className="mt-1 text-xs text-muted">
+              {t({ en: 'Try a different keyword.', zh: '试试其他关键词。' })}
+            </p>
+          </div>
         ) : (
-          results.map((post, index) => (
-            <button
-              key={post.slug}
-              type="button"
-              data-index={index}
-              onMouseEnter={() => setActiveIndex(index)}
-              onClick={() => openPost(post)}
-              className={cn(
-                'flex w-full items-baseline justify-between gap-3 rounded-md px-2 py-2 text-left text-sm transition-colors',
-                index === activeIndex ? 'bg-subtle text-ink' : 'text-muted-strong hover:bg-subtle'
-              )}
-            >
-              <span className="min-w-0 truncate font-medium">{t(post.title)}</span>
-              <span className="shrink-0 text-xs text-muted-strong">
-                {formatDate(post.date, t)} · {categoryLabel(post.category, t)}
-              </span>
-            </button>
-          ))
+          <>
+            <p className="px-2 pb-1 pt-1 text-xs font-medium text-muted">
+              {t({ en: 'Posts', zh: '文章' })}
+            </p>
+            <ul ref={listRef} className="max-h-[min(54vh,360px)] space-y-0.5 overflow-y-auto">
+              {results.map((post, index) => {
+                const active = index === activeIndex
+                return (
+                  <li key={post.slug}>
+                    <button
+                      type="button"
+                      data-index={index}
+                      onMouseEnter={() => setActiveIndex(index)}
+                      onClick={() => openPost(post)}
+                      className={cn(
+                        'flex w-full flex-col gap-1 rounded-md px-3 py-2.5 text-left transition-colors',
+                        active ? 'bg-hover' : 'hover:bg-subtle'
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          'min-w-0 truncate text-sm font-medium',
+                          active ? 'text-heading' : 'text-muted-strong'
+                        )}
+                      >
+                        {t(post.title)}
+                      </span>
+                      <span className="flex items-center gap-1.5 text-xs text-muted">
+                        <time dateTime={post.date}>{formatDate(post.date, t)}</time>
+                        <span aria-hidden="true">·</span>
+                        <span>{categoryLabel(post.category, t)}</span>
+                      </span>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          </>
         )}
+      </div>
+
+      <div className="flex items-center justify-between gap-3 border-t border-line px-4 py-2.5 text-[11px] text-muted">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className="flex items-center gap-1">
+            <Kbd>↑</Kbd>
+            <Kbd>↓</Kbd>
+            {t({ en: 'Navigate', zh: '选择' })}
+          </span>
+          <span className="flex items-center gap-1">
+            <Kbd>↵</Kbd>
+            {t({ en: 'Open', zh: '打开' })}
+          </span>
+          <span className="flex items-center gap-1">
+            <Kbd>esc</Kbd>
+            {t({ en: 'Close', zh: '关闭' })}
+          </span>
+        </div>
+        <span className="hidden shrink-0 sm:inline">
+          {t({
+            en: results.length === 1 ? '1 result' : `${results.length} results`,
+            zh: `${results.length} 篇`,
+          })}
+        </span>
       </div>
     </Modal>
   )
