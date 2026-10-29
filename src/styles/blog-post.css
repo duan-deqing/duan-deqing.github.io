@@ -3,6 +3,15 @@
  * 这是唯一允许出现原始色值的样式文件；其余组件只用设计令牌。
  */
 
+/*
+ * 空代码行没有行盒，display:block 的 span 会塌成 0 高度，
+ * 绝对定位的 ::before 行号就会叠到下一行。给一行行高作为最小高度，
+ * 与 .code-block 的 13px / 1.7 行高保持一致。
+ */
+.code-line {
+  min-height: 1.7em;
+}
+
 .hljs {
   color: #24292f;
   background: transparent !important;

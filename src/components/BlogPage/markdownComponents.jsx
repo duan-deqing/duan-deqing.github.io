@@ -1,3 +1,4 @@
+import { cloneElement, isValidElement } from 'react'
 import { headingId, getTextContent } from '../../utils/markdownHeading'
 
 const heading = (level) => {
@@ -58,8 +59,12 @@ export const markdownComponents = {
   ),
 
   // react-markdown 会把 hast 的 node 传给自定义组件；不透传给 DOM。
-  code({ className, children, node, ...props }) {
-    const isBlock = typeof className === 'string' && /(^|\s)(hljs|language-)/.test(className)
+  // `block` 由 pre 注入：没有 info string 的围栏不会被 rehype-highlight
+  // 加上 hljs / language- 类名，只能靠 pre 的上下文判断为块级代码。
+  code({ className, children, block, node, ...props }) {
+    const isBlock =
+      block === true ||
+      (typeof className === 'string' && /(^|\s)(hljs|language-)/.test(className))
     if (isBlock) {
       return (
         <code className={className} {...props}>
@@ -75,7 +80,9 @@ export const markdownComponents = {
   },
 
   pre({ children }) {
-    return <pre className="code-block">{children}</pre>
+    // 把 pre 内的 code 标记为块级；children 不是单个合法元素时保持原样。
+    const content = isValidElement(children) ? cloneElement(children, { block: true }) : children
+    return <pre className="code-block">{content}</pre>
   },
 
   img: ({ src, alt }) => (

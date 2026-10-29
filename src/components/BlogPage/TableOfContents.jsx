@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { extractHeadings } from '../../utils/markdownHeading'
+import { useLanguage } from '../../hooks/useLanguage'
 
 export default function TableOfContents({ content, onItemClick, showTitle = true }) {
+  const { t } = useLanguage()
   const headings = useMemo(() => extractHeadings(content), [content])
   const [activeId, setActiveId] = useState('')
 
@@ -43,8 +45,12 @@ export default function TableOfContents({ content, onItemClick, showTitle = true
   if (headings.length === 0) return null
 
   return (
-    <nav aria-label="Table of contents">
-      {showTitle ? <p className="mb-3 text-xs font-medium text-muted">On this page</p> : null}
+    <nav aria-label={t({ en: 'Table of contents', zh: '目录' })}>
+      {showTitle ? (
+        <p className="mb-3 text-xs font-medium text-muted">
+          {t({ en: 'On this page', zh: '本页目录' })}
+        </p>
+      ) : null}
       <ul className="border-l border-line">
         {headings.map(({ level, text, id }) => {
           const active = activeId === id
