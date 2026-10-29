@@ -191,6 +191,7 @@
 ### 5.4 表单
 
 - label 14px/500；输入 h-9、6px 圆角、1px `--line`、白底；focus 2px `--accent` 环。
+- 筛选下拉：触发器 h-9、圆角描边；菜单 `rounded-lg border border-line bg-page p-1 shadow-lg`，选项 hover `--bg-hover`，当前项加粗 + check；支持 ↑/↓/Home/End/Enter/Esc 与点击外部关闭。
 - textarea 最小 96px；正文/代码类字段用 Mono。
 - 双语字段成组排列，组间 16px。
 

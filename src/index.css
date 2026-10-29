@@ -261,6 +261,22 @@
     animation-delay: calc(var(--card-index, 0) * 25ms);
   }
 
+  .filter-menu-enter {
+    animation: filter-menu-in 120ms ease-out both;
+    transform-origin: top;
+  }
+
+  @keyframes filter-menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   .writing-table .writing-row {
     transition: opacity 0.2s ease;
   }
@@ -299,6 +315,10 @@
     }
 
     .writing-card-enter {
+      animation: none;
+    }
+
+    .filter-menu-enter {
       animation: none;
     }
 

@@ -82,6 +82,12 @@ export const ChevronDownIcon = (props) => (
   </LineIcon>
 )
 
+export const CheckIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="M20 6 9 17l-5-5" />
+  </LineIcon>
+)
+
 export const MailIcon = (props) => (
   <LineIcon {...props}>
     <rect x="3" y="5" width="18" height="14" rx="2" />
