@@ -78,8 +78,8 @@ export function disperseTo(element, target) {
         fill: `rgb(${pixels[index]}, ${pixels[index + 1]}, ${pixels[index + 2]})`,
         alpha: Math.min(1, alpha / 255),
         size: SAMPLE_STEP * (0.7 + Math.random() * 0.45),
-        delay: Math.random() * 90,
-        duration: 480 + Math.random() * 240,
+        delay: Math.random() * 30,
+        duration: 380 + Math.random() * 180,
       })
     }
   }
@@ -126,7 +126,7 @@ export function disperseTo(element, target) {
         continue
       }
 
-      const t = local * local
+      const t = local
       const inv = 1 - t
       const x =
         inv * inv * particle.originX +
@@ -136,7 +136,7 @@ export function disperseTo(element, target) {
         inv * inv * particle.originY +
         2 * inv * t * particle.controlY +
         t * t * targetY
-      const fade = local < 0.55 ? 1 : Math.max(0, 1 - (local - 0.55) / 0.45)
+      const fade = local < 0.5 ? 1 : Math.max(0, 1 - (local - 0.5) / 0.5)
 
       ctx.globalAlpha = particle.alpha * fade
       ctx.fillStyle = particle.fill

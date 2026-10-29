@@ -184,7 +184,7 @@
 - 主题切换与 antfu.me 一致：以点击位置为圆心的 View Transition 圆形扩散，400ms `ease-out`；切到深色时反向收缩；不支持 View Transition 或 `prefers-reduced-motion` 时即时换色。
 - 语言切换：重放首页加载效果（内容 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场）；`prefers-reduced-motion` 下无动画。
 - 子页导航：与首页相同的 `.slide-enter-content`（`slide-enter` 1s + 90ms 阶梯）；路由 key 重挂载；懒加载 `Suspense` fallback 为居中 16px spinner + sr-only Loading；`prefers-reduced-motion` 下无动画。
-- 二维码气泡关闭：气泡快照采样为 Canvas 粒子，沿贝塞尔曲线汇聚到触发按钮，约 0.8s；`prefers-reduced-motion` 下直接关闭。
+- 二维码气泡关闭：气泡快照采样为 Canvas 粒子，立即散开并沿贝塞尔曲线汇聚到触发按钮，约 0.6s；`prefers-reduced-motion` 下直接关闭。
 - `prefers-reduced-motion` 下关闭入场与过渡位移；抽屉直接显示。
 
 ## 5. 页面架构

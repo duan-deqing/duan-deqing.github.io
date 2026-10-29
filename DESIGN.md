@@ -235,7 +235,7 @@
 | 主题切换 | View Transition 圆形扩散（点击位置为圆心，400ms ease-out；切到深色反向）；不支持 API 或 reduced-motion 时即时换色 |
 | 语言切换 | 重放首页加载效果：内容用 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场；reduced-motion 下无动画 |
 | 子页导航 / 加载 | 与首页相同：页面根节点使用 `.slide-enter-content`，`slide-enter` 1s + 90ms 阶梯；路由 key 重挂载；懒加载时居中 16px spinner（sr-only Loading）；reduced-motion 下无动画 |
-| 二维码气泡关闭 | 气泡快照采样为 Canvas 粒子，沿贝塞尔曲线汇聚到触发按钮，约 0.8s；reduced-motion 下直接关闭 |
+| 二维码气泡关闭 | 气泡快照采样为 Canvas 粒子，立即散开并沿贝塞尔曲线汇聚到触发按钮，约 0.6s；reduced-motion 下直接关闭 |
 | `prefers-reduced-motion` | 关闭入场与所有位移动画 |
 
 ---
