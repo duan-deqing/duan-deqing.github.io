@@ -207,7 +207,7 @@
 ### 5.6 代码
 
 - 行内码：`--code-bg`、6px 圆角、13px Mono，前后反引号装饰。
-- 代码块：头部 `rounded-t-lg` 描边 + `--bg-subtle` + 14px 中性灰点 + 语言标题 + h-7 Copy（固定 56px 文案宽度，复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯。
+- 代码块：头部 `rounded-t-lg` 描边 + `--bg-subtle` + 14px 中性灰点 + 语言标题 + h-7 Copy（固定 56px 文案宽度、300ms 淡入上移、复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯。
 
 ### 5.7 徽标与空状态
 

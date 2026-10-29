@@ -134,9 +134,12 @@ function CodeBlock({ children }) {
           type="button"
           disabled={copied}
           onClick={copy}
-          className="inline-flex h-7 shrink-0 items-center justify-center rounded-lg border border-line bg-transparent px-2.5 text-xs font-medium text-ink shadow-xs transition-colors duration-300 hover:bg-subtle disabled:pointer-events-none disabled:opacity-50 dark:shadow-none"
+          className="inline-flex h-7 shrink-0 items-center justify-center whitespace-nowrap rounded-lg border border-line bg-transparent px-2.5 text-xs font-medium text-ink shadow-xs transition-colors duration-300 hover:bg-subtle focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-heading disabled:pointer-events-none disabled:opacity-50 dark:shadow-none"
         >
-          <span className="inline-flex w-14 items-center justify-center gap-0.5">
+          <span
+            key={copied ? 'copied' : 'copy'}
+            className="copy-label-enter inline-flex w-14 items-center justify-center gap-0.5"
+          >
             {copied ? (
               <>
                 <CheckIcon size={14} strokeWidth={2} />
@@ -144,7 +147,7 @@ function CodeBlock({ children }) {
               </>
             ) : (
               <>
-                <CopyIcon size={14} strokeWidth={2} />
+                <CopyIcon size={14} strokeWidth={2} className="mr-0.5" />
                 {t({ en: 'Copy', zh: '复制' })}
               </>
             )}
