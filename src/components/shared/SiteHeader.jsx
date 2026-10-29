@@ -20,6 +20,16 @@ export default function SiteHeader() {
     }
   }, [open])
 
+  useEffect(() => {
+    if (!open) return
+    const mq = window.matchMedia('(min-width: 768px)')
+    const handleChange = (event) => {
+      if (event.matches) setOpen(false)
+    }
+    mq.addEventListener('change', handleChange)
+    return () => mq.removeEventListener('change', handleChange)
+  }, [open])
+
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-line bg-page">

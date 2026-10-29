@@ -37,21 +37,21 @@ personal:
     height: 500
     color: "#3b82f6"
 navLinks:
-  - href: /skills
-    label:
-      en: skills
-      zh: 技能
   - href: /projects
     label:
-      en: projects
+      en: Projects
       zh: 项目
   - href: /blog
     label:
-      en: blog
+      en: Blog
       zh: 博客
+  - href: /skills
+    label:
+      en: Skills
+      zh: 技能
   - href: /contact
     label:
-      en: contact
+      en: Contact
       zh: 联系
 homeSections:
   - id: about
