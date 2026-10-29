@@ -137,7 +137,8 @@
 @layer components {
   .link,
   .social-link,
-  .footer-link {
+  .footer-link,
+  .stack-link {
     text-decoration: none;
     border-bottom: 1px solid rgba(125, 125, 125, 0.3);
     transition: border 0.3s ease-in-out;
@@ -153,12 +154,6 @@
 
   .stack-link {
     color: var(--accent);
-    text-decoration: none;
-    text-underline-offset: 4px;
-  }
-
-  .stack-link:hover {
-    text-decoration: underline;
   }
 
   .home-links-bold .link,
@@ -168,7 +163,8 @@
 
   .link:hover,
   .social-link:hover,
-  .footer-link:hover {
+  .footer-link:hover,
+  .stack-link:hover {
     border-bottom: 1px solid var(--link-underline);
   }
 
