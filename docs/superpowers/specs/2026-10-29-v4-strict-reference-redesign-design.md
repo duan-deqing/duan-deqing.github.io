@@ -246,6 +246,7 @@ App
 - 不出现项目卡片、技能网格、联系 CTA、Hero 大标题、头像大图。
 - 所有段落可含内联链接；外链带 ↗ 图标。
 - 首页内容以 `slide-enter` 阶梯进入。
+- 首页背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条）；背景层固定 `z-0`、内容 `z-10`；通过 `src/backgrounds/index.js` 切换 `plum` / `dots` / `none`；其他页面可引用 `<BackgroundLayer />`；`prefers-reduced-motion` 下关闭。
 
 ### 6.2 博客列表 `/blog`
 
@@ -319,6 +320,7 @@ App
 ### 7.1 新增
 
 - `src/layouts/HomeLayout.jsx`、`src/layouts/SubpageLayout.jsx`
+- `src/backgrounds/`：`index.js`（注册表与 `HOME_BACKGROUND`）、`BackgroundLayer.jsx`、`PlumBackground.jsx`、`DotsBackground.jsx`
 - `src/components/site/HomeHeader.jsx`、`SideMenu.jsx`、`MenuContent.jsx`、`NavItem.jsx`、`MobileHeader.jsx`、`MobileMenuSheet.jsx`
 - `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`
 - `src/components/site/Button.jsx`、`IconButton.jsx`、`SiteLink.jsx`
