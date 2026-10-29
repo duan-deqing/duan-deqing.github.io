@@ -261,6 +261,19 @@
     animation-delay: calc(var(--card-index, 0) * 25ms);
   }
 
+  .writing-table .writing-row {
+    transition: opacity 0.2s ease;
+  }
+
+  .writing-table:hover .writing-row {
+    opacity: 0.35;
+  }
+
+  .writing-table .writing-row:hover,
+  .writing-table .writing-row:focus-visible {
+    opacity: 1;
+  }
+
   @keyframes slide-enter {
     from {
       opacity: 0;
@@ -287,6 +300,10 @@
 
     .writing-card-enter {
       animation: none;
+    }
+
+    .writing-table .writing-row {
+      transition: none;
     }
   }
 }

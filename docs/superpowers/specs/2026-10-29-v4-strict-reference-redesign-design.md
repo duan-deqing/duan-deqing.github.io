@@ -63,7 +63,7 @@
 | 项目 | 源码事实 | 本站用法 |
 | --- | --- | --- |
 | 侧栏 | `lg:w-60 xl:w-72`，`bg-zinc-50`，`border-r`，内部 `p-3` | 子页桌面侧栏 240 / 288px |
-| 侧栏名片 | 40px 圆头像 + 姓名 + 职位 | 头像 emoji / 图片 + STYLAN + 职位 |
+| 侧栏名片 | 40px 圆头像 + 姓名 + 职位 | 头像（emoji / 图片 / GitHub URL）+ STYLAN + 职位；点击名片回 antfu 首页 `/` |
 | 导航项 | `rounded-lg p-2`；选中 `bg-black text-white`；hover `bg-gray-200`；快捷键 20px 徽标 | 子页与后台导航 |
 | 内容区 | `px-6 pt-8 pb-8 lg:px-8 lg:pt-24 lg:pb-16`；`mx-auto max-w-3xl` | 所有子页 |
 | 移动顶栏 | `h-12` sticky，白底，边框 | 子页移动端 |
@@ -201,7 +201,7 @@ App
 │   ├── SideMenu
 │   ├── WritingRail（≥1024，标题 + Search/RSS + 分类/标签选择框 + 列表）
 │   └── 内容区（/blog 为点状空态；/:slug 为白底文章）
-└── SubpageLayout（/projects /skills /contact /404）
+└── SubpageLayout（/home /projects /skills /contact /404）
     ├── SideMenu（≥1024 固定左栏）
     ├── MobileHeader + MobileMenuSheet（<1024）
     └── 内容区（ScrollArea + ContentWrapper）
@@ -257,6 +257,14 @@ App
 - 首页正文：使用 `--home-body`（#555/#BBB，对应 antfu `--fg`）；标题 `--heading`，链接黑色 + 常态浅灰底线 + hover 深灰底线。
 - 首页内容以 `slide-enter` 阶梯进入。
 - 首页背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条）；右上角按钮循环 `plum → dots → none` 并持久化到 `localStorage.home-background`；背景层固定 `z-0`、内容 `z-10`；也可通过 `src/backgrounds/index.js` 切换默认值；其他页面可引用 `<BackgroundLayer />`；`prefers-reduced-motion` 下关闭。
+
+#### 子页 Home `/home`
+
+- 路由 `/home`，使用 `SubpageLayout`；侧栏 Home 指向 `/home` 并 active；顶部头像/姓名卡片链接 `/`（antfu 首页），是侧栏中唯一回首页入口；头像读取 `personal.avatar`，当前为 GitHub 头像 URL（`https://avatars.githubusercontent.com/u/25705727?s=160&v=4`）。
+- 内容 `max-w-3xl`：两段介绍（`Hi 👋 I'm …` + `personal.bio`；focus + `projects` / `skills` 链接）→ `Writing` h2（链接 `/blog`）→ 年/日期/标题/分类表格。
+- 表格 14px：表头 `Year | Date | Title | Category`（muted），按年分组、年份只在组首显示；行 `border-t`、`py-4`；hover 时同组其他行降到 35% 透明度，当前行保持可见；移动端日期与分类在标题上方，无年列。
+- 加载：6 行 pulse 骨架；数据异步加载；页面内容使用 `slide-enter` 阶梯入场。
+- 桌面无可见大标题；h1 为 sr-only；PageTitle 设为 `STYLAN · Home`。
 
 ### 6.2 博客 `/blog` 与 `/blog/:slug`
 
@@ -338,7 +346,7 @@ App
 - `src/components/site/HomeHeader.jsx`、`SideMenu.jsx`、`MenuContent.jsx`、`NavItem.jsx`、`MobileHeader.jsx`、`MobileMenuSheet.jsx`
 - `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`
 - `src/components/site/Button.jsx`、`IconButton.jsx`、`SiteLink.jsx`
-- `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`SearchDialog.jsx`
+- `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`WritingTable.jsx`、`SearchDialog.jsx`
 - `src/components/projects/ProjectTable.jsx`
 - `src/components/contact/WechatDialog.jsx`
 - `src/utils/cn.js`（轻量类名合并）
@@ -348,7 +356,7 @@ App
 - `src/index.css`：令牌、Geist、基础排版、焦点、选区、首页 prose、文章排版入口。
 - `src/styles/blog-post.css`：保留 highlighted 代码配色，改为 onur 的浅色/深色映射。
 - `src/App.jsx`：按路由选择 `HomeLayout` / `BlogLayout`（lazy）/ `SubpageLayout`。
-- `src/pages/HomePage.jsx`、`BlogPage.jsx`、`BlogPostPage.jsx`、`ProjectsPage.jsx`、`SkillsPage.jsx`、`ContactPage.jsx`、`NotFoundPage.jsx`。
+- `src/pages/SubpageHomePage.jsx`、`HomePage.jsx`、`BlogPage.jsx`、`BlogPostPage.jsx`、`ProjectsPage.jsx`、`SkillsPage.jsx`、`ContactPage.jsx`、`NotFoundPage.jsx`。
 - `src/components/BlogPage/TableOfContents.jsx`、`markdownComponents.jsx`。
 - `src/admin/admin.css`、`src/admin/AdminApp.jsx`、`src/admin/sections/*`、`src/admin/components/*` 的表现层类名。
 - `DESIGN.md`。

@@ -25,7 +25,7 @@ export const contentSchema = [
     path: ['personal'],
     fields: [
       bilingual('name', '名字', 'i18nText', { required: true }),
-      { key: 'avatar', label: '头像', type: 'text', upload: true, help: '可填 emoji，或上传图片得到路径' },
+      { key: 'avatar', label: '头像', type: 'text', upload: true, help: '可填 emoji、图片路径或头像 URL' },
       bilingual('titlePrefix', '标题前缀'),
       bilingual('titleName', '标题名字'),
       { key: 'tags', label: '身份标签', type: 'i18nList' },

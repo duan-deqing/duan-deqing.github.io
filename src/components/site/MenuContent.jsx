@@ -22,7 +22,7 @@ const NAV_ICONS = {
 
 // 与首页壳共用 config.navLinks；Home 固定置顶，图标按 href 映射
 export const NAV_ITEMS = [
-  { href: '/', label: { en: 'Home', zh: '首页' }, Icon: HomeIcon },
+  { href: '/home', label: { en: 'Home', zh: '首页' }, Icon: HomeIcon },
   ...(config.navLinks || [])
     .filter((link) => link.href !== '/')
     .map((link) => ({
@@ -63,16 +63,20 @@ export default function MenuContent({ onNavigate }) {
     <div className="flex w-full flex-col gap-4 text-sm">
       <Link
         to="/"
+        aria-label={t({ en: 'STYLAN homepage', zh: 'STYLAN 首页' })}
         className="flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-hover"
         onClick={onNavigate}
       >
-        {typeof avatar === 'string' && avatar.startsWith('/') ? (
+        {typeof avatar === 'string' &&
+        (avatar.startsWith('/') || avatar.startsWith('http')) ? (
           <img
             src={avatar}
             alt={name}
             width={40}
             height={40}
             loading="lazy"
+            decoding="async"
+            referrerPolicy="no-referrer"
             className="size-10 rounded-full border border-line object-cover"
           />
         ) : (

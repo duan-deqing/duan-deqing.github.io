@@ -14,11 +14,13 @@ const BlogPostPage = lazy(() => import('./pages/BlogPostPage'))
 const SkillsPage = lazy(() => import('./pages/SkillsPage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+const SubpageHomePage = lazy(() => import('./pages/SubpageHomePage'))
 const BlogLayout = lazy(() => import('./layouts/BlogLayout'))
 
 function prefetchSubpages() {
   const loaders = [
     () => import('./layouts/BlogLayout'),
+    () => import('./pages/SubpageHomePage'),
     () => import('./pages/ProjectsPage'),
     () => import('./pages/BlogPage'),
     () => import('./pages/SkillsPage'),
@@ -69,6 +71,7 @@ export default function App() {
           <Route path="/blog/:slug" element={page(<BlogPostPage />)} />
         </Route>
         <Route element={<SubpageLayout />}>
+          <Route path="/home" element={page(<SubpageHomePage />)} />
           <Route path="/projects" element={page(<ProjectsPage />)} />
           <Route path="/skills" element={page(<SkillsPage />)} />
           <Route path="/contact" element={page(<ContactPage />)} />
