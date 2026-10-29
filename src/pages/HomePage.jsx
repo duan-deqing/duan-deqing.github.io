@@ -1,10 +1,6 @@
-import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import config from '../content/site.yaml'
 import { useLanguage } from '../hooks/useLanguage'
-import { getAllPosts } from '../utils/markdown'
-import { groupPostsByYear } from '../utils/postGroups'
-import { formatDate } from '../utils/postFormat'
 import PageTitle from '../components/shared/PageTitle'
 import SiteLink from '../components/site/SiteLink'
 import {
@@ -29,40 +25,13 @@ function SocialLink({ href, label, Icon }) {
 
 export default function HomePage() {
   const { lang, t } = useLanguage()
-  const [posts, setPosts] = useState([])
-  const [failed, setFailed] = useState(false)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    let cancelled = false
-    // 语言切换时先清空旧列表并复位状态，避免闪现上一语言的文章
-    setPosts([])
-    setFailed(false)
-    setLoading(true)
-
-    getAllPosts(lang)
-      .then((value) => {
-        if (cancelled) return
-        setPosts(value)
-        setFailed(false)
-      })
-      .catch((error) => {
-        console.error('[HomePage] Failed to load posts:', error)
-        if (!cancelled) setFailed(true)
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false)
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [lang])
-
-  const groups = useMemo(() => groupPostsByYear(posts.slice(0, 5)), [posts])
   const focus = (config.about?.focus || []).map((item) => t(item))
   const socials = config.socialLinks || []
   const email = config.contact?.email
+  const skills = (config.skills || []).filter((group) => {
+    const label = `${group.category?.en || ''} ${group.category?.zh || ''}`.toLowerCase()
+    return !label.includes('hobbies') && !label.includes('爱好')
+  })
 
   return (
     <>
@@ -144,64 +113,36 @@ export default function HomePage() {
 
         <hr className="home-divider" />
 
-        <section aria-labelledby="home-writing">
+        <section aria-labelledby="home-stack">
           <div className="mb-2 flex items-center justify-between gap-4">
             <h2
-              id="home-writing"
+              id="home-stack"
               className="text-lg font-semibold tracking-tight text-heading md:text-xl"
             >
-              {t({ en: 'Writing', zh: '写作' })}
+              {t({ en: 'Tech Stack', zh: '技术栈' })}
             </h2>
             <Link
-              to="/blog"
+              to="/skills"
               className="inline-flex items-center gap-1 text-sm text-muted-strong transition-colors hover:text-ink"
             >
-              {t({ en: 'All posts', zh: '全部文章' })}
+              {t({ en: 'All skills', zh: '全部技能' })}
               <ArrowUpRightIcon size={14} />
             </Link>
           </div>
 
-          {loading ? (
-            <div className="space-y-2 py-2" aria-hidden="true">
-              {[0, 1, 2, 3].map((row) => (
-                <div key={row} className="h-9 rounded-md bg-subtle" />
-              ))}
-            </div>
-          ) : failed ? (
-            <p className="py-6 text-sm text-muted">
-              {t({ en: 'Unable to load posts.', zh: '文章加载失败。' })}
-            </p>
-          ) : groups.length === 0 ? (
-            <p className="py-6 text-sm text-muted">
-              {t({ en: 'Nothing here yet.', zh: '暂无文章。' })}
-            </p>
-          ) : (
-            groups.map((group) => (
-              <div key={group.year}>
-                <div className="relative h-16" aria-hidden="true">
-                  <span className="year-mark">{group.year}</span>
-                </div>
-                <ul>
-                  {group.posts.map((post) => (
-                    <li key={post.slug}>
-                      <Link
-                        to={`/blog/${post.slug}`}
-                        className="flex items-baseline justify-between gap-4 border-b border-line py-3 text-base text-ink transition-colors hover:text-accent"
-                      >
-                        <span>{t(post.title)}</span>
-                        <time
-                          dateTime={post.date}
-                          className="shrink-0 text-sm tabular-nums text-muted"
-                        >
-                          {formatDate(post.date, t)}
-                        </time>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+          <dl className="border-t border-line">
+            {skills.map((group) => (
+              <div
+                key={group.category?.en || t(group.category)}
+                className="grid gap-1 border-b border-line py-3 sm:grid-cols-[8rem_1fr] sm:gap-4"
+              >
+                <dt className="text-sm font-medium text-heading">{t(group.category)}</dt>
+                <dd className="text-sm leading-relaxed text-muted">
+                  {(group.items || []).join(' · ')}
+                </dd>
               </div>
-            ))
-          )}
+            ))}
+          </dl>
         </section>
       </div>
     </>

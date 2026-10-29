@@ -150,21 +150,6 @@
     border-top: 1px solid color-mix(in srgb, var(--muted) 30%, transparent);
   }
 
-  .year-mark {
-    position: absolute;
-    left: -0.5rem;
-    top: -0.75rem;
-    font-size: 5rem;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    color: transparent;
-    -webkit-text-stroke: 1px var(--muted);
-    opacity: 0.18;
-    pointer-events: none;
-    user-select: none;
-  }
-
   .writing-list .writing-row {
     transition: opacity 0.2s ease;
   }

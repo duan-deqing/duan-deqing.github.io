@@ -99,9 +99,10 @@
 │                                              │
 │           65ch 居中正文                       │
 │           自我介绍（内联链接）                 │
+│           ───                                │
 │           Find me on …                       │
 │           ───                                │
-│           Writing（年份水印 + 文章行）         │
+│           Tech Stack（分类 + 技术项）          │
 │                                              │
 │ © 2026 STYLAN                               │
 └──────────────────────────────────────────────┘
@@ -208,7 +209,7 @@
 
 | 页面 | 构图 |
 | --- | --- |
-| `/` | Intro 三段 → Find me on → hr → Writing（5 篇）→ 页脚 |
+| `/` | Intro 三段 → hr → Find me on → hr → Tech Stack → 页脚 |
 | `/blog` | h1 + 副标题 + RSS/Search → 分类/标签 → 年/日期/标题/分类 grid 行（视觉上表格式） |
 | `/blog/:slug` | 返回 → h1 → 日期·阅读时长·分类 → 正文 68ch + 右侧 TOC |
 | `/projects` | h1 + 说明 + GitHub → 项目表格（移动卡片） |
