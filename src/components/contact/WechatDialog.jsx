@@ -4,7 +4,7 @@ import { CloseIcon } from '../site/icons'
 
 export default function WechatDialog({ open, onClose, qrcode, alt }) {
   return (
-    <Modal open={open} onClose={onClose} label={alt || 'WeChat QR code'} panelClassName="max-w-sm">
+    <Modal open={open} onClose={onClose} label={alt || 'WeChat QR code'} maxWidth="max-w-sm">
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-base font-semibold tracking-tight text-heading">{alt || 'WeChat'}</h2>
         <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close">
