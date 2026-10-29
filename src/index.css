@@ -56,6 +56,7 @@
   --accent: #2563eb;
   --accent-strong: #1d4ed8;
   --link-underline: #555555;
+  --home-body: #555555;
   --active-bg: #000000;
   --active-fg: #ffffff;
   --code-bg: #f3f4f6;
@@ -79,6 +80,7 @@
   --accent: #60a5fa;
   --accent-strong: #93c5fd;
   --link-underline: #bbbbbb;
+  --home-body: #bbbbbb;
   --active-bg: #fafafa;
   --active-fg: #09090b;
   --code-bg: #18181b;
@@ -143,6 +145,10 @@
 
   .link {
     color: var(--heading);
+  }
+
+  .home-body-text {
+    color: var(--home-body);
   }
 
   .home-links-bold .link,

@@ -104,6 +104,7 @@
 | `--accent` | `#2563EB` | `#60A5FA` | 焦点环、文章光晕、后台链接 |
 | `--accent-strong` | `#1D4ED8` | `#93C5FD` | 强调色深阶（备用） |
 | `--link-underline` | `#555555` | `#BBBBBB` | 正文/社交/页脚链接 hover 下边框 |
+| `--home-body` | `#555555` | `#BBBBBB` | 首页正文（antfu `--fg`） |
 | `--active-bg` | `#000000` | `#FAFAFA` | 选中导航、active 胶囊 |
 | `--active-fg` | `#FFFFFF` | `#09090B` | 选中导航文字 |
 | `--code-bg` | `#F3F4F6` | `#18181B` | 行内码底 |
@@ -245,6 +246,7 @@ App
 - `<hr>` 为 50px 居中短横线，上下 `2em`（与 antfu.me 的 `.prose hr` 一致）。
 - 不出现项目卡片、技能网格、联系 CTA、Hero 大标题、头像大图。
 - 所有段落可含内联链接；外链带 ↗ 图标。
+- 首页正文：使用 `--home-body`（#555/#BBB，对应 antfu `--fg`）；标题 `--heading`，链接黑色 + 常态浅灰底线 + hover 深灰底线。
 - 首页内容以 `slide-enter` 阶梯进入。
 - 首页背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条）；右上角按钮循环 `plum → dots → none` 并持久化到 `localStorage.home-background`；背景层固定 `z-0`、内容 `z-10`；也可通过 `src/backgrounds/index.js` 切换默认值；其他页面可引用 `<BackgroundLayer />`；`prefers-reduced-motion` 下关闭。
 

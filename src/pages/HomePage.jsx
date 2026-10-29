@@ -42,7 +42,7 @@ export default function HomePage() {
 
       <h1 className="sr-only">{t(config.personal.name)}</h1>
 
-      <div className="home-links-bold slide-enter-content">
+      <div className="home-body-text home-links-bold slide-enter-content">
         <p className="mb-6 text-base leading-[1.75]">
           {t({ en: "Hey, I'm ", zh: '你好，我是 ' })}
           <strong className="font-semibold text-heading">{t(config.personal.name)}</strong>
@@ -145,7 +145,7 @@ export default function HomePage() {
                 className="grid gap-1 border-b border-line py-3 sm:grid-cols-[8rem_1fr] sm:gap-4"
               >
                 <dt className="text-sm font-medium text-heading">{t(group.category)}</dt>
-                <dd className="text-sm leading-relaxed text-muted">
+                <dd className="text-sm leading-relaxed">
                   {(group.items || []).join(' · ')}
                 </dd>
               </div>
