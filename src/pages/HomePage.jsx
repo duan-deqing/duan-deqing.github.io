@@ -111,7 +111,7 @@ export default function HomePage() {
               {t({ en: 'Or mail me at', zh: '或发邮件至' })}{' '}
               <SiteLink
                 href={`mailto:${email}`}
-                className="font-mono text-accent underline-offset-4 hover:underline"
+                className="link font-mono"
               >
                 {email}
               </SiteLink>

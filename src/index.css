@@ -136,13 +136,12 @@
   .link {
     color: var(--accent);
     text-decoration: none;
-    text-underline-offset: 4px;
-    transition: color 0.15s ease;
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    transition: border 0.3s ease-in-out;
   }
 
   .link:hover {
-    color: var(--accent-strong);
-    text-decoration: underline;
+    border-bottom: 1px solid var(--accent-strong);
   }
 
   .social-link {

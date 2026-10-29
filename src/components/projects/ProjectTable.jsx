@@ -59,7 +59,7 @@ export default function ProjectTable({ projects }) {
                         href={url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-accent hover:underline"
+                        className="link inline-flex items-center gap-1"
                         aria-label={t({ en: `Visit ${title}`, zh: `访问 ${title}` })}
                       >
                         Visit

@@ -62,7 +62,7 @@ export default function BlogPostPage() {
         <button
           type="button"
           onClick={() => navigate('/blog')}
-          className="mt-6 text-sm text-accent hover:underline"
+          className="link mt-6 text-sm"
         >
           {t({ en: 'Back to blog', zh: '返回博客' })}
         </button>

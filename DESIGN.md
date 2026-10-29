@@ -83,7 +83,7 @@
 规则：
 
 - 一个页面最多三级标题层级；h1 每页一个。
-- 链接默认为 `--accent`，hover 下划线 + `text-underline-offset: 4px`。
+- 蓝色正文链接：常态 1px `color-mix(accent 30%)` 下边框，hover 变 `--accent-strong`，`border 0.3s ease-in-out`；文字颜色不变、底线常驻不挤压布局。
 - 正文段落宽度不超过 68ch；首页 65ch。
 - 不用字重 300、斜体长文、渐变文字。
 
