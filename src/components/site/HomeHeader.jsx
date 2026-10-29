@@ -11,8 +11,18 @@ export default function HomeHeader() {
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
   const links = config.navLinks || []
+  const isActive = (href) => pathname === href || pathname.startsWith(`${href}/`)
 
   useEffect(() => setOpen(false), [pathname])
+
+  useEffect(() => {
+    if (!open) return undefined
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [open])
 
   return (
     <header className="mx-auto w-full max-w-6xl px-5 py-6 md:px-8">
@@ -30,7 +40,7 @@ export default function HomeHeader() {
             <Link
               key={link.href}
               to={link.href}
-              aria-current={pathname === link.href ? 'page' : undefined}
+              aria-current={isActive(link.href) ? 'page' : undefined}
               className="text-sm text-ink opacity-60 transition-opacity hover:opacity-100"
             >
               {t(link.label)}
@@ -44,8 +54,13 @@ export default function HomeHeader() {
           <button
             type="button"
             className="grid size-8 place-items-center rounded-md text-ink hover:bg-subtle"
-            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-label={
+              open
+                ? t({ en: 'Close menu', zh: '关闭菜单' })
+                : t({ en: 'Open menu', zh: '打开菜单' })
+            }
             aria-expanded={open}
+            aria-controls="home-mobile-nav"
             onClick={() => setOpen((value) => !value)}
           >
             {open ? <CloseIcon size={18} /> : <MenuIcon size={18} />}
@@ -55,6 +70,7 @@ export default function HomeHeader() {
 
       {open ? (
         <nav
+          id="home-mobile-nav"
           aria-label="Mobile"
           className="mt-4 flex flex-col divide-y divide-line border-y border-line md:hidden"
         >
@@ -63,9 +79,10 @@ export default function HomeHeader() {
               key={link.href}
               to={link.href}
               onClick={() => setOpen(false)}
+              aria-current={isActive(link.href) ? 'page' : undefined}
               className={cn(
                 'py-3 text-base',
-                pathname === link.href ? 'text-heading' : 'text-muted-strong'
+                isActive(link.href) ? 'text-heading' : 'text-muted-strong'
               )}
             >
               {t(link.label)}
