@@ -14,7 +14,7 @@ function SocialLink({ href, label, Icon }) {
   return (
     <SiteLink
       href={href}
-      className="social-link text-base font-medium text-heading"
+      className="social-link text-base text-heading"
     >
       <Icon size={19} className="mr-1 inline-block opacity-75 align-text-bottom" />{label}
     </SiteLink>
