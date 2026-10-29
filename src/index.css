@@ -269,6 +269,10 @@
     animation-delay: 1200ms;
   }
 
+  .qr-bubble-enter {
+    animation: slide-enter 1s both 1;
+  }
+
   @keyframes slide-enter {
     from {
       opacity: 0;
@@ -286,6 +290,10 @@
     }
 
     .home-footer-enter {
+      animation: none;
+    }
+
+    .qr-bubble-enter {
       animation: none;
     }
 

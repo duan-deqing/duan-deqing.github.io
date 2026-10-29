@@ -52,20 +52,22 @@ function WechatSocialLink({ method, t }) {
         {label}
       </button>
       {open ? (
-        <span
-          role="dialog"
-          aria-label={qrLabel}
-          className="absolute left-0 top-full z-20 mt-2 block w-48 rounded-lg border border-line bg-page p-2 shadow-xl max-sm:bottom-full max-sm:top-auto max-sm:mb-2 max-sm:mt-0"
-        >
-          <img
-            src={method.qrcode}
-            alt={qrLabel}
-            width={176}
-            height={176}
-            loading="lazy"
-            decoding="async"
-            className="h-44 w-44 rounded-md object-contain"
-          />
+        <span className="absolute left-full top-1/2 z-20 ml-2 block w-48 -translate-y-1/2 max-sm:bottom-full max-sm:left-0 max-sm:top-auto max-sm:mb-2 max-sm:ml-0 max-sm:translate-y-0">
+          <span
+            role="dialog"
+            aria-label={qrLabel}
+            className="qr-bubble-enter block rounded-lg border border-line bg-page p-2 shadow-xl"
+          >
+            <img
+              src={method.qrcode}
+              alt={qrLabel}
+              width={176}
+              height={176}
+              loading="lazy"
+              decoding="async"
+              className="h-44 w-44 rounded-md object-contain"
+            />
+          </span>
         </span>
       ) : null}
     </span>
