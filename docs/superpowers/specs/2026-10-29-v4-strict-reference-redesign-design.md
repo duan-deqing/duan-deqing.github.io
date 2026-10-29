@@ -237,7 +237,7 @@ App
 3. **Find me on**：GitHub / Bilibili / Email / RSS，图标 + 文字，14px；邮箱行用等宽字体 `duan-deqing@foxmail.com`。
 4. `<hr>`。
 5. **Tech Stack**：标题 `Tech Stack / 技术栈` + 右侧 `All skills → /skills`；按 `config.skills` 分组（排除 Hobbies），每行分类 + `·` 连接的技术项。
-6. **Footer**：`© 2026 STYLAN` 单行，14px、50% 不透明度；无 RSS/社交图标。
+6. **Footer**：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 antfu/antfu.me`，14px、50% 不透明度；许可与来源为链接，无 RSS/社交图标。
 
 规则：
 
