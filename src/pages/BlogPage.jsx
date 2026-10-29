@@ -89,7 +89,7 @@ export default function BlogPage() {
               {t({ en: 'Search', zh: '搜索' })}
               <kbd
                 aria-hidden="true"
-                className="rounded border border-line bg-subtle px-1 text-[10px] text-muted"
+                className="rounded border border-line bg-subtle px-1 text-[10px] text-muted-strong"
               >
                 ⌘K
               </kbd>

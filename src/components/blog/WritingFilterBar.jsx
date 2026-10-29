@@ -53,7 +53,7 @@ export default function WritingFilterBar({
                 type="button"
                 aria-pressed={active}
                 className={cn(
-                  'text-xs transition-colors',
+                  'inline-flex min-h-6 items-center text-xs transition-colors',
                   active ? 'text-ink underline underline-offset-4' : 'text-muted hover:text-ink'
                 )}
                 onClick={() => onTagChange(active ? null : tag)}

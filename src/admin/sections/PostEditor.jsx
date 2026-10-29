@@ -62,6 +62,7 @@ function BiTextField({ label, value, onChange, multiline = false, help = '' }) {
         </div>
       ) : (
         <Input
+          aria-label={label}
           className={multiline ? 'admin-input admin-textarea' : 'admin-input'}
           rows={multiline ? 3 : undefined}
           value={value || ''}
@@ -307,6 +308,7 @@ export default function PostEditor({ state, onClose, onSaved, onDirtyChange }) {
           </label>
         </div>
         <textarea
+          aria-label="正文（Markdown）"
           className="admin-input admin-textarea font-mono text-[12px] leading-[1.7]"
           rows={16}
           value={body}

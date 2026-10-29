@@ -67,7 +67,7 @@ export default function SearchDialog({ open, posts, onClose, t }) {
         />
         <kbd
           aria-hidden="true"
-          className="rounded border border-line bg-subtle px-1.5 py-0.5 text-[11px] text-muted"
+          className="rounded border border-line bg-subtle px-1.5 py-0.5 text-[11px] text-muted-strong"
         >
           ESC
         </kbd>
@@ -90,7 +90,7 @@ export default function SearchDialog({ open, posts, onClose, t }) {
               )}
             >
               <span className="min-w-0 truncate font-medium">{t(post.title)}</span>
-              <span className="shrink-0 text-xs text-muted">
+              <span className="shrink-0 text-xs text-muted-strong">
                 {formatDate(post.date, t)} · {categoryLabel(post.category, t)}
               </span>
             </button>

@@ -38,6 +38,8 @@ export default function Modal({
     const frame = requestAnimationFrame(focusFirst)
 
     function onKeyDown(event) {
+      // 输入法组合期间（中文/日文候选）的 Esc 属于 IME，不关闭弹窗
+      if (event.isComposing || event.keyCode === 229) return
       if (event.key === 'Escape') {
         event.preventDefault()
         onCloseRef.current?.()

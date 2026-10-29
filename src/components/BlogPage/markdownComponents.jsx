@@ -1,4 +1,4 @@
-import { cloneElement, isValidElement } from 'react'
+import { cloneElement, isValidElement, useEffect, useRef, useState } from 'react'
 import { headingId, getTextContent } from '../../utils/markdownHeading'
 
 const heading = (level) => {
@@ -17,6 +17,46 @@ const heading = (level) => {
       </Tag>
     )
   }
+}
+
+// 文章配图通常在首屏之外。原生 loading="lazy" 在慢速网络下仍会预取
+// 约 3000px 内的图片，文中长图会挤占首屏带宽；这里等到图片接近视口
+// （600px）再挂载 src，让 LCP 段落先完成渲染。
+function ArticleImage({ src, alt }) {
+  const anchorRef = useRef(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const el = anchorRef.current
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setVisible(true)
+      return undefined
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setVisible(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: '600px 0px' }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <span ref={anchorRef} className="my-6 block">
+      {/* 未进入视口时保留 img 与 alt（屏幕阅读器可读），只推迟 src。 */}
+      <img
+        src={visible ? src : undefined}
+        alt={alt || ''}
+        loading="lazy"
+        decoding="async"
+        className="h-auto w-full rounded-xl border border-line"
+      />
+    </span>
+  )
 }
 
 export const markdownComponents = {
@@ -85,15 +125,7 @@ export const markdownComponents = {
     return <pre className="code-block">{content}</pre>
   },
 
-  img: ({ src, alt }) => (
-    <img
-      src={src}
-      alt={alt || ''}
-      loading="lazy"
-      decoding="async"
-      className="my-6 h-auto w-full rounded-xl border border-line"
-    />
-  ),
+  img: ArticleImage,
 
   table: ({ children }) => (
     <div className="my-6 overflow-x-auto rounded-lg border border-line">

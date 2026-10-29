@@ -27,7 +27,7 @@ export default function NavItem({
             'grid size-5 shrink-0 place-content-center rounded border text-[11px] font-medium',
             active
               ? 'border-transparent bg-active-fg/15 text-active-fg'
-              : 'border-line bg-subtle text-muted'
+              : 'border-line bg-subtle text-muted-strong'
           )}
           aria-hidden="true"
         >

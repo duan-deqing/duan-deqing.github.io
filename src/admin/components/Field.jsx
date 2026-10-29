@@ -91,6 +91,7 @@ function TextInput({ field, value, onChange }) {
       <FieldLabel field={field} error={error} />
       <div className="flex gap-2">
         <Input
+          aria-label={field.label}
           className="admin-input"
           rows={multiline ? 3 : undefined}
           value={value ?? ''}
@@ -144,6 +145,7 @@ function StringList({ field, value, onChange }) {
         {items.map((item, index) => (
           <div key={index} className="flex gap-2">
             <input
+              aria-label={`${field.label} ${index + 1}`}
               className="admin-input"
               value={item}
               onChange={(event) => onChange(items.map((v, i) => (i === index ? event.target.value : v)))}
@@ -175,6 +177,7 @@ function I18nList({ field, value, onChange }) {
               {['en', 'zh'].map((lang) => (
                 <input
                   key={lang}
+                  aria-label={`${field.label} ${lang.toUpperCase()} ${index + 1}`}
                   className="admin-input"
                   placeholder={lang.toUpperCase()}
                   value={safe[lang] || ''}
