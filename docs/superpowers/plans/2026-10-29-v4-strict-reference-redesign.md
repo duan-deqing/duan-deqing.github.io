@@ -1081,6 +1081,7 @@ import { getAllPosts } from '../utils/markdown'
 import { groupPostsByYear } from '../utils/postGroups'
 import { formatDate } from '../utils/postFormat'
 import PageTitle from '../components/shared/PageTitle'
+import SiteLink from '../components/site/SiteLink'
 import {
   ArrowUpRightIcon,
   BilibiliIcon,
@@ -1091,15 +1092,13 @@ import {
 
 function SocialLink({ href, label, Icon }) {
   return (
-    <a
+    <SiteLink
       href={href}
-      target={href.startsWith('http') ? '_blank' : undefined}
-      rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
       className="inline-flex items-center gap-2 text-sm text-muted-strong transition-colors hover:text-ink"
     >
       <Icon />
       {label}
-    </a>
+    </SiteLink>
   )
 }
 
@@ -4446,7 +4445,7 @@ pnpm build
 - [ ] **Step 5: 最终提交**
 
 ```bash
-git add src index.html admin.html DESIGN.md README.md docs tests public/fonts
+git add src/components src/layouts src/pages src/utils src/hooks src/admin src/index.css src/App.jsx src/main.jsx src/styles src/content/blog.yaml index.html admin.html DESIGN.md README.md docs tests public/fonts
 git commit -m "chore: 完成 v4 重构验收与细节修正"
 ```
 
