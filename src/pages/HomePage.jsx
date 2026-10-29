@@ -1,56 +1,35 @@
-/**
- * HomePage — 右栏：About 起，Work / Writing / Skills / Contact
- * 左栏身份信息见 SiteRail（原 Hero）
- */
-
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import { getAllPosts } from '../utils/markdown'
-import SiteLayout from '../components/shared/SiteLayout'
-import About from '../components/HomePage/About'
-import Projects from '../components/HomePage/Projects'
-import BlogSection from '../components/HomePage/BlogSection'
-import Skills from '../components/HomePage/Skills'
-import Contact from '../components/HomePage/Contact'
-import Reveal from '../components/shared/Reveal'
 import config from '../content/site.yaml'
+import PageTitle from '../components/shared/PageTitle'
+import ArrowIcon from '../components/shared/ArrowIcon'
+import Hero from '../components/HomePage/Hero'
+import AboutSection from '../components/HomePage/AboutSection'
+import ProjectGrid from '../components/HomePage/ProjectGrid'
+import PostRow from '../components/HomePage/PostRow'
+import SkillsSection from '../components/HomePage/SkillsSection'
+import ContactCta from '../components/HomePage/ContactCta'
 
-/** 移动端身份区（桌面由左栏承担） */
-function MobileIntro({ t }) {
+function SectionHead({ title, href, linkLabel, t }) {
   return (
-    <section className="lg:hidden pt-8 pb-10 border-b border-line">
-      <p
-        className="font-mono-ui text-[11px] tracking-[0.14em] uppercase"
-        style={{ color: 'var(--accent)' }}
-      >
-        {t(config.personal?.titlePrefix)}
-      </p>
-      <h1
-        className="mt-3 font-display font-semibold text-ink leading-[0.95] tracking-tight"
-        style={{ fontSize: 'clamp(2.5rem, 12vw, 3.5rem)' }}
-      >
-        {t(config.personal?.titleName) || 'STYLAN'}
-      </h1>
-      <div
-        className="mt-5 h-px w-12"
-        style={{ background: 'var(--accent)' }}
-        aria-hidden
-      />
-      <p className="mt-5 text-[15px] text-muted leading-[1.75] max-w-prose">
-        {t(config.personal?.bio)}
-      </p>
-      <div className="mt-5 flex flex-wrap gap-2">
-        {(config.personal?.tags || []).map((tag) => (
-          <span key={t(tag)} className="tag-chip">
-            {t(tag)}
-          </span>
-        ))}
-      </div>
-    </section>
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+      <h2 className="text-2xl font-semibold tracking-[-0.02em] text-ink">{title}</h2>
+      {href ? (
+        <Link
+          to={href}
+          className="inline-flex items-center gap-1.5 font-mono-ui text-[11px] uppercase tracking-[0.1em] text-muted transition-colors hover:text-accent"
+        >
+          {linkLabel}
+          <ArrowIcon direction="right" size={12} />
+        </Link>
+      ) : null}
+    </div>
   )
 }
 
-function HomePage() {
+export default function HomePage() {
   const { lang, t } = useLanguage()
   const [posts, setPosts] = useState([])
 
@@ -69,26 +48,51 @@ function HomePage() {
     }
   }, [lang])
 
+  const projects = (config.projects || []).filter((project) => project.featured !== false)
+
   return (
-    <SiteLayout t={t} lang={lang} showFooter={false}>
-      <MobileIntro t={t} />
-      <Reveal>
-        <About t={t} />
-      </Reveal>
-      <Reveal>
-        <Projects t={t} />
-      </Reveal>
-      <Reveal>
-        <BlogSection posts={posts} t={t} />
-      </Reveal>
-      <Reveal>
-        <Skills t={t} />
-      </Reveal>
-      <Reveal>
-        <Contact t={t} />
-      </Reveal>
-    </SiteLayout>
+    <>
+      <PageTitle title={config.site?.pageTitle} description={config.site?.description} t={t} lang={lang} />
+      <Hero t={t} />
+      <AboutSection t={t} />
+
+      <section className="border-t border-line py-12 sm:py-14">
+        <SectionHead
+          title={t(config.projectsSection?.title) || t({ en: 'Featured projects', zh: '精选项目' })}
+          href="/projects"
+          linkLabel={t({ en: 'All projects', zh: '全部项目' })}
+          t={t}
+        />
+        <ProjectGrid projects={projects} t={t} />
+      </section>
+
+      {posts.length > 0 ? (
+        <section className="border-t border-line py-12 sm:py-14">
+          <SectionHead
+            title={t({ en: 'Latest writing', zh: '最新文章' })}
+            href="/blog"
+            linkLabel={t({ en: 'All posts', zh: '全部文章' })}
+            t={t}
+          />
+          <div className="border-t border-line">
+            {posts.slice(0, 4).map((post) => (
+              <PostRow key={post.slug} post={post} t={t} />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <section className="border-t border-line py-12 sm:py-14">
+        <SectionHead
+          title={t({ en: 'Skills & Technologies', zh: '技能与技术' })}
+          href="/skills"
+          linkLabel={t({ en: 'Details', zh: '详情' })}
+          t={t}
+        />
+        <SkillsSection t={t} />
+      </section>
+
+      <ContactCta t={t} />
+    </>
   )
 }
-
-export default HomePage
