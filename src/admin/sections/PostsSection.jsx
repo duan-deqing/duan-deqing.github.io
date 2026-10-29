@@ -67,12 +67,13 @@ export default function PostsSection({ onDirtyChange }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex gap-2">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex gap-2" role="group" aria-label="按语言筛选">
           {['all', 'zh', 'en'].map((value) => (
             <button
               key={value}
               className={`admin-tab ${lang === value ? 'is-active' : ''}`}
+              aria-pressed={lang === value}
               onClick={() => setLang(value)}
             >
               {value === 'all' ? '全部' : value.toUpperCase()}
@@ -92,32 +93,42 @@ export default function PostsSection({ onDirtyChange }) {
       {loading ? (
         <p className="text-sm text-muted">加载中…</p>
       ) : (
-        <div>
-          {visible.map((post) => (
-            <div
-              key={`${post.lang}:${post.filename}`}
-              className="flex items-center gap-3 py-3 border-b"
-              style={{ borderColor: 'var(--line)' }}
-            >
-              <span className="admin-badge">{post.lang}</span>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm text-ink">{displayTitle(post.title)}</p>
-                <p className="font-mono-ui text-[11px] text-muted">
-                  {post.date} · {post.category}{post.featured ? ' · 精选' : ''}
-                </p>
-              </div>
-              <button
-                className="admin-btn"
-                onClick={() => setEditing({ isNew: false, lang: post.lang, filename: post.filename })}
-              >
-                编辑
-              </button>
-              <button className="admin-btn admin-btn-danger" onClick={() => handleDelete(post)}>
-                删除
-              </button>
-            </div>
-          ))}
-          {visible.length === 0 && <p className="text-sm text-muted py-6">暂无文章</p>}
+        <div className="admin-table-wrap">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>标题</th>
+                <th className="w-20">语言</th>
+                <th className="w-28">日期</th>
+                <th className="w-24">分类</th>
+                <th className="w-36 text-right">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {visible.map((post) => (
+                <tr key={`${post.lang}:${post.filename}`}>
+                  <td className="font-medium text-heading">{displayTitle(post.title)}</td>
+                  <td><span className="admin-badge">{post.lang}</span></td>
+                  <td className="text-muted">{post.date}</td>
+                  <td className="text-muted">{post.category}</td>
+                  <td>
+                    <div className="admin-table-actions">
+                      <button
+                        className="admin-btn"
+                        onClick={() => setEditing({ isNew: false, lang: post.lang, filename: post.filename })}
+                      >
+                        编辑
+                      </button>
+                      <button className="admin-btn admin-btn-danger" onClick={() => handleDelete(post)}>
+                        删除
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {visible.length === 0 && <p className="p-6 text-sm text-muted">暂无文章</p>}
         </div>
       )}
     </div>

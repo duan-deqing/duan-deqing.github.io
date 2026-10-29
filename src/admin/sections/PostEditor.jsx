@@ -52,7 +52,7 @@ function BiTextField({ label, value, onChange, multiline = false, help = '' }) {
             <label key={lang} className="block">
               <span className="admin-sub">{lang.toUpperCase()}</span>
               <Input
-                className="admin-input"
+                className={multiline ? 'admin-input admin-textarea' : 'admin-input'}
                 rows={multiline ? 3 : undefined}
                 value={value?.[lang] || ''}
                 onChange={(event) => onChange({ ...value, [lang]: event.target.value })}
@@ -62,7 +62,7 @@ function BiTextField({ label, value, onChange, multiline = false, help = '' }) {
         </div>
       ) : (
         <Input
-          className="admin-input"
+          className={multiline ? 'admin-input admin-textarea' : 'admin-input'}
           rows={multiline ? 3 : undefined}
           value={value || ''}
           onChange={(event) => onChange(event.target.value)}
@@ -262,7 +262,7 @@ export default function PostEditor({ state, onClose, onSaved, onDirtyChange }) {
         </label>
       </div>
 
-      <p className="font-mono-ui text-[11px] text-muted">文件名：{filename}</p>
+      <p className="font-mono text-[11px] text-muted">文件名：{filename}</p>
 
       <BiTextField
         label="标题"
@@ -307,14 +307,14 @@ export default function PostEditor({ state, onClose, onSaved, onDirtyChange }) {
           </label>
         </div>
         <textarea
-          className="admin-input font-mono-ui text-[12px] leading-[1.7]"
+          className="admin-input admin-textarea font-mono text-[12px] leading-[1.7]"
           rows={16}
           value={body}
           onChange={(event) => setBody(event.target.value)}
         />
       </div>
 
-      <div className="soft-card p-5">
+      <div className="admin-subpanel">
         <p className="admin-label-text mb-3">预览</p>
         <div className="prose-admin">
           <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>

@@ -259,6 +259,12 @@
   resize: vertical;
 }
 
+/* Tailwind 的 text-[12px] 位于 utilities 层，会被上方的 .admin-input 字号覆盖，这里显式指定编辑器字号 */
+.admin-input.font-mono {
+  font-size: 12px;
+  line-height: 1.7;
+}
+
 .admin-help {
   margin-top: 4px;
   font-size: 12px;
@@ -278,6 +284,7 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--ink);
+  white-space: nowrap;
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
   transition: background-color 0.15s ease, color 0.15s ease;
 }
@@ -380,6 +387,7 @@
 
 .admin-table {
   width: 100%;
+  min-width: 560px;
   font-size: 14px;
   border-collapse: collapse;
 }
@@ -391,6 +399,11 @@
   font-weight: 400;
   color: var(--muted);
   text-align: left;
+}
+
+.admin-table th.text-right,
+.admin-table td.text-right {
+  text-align: right;
 }
 
 .admin-table td {

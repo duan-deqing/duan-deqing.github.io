@@ -21,7 +21,7 @@ function Help({ text }) {
 export default function Field({ field, value, onChange }) {
   if (field.type === 'object') {
     return (
-      <div className="soft-card p-4 space-y-4">
+      <div className="admin-subpanel space-y-4">
         <p className="admin-label-text">{field.label}</p>
         <Fields fields={field.fields} value={value || {}} onChange={onChange} />
       </div>
@@ -212,7 +212,7 @@ function ObjectList({ field, value, onChange }) {
       <FieldLabel field={field} />
       <div className="space-y-3">
         {items.map((item, index) => (
-          <div key={index} className="soft-card p-4 space-y-3">
+          <div key={index} className="admin-subpanel space-y-3">
             <div className="flex items-center justify-between">
               <span className="admin-sub">#{index + 1}</span>
               <div className="flex gap-2">
