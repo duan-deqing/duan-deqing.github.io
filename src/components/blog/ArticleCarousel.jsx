@@ -17,18 +17,24 @@ export default function ArticleCarousel({ source }) {
 
   const caption = images[active]?.caption || ''
 
+  function getPitch(track) {
+    const [first, second] = track.children
+    if (first && second) return second.offsetLeft - first.offsetLeft
+    return track.clientWidth
+  }
+
   function go(step) {
     const track = trackRef.current
     if (!track) return
     const next = Math.min(Math.max(active + step, 0), count - 1)
-    track.scrollTo({ left: next * track.clientWidth, behavior: 'smooth' })
+    track.scrollTo({ left: next * getPitch(track), behavior: 'smooth' })
     setActive(next)
   }
 
   function onScroll() {
     const track = trackRef.current
     if (!track) return
-    const next = Math.round(track.scrollLeft / track.clientWidth)
+    const next = Math.round(track.scrollLeft / getPitch(track))
     setActive((value) => (value === next ? value : next))
   }
 
@@ -41,6 +47,7 @@ export default function ArticleCarousel({ source }) {
       startScroll: track.scrollLeft,
     }
     setDragging(true)
+    track.style.scrollSnapType = 'none'
     track.setPointerCapture?.(event.pointerId)
   }
 
@@ -58,14 +65,15 @@ export default function ArticleCarousel({ source }) {
     if (!track || !drag) return
     dragRef.current = null
     setDragging(false)
+    track.style.scrollSnapType = ''
     if (track.hasPointerCapture?.(drag.pointerId)) {
       track.releasePointerCapture(drag.pointerId)
     }
     const next = Math.min(
-      Math.max(Math.round(track.scrollLeft / track.clientWidth), 0),
+      Math.max(Math.round(track.scrollLeft / getPitch(track)), 0),
       count - 1
     )
-    track.scrollTo({ left: next * track.clientWidth, behavior: 'smooth' })
+    track.scrollTo({ left: next * getPitch(track), behavior: 'smooth' })
     setActive(next)
   }
 
@@ -95,9 +103,8 @@ export default function ArticleCarousel({ source }) {
           onPointerUp={endDrag}
           onPointerCancel={endDrag}
           onLostPointerCapture={endDrag}
-          style={{ scrollSnapType: dragging ? 'none' : undefined }}
           className={cn(
-            'article-carousel-track flex snap-x snap-mandatory overflow-x-auto lg:mx-9',
+            'article-carousel-track flex snap-x snap-mandatory gap-6 overflow-x-auto lg:mx-9',
             dragging ? 'cursor-grabbing select-none' : 'cursor-grab'
           )}
         >
@@ -107,7 +114,7 @@ export default function ArticleCarousel({ source }) {
               role="group"
               aria-roledescription="slide"
               aria-label={`${index + 1} / ${count}`}
-              className="w-full shrink-0 snap-center px-3 py-1"
+              className="w-full shrink-0 snap-start"
             >
               <div className="overflow-hidden rounded-xl border border-line bg-page shadow-sm dark:shadow-none">
                 <img
