@@ -1,79 +1,59 @@
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { headingId } from '../../utils/markdownHeading'
 
-/**
- * 从 markdown 内容中提取 h2-h4 标题
- */
+// 标题可能带行内链接/强调/行内代码，取其纯文本，才能与 ReactMarkdown 渲染出的 id 对齐
+function plainHeadingText(text) {
+  return text
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/[`*_~]/g, '')
+    .trim()
+}
+
 function extractHeadings(content) {
   if (!content) return []
-  const headings = []
-  // 统一换行符为 \n
-  const normalizedContent = content.replace(/\r\n/g, '\n').replace(/\r/g, '\n')
-  const lines = normalizedContent.split('\n')
-  const seenIds = new Set()
 
-  lines.forEach(line => {
-    const trimmedLine = line.trim()
-    const match = trimmedLine.match(/^(#{2,4})\s+(.+)$/)
-    if (match) {
+  const seen = new Set()
+  return content
+    .replace(/\r\n?/g, '\n')
+    .split('\n')
+    .map((line) => line.trim().match(/^(#{2,4})\s+(.+)$/))
+    .filter(Boolean)
+    .map((match) => {
       const level = match[1].length
-      const text = match[2].trim()
-      let id = generateId(text)
-      if (seenIds.has(id)) {
+      const text = plainHeadingText(match[2].trim())
+      let id = headingId(text)
+      if (seen.has(id)) {
         let counter = 2
-        while (seenIds.has(`${id}-${counter}`)) counter++
+        while (seen.has(`${id}-${counter}`)) counter += 1
         id = `${id}-${counter}`
       }
-      seenIds.add(id)
-      headings.push({ level, text, id })
-    }
-  })
-  return headings
+      seen.add(id)
+      return { level, text, id }
+    })
 }
 
-/**
- * 生成标题 ID (slug 化)
- */
-function generateId(text) {
-  return text
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w\u4e00-\u9fff-]/g, '')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
-}
-
-/**
- * TableOfContents 组件 - 文章目录导航
- * 桌面端固定在左侧，移动端隐藏
- */
 export default function TableOfContents({ content, onItemClick }) {
   const headings = useMemo(() => extractHeadings(content), [content])
   const [activeId, setActiveId] = useState('')
 
-  // 使用 IntersectionObserver 监听标题元素
   useEffect(() => {
     if (headings.length === 0) return
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries.filter(e => e.isIntersecting)
-        if (visible.length > 0) {
-          setActiveId(visible[0].target.id)
-        }
+        const visible = entries.filter((entry) => entry.isIntersecting)
+        if (visible.length > 0) setActiveId(visible[0].target.id)
       },
-      {
-        rootMargin: '-80px 0px -80% 0px',
-        threshold: 0
-      }
+      { rootMargin: '-80px 0px -75% 0px', threshold: 0 }
     )
 
-    // 延迟等待 DOM 渲染完成
     const timer = setTimeout(() => {
       headings.forEach(({ id }) => {
         const el = document.getElementById(id)
         if (el) observer.observe(el)
       })
-    }, 200)
+    }, 100)
 
     return () => {
       clearTimeout(timer)
@@ -81,34 +61,46 @@ export default function TableOfContents({ content, onItemClick }) {
     }
   }, [headings])
 
-  // 点击标题滚动到对应位置
-  const handleClick = useCallback((e, id) => {
-    e.preventDefault()
-    const el = document.getElementById(id)
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 80
-      window.scrollTo({ top, behavior: 'smooth' })
-    }
-    // 调用外部回调
-    if (onItemClick) onItemClick()
-  }, [onItemClick])
+  const handleClick = useCallback(
+    (event, id) => {
+      event.preventDefault()
+      const el = document.getElementById(id)
+      if (el) {
+        const top = el.getBoundingClientRect().top + window.scrollY - 80
+        window.scrollTo({ top, behavior: 'auto' })
+      }
+      onItemClick?.()
+    },
+    [onItemClick]
+  )
 
   if (headings.length === 0) return null
 
   return (
-    <nav className="toc-container">
-      <ul className="toc-list">
-        {headings.map(({ level, text, id }) => (
-          <li key={id}>
-            <a
-              href={`#${id}`}
-              onClick={(e) => handleClick(e, id)}
-              className={`toc-link toc-level-${level} ${activeId === id ? 'toc-active' : ''}`}
-            >
-              {text}
-            </a>
-          </li>
-        ))}
+    <nav aria-label="Table of contents">
+      <p className="mb-3 font-mono-ui text-[10px] uppercase tracking-[0.1em] text-muted">
+        On this page
+      </p>
+      <ul className="border-l border-line">
+        {headings.map(({ level, text, id }) => {
+          const active = activeId === id
+          return (
+            <li key={id}>
+              <a
+                href={`#${id}`}
+                onClick={(event) => handleClick(event, id)}
+                style={{ paddingLeft: `${0.75 + (level - 2) * 0.75}rem` }}
+                className={`-ml-px block border-l-2 py-1 pr-2 text-[13px] leading-snug transition-colors ${
+                  active
+                    ? 'border-accent text-ink'
+                    : 'border-transparent text-muted hover:text-ink'
+                }`}
+              >
+                {text}
+              </a>
+            </li>
+          )
+        })}
       </ul>
     </nav>
   )
