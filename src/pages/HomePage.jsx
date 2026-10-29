@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import config from '../content/site.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/shared/PageTitle'
 import SiteLink from '../components/site/SiteLink'
+import { disperseTo } from '../utils/dispersion'
 import {
   ArrowUpRightIcon,
   WechatIcon,
@@ -24,28 +25,54 @@ function SocialLink({ href, label, Icon }) {
 function WechatSocialLink({ method, t }) {
   const [open, setOpen] = useState(false)
   const wrapperRef = useRef(null)
+  const buttonRef = useRef(null)
+  const bubbleRef = useRef(null)
+  const effectRef = useRef(null)
   const label = t(method.label || { en: 'WeChat', zh: '微信' })
   const qrLabel = t({ en: 'WeChat QR code', zh: '微信二维码' })
 
+  const cancelEffect = () => {
+    effectRef.current?.cancel()
+    effectRef.current = null
+  }
+
+  const openBubble = () => {
+    cancelEffect()
+    setOpen(true)
+  }
+
+  const closeBubble = () => {
+    if (open && bubbleRef.current && buttonRef.current) {
+      cancelEffect()
+      effectRef.current = disperseTo(bubbleRef.current, buttonRef.current)
+    }
+    setOpen(false)
+  }
+
+  useEffect(() => () => {
+    effectRef.current?.cancel()
+  }, [])
+
   const closeIfOutside = (event) => {
-    if (!wrapperRef.current?.contains(event.relatedTarget)) setOpen(false)
+    if (!wrapperRef.current?.contains(event.relatedTarget)) closeBubble()
   }
 
   return (
     <span
       ref={wrapperRef}
       className="relative inline-flex"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      onMouseEnter={openBubble}
+      onMouseLeave={closeBubble}
     >
       <button
+        ref={buttonRef}
         type="button"
         className="social-link text-base text-heading"
         aria-label={label}
         aria-expanded={open}
         aria-haspopup="dialog"
-        onClick={() => setOpen((value) => !value)}
-        onFocus={() => setOpen(true)}
+        onClick={() => (open ? closeBubble() : openBubble())}
+        onFocus={openBubble}
         onBlur={closeIfOutside}
       >
         <WechatIcon size={19} className="mr-1 inline-block opacity-75 align-text-bottom" />
@@ -54,6 +81,7 @@ function WechatSocialLink({ method, t }) {
       {open ? (
         <span className="absolute left-full top-1/2 z-20 ml-2 block w-48 -translate-y-1/2 max-sm:bottom-full max-sm:left-0 max-sm:top-auto max-sm:mb-2 max-sm:ml-0 max-sm:translate-y-0">
           <span
+            ref={bubbleRef}
             role="dialog"
             aria-label={qrLabel}
             className="qr-bubble-enter block rounded-lg border border-line bg-page p-2 shadow-xl"

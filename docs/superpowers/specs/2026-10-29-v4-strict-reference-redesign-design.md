@@ -184,6 +184,7 @@
 - 主题切换与 antfu.me 一致：以点击位置为圆心的 View Transition 圆形扩散，400ms `ease-out`；切到深色时反向收缩；不支持 View Transition 或 `prefers-reduced-motion` 时即时换色。
 - 语言切换：重放首页加载效果（内容 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场）；`prefers-reduced-motion` 下无动画。
 - 子页导航：与首页相同的 `.slide-enter-content`（`slide-enter` 1s + 90ms 阶梯）；路由 key 重挂载；懒加载 `Suspense` fallback 为居中 16px spinner + sr-only Loading；`prefers-reduced-motion` 下无动画。
+- 二维码气泡关闭：气泡快照采样为 Canvas 粒子，沿贝塞尔曲线汇聚到触发按钮，约 0.8s；`prefers-reduced-motion` 下直接关闭。
 - `prefers-reduced-motion` 下关闭入场与过渡位移；抽屉直接显示。
 
 ## 5. 页面架构
@@ -238,7 +239,7 @@ App
    - 第 2 段：专注方向（`about.focus`）+ 内联链接 `projects`、`skills`。
    - 第 3 段：写作与联系（`blog`、`contact`、`email`）。
 2. `<hr>`。
-3. **Find me on**：GitHub / Bilibili / Bluesky / WeChat，正文式链接（16px / 600、图标 1.2em / `inline-block` / 75% 不透明度 / `text-bottom` 对齐、图标与文字间隔 4px、链接间距 8px）；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`，`border 0.3s ease-in-out`；WeChat hover/focus 显示二维码气泡，触摸端点击切换，气泡桌面端在按钮右侧垂直居中、移动端在按钮上方，以 `slide-enter` 1s 入场；下一行 `Or mail me at` + mono 字体邮箱链接。首页内所有带底线链接字重 600，页脚链接例外（400）。
+3. **Find me on**：GitHub / Bilibili / Bluesky / WeChat，正文式链接（16px / 600、图标 1.2em / `inline-block` / 75% 不透明度 / `text-bottom` 对齐、图标与文字间隔 4px、链接间距 8px）；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`，`border 0.3s ease-in-out`；WeChat hover/focus 显示二维码气泡，触摸端点击切换，气泡桌面端在按钮右侧垂直居中、移动端在按钮上方，以 `slide-enter` 1s 入场，关闭时分解为粒子汇聚到按钮；下一行 `Or mail me at` + mono 字体邮箱链接。首页内所有带底线链接字重 600，页脚链接例外（400）。
 4. `<hr>`。
 5. **Stack**：无可见标题；介绍段落（`text-ink`）+ `ul.list-disc pl-6`、`gap-0.5`、marker `--code-line`；每行分类为蓝色 `/skills` 链接 + ↗ + `—` + `·` 连接的技术项（muted）；链接仿 onur `.link`，仅 hover 下划线。
 6. **Footer**：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 antfu/antfu.me`，14px、50% 不透明度；许可与来源为链接，无 RSS/社交图标。
