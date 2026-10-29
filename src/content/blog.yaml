@@ -6,9 +6,6 @@ page:
   subtitle:
     en: Thoughts, tutorials and insights
     zh: 想法、教程与见解
-  backToHome:
-    en: BACK TO HOME
-    zh: 返回主页
 categories:
   - id: all
     label:

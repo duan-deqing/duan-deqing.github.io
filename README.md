@@ -62,7 +62,6 @@ pnpm run preview
 │   │   ├── site.yaml             # 全站内容配置
 │   │   └── blog.yaml             # 博客页面与分类配置
 │   ├── admin/                    # 本地内容后台（仅 dev，不参与构建）
-│   ├── theme.js                  # Tailwind 类名颜色映射
 │   ├── index.css                 # 全局样式、字体、深色模式
 │   ├── pages/                    # 页面组件
 │   ├── components/
@@ -86,7 +85,7 @@ pnpm run preview
 | 主页 | `/` | 个人介绍、技能、项目、博客精选、联系 |
 | 技能 | `/skills` | 技能分类与技术栈 |
 | 项目 | `/projects` | 项目作品 |
-| 博客 | `/blog` | 文章列表（搜索 Ctrl/Cmd+K、分类筛选） |
+| 博客 | `/blog` | 文章列表（搜索 Ctrl/Cmd+K、分类 + 标签筛选） |
 | 文章详情 | `/blog/:slug` | Markdown 渲染 + 侧边目录 |
 | 联系 | `/contact` | 联系方式、微信二维码、简历下载 |
 | 404 | `*` | 未匹配路径 |
@@ -113,10 +112,6 @@ pnpm run preview
 | `project` | 项目 | Projects |
 
 > 注意：文章里不要写 `Tutorials`、`Technology` 这类展示文案，要写 id（如 `tutorial`），否则分类筛选点不出来。
-
-### 主题 `src/theme.js`
-
-用 Tailwind 类名描述各区域 light/dark 颜色；真正生效还需 `index.css` 的 `@custom-variant dark`。
 
 ### 本地内容后台
 
@@ -156,7 +151,7 @@ author:
   en: "STYLAN"
   zh: "STYLAN"
 tags: ["React", "JavaScript"]
-featured: true                # true 会出现在主页「最新文章」优先展示
+featured: true                # true 会在文章页显示「精选」标记
 ---
 
 # 正文从这里开始
@@ -170,9 +165,9 @@ featured: true                # true 会出现在主页「最新文章」优先�
 
 - **主题切换**：导航栏太阳/月亮按钮；偏好写入 `localStorage`，首次访问跟随系统
 - **语言切换**：导航栏「中文 / EN」；博客中英文分目录存放，切换语言会重新加载对应版本
-- **博客搜索**：博客页 `Ctrl/Cmd + K`，按标题/摘要/标签/分类过滤
+- **博客搜索与筛选**：博客页 `Ctrl/Cmd + K` 按标题/摘要/标签/分类过滤；分类 + 标签 chips 筛选可组合生效
 - **文章目录**：≥1280px 右侧 sticky TOC，小屏折叠为正文上方的 `<details>`
-- **代码块**：Mac 风格窗口 + rehype-highlight 高亮
+- **代码块**：带语言标签的代码块 + rehype-highlight 高亮
 - **布局与动效**：顶部导航 + 居中单列（内容 `max-width: 72rem`）；仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮、无首屏 Loading 页（首页静态导入，子页懒加载）
 - **RSS**：`pnpm run rss` 或 build 时生成 `public/rss.xml`
 - **GitHub Pages SPA**：`public/404.html` + `index.html` 内重定向脚本（spa-github-pages 方案）

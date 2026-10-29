@@ -5,7 +5,6 @@ import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import { useLanguage } from '../hooks/useLanguage'
 import { getPostBySlug } from '../utils/markdown'
-import blogConfig from '../content/blog.yaml'
 import PageTitle from '../components/shared/PageTitle'
 import TagChip from '../components/shared/TagChip'
 import ArrowIcon from '../components/shared/ArrowIcon'
@@ -83,6 +82,7 @@ export default function BlogPostPage() {
         description={t(post.excerpt)}
         t={t}
         lang={lang}
+        type="article"
       />
 
       <div className="py-10 sm:py-12 xl:grid xl:grid-cols-[minmax(0,68ch)_12rem] xl:justify-center xl:gap-12">

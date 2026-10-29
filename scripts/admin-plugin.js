@@ -77,7 +77,7 @@ function readConfig() {
 }
 
 const SITE_TOP_KEYS = [
-  'site', 'personal', 'navLinks', 'homeSections', 'about', 'buttons',
+  'site', 'personal', 'navLinks', 'about', 'buttons',
   'skillsSection', 'skills', 'projectsSection', 'projects', 'contact',
   'contactPage', 'socialLinks', 'footer',
 ]

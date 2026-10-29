@@ -1,15 +1,14 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/shared/PageTitle'
 import ArrowIcon from '../components/shared/ArrowIcon'
 
 export default function NotFoundPage() {
-  const navigate = useNavigate()
   const { t, lang } = useLanguage()
 
   return (
     <>
-      <PageTitle title="STYLAN · Not Found" t={t} lang={lang} />
+      <PageTitle title="STYLAN · Not Found" t={t} lang={lang} noindex />
       <section className="flex min-h-[60vh] flex-col items-center justify-center py-16 text-center">
         <p className="font-mono-ui text-[11px] uppercase tracking-[0.12em] text-accent">ERROR</p>
         <h1 className="mt-4 text-[clamp(4rem,18vw,7rem)] font-semibold leading-none tracking-[-0.04em] text-ink">
@@ -24,14 +23,13 @@ export default function NotFoundPage() {
             zh: '您访问的页面不存在或已被移动。',
           })}
         </p>
-        <button
-          type="button"
-          onClick={() => navigate('/')}
+        <Link
+          to="/"
           className="mt-8 inline-flex items-center gap-2 rounded-md bg-ink px-4 py-2.5 text-sm font-medium text-page transition-colors hover:bg-accent"
         >
           {t({ en: 'Back to home', zh: '返回首页' })}
           <ArrowIcon direction="right" size={14} />
-        </button>
+        </Link>
       </section>
     </>
   )

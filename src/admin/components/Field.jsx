@@ -39,7 +39,7 @@ export default function Field({ field, value, onChange }) {
   if (field.type === 'toggle') {
     return (
       <label className="flex items-center gap-2 text-sm">
-        <input type="checkbox" checked={Boolean(value)} onChange={(event) => onChange(event.target.checked)} />
+        <input type="checkbox" checked={field.defaultTrue ? value !== false : Boolean(value)} onChange={(event) => onChange(event.target.checked)} />
         {field.label}
       </label>
     )

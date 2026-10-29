@@ -7,8 +7,17 @@ export default function Hero({ t }) {
 
   return (
     <section className="py-14 sm:py-20">
+      {personal.avatar ? (
+        <div
+          aria-hidden="true"
+          className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-subtle text-2xl"
+        >
+          {personal.avatar}
+        </div>
+      ) : null}
       <p className="font-mono-ui text-[11px] uppercase tracking-[0.12em] text-accent">
-        {t({ en: 'AI Application Developer', zh: 'AI 应用开发' })}
+        {t(personal.titlePrefix) ||
+          t({ en: 'AI Application Developer', zh: 'AI 应用开发' })}
       </p>
       <h1 className="mt-4 text-[clamp(2.25rem,7vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-ink">
         {t(personal.titleName) || 'STYLAN'}

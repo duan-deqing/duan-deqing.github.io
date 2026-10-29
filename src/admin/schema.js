@@ -46,14 +46,6 @@ export const contentSchema = [
           bilingual('label', '文字', 'i18nText', { required: true }),
         ],
       },
-      {
-        key: 'homeSections', label: '首页章节', type: 'objectList',
-        fields: [
-          { key: 'id', label: '锚点 id', type: 'text', required: true },
-          { key: 'num', label: '编号', type: 'text' },
-          bilingual('label', '文字', 'i18nText', { required: true }),
-        ],
-      },
     ],
   },
   {
@@ -92,7 +84,7 @@ export const contentSchema = [
         { key: 'link', label: '链接', type: 'url' },
         { key: 'repo', label: '仓库链接', type: 'url' },
         { key: 'icon', label: '图标', type: 'text', help: '可填一个 emoji' },
-        { key: 'featured', label: '首页精选', type: 'toggle', help: '关闭后不出现在首页' },
+        { key: 'featured', label: '首页精选', type: 'toggle', defaultTrue: true, help: '关闭后不出现在首页' },
       ],
     },
   },
@@ -115,7 +107,6 @@ export const contentSchema = [
         key: 'contactPage', label: '联系页', type: 'object',
         fields: [
           bilingual('title', '页面标题'),
-          bilingual('backToHome', '返回文字'),
           bilingual('description', '页面描述', 'i18nTextarea'),
           {
             key: 'contactMethods', label: '联系方式', type: 'objectList',
@@ -157,7 +148,6 @@ export const contentSchema = [
         fields: [
           bilingual('title', '页面标题'),
           bilingual('subtitle', '副标题'),
-          bilingual('backToHome', '返回文字'),
         ],
       },
       {

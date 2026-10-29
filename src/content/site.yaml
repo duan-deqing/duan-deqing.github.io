@@ -53,32 +53,6 @@ navLinks:
     label:
       en: Contact
       zh: 联系
-homeSections:
-  - id: about
-    num: "01"
-    label:
-      en: About
-      zh: 关于
-  - id: work
-    num: "02"
-    label:
-      en: Work
-      zh: 项目
-  - id: writing
-    num: "03"
-    label:
-      en: Writing
-      zh: 文章
-  - id: skills
-    num: "04"
-    label:
-      en: Skills
-      zh: 技能
-  - id: contact
-    num: "05"
-    label:
-      en: Contact
-      zh: 联系
 about:
   focus:
     - en: LLM applications
@@ -256,9 +230,6 @@ contactPage:
   title:
     en: CONTACT
     zh: 联系
-  backToHome:
-    en: BACK TO HOME
-    zh: 返回主页
   description:
     en: I'd love to hear from you! Whether you have a question, a project idea, or just want to say hello, feel free to reach out.
     zh: 很高兴收到你的来信！无论你有问题、项目想法，还是只想打个招呼，都欢迎联系我。

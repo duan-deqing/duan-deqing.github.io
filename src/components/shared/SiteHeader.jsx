@@ -9,6 +9,7 @@ export default function SiteHeader() {
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
   const links = config.navLinks || []
+  const isActive = (href) => pathname === href || pathname.startsWith(href + '/')
 
   useEffect(() => setOpen(false), [pathname])
 
@@ -42,7 +43,7 @@ export default function SiteHeader() {
 
           <nav aria-label="Main" className="hidden items-center gap-0.5 md:flex">
             {links.map((link) => {
-              const active = pathname === link.href
+              const active = isActive(link.href)
               return (
                 <Link
                   key={link.href}
@@ -80,20 +81,29 @@ export default function SiteHeader() {
             <Link
               to="/"
               onClick={() => setOpen(false)}
-              className="border-b border-line py-4 text-xl font-semibold tracking-[-0.02em] text-ink"
+              aria-current={pathname === '/' ? 'page' : undefined}
+              className={`border-b border-line py-4 text-xl font-semibold tracking-[-0.02em] ${
+                pathname === '/' ? 'text-ink' : 'text-muted'
+              }`}
             >
               {t({ en: 'Home', zh: '首页' })}
             </Link>
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                to={link.href}
-                onClick={() => setOpen(false)}
-                className="border-b border-line py-4 text-xl font-semibold tracking-[-0.02em] text-ink"
-              >
-                {t(link.label)}
-              </Link>
-            ))}
+            {links.map((link) => {
+              const active = isActive(link.href)
+              return (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={active ? 'page' : undefined}
+                  className={`border-b border-line py-4 text-xl font-semibold tracking-[-0.02em] ${
+                    active ? 'text-ink' : 'text-muted'
+                  }`}
+                >
+                  {t(link.label)}
+                </Link>
+              )
+            })}
           </nav>
         </div>
       )}

@@ -9,7 +9,16 @@ export default function PostRow({ post, t, showTags = true, headingLevel = 3 }) 
       to={`/blog/${post.slug}`}
       className="group grid gap-1 border-b border-line py-5 sm:grid-cols-[6rem_1fr_auto] sm:gap-6"
     >
-      <time className="font-mono-ui text-[11px] uppercase tracking-[0.08em] text-muted sm:pt-1">
+      <div className="flex items-center gap-2 font-mono-ui text-[11px] uppercase tracking-[0.08em] text-muted sm:hidden">
+        <time dateTime={post.date}>{formatDate(post.date, t)}</time>
+        <span aria-hidden="true">·</span>
+        <span>{categoryLabel(post.category, t)}</span>
+      </div>
+
+      <time
+        dateTime={post.date}
+        className="hidden pt-1 font-mono-ui text-[11px] uppercase tracking-[0.08em] text-muted sm:block"
+      >
         {formatDate(post.date, t)}
       </time>
 

@@ -20,7 +20,7 @@ export default function ContactCta({ t }) {
           to="/contact"
           className="inline-flex items-center gap-2 rounded-md bg-ink px-4 py-2.5 text-sm font-medium text-page transition-colors hover:bg-accent"
         >
-          {t({ en: 'Contact me', zh: '联系我' })}
+          {t(contact.emailButtonText) || t({ en: 'Contact me', zh: '联系我' })}
           <ArrowIcon direction="right" size={14} />
         </Link>
       </div>

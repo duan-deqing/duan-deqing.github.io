@@ -9,7 +9,7 @@
         "http://localhost:4173/blog",
         "http://localhost:4173/blog/getting-started-with-react-hooks"
       ],
-      "numberOfRuns": 1
+      "numberOfRuns": 3
     },
     "assert": {
       "assertions": {

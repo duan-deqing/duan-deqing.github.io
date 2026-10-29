@@ -23,7 +23,7 @@ export default function ContactPage() {
         lang={lang}
       />
       <PageHeader
-        kicker="CONTACT"
+        kicker={t({ en: 'GET IN TOUCH', zh: '保持联系' })}
         title={t(contactPage?.title) || 'CONTACT'}
         description={t(contactPage?.description)}
       />
