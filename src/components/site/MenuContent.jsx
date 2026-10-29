@@ -13,12 +13,24 @@ import {
   SparklesIcon,
 } from './icons'
 
+const NAV_ICONS = {
+  '/': HomeIcon,
+  '/projects': FolderIcon,
+  '/blog': PenIcon,
+  '/skills': SparklesIcon,
+  '/contact': MailIcon,
+}
+
+// 与首页壳共用 config.navLinks；Home 固定置顶，图标按 href 映射
 export const NAV_ITEMS = [
   { href: '/', label: { en: 'Home', zh: '首页' }, Icon: HomeIcon },
-  { href: '/projects', label: { en: 'Projects', zh: '项目' }, Icon: FolderIcon },
-  { href: '/blog', label: { en: 'Blog', zh: '博客' }, Icon: PenIcon },
-  { href: '/skills', label: { en: 'Skills', zh: '技能' }, Icon: SparklesIcon },
-  { href: '/contact', label: { en: 'Contact', zh: '联系' }, Icon: MailIcon },
+  ...(config.navLinks || [])
+    .filter((link) => link.href !== '/')
+    .map((link) => ({
+      href: link.href,
+      label: link.label,
+      Icon: NAV_ICONS[link.href] || FolderIcon,
+    })),
 ]
 
 const SECTIONS_LABEL = { en: 'Sections', zh: '分区' }

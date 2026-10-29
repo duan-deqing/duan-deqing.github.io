@@ -28,7 +28,7 @@ export default function NotFoundPage() {
       </p>
       <Link
         to="/"
-        className="mt-6 inline-flex items-center gap-1 text-sm text-accent hover:underline"
+        className="mt-6 inline-flex min-h-10 items-center gap-1 text-sm text-accent hover:underline"
       >
         {t({ en: 'Back home', zh: '返回首页' })}
         <ArrowUpRightIcon size={14} />

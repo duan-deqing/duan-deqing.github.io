@@ -171,9 +171,9 @@ featured: true                # true 会在文章页显示「精选」标记
 
 - **主题切换**：导航栏太阳/月亮按钮；偏好写入 `localStorage`，首次访问跟随系统
 - **语言切换**：导航栏「中文 / EN」；博客中英文分目录存放，切换语言会重新加载对应版本
-- **博客搜索与筛选**：博客页 `Ctrl/Cmd + K` 按标题/摘要/标签/分类过滤；分类 + 标签 chips 筛选可组合生效
+- **博客搜索与筛选**：博客页 `Ctrl/Cmd + K` 按标题/摘要/标签/分类过滤；分类 + 标签文本筛选可组合生效
 - **文章目录**：≥1280px 右侧 sticky TOC，小屏折叠为正文上方的 `<details>`
-- **代码块**：带语言标签的代码块 + rehype-highlight 高亮
+- **代码块**：rehype-highlight 高亮 + 行号，13px Mono、横向滚动；文章正文 68ch / 16px / 1.75 排版
 - **布局与动效**：首页 antfu 式 65ch 文本流，子页 onur 式侧栏（240/288px）+ 普通子页 768px 内容区；文章页 ≥1280 扩展至 1024px 以容纳右侧 200px TOC。仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮、无首屏 Loading 页（首页静态导入，子页懒加载）
 - **RSS**：`pnpm run rss` 或 build 时生成 `public/rss.xml`
 - **GitHub Pages SPA**：`public/404.html` + `index.html` 内重定向脚本（spa-github-pages 方案）

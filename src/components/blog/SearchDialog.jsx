@@ -62,7 +62,7 @@ export default function SearchDialog({ open, posts, onClose, t }) {
             }
           }}
           placeholder={t({ en: 'Search posts…', zh: '搜索文章…' })}
-          className="h-9 w-full bg-transparent text-sm text-ink outline-none placeholder:text-muted"
+          className="h-9 w-full bg-transparent text-sm text-ink placeholder:text-muted"
           aria-label={t({ en: 'Search posts', zh: '搜索文章' })}
         />
         <kbd

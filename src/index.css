@@ -158,15 +158,16 @@
     user-select: none;
   }
 
-  .writing-table tbody tr {
+  .writing-list .writing-row {
     transition: opacity 0.2s ease;
   }
 
-  .writing-table tbody:hover tr {
+  .writing-list:hover .writing-row {
     opacity: 0.35;
   }
 
-  .writing-table tbody tr:hover {
+  .writing-list .writing-row:hover,
+  .writing-list .writing-row:focus-visible {
     opacity: 1;
   }
 
@@ -258,7 +259,7 @@
       animation: none;
     }
 
-    .writing-table tbody tr {
+    .writing-list .writing-row {
       transition: none;
     }
   }

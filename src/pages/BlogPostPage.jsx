@@ -92,7 +92,7 @@ export default function BlogPostPage() {
 
         <div className="mt-6">
           <PageHeading title={t(post.title)} />
-          <div className="mb-8 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-strong">
+          <div className="mb-8 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted">
             <time dateTime={post.date}>{formatDate(post.date, t)}</time>
             {post.readTime ? <span aria-hidden="true">·</span> : null}
             {post.readTime ? <span>{t(post.readTime)}</span> : null}
@@ -100,7 +100,7 @@ export default function BlogPostPage() {
             <span>{categoryLabel(post.category, t)}</span>
           </div>
           {post.tags?.length ? (
-            <div className="mb-8 flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted-strong">
+            <div className="mb-8 flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted">
               {post.tags.map((tag) => (
                 <span key={tag}>#{tag}</span>
               ))}
@@ -128,7 +128,7 @@ export default function BlogPostPage() {
             </ReactMarkdown>
           </article>
           <aside className="hidden xl:block">
-            <div className="sticky top-24">
+            <div className="sticky top-24 max-h-[calc(100dvh-8rem)] overflow-y-auto overscroll-contain">
               <TableOfContents content={post.content} />
             </div>
           </aside>

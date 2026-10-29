@@ -36,7 +36,7 @@ export default function TableOfContents({ content, onItemClick, showTitle = true
       event.preventDefault()
       const el = document.getElementById(id)
       // 标题自带 scroll-mt-24；scrollIntoView 在 onur 壳的内层滚动容器中也能生效。
-      if (el) el.scrollIntoView({ block: 'start', behavior: 'auto' })
+      if (el) el.scrollIntoView({ block: 'start' })
       onItemClick?.()
     },
     [onItemClick]

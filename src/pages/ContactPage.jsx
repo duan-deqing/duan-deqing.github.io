@@ -4,6 +4,7 @@ import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/shared/PageTitle'
 import PageHeading from '../components/site/PageHeading'
 import Button from '../components/site/Button'
+import SiteLink from '../components/site/SiteLink'
 import WechatDialog from '../components/contact/WechatDialog'
 import {
   ArrowUpRightIcon,
@@ -11,6 +12,7 @@ import {
   DownloadIcon,
   GitHubIcon,
   MailIcon,
+  RssIcon,
   WechatIcon,
 } from '../components/site/icons'
 
@@ -21,11 +23,24 @@ const ICONS = {
   wechat: WechatIcon,
 }
 
+function SocialLink({ href, label, Icon }) {
+  return (
+    <SiteLink
+      href={href}
+      className="inline-flex items-center gap-2 text-sm text-muted-strong transition-colors hover:text-ink"
+    >
+      <Icon />
+      {label}
+    </SiteLink>
+  )
+}
+
 export default function ContactPage() {
   const { lang, t } = useLanguage()
   const page = config.contactPage || {}
   const email = config.contact?.email
   const methods = page.contactMethods || []
+  const socials = config.socialLinks || []
   const [wechat, setWechat] = useState(null)
 
   return (
@@ -94,6 +109,24 @@ export default function ContactPage() {
             </button>
           )
         })}
+      </div>
+
+      <div className="mt-10">
+        <p className="mb-3 text-sm text-muted">
+          {t({ en: 'Find me on', zh: '在这些地方找到我' })}
+        </p>
+        <div className="flex flex-wrap gap-x-5 gap-y-2">
+          {socials.map((social) => (
+            <SocialLink
+              key={social.platform}
+              href={social.url}
+              label={social.platform}
+              Icon={social.platform.toLowerCase().includes('github') ? GitHubIcon : BilibiliIcon}
+            />
+          ))}
+          {email ? <SocialLink href={`mailto:${email}`} label="Email" Icon={MailIcon} /> : null}
+          <SocialLink href="/rss.xml" label="RSS" Icon={RssIcon} />
+        </div>
       </div>
 
       <WechatDialog

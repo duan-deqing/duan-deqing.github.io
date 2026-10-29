@@ -2,7 +2,7 @@
 
 > 日期：2026-10-29
 > 分支：`redesign/antfu-onur`
-> 状态：设计已确认，待实现
+> 状态：设计已确认，已实现
 > 参考源码：[antfu/antfu.me](https://github.com/antfu/antfu.me)（首页）· [suyalcinkaya/onur.dev](https://github.com/suyalcinkaya/onur.dev)（博客、子页、后台视觉）
 > 取代：已删除的 `2026-10-28-local-admin-design.md`、`2026-10-29-redesign-antfu-onur-design.md` 及对应 plan
 > 设计契约：`DESIGN.md`（随本规格同步重写）
@@ -247,7 +247,7 @@ App
 
 - 页头：h1（默认文案改为 `Writing` / `写作`，可在后台修改）+ 副标题 + 右侧 `RSS`（outline）与 `Search ⌘K`（outline）。
 - 筛选：分类按钮组（All / Technology / Tutorials / Thoughts / Projects），active 黑底白字 rounded-md；标签行用 12px 文本按钮，active 加下划线并变 `text-ink`。
-- 列表（桌面）：表头 `Year | Date | Title | Category`（14px muted）；按年分组，年份只在组首行显示；行 `border-t`、`py-4`；标题 14px/500；hover 时同一组其他行降到 30% 文本色，当前行保持 `text-ink`；整行可点。
+- 列表（桌面）：CSS grid 行（视觉上近似表格）：表头 `Year | Date | Title | Category`（14px muted）；按年分组，年份只在组首行显示；行 `border-t`、`py-4`；标题 14px/500；hover 时同一组其他行降到 30% 文本色，当前行保持 `text-ink`；整行可点。
 - 移动：去掉 Year/Category 列；日期在标题上方；分类在右侧；行高略减。
 - 不显示摘要与标签（列表保持 onur 的极简密度）；标签只在筛选区出现。
 - 空状态：`{ nothing here yet }` 风格的双语短句。
@@ -364,7 +364,7 @@ App
 
 ## 9. 性能
 
-1. 字体：仅 2 个 woff2（约 56KB + 58KB），本地自托管；只预加载 Sans；`font-display: swap`。
+1. 字体：仅 2 个 woff2（约 22KB + 26KB，Latin 子集），本地自托管；只预加载 Sans；`font-display: swap`。
 2. 不新增运行时依赖；图标内联。
 3. 首屏无大图；文章图片懒加载 + 圆角描边。
 4. 首页静态导入；子页保留 `lazy` + `Suspense`，fallback 高度与最终布局一致。
@@ -384,8 +384,8 @@ App
 
 ### 自动化
 
-- `pnpm lint`
-- `pnpm test`（现有 10 个测试文件全部通过）
+- `pnpm test`（15 个测试文件 / 58 个测试全部通过）
+- `pnpm lint`（当前不可用：仓库未安装 ESLint，命令会报 `eslint` not found）
 - `pnpm build`（含 RSS 生成）
 
 ### 浏览器实测
