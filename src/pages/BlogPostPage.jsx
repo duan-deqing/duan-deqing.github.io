@@ -117,7 +117,7 @@ export default function BlogPostPage() {
           </div>
         </details>
 
-        <article className="min-w-0 max-w-[68ch]">
+        <article className="article-content min-w-0">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeHighlight, rehypeCodeLines]}

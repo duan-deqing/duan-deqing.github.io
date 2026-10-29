@@ -1,22 +1,51 @@
 import { cloneElement, isValidElement, useEffect, useRef, useState } from 'react'
+import { useLanguage } from '../../hooks/useLanguage'
 import { headingId, getTextContent } from '../../utils/markdownHeading'
+import { CheckIcon, CopyIcon } from '../site/icons'
+
+const HEADING_SIZE = {
+  2: 'text-lg md:text-xl',
+  3: 'text-base md:text-lg',
+  4: 'text-base',
+}
 
 const heading = (level) => {
   const Tag = `h${level}`
-  const className =
-    level === 2
-      ? 'mt-10 mb-4 scroll-mt-24 text-xl font-semibold tracking-tight text-heading md:text-2xl'
-      : level === 3
-        ? 'mt-8 mb-3 scroll-mt-24 text-lg font-semibold tracking-tight text-heading'
-        : 'mt-6 mb-2 scroll-mt-24 text-base font-semibold text-heading'
+  const size = HEADING_SIZE[level] || HEADING_SIZE[4]
 
   return function Heading({ children }) {
+    const id = headingId(getTextContent(children))
     return (
-      <Tag id={headingId(getTextContent(children))} className={className}>
-        {children}
+      <Tag
+        id={id}
+        className={`article-heading mt-6 mb-2 scroll-mt-24 font-semibold tracking-tighter text-heading ${size}`}
+      >
+        <a href={`#${id}`}>{children}</a>
       </Tag>
     )
   }
+}
+
+const LANGUAGE_LABELS = {
+  js: 'JS',
+  javascript: 'JavaScript',
+  ts: 'TS',
+  typescript: 'TypeScript',
+  jsx: 'JSX',
+  tsx: 'TSX',
+  bash: 'Bash',
+  sh: 'Shell',
+  shell: 'Shell',
+  python: 'Python',
+  css: 'CSS',
+  html: 'HTML',
+  json: 'JSON',
+  md: 'Markdown',
+  markdown: 'Markdown',
+  yaml: 'YAML',
+  yml: 'YAML',
+  sql: 'SQL',
+  text: 'Text',
 }
 
 // 文章配图通常在首屏之外。原生 loading="lazy" 在慢速网络下仍会预取
@@ -59,13 +88,79 @@ function ArticleImage({ src, alt }) {
   )
 }
 
+function CodeBlock({ children }) {
+  const { t } = useLanguage()
+  const frameRef = useRef(null)
+  const timerRef = useRef(0)
+  const [copied, setCopied] = useState(false)
+  const className = isValidElement(children) ? children.props.className || '' : ''
+  const languageMatch = className.match(/language-([\w-]+)/)
+  const language = languageMatch
+    ? LANGUAGE_LABELS[languageMatch[1]] || languageMatch[1]
+    : ''
+
+  useEffect(() => () => clearTimeout(timerRef.current), [])
+
+  async function copy() {
+    const frame = frameRef.current
+    if (!frame || !navigator.clipboard?.writeText) return
+    const lines = [...frame.querySelectorAll('.code-line')]
+    const code = frame.querySelector('code')
+    const text = lines.length
+      ? lines.map((line) => line.textContent).join('\n')
+      : code?.textContent || ''
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopied(true)
+      clearTimeout(timerRef.current)
+      timerRef.current = window.setTimeout(() => setCopied(false), 2000)
+    } catch {
+      setCopied(false)
+    }
+  }
+
+  return (
+    <div ref={frameRef} className="my-6 overflow-hidden rounded-lg border border-line">
+      <div className="flex items-center justify-between gap-3 border-b border-line bg-subtle px-4 py-2">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <span className="flex shrink-0 items-center gap-1" aria-hidden="true">
+            <span className="size-2.5 rounded-full bg-line-strong" />
+            <span className="size-2.5 rounded-full bg-line-strong" />
+            <span className="size-2.5 rounded-full bg-line-strong" />
+          </span>
+          {language ? (
+            <span className="truncate font-mono text-[11px] text-muted-strong">
+              {language}
+            </span>
+          ) : null}
+        </div>
+        <button
+          type="button"
+          onClick={copy}
+          className="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-md border border-line bg-page px-2 text-[11px] font-medium text-ink transition-colors hover:bg-subtle"
+        >
+          {copied ? <CheckIcon size={13} /> : <CopyIcon size={13} />}
+          {copied
+            ? t({ en: 'Copied', zh: '已复制' })
+            : t({ en: 'Copy', zh: '复制' })}
+        </button>
+      </div>
+      <pre className="code-block">{children}</pre>
+    </div>
+  )
+}
+
 export const markdownComponents = {
   h1: heading(2),
   h2: heading(2),
   h3: heading(3),
   h4: heading(4),
 
-  p: ({ children }) => <p className="mb-5 text-base leading-[1.75] text-ink">{children}</p>,
+  p: ({ children }) => (
+    <p className="mb-4 text-base leading-[1.75] text-ink last:mb-0 [&:has(+ul)]:mb-1">
+      {children}
+    </p>
+  ),
 
   a: ({ href, children }) => (
     <a
@@ -79,28 +174,27 @@ export const markdownComponents = {
   ),
 
   ul: ({ children }) => (
-    <ul className="mb-5 list-disc space-y-1.5 pl-5 text-base leading-[1.75] text-ink">
+    <ul className="mb-4 list-disc space-y-0.5 pl-6 text-base leading-[1.75] text-ink">
       {children}
     </ul>
   ),
 
   ol: ({ children }) => (
-    <ol className="mb-5 list-decimal space-y-1.5 pl-5 text-base leading-[1.75] text-ink">
+    <ol className="mb-4 list-inside list-[decimal-leading-zero] space-y-2 text-base leading-[1.75] text-ink">
       {children}
     </ol>
   ),
 
-  li: ({ children }) => <li className="pl-0.5">{children}</li>,
+  li: ({ children }) => (
+    <li className="pl-2 marker:text-[var(--code-line)]">{children}</li>
+  ),
 
   blockquote: ({ children }) => (
-    <blockquote className="my-6 border-l border-line-strong pl-4 text-muted-strong">
+    <blockquote className="mb-4 rounded-r-lg border-l-2 border-line px-4 font-medium text-muted">
       {children}
     </blockquote>
   ),
 
-  // react-markdown 会把 hast 的 node 传给自定义组件；不透传给 DOM。
-  // `block` 由 pre 注入：没有 info string 的围栏不会被 rehype-highlight
-  // 加上 hljs / language- 类名，只能靠 pre 的上下文判断为块级代码。
   code({ className, children, block, node, ...props }) {
     const isBlock =
       block === true ||
@@ -120,9 +214,10 @@ export const markdownComponents = {
   },
 
   pre({ children }) {
-    // 把 pre 内的 code 标记为块级；children 不是单个合法元素时保持原样。
-    const content = isValidElement(children) ? cloneElement(children, { block: true }) : children
-    return <pre className="code-block">{content}</pre>
+    const content = isValidElement(children)
+      ? cloneElement(children, { block: true })
+      : children
+    return <CodeBlock>{content}</CodeBlock>
   },
 
   img: ArticleImage,
@@ -140,8 +235,8 @@ export const markdownComponents = {
   ),
 
   td: ({ children }) => (
-    <td className="border-b border-line px-4 py-2 text-ink last:border-0">{children}</td>
+    <td className="border-b border-line px-4 py-2 text-ink">{children}</td>
   ),
 
-  hr: () => <hr className="my-10 border-line" />,
+  hr: () => <hr className="my-12 border-line" />,
 }

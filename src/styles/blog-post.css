@@ -3,6 +3,58 @@
  * 这是唯一允许出现原始色值的样式文件；其余组件只用设计令牌。
  */
 
+.article-heading {
+  position: relative;
+  width: fit-content;
+}
+
+.article-heading::before {
+  content: "#";
+  position: absolute;
+  left: -1rem;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.article-heading:hover::before {
+  opacity: 1;
+}
+
+.article-heading a {
+  text-decoration: none;
+}
+
+.article-heading a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.article-content h2 + h3 {
+  margin-top: 0;
+}
+
+.article-content blockquote p,
+.article-content li p {
+  margin-bottom: 0;
+}
+
+.article-content ol > li {
+  padding-left: 0;
+}
+
+.article-content ol > li::marker {
+  font-weight: 600;
+}
+
+.article-content ul li::marker {
+  color: var(--code-line);
+}
+
+.article-content table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
 /*
  * 空代码行没有行盒，display:block 的 span 会塌成 0 高度，
  * 绝对定位的 ::before 行号就会叠到下一行。给一行行高作为最小高度，

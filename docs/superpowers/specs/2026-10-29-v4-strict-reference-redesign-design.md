@@ -156,7 +156,7 @@
 | 区块 h2 | `text-lg md:text-xl`（18/20px），600，`tracking-tight` |
 | 卡片/行标题 | `text-sm font-medium`（14px），正文行高 |
 | 首页正文 | 16px / 1.75，`max-width: 65ch` |
-| 文章正文 | 16px / 1.75，`max-width: 68ch`；段落 `mb-5` |
+| 文章正文 | 16px / 1.75，容器 768px；段落 `mb-4` |
 | 次要文字 | 14px / 1.6，`text-muted` |
 | 表头/日期 | 14px，`tabular-nums`，`text-muted` |
 | 导航 | 14px / 500 |
@@ -170,7 +170,7 @@
 - 基准 4px；常用 4 / 8 / 12 / 16 / 24 / 32 / 40 / 64。
 - 首页主区：`padding: 2.5rem 1.75rem`；移动端 `padding-inline: 1.25rem`。
 - 子页内容：`px-6 pt-8 pb-8`，桌面 `px-8 pt-24 pb-16`；普通页面 `max-width: 768px`；博客三栏中文章区同为 768px。
-- 文章列 `max-width: 68ch`；桌面三栏下无 200px TOC，移动端 TOC 折叠块。
+- 文章列 `max-width: 768px`；桌面三栏下无 200px TOC，移动端 TOC 折叠块。
 - 侧栏：240px（≥1024），288px（≥1280）；内部 `p-3`；导航项间距 4px。
 - 移动顶栏 48px。
 - 圆角：按钮/输入框 6px；卡片/导航项 8px；图片 12px；移动抽屉顶部 16px。
@@ -283,9 +283,13 @@ App
 - 桌面：文章渲染在博客三栏的右侧白底内容区，`max-width: 768px`，与列表栏并存；移动端独占页面。
 - 顶部：`← Writing` 返回链接仅在移动端显示（桌面由列表栏导航）→ h1 → 元信息 `日期 · 阅读时长 · 分类` → 标签（12px 文本，不用彩色 chips）。
 - 顶部背景：一层 onur 式径向光晕（`--glow`），高度 320px，`pointer-events: none`，内容在其上；仅 ≥1280px（`xl`）显示，移动端隐藏以免降低 `text-muted` 元信息对比度。
-- 正文：68ch；段落 16px/1.75；h2 20px/600、上间距 40px、`scroll-mt-24`；h3 18px；列表紧凑；引用左侧 1px `--line-strong`、muted；链接黑色 + 常态浅灰底线 + hover 深灰底线；图片圆角 12px + 描边 + 居中小字说明。
+- 正文：容器 768px；段落 16px/1.75、`mb-4`（后接 `ul` 时 `mb-1`）；h2 18/20px 600、`tracking-tighter`、`mt-6 mb-2`；h3 16/18px、`h2 + h3` 上间距 0；标题带 id，hover 左侧显示 `#` 并可点击定位。
+- 列表：`ul` `mb-4 list-disc gap-0.5 pl-6`、`li pl-2`、marker `--code-line`；`ol` `list-inside list-[decimal-leading-zero] gap-2`、marker 600；列表项内段落无下边距。
+- 引用：`mb-4`、右侧 8px 圆角、左侧 2px `--line`、`px-4`、`font-medium`、muted；内部段落无下边距。
+- 分隔线 `my-12`。
+- 链接黑色 + 常态浅灰底线 + hover 深灰底线；图片圆角 12px + 描边 + 居中小字说明。
 - 行内码：`--code-bg` 底、6px 圆角、13px Mono，采用 onur 的反引号装饰（`::before/::after` 为 `` ` ``）。
-- 代码块：白底描边卡片、13px、行号 `--code-line`、横向滚动；不使用 Mac 红绿灯装饰。
+- 代码块：外层 `rounded-lg` 描边；头部 `--bg-subtle` + 三颗中性灰点 + 语言标签 + Copy/已复制按钮；代码区 13px/1.7、行号 `--code-line`、横向滚动；不使用彩色红绿灯装饰。
 - TOC：移动端为正文上方折叠 `<details>`（「On this page」）；桌面三栏下不显示 200px sticky TOC（右侧内容区宽度与 onur 一致）。
 - 阅读进度/上一篇下一篇：不做（参考站没有）。
 
