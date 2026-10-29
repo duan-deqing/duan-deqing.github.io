@@ -162,6 +162,32 @@ projectsSection:
     zh: 精选项目
 projects:
   - title:
+      en: Orbit Desk
+      zh: Orbit Desk
+    description:
+      en: Customer-service agent for e-commerce — FastAPI, RAG retrieval, SSE streaming, offline evaluation and full-chain tracing.
+      zh: 电商客服 Agent：FastAPI + RAG 检索 + SSE 流式响应，含离线评测与全链路监控。
+    tags:
+      - FastAPI
+      - RAG
+      - SSE
+    link: https://github.com/duan-deqing/e-commerce-cs-agent
+    icon: "🛒"
+    featured: true
+  - title:
+      en: Weijian
+      zh: 微笺
+    description:
+      en: Markdown writing workspace for WeChat official accounts — draft, preview and export in one place.
+      zh: 公众号 Markdown 写作工作台，集写作、预览与导出于一体。
+    tags:
+      - React
+      - TypeScript
+      - Markdown
+    link: https://github.com/duan-deqing/weijian
+    icon: "✍️"
+    featured: true
+  - title:
       en: ZensheetCV
       zh: ZensheetCV
     description:
@@ -172,6 +198,9 @@ projects:
       - Markdown
       - Tailwind CSS
     link: https://duan-deqing.github.io/zensheetCV/#/
+    repo: https://github.com/duan-deqing/zensheetCV
+    icon: "📄"
+    featured: true
   - title:
       en: ArtVault
       zh: ArtVault
@@ -183,6 +212,35 @@ projects:
       - Vite
       - Tailwind CSS
     link: https://stylan-artvault.vercel.app/
+    repo: https://github.com/duan-deqing/ArtVault
+    icon: "🎨"
+    featured: true
+  - title:
+      en: AI CRM
+      zh: AI CRM
+    description:
+      en: AI assistant built on LangGraph and LangChain, combining RAG with legal Q&A, web search and database queries.
+      zh: 基于 LangGraph + LangChain 的 AI 助手，结合 RAG 实现法律咨询、联网搜索与数据库查询。
+    tags:
+      - LangGraph
+      - RAG
+      - Python
+    link: https://github.com/duan-deqing/AI_CRM
+    icon: "🧠"
+    featured: true
+  - title:
+      en: rea
+      zh: rea
+    description:
+      en: Reverse engineering toolkit for agents — inspect app behavior down to native binaries.
+      zh: 面向 Agent 的逆向工程工具，从应用行为一路追到原生二进制。
+    tags:
+      - TypeScript
+      - CLI
+      - Agents
+    link: https://github.com/duan-deqing/rea
+    icon: "🔍"
+    featured: true
 contact:
   title:
     en: Get in touch
