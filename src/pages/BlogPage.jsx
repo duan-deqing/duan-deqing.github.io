@@ -1,66 +1,30 @@
-import { useEffect, useMemo, useState } from 'react'
 import blogConfig from '../content/blog.yaml'
 import { useLanguage } from '../hooks/useLanguage'
-import { getAllPosts } from '../utils/markdown'
-import { collectTags, filterPosts } from '../utils/blogFilters'
+import { useBlog } from '../components/blog/BlogProvider'
 import PageTitle from '../components/shared/PageTitle'
 import PageHeading from '../components/site/PageHeading'
 import WritingFilterBar from '../components/blog/WritingFilterBar'
 import WritingList from '../components/blog/WritingList'
 import WritingRowSkeleton from '../components/blog/WritingRowSkeleton'
-import SearchDialog from '../components/blog/SearchDialog'
 import Button from '../components/site/Button'
 import { RssIcon, SearchIcon } from '../components/site/icons'
 
 export default function BlogPage() {
   const { lang, t } = useLanguage()
-  const [posts, setPosts] = useState([])
-  const [failed, setFailed] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [category, setCategory] = useState('all')
-  const [tag, setTag] = useState(null)
-  const [searchOpen, setSearchOpen] = useState(false)
-
-  useEffect(() => {
-    let cancelled = false
-    setFailed(false)
-    setLoading(true)
-    getAllPosts(lang)
-      .then((value) => {
-        if (!cancelled) setPosts(value)
-      })
-      .catch((error) => {
-        console.error('[BlogPage] Failed to load posts:', error)
-        if (!cancelled) setFailed(true)
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false)
-      })
-    return () => {
-      cancelled = true
-    }
-  }, [lang])
-
-  useEffect(() => {
-    function onKeyDown(event) {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-        event.preventDefault()
-        setSearchOpen(true)
-      }
-    }
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [])
-
-  const tags = useMemo(() => collectTags(posts), [posts])
-  const filtered = useMemo(() => filterPosts(posts, { category, tag }), [posts, category, tag])
-
-  useEffect(() => {
-    if (tag && !tags.includes(tag)) setTag(null)
-  }, [tag, tags])
+  const {
+    filtered,
+    tags,
+    loading,
+    failed,
+    category,
+    setCategory,
+    tag,
+    setTag,
+    openSearch,
+  } = useBlog()
 
   return (
-    <div className="slide-enter-content mx-auto w-full max-w-3xl">
+    <div className="slide-enter-content mx-auto w-full max-w-3xl lg:hidden">
       <PageTitle
         title={`STYLAN · ${t(blogConfig.page.title)}`}
         description={t(blogConfig.page.subtitle)}
@@ -82,7 +46,7 @@ export default function BlogPage() {
               <RssIcon size={15} />
               RSS
             </Button>
-            <Button variant="outline" onClick={() => setSearchOpen(true)}>
+            <Button variant="outline" onClick={openSearch}>
               <SearchIcon size={15} />
               {t({ en: 'Search', zh: '搜索' })}
               <kbd
@@ -97,6 +61,7 @@ export default function BlogPage() {
       />
 
       <WritingFilterBar
+        className="mb-4"
         categories={blogConfig.categories}
         activeCategory={category}
         onCategoryChange={setCategory}
@@ -115,8 +80,6 @@ export default function BlogPage() {
       ) : (
         <WritingList posts={filtered} t={t} />
       )}
-
-      <SearchDialog open={searchOpen} posts={posts} onClose={() => setSearchOpen(false)} t={t} />
     </div>
   )
 }

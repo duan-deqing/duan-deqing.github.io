@@ -142,8 +142,9 @@
 
 - 侧栏：240px（≥1024）/ 288px（≥1280），`--bg-sidebar`，右边框，独立滚动。
 - 导航图标与 onur 一致：Home 房子、Projects 文件夹、Blog 钢笔、Stack 魔杖星光（WandSparkles）、Contact 邮件。
-- 内容：普通页面 `max-width: 768px`，`padding: 32px 24px`（桌面 `96px 32px 64px`）；文章页 ≥1280px 扩展到 1024px 以容纳 200px TOC。
-- 移动：48px sticky 顶栏 + 底部抽屉菜单。
+- 内容：普通页面 `max-width: 768px`，`padding: 32px 24px`（桌面 `96px 32px 64px`）。
+- 博客路由为 onur 式三栏：导航栏 + 320/384px 写作列表栏（`--bg-sidebar`、右边框、标题 + RSS/Search + 选择框 + 列表）+ 右侧内容区；`/blog` 内容区为空并显示 16px 点状底纹，`/blog/:slug` 为白底文章（`max-width: 768px`），列表栏常驻并高亮当前文章。
+- 移动：48px sticky 顶栏 + 底部抽屉菜单；博客为「列表页 → 文章页」两页。
 - 子页无全站页脚。
 
 ### 4.3 后台壳
@@ -182,7 +183,7 @@
 
 ### 5.3 列表与表格
 
-- 博客行：onur writing 列表，标题 14px/500 + 元信息「日期 · 分类」；行 `rounded-lg p-2`、列表 `gap-1`，hover `--bg-hover`；扁平列表，无年列与表头。
+- 博客行：onur writing 列表，标题 14px/500 + 元信息「日期 · 分类」；行 `rounded-lg p-2`、列表 `gap-1`，hover `--bg-hover`，当前文章 `bg-active` + `text-active-fg`（元信息 70%）；扁平列表，无年列与表头。
 - 项目/后台表格：外层 `rounded-lg` 描边；表头 14px `--muted`、h-10；行 `border-top`；hover `--bg-subtle` 50%。
 - 不使用斑马纹、彩色状态点。
 
@@ -216,8 +217,8 @@
 | 页面 | 构图 |
 | --- | --- |
 | `/` | Intro 三段 → hr → Find me on → hr → Stack → 页脚 |
-| `/blog` | h1 + 副标题 + RSS/Search → 分类/标签选择框 → onur writing 列表（标题 + 日期·分类） |
-| `/blog/:slug` | 返回 → h1 → 日期·阅读时长·分类 → 正文 68ch + 右侧 TOC |
+| `/blog` | 三栏：导航 + 写作列表栏（标题 + RSS/Search + 分类/标签选择框 + onur writing 行）+ 右侧点状空内容区 |
+| `/blog/:slug` | 三栏同 `/blog`，列表栏高亮当前文章，右侧白底文章（返回链接仅移动端显示，TOC 为移动端折叠块） |
 | `/projects` | h1 + 说明 + GitHub → 项目表格（移动卡片） |
 | `/skills` | h1 `Stack` + 说明 → onur 式分类 bullet 列表（蓝色分类链接 + ↗ + `—` + 技术项） |
 | `/contact` | h1 + 说明 → 主/次按钮 → 联系链接列表 → 社交行 |
@@ -304,8 +305,9 @@
 - [x] 子页为 240/288px 侧栏 + 768px 内容区；移动端 48px 顶栏 + 底部抽屉。
 - [x] 浅色为纯白 / zinc-50 / gray-200 / 黑 / 蓝链接；深色为等价推导。
 - [x] 全站 Geist Sans + Geist Mono，自托管，无第三方字体请求。
-- [x] 博客列表为 onur writing 行（标题 + 日期 · 分类），分类/标签为选择框，无摘要与年份列。
-- [x] 文章页 68ch + TOC + 行号代码块 + 圆角描边图片。
+- [x] 博客为 onur 式三栏 master-detail：列表在写作栏，点击文章在右侧显示；移动端为列表页 → 文章页。
+- [x] 博客列表为 onur writing 行（标题 + 日期 · 分类），当前文章黑底高亮；分类/标签为选择框，无摘要与年份列。
+- [x] 文章页 68ch + 移动端折叠 TOC + 行号代码块 + 圆角描边图片。
 - [x] 项目页为表格（移动卡片）；技能页为 onur 式 bullet 列表；联系页为链接列表。
 - [x] 后台为 onur 式侧栏 + 卡片表单 + 表格 + 预览抽屉。
 - [x] 首页背景为 antfu 式生成艺术，可通过 `src/backgrounds/index.js` 切换 `plum` / `dots` / `none`。

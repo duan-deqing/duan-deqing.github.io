@@ -27,7 +27,7 @@
 2. 浅色严格对齐 onur 的 white / zinc-50 / gray-200 / black / blue-600 体系；深色按同一语义推导。
 3. 全站自托管 Geist Sans + Geist Mono，中文回退系统字体。
 4. 首页只保留：自我介绍（内联链接）、社交与邮箱、技术栈、页脚；移除首页项目卡片、技能网格、联系 CTA。
-5. 博客列表改为 onur writing 行（标题 + 日期 · 分类）；文章页改为 onur 式排版 + 保留 TOC。
+5. 博客改为 onur writing 式三栏 master-detail：写作列表栏常驻，点击文章在右侧内容区显示；移动端为列表页 → 文章页。
 6. 项目页改为 onur `workspace` 式表格；技能页改为 onur 式 bullet 列表；联系页改为 onur 文本页 + 链接列表。
 7. 后台在保留全部功能的前提下，视觉与布局重做为 onur 风格。
 8. 移动端 Lighthouse Performance ≥ 90（`/`、`/blog`、`/blog/<slug>`），A11y / Best Practices / SEO ≥ 95。
@@ -68,7 +68,7 @@
 | 内容区 | `px-6 pt-8 pb-8 lg:px-8 lg:pt-24 lg:pb-16`；`mx-auto max-w-3xl` | 所有子页 |
 | 移动顶栏 | `h-12` sticky，白底，边框 | 子页移动端 |
 | 页面标题 | `PageTitle` → `h1 text-2xl md:text-3xl`，`mb-6` | 所有子页 |
-| 文章列表 | `WritingLink`：14px；标题 + 日期；行 `rounded-lg p-2`、列表 `gap-1`，hover `bg-gray-200`；无表头与年列 | 博客列表采用该行样式，保留分类/标签选择框与搜索 |
+| 文章列表 | `WritingLink`：14px；标题 + 日期；行 `rounded-lg p-2`、列表 `gap-1`，hover `bg-gray-200`；无表头与年列 | 博客三栏的写作列表栏采用该行样式，保留分类/标签选择框与搜索 |
 | 链接 | `text-blue-600 hover:underline underline-offset-4` | 改为黑色文字 + 常态 30% 灰线 + hover `--link-underline` 底线 |
 | 按钮 | h-9、rounded-md、`shadow-xs`；primary 黑底白字；outline 白底灰边 | 博客操作、联系页、后台 |
 | 表格 | 外层 `rounded-lg border`；表头 `h-10` 灰字；行 hover `bg-gray-100/50` | 项目页、后台文章列表 |
@@ -169,8 +169,8 @@
 
 - 基准 4px；常用 4 / 8 / 12 / 16 / 24 / 32 / 40 / 64。
 - 首页主区：`padding: 2.5rem 1.75rem`；移动端 `padding-inline: 1.25rem`。
-- 子页内容：`px-6 pt-8 pb-8`，桌面 `px-8 pt-24 pb-16`；普通页面 `max-width: 768px`；文章页在 ≥1280px 可扩展到 1024px 以容纳右侧 TOC。
-- 文章列 `max-width: 68ch`；TOC 200px，间距 48px。
+- 子页内容：`px-6 pt-8 pb-8`，桌面 `px-8 pt-24 pb-16`；普通页面 `max-width: 768px`；博客三栏中文章区同为 768px。
+- 文章列 `max-width: 68ch`；桌面三栏下无 200px TOC，移动端 TOC 折叠块。
 - 侧栏：240px（≥1024），288px（≥1280）；内部 `p-3`；导航项间距 4px。
 - 移动顶栏 48px。
 - 圆角：按钮/输入框 6px；卡片/导航项 8px；图片 12px；移动抽屉顶部 16px。
@@ -197,7 +197,11 @@ App
 │   ├── HomeHeader（左 wordmark / 右导航 / 主题 / 语言）
 │   ├── HomePage（65ch prose）
 │   └── HomeFooter
-└── SubpageLayout（/projects /blog /blog/:slug /skills /contact /404）
+├── BlogLayout（/blog /blog/:slug，lazy）
+│   ├── SideMenu
+│   ├── WritingRail（≥1024，标题 + Search/RSS + 分类/标签选择框 + 列表）
+│   └── 内容区（/blog 为点状空态；/:slug 为白底文章）
+└── SubpageLayout（/projects /skills /contact /404）
     ├── SideMenu（≥1024 固定左栏）
     ├── MobileHeader + MobileMenuSheet（<1024）
     └── 内容区（ScrollArea + ContentWrapper）
@@ -253,24 +257,27 @@ App
 - 首页内容以 `slide-enter` 阶梯进入。
 - 首页背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条）；右上角按钮循环 `plum → dots → none` 并持久化到 `localStorage.home-background`；背景层固定 `z-0`、内容 `z-10`；也可通过 `src/backgrounds/index.js` 切换默认值；其他页面可引用 `<BackgroundLayer />`；`prefers-reduced-motion` 下关闭。
 
-### 6.2 博客列表 `/blog`
+### 6.2 博客 `/blog` 与 `/blog/:slug`
 
-- 页头：h1（默认文案改为 `Writing` / `写作`，可在后台修改）+ 副标题 + 右侧 `RSS`（outline）与 `Search ⌘K`（outline）。
-- 筛选：保留原有分类；分类与标签都使用原生选择框（`select`）显示，分类含「全部分类」，标签含「全部标签」，右侧自定义 chevron；不再使用分类按钮组与标签文本行。
-- 列表：onur writing 行——扁平列表（按日期倒序，不再按年分组），每行 `rounded-lg p-2`、`gap-1`，标题 14px/500，元信息「日期 · 分类」14px `--muted`；列表 `gap-1`；hover `--bg-hover`；无表头、无年列、无行边框。
+- 桌面（≥1024）为 onur writing 三栏 master-detail：导航栏（240/288）+ 写作列表栏（320/384，`--bg-sidebar`、右边框）+ 右侧内容区；列表栏常驻，点击列表项在右侧切换文章。
+- 列表栏头部：`Writing` 14px/600 + Search 图标按钮 + `RSS`（outline），下一行为分类与标签原生选择框；选择框无可见 label（`aria-label` + 「全部分类 / 全部标签」），保留原有分类与 `⌘K` 搜索。
+- 列表：onur `WritingLink` 行——按日期倒序的扁平列表；14px，标题 `font-medium`，元信息「日期 · 分类」`--muted`；行 `rounded-lg p-2`、列表 `gap-1`、hover `--bg-hover`；当前文章 `bg-active` + `text-active-fg`、元信息 70% 不透明度，`aria-current="page"`；无表头、无年列、无行边框。
+- `/blog`：右侧为空内容区，显示 16px 点状底纹（`bg-dots`：`radial-gradient(var(--line) 1px, transparent 1px)`）；`/blog/:slug`：右侧白底文章，列表栏保持可见并高亮当前文章。
+- 移动（<1024）：不显示列表栏；`/blog` 为列表页（`Writing` 标题 + 副标题 + RSS/Search + 选择框 + 列表），点击进入 `/blog/:slug` 文章页。
 - 不显示摘要与标签；标签只用于筛选。
 - 空状态：`{ nothing here yet }` 风格的双语短句。
-- 搜索：保留 `⌘K / Ctrl+K` 打开 onur 式对话框（白底、rounded-lg、描边、overlay 20% 黑、输入框 h-9、结果行 hover `bg-subtle`、键盘上下选择、Esc 关闭、焦点锁定）。
-- 加载：行骨架与最终行同高，避免 CLS。
+- 搜索：`⌘K / Ctrl+K` 在博客路由内全局打开 onur 式对话框（白底、rounded-lg、描边、overlay 20% 黑、输入框 h-9、结果行 hover `bg-subtle`、键盘上下选择、Esc 关闭、焦点锁定）。
+- 加载：列表行骨架与最终行同高，避免 CLS。
 
 ### 6.3 文章页 `/blog/:slug`
 
-- 顶部：`← Writing` 返回链接 → h1 → 元信息 `日期 · 阅读时长 · 分类` → 标签（12px 文本，不用彩色 chips）。
+- 桌面：文章渲染在博客三栏的右侧白底内容区，`max-width: 768px`，与列表栏并存；移动端独占页面。
+- 顶部：`← Writing` 返回链接仅在移动端显示（桌面由列表栏导航）→ h1 → 元信息 `日期 · 阅读时长 · 分类` → 标签（12px 文本，不用彩色 chips）。
 - 顶部背景：一层 onur 式径向光晕（`--glow`），高度 320px，`pointer-events: none`，内容在其上；仅 ≥1280px（`xl`）显示，移动端隐藏以免降低 `text-muted` 元信息对比度。
 - 正文：68ch；段落 16px/1.75；h2 20px/600、上间距 40px、`scroll-mt-24`；h3 18px；列表紧凑；引用左侧 1px `--line-strong`、muted；链接黑色 + 常态浅灰底线 + hover 深灰底线；图片圆角 12px + 描边 + 居中小字说明。
 - 行内码：`--code-bg` 底、6px 圆角、13px Mono，采用 onur 的反引号装饰（`::before/::after` 为 `` ` ``）。
 - 代码块：白底描边卡片、13px、行号 `--code-line`、横向滚动；不使用 Mac 红绿灯装饰。
-- TOC：≥1280px 右侧 200px sticky（top 96px）；标题 `On this page` 12px muted；项 14px；当前项 `text-ink` + 左侧 2px 黑线；移动端折叠为正文上方 `<details>`。
+- TOC：移动端为正文上方折叠 `<details>`（「On this page」）；桌面三栏下不显示 200px sticky TOC（右侧内容区宽度与 onur 一致）。
 - 阅读进度/上一篇下一篇：不做（参考站没有）。
 
 ### 6.4 项目页 `/projects`
@@ -324,7 +331,8 @@ App
 
 ### 7.1 新增
 
-- `src/layouts/HomeLayout.jsx`、`src/layouts/SubpageLayout.jsx`
+- `src/layouts/HomeLayout.jsx`、`src/layouts/SubpageLayout.jsx`、`src/layouts/BlogLayout.jsx`
+- `src/components/blog/BlogProvider.jsx`、`WritingRail.jsx`
 - `src/backgrounds/`：`index.js`（注册表、顺序与 `HOME_BACKGROUND`）、`BackgroundLayer.jsx`、`BackgroundToggle.jsx`、`PlumBackground.jsx`、`DotsBackground.jsx`
 - `src/components/site/HomeHeader.jsx`、`SideMenu.jsx`、`MenuContent.jsx`、`NavItem.jsx`、`MobileHeader.jsx`、`MobileMenuSheet.jsx`
 - `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`
@@ -338,7 +346,7 @@ App
 
 - `src/index.css`：令牌、Geist、基础排版、焦点、选区、首页 prose、文章排版入口。
 - `src/styles/blog-post.css`：保留 highlighted 代码配色，改为 onur 的浅色/深色映射。
-- `src/App.jsx`：按路由选择 `HomeLayout` / `SubpageLayout`。
+- `src/App.jsx`：按路由选择 `HomeLayout` / `BlogLayout`（lazy）/ `SubpageLayout`。
 - `src/pages/HomePage.jsx`、`BlogPage.jsx`、`BlogPostPage.jsx`、`ProjectsPage.jsx`、`SkillsPage.jsx`、`ContactPage.jsx`、`NotFoundPage.jsx`。
 - `src/components/BlogPage/TableOfContents.jsx`、`markdownComponents.jsx`。
 - `src/admin/admin.css`、`src/admin/AdminApp.jsx`、`src/admin/sections/*`、`src/admin/components/*` 的表现层类名。

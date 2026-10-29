@@ -1,32 +1,32 @@
+import { useId } from 'react'
+import { cn } from '../../utils/cn'
 import { ChevronDownIcon } from '../site/icons'
 
 const SELECT_CLASS =
-  'h-9 appearance-none rounded-md border border-line bg-page pl-3 pr-9 text-sm text-ink transition-colors hover:border-line-strong'
+  'h-9 w-full min-w-0 appearance-none rounded-md border border-line bg-page pl-2.5 pr-8 text-xs text-ink transition-colors hover:border-line-strong'
 
 function FilterSelect({ id, name, label, value, onChange, options }) {
   return (
-    <label htmlFor={id} className="flex items-center gap-2 text-sm text-muted">
-      <span>{label}</span>
-      <span className="relative inline-flex items-center">
-        <select
-          id={id}
-          name={name}
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          className={SELECT_CLASS}
-        >
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <ChevronDownIcon
-          size={14}
-          className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted"
-        />
-      </span>
-    </label>
+    <span className="relative min-w-0 flex-1">
+      <select
+        id={id}
+        name={name}
+        aria-label={label}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className={SELECT_CLASS}
+      >
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <ChevronDownIcon
+        size={13}
+        className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-muted"
+      />
+    </span>
   )
 }
 
@@ -38,7 +38,9 @@ export default function WritingFilterBar({
   activeTag,
   onTagChange,
   t,
+  className,
 }) {
+  const uid = useId()
   const categoryOptions = categories.map((category) => ({
     value: category.id,
     label:
@@ -53,19 +55,19 @@ export default function WritingFilterBar({
   ]
 
   return (
-    <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+    <div className={cn('flex items-center gap-2', className)}>
       <FilterSelect
-        id="blog-category-filter"
+        id={`${uid}-category`}
         name="category"
-        label={t({ en: 'Category', zh: '分类' })}
+        label={t({ en: 'Filter by category', zh: '按分类筛选' })}
         value={activeCategory}
         onChange={onCategoryChange}
         options={categoryOptions}
       />
       <FilterSelect
-        id="blog-tag-filter"
+        id={`${uid}-tag`}
         name="tag"
-        label={t({ en: 'Tag', zh: '标签' })}
+        label={t({ en: 'Filter by tag', zh: '按标签筛选' })}
         value={activeTag ?? 'all'}
         onChange={(value) => onTagChange(value === 'all' ? null : value)}
         options={tagOptions}

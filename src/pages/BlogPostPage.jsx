@@ -71,7 +71,7 @@ export default function BlogPostPage() {
   }
 
   return (
-    <div className="relative mx-auto w-full">
+    <div className="relative mx-auto w-full max-w-3xl">
       <div className="article-glow hidden xl:block" aria-hidden="true" />
       <PageTitle
         title={`STYLAN · ${t(post.title)}`}
@@ -84,13 +84,13 @@ export default function BlogPostPage() {
       <div className="slide-enter-content relative">
         <Link
           to="/blog"
-          className="inline-flex items-center gap-1 text-sm text-muted-strong transition-colors hover:text-ink"
+          className="inline-flex items-center gap-1 text-sm text-muted-strong transition-colors hover:text-ink lg:hidden"
         >
           <ArrowUpRightIcon size={14} className="rotate-180" />
           {t({ en: 'Writing', zh: '写作' })}
         </Link>
 
-        <div className="mt-6">
+        <div className="mt-6 lg:mt-0">
           <PageHeading title={t(post.title)} />
           <div className="mb-8 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted">
             <time dateTime={post.date}>{formatDate(post.date, t)}</time>
@@ -108,7 +108,7 @@ export default function BlogPostPage() {
           ) : null}
         </div>
 
-        <details className="mb-8 rounded-lg border border-line p-4 xl:hidden">
+        <details className="mb-8 rounded-lg border border-line p-4 lg:hidden">
           <summary className="cursor-pointer text-sm font-medium text-heading">
             {t({ en: 'On this page', zh: '本页目录' })}
           </summary>
@@ -117,22 +117,15 @@ export default function BlogPostPage() {
           </div>
         </details>
 
-        <div className="xl:grid xl:grid-cols-[minmax(0,1fr)_200px] xl:gap-12">
-          <article className="min-w-0 max-w-[68ch]">
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeHighlight, rehypeCodeLines]}
-              components={markdownComponents}
-            >
-              {post.content}
-            </ReactMarkdown>
-          </article>
-          <aside className="hidden xl:block">
-            <div className="sticky top-24 max-h-[calc(100dvh-8rem)] overflow-y-auto overscroll-contain">
-              <TableOfContents content={post.content} />
-            </div>
-          </aside>
-        </div>
+        <article className="min-w-0 max-w-[68ch]">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeHighlight, rehypeCodeLines]}
+            components={markdownComponents}
+          >
+            {post.content}
+          </ReactMarkdown>
+        </article>
       </div>
     </div>
   )
