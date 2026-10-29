@@ -56,6 +56,20 @@ export const PenIcon = (props) => (
   </LineIcon>
 )
 
+export const BookmarkIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2Z" />
+  </LineIcon>
+)
+
+export const LinkIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="M9 17H7A5 5 0 0 1 7 7h2" />
+    <path d="M15 7h2a5 5 0 1 1 0 10h-2" />
+    <path d="M8 12h8" />
+  </LineIcon>
+)
+
 export const SparklesIcon = (props) => (
   <LineIcon {...props}>
     <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z" />

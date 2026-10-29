@@ -4,9 +4,9 @@ site:
   pageTitle: STYLAN · Portfolio
   favicon: /favicon.ico
   description:
-    en: "STYLAN's portfolio: AI application developer focused on LLM and RAG. Skills, projects, blog, and contact."
-    zh: STYLAN 的个人主页：AI 应用开发工程师，专注 LLM 落地与 RAG 系统。技能、项目、技术博客与联系方式。
-  keywords: STYLAN, 个人主页, Portfolio, AI, LLM, RAG, LangChain, React, 全栈开发, 博客
+    en: "STYLAN's portfolio: AI application developer focused on LLM and RAG. Skills, projects, blog, and bookmarks."
+    zh: STYLAN 的个人主页：AI 应用开发工程师，专注 LLM 落地与 RAG 系统。技能、项目、技术博客与书签。
+  keywords: STYLAN, 个人主页, Portfolio, AI, LLM, RAG, LangChain, React, 全栈开发, 博客, 书签
   url: https://duan-deqing.github.io
   ogImage: /images/1_1_main-page.jpg
 personal:
@@ -49,10 +49,10 @@ navLinks:
     label:
       en: Stack
       zh: 技术栈
-  - href: /contact
+  - href: /bookmarks
     label:
-      en: Contact
-      zh: 联系
+      en: Bookmarks
+      zh: 书签
 about:
   focus:
     - en: LLM applications
@@ -66,9 +66,9 @@ about:
 buttons:
   primary:
     text:
-      en: CONTACT
-      zh: 联系
-    href: /contact
+      en: BOOKMARKS
+      zh: 书签
+    href: /bookmarks
   secondary:
     text:
       en: PROJECTS

@@ -12,7 +12,7 @@
 站点当前是 v3「顶部导航 + 居中单列 + 暖灰卡片」方案。本次不是局部调色，而是按两份参考源码重做页面壳、信息层级、组件形态与设计令牌：
 
 - 首页按 antfu.me：极简双端导航、65ch prose、透明度层级、年份水印文章列表、阶梯入场。
-- 博客、项目、技能、联系、404 按 onur.dev：固定 240px 侧栏、zinc 中性色、Geist 字体、表格式列表、shadcn 式按钮/输入框。
+- 博客、项目、技能、书签、404 按 onur.dev：固定 240px 侧栏、zinc 中性色、Geist 字体、表格式列表、shadcn 式按钮/输入框。
 - 后台按 onur 的 UI 语言重做：侧栏 + 顶栏 + 卡片表单 + 表格 + 预览抽屉。
 - 配色从暖灰 `#FAFAF9` 改为纯白 / zinc / 黑 / 蓝链接；字体从系统栈改为自托管 Geist。
 - 删除旧设计文档，重写 `DESIGN.md`。
@@ -28,10 +28,10 @@
 3. 全站自托管 Geist Sans + Geist Mono，中文回退系统字体。
 4. 首页只保留：自我介绍（内联链接）、社交与邮箱、技术栈、页脚；移除首页项目卡片、技能网格、联系 CTA。
 5. 博客改为 onur writing 式三栏 master-detail：写作列表栏常驻，点击文章在右侧内容区显示；移动端为列表页 → 文章页。
-6. 项目页改为 onur `workspace` 式表格；技能页改为 onur 式 bullet 列表；联系页改为 onur 文本页 + 链接列表。
+6. 项目页改为 onur `workspace` 式表格；技能页改为 onur 式 bullet 列表；书签页改为 onur bookmarks 式分类栏 + 双列卡片，数据写入 `bookmarks.yaml`。
 7. 后台在保留全部功能的前提下，视觉与布局重做为 onur 风格。
 8. 移动端 Lighthouse Performance ≥ 90（`/`、`/blog`、`/blog/<slug>`），A11y / Best Practices / SEO ≥ 95。
-9. 不新增 UI 运行时依赖（不引入 shadcn/Radix/cva/vaul/framer-motion/图标库）；公式渲染使用 remark-math + rehype-katex + katex，并按需加载。
+9. 不新增 UI 组件库（不引入 shadcn/Radix/cva/vaul/framer-motion/图标库）；图集轮播使用 embla-carousel-react（与 onur 同款）；公式渲染使用 remark-math + rehype-katex + katex，并按需加载。
 
 ### 非目标
 
@@ -70,7 +70,7 @@
 | 页面标题 | `PageTitle` → `h1 text-2xl md:text-3xl`，`mb-6` | 所有子页 |
 | 文章列表 | `WritingLink`：14px；标题 + 日期；行 `rounded-lg p-2`、列表 `gap-1`，hover `bg-gray-200`；无表头与年列 | 博客三栏的写作列表栏采用该行样式，保留分类/标签选择框与搜索 |
 | 链接 | `text-blue-600 hover:underline underline-offset-4` | 改为黑色文字 + 常态 30% 灰线 + hover `--link-underline` 底线 |
-| 按钮 | h-9、rounded-md、`shadow-xs`；primary 黑底白字；outline 白底灰边 | 博客操作、联系页、后台 |
+| 按钮 | h-9、rounded-md、`shadow-xs`；primary 黑底白字；outline 白底灰边 | 博客操作、书签页、后台 |
 | 表格 | 外层 `rounded-lg border`；表头 `h-10` 灰字；行 hover `bg-gray-100/50` | 项目页、后台文章列表 |
 | 代码块 | 13px、行号灰色、横向滚动 | 文章代码块 |
 | 404 | `Not found` + 一句说明 | 404 页 |
@@ -202,7 +202,11 @@ App
 │   ├── SideMenu
 │   ├── WritingRail（≥1024，标题 + Search/RSS + 分类/标签选择框 + 列表）
 │   └── 内容区（/blog 为点状空态；/:slug 为白底文章）
-└── SubpageLayout（/home /projects /skills /contact /404）
+├── BookmarksLayout（/bookmarks /bookmarks/:slug，lazy）
+│   ├── SideMenu
+│   ├── BookmarksRail（≥1024，标题 + 总数 + 分类列表）
+│   └── 内容区（网格底纹；/bookmarks 为语录空态；/:slug 为双列书签卡）
+└── SubpageLayout（/home /projects /skills /404）
     ├── SideMenu（≥1024 固定左栏）
     ├── MobileHeader + MobileMenuSheet（<1024）
     └── 内容区（ScrollArea + ContentWrapper）
@@ -220,7 +224,7 @@ App
 
 ### 5.3 子页壳（onur）
 
-- 桌面侧栏固定、独立滚动：名片 → 主导航（Home / Projects / Blog / Skills / Contact，编号 1–5，active 黑底白字）→ 分隔线 → Online（GitHub / Bilibili / Bluesky / Email / RSS，带 ↗）；侧栏不再放主题/语言按钮。
+- 桌面侧栏固定、独立滚动：名片 → 主导航（Home / Projects / Blog / Skills / Bookmarks，编号 1–5，active 黑底白字）→ 分隔线 → Online（GitHub / Bilibili / Bluesky / Email / RSS，带 ↗）；侧栏不再放主题/语言按钮。
 - 主题/语言控制固定在内容区右上角（`right: 32px; top: 24px`，随内容滚动），使用与首页相同的裸图标组（组内 4px、无边框、60% 不透明度、hover 100%）。
 - 侧栏在 ≥1024 显示；<1024 隐藏，改为 48px sticky 顶栏：左菜单按钮、中当前页标题、右主题。
 - 移动菜单为底部抽屉（80vh、顶部圆角、上滑 300ms），内容复用 `MenuContent`，主题与语言控件在抽屉内；Esc、遮罩点击、路由变化均可关闭，焦点在打开时锁定、关闭后归还。
@@ -243,7 +247,7 @@ App
 1. **Intro**（3 段，65ch）：
    - 第 1 段：`Hi, I'm STYLAN.` + `personal.bio`。
    - 第 2 段：专注方向（`about.focus`）+ 内联链接 `projects`、`skills`。
-   - 第 3 段：写作与联系（`blog`、`contact`、`email`）。
+   - 第 3 段：写作与邮箱（`blog`、`email`）。
 2. `<hr>`。
 3. **Find me on**：GitHub / Bilibili / Bluesky / WeChat，正文式链接（16px / 600、图标 1.2em / `inline-block` / 75% 不透明度 / `text-bottom` 对齐、图标与文字间隔 4px、链接间距 8px）；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`，`border 0.3s ease-in-out`；WeChat hover/focus 显示二维码气泡，触摸端点击切换，气泡桌面端在按钮右侧垂直居中、移动端在按钮上方，以 `slide-enter` 1s 入场，关闭前保留 0.5s 再分解为粒子汇聚到按钮；下一行 `Or mail me at` + mono 字体邮箱链接。首页内所有带底线链接字重 600，页脚链接例外（400）。
 4. `<hr>`。
@@ -311,13 +315,14 @@ App
 - 不使用 chips、卡片、图标、行间边框。
 - 移动端保持同一单列列表。
 
-### 6.6 联系页 `/contact`
+### 6.6 书签页 `/bookmarks` 与分类 `/bookmarks/:slug`
 
-- 页头 h1 + 描述。
-- 主按钮：黑底白字 `Email me`（mailto）；次按钮：outline `Download resume`。
-- 联系列表：Email / GitHub / Bilibili / WeChat；行 14px，左侧图标 + 标签 + 值，右侧 ↗；WeChat 行点击打开二维码对话框（白底描边、二维码 240px、关闭按钮）。
-- 社交行（GitHub / Bilibili / Email / RSS）与首页一致。
-- 不显示插画大图。
+- 与博客同款三栏壳：导航栏 + 320/384px 书签分类栏 + 右侧网格底纹内容区；分类栏标题右侧显示书签总数，分类行显示名称与 `N 个书签`，active 黑底白字、hover `--bg-hover`。
+- `/bookmarks` 桌面右侧为空态，中央随机显示 `src/content/quotes.yaml` 的一条语录；移动端为 h1 + 说明 + 分类列表（行间 1px 下边框）。
+- `/bookmarks/:slug`：右侧 h1 + onur 式双列书签卡；卡片间距 16px，卡片内距 16px、圆角 12px、hover `--bg-subtle`；封面 1200×630，缺失或加载失败时显示域名首字母占位；正文为标题、域名（Link2 图标）与描述，卡片 25ms 阶梯入场。
+- 分类与书签全部来自 `src/content/bookmarks.yaml`（支持双语标题/描述与可选 `cover`）；书签专属样式集中在 `src/styles/bookmarks.css`，后续可单独调整。
+- 旧 `/contact` 页与微信弹窗移除；邮箱、微信气泡、社交链接仍保留在首页。
+- 移动端分类页提供返回书签的文本链接。
 
 ### 6.7 404
 
@@ -348,7 +353,7 @@ App
 
 ### 7.1 新增
 
-- `src/layouts/HomeLayout.jsx`、`src/layouts/SubpageLayout.jsx`、`src/layouts/BlogLayout.jsx`
+- `src/layouts/HomeLayout.jsx`、`src/layouts/SubpageLayout.jsx`、`src/layouts/BlogLayout.jsx`、`src/layouts/BookmarksLayout.jsx`
 - `src/components/blog/BlogProvider.jsx`、`WritingRail.jsx`
 - `src/backgrounds/`：`index.js`（注册表、顺序与 `HOME_BACKGROUND`）、`BackgroundLayer.jsx`、`BackgroundToggle.jsx`、`PlumBackground.jsx`、`DotsBackground.jsx`
 - `src/components/site/HomeHeader.jsx`、`SideMenu.jsx`、`MenuContent.jsx`、`NavItem.jsx`、`MobileHeader.jsx`、`MobileMenuSheet.jsx`
@@ -357,9 +362,11 @@ App
 - `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`WritingTable.jsx`、`SearchDialog.jsx`、`SearchTrigger.jsx`、`RssButton.jsx`、`BlogQuote.jsx`、`ArticleVideo.jsx`、`ArticleCarousel.jsx`
 - `src/styles/math.css`（KaTeX 行内/块级公式样式）
 - `src/utils/articleEmbeds.js`（video/carousel Markdown 块解析与视频平台识别）
-- `src/content/quotes.yaml`（博客空态双语语录）
+- `src/content/quotes.yaml`（博客/书签空态双语语录）、`src/content/bookmarks.yaml`（书签分类与条目）
+- `src/components/bookmarks/BookmarksRail.jsx`、`BookmarkCategoryList.jsx`、`BookmarkCard.jsx`、`BookmarkGrid.jsx`
+- `src/styles/bookmarks.css`（书签页专属样式）
+- `src/utils/bookmarkFormat.js`、`src/utils/bookmarks.js`（域名与分类读取）
 - `src/components/projects/ProjectTable.jsx`
-- `src/components/contact/WechatDialog.jsx`
 - `src/utils/cn.js`（轻量类名合并）
 
 ### 7.2 重写
@@ -367,7 +374,7 @@ App
 - `src/index.css`：令牌、Geist、基础排版、焦点、选区、首页 prose、文章排版入口。
 - `src/styles/blog-post.css`：保留 highlighted 代码配色，改为 onur 的浅色/深色映射。
 - `src/App.jsx`：按路由选择 `HomeLayout` / `BlogLayout`（lazy）/ `SubpageLayout`。
-- `src/pages/SubpageHomePage.jsx`、`HomePage.jsx`、`BlogPage.jsx`、`BlogPostPage.jsx`、`ProjectsPage.jsx`、`SkillsPage.jsx`、`ContactPage.jsx`、`NotFoundPage.jsx`。
+- `src/pages/SubpageHomePage.jsx`、`HomePage.jsx`、`BlogPage.jsx`、`BlogPostPage.jsx`、`ProjectsPage.jsx`、`SkillsPage.jsx`、`BookmarksPage.jsx`、`BookmarkCategoryPage.jsx`、`NotFoundPage.jsx`。
 - `src/components/BlogPage/TableOfContents.jsx`、`markdownComponents.jsx`。
 - `src/admin/admin.css`、`src/admin/AdminApp.jsx`、`src/admin/sections/*`、`src/admin/components/*` 的表现层类名。
 - `DESIGN.md`。
@@ -376,6 +383,7 @@ App
 
 - `src/components/shared/SiteHeader.jsx`、`SiteFooter.jsx`、`ThemeLangControls.jsx`、`PageHeader.jsx`、`TagChip.jsx`、`SkillGroups.jsx`
 - `src/components/HomePage/*`（Hero、AboutSection、ProjectGrid、ProjectCard、PostRow、PostRowSkeleton、SkillsSection、ContactCta）
+- `src/pages/ContactPage.jsx`、`src/components/contact/WechatDialog.jsx`（联系页改为书签页后移除）
 - `src/components/BlogPage/BlogHero.jsx`、`CategoryFilter.jsx`、`TagFilter.jsx`、`SearchTrigger.jsx`、`BlogSearch.jsx`、`BlogList.jsx`
 - 仅服务旧布局的 CSS 类与工具类。
 
@@ -389,7 +397,7 @@ App
 
 - 不新增 YAML 字段；不改后台 schema。
 - `src/content/blog.yaml` 的 `page.title` 默认值改为 `Writing` / `写作`（纯文案）。
-- 首页 intro 由 `personal.bio`、`about.focus`、`skills`、`contact` 组合生成，不新增字段。
+- 首页 intro 由 `personal.bio`、`about.focus`、`skills`、`socialLinks` 与邮箱组合生成，不新增字段。
 
 ## 8. 无障碍
 
@@ -435,14 +443,14 @@ App
 - 子页侧栏 active、快捷键 1–5、移动抽屉开合与焦点。
 - 博客分类 + 标签组合筛选、空状态、搜索键盘操作。
 - 文章 TOC 高亮/跳转、代码块横向滚动、长表格、图片。
-- 项目表格/移动卡片、联系页二维码与 resume、404。
+- 项目表格/移动卡片、书签分类切换/双列卡片/空态语录、404。
 - 后台：加载、编辑、校验、保存、撤销、文章新建/编辑、预览抽屉与设备切换。
 - 控制台无错误、无横向溢出。
 
 ## 11. 里程碑
 
 1. **M1 基础与首页**：令牌、Geist、双壳、首页、页脚、主题/语言。
-2. **M2 子页与博客**：Projects / Skills / Contact / 404、博客列表与筛选、文章页、搜索、TOC。
+2. **M2 子页与博客**：Projects / Skills / Bookmarks / 404、博客列表与筛选、文章页、搜索、TOC。
 3. **M3 后台**：侧栏、顶栏、表单、文章表格、编辑器、预览抽屉。
 4. **M4 收尾**：清理旧组件/CSS、a11y、Lighthouse、README、`DESIGN.md` 校对、全量回归。
 
@@ -455,7 +463,7 @@ App
 | 双壳导致导航体验不一致 | 两壳使用同一导航数据与 active 规则；移动端行为分别实现但文案/顺序一致 |
 | Geist 不含中文 | 明确 CJK 回退栈；标题靠字重与字距建立层级，不用字体特性 |
 | 深色为推导，参考站无深色 | 用同一语义令牌映射，单独做两主题截图检查对比度 |
-| 首页信息量下降 | intro 内联链接覆盖项目/技能/联系；导航始终可见 |
+| 首页信息量下降 | intro 内联链接覆盖项目/技能/邮箱；导航始终可见 |
 | 自托管字体影响 LCP | 仅预加载 Sans、总量 < 120KB、`swap`、本地无第三方请求 |
 | 后台重做破坏原有交互 | 只改类名与布局，不改 API/校验/预览逻辑；逐项回归 |
 | 旧组件删除遗漏引用 | 删除后跑 lint/build；grep 旧类名与组件名 |

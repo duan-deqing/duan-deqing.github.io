@@ -98,7 +98,7 @@
 ```text
 ┌──────────────────────────────────────────────┐
 │ STYLAN                        Projects Blog│
-│                               Skills Contact│
+│                             Skills Bookmarks│
 │                                              │
 │           65ch 居中正文                       │
 │           自我介绍（内联链接）                 │
@@ -132,7 +132,7 @@
 │ 2 Projects │       content …               │
 │ 3 Blog     │                               │
 │ 4 Stack    │                               │
-│ 5 Contact  │                               │
+│ 5 Bookmarks│                               │
 │ ─────────  │                               │
 │ Online     │                               │
 │ GitHub ↗   │                               │
@@ -142,10 +142,11 @@
 
 - 侧栏：240px（≥1024）/ 288px（≥1280），`--bg-sidebar`，右边框，独立滚动；底部不再放控制按钮。
 - 主题与语言控制位于内容区右上角（`right: 32px; top: 24px`，随内容滚动），使用与首页相同的裸图标组（间距 4px、无边框、60% 不透明度、hover 100%）；移动端仍在 48px 顶栏右上角。
-- 导航图标与 onur 一致：Home 房子、Projects 文件夹、Blog 钢笔、Stack 魔杖星光（WandSparkles）、Contact 邮件。
+- 导航图标与 onur 一致：Home 房子、Projects 文件夹、Blog 钢笔、Stack 魔杖星光（WandSparkles）、Bookmarks 书签。
 - 侧栏 Home 指向子页 `/home`（onur 式首页）；顶部头像/姓名卡片是指向 `/`（antfu 首页）的唯一入口，头像读取 `personal.avatar`，当前为 GitHub 头像 URL。
 - 内容：普通页面 `max-width: 768px`，`padding: 32px 24px`（桌面 `96px 32px 64px`）。
 - 博客路由为 onur 式三栏：导航栏 + 320/384px 写作列表栏（`--bg-sidebar`、右边框、标题 + RSS/Search + 选择框 + 列表）+ 右侧内容区；`/blog` 内容区为空并显示 16px 点状底纹，中央居中随机显示一条双语语录（`src/content/quotes.yaml`，18px muted、600ms 入场）；`/blog/:slug` 为白底文章（`max-width: 768px`），列表栏常驻并高亮当前文章。
+- 书签路由为 blog 同款三栏：导航栏 + 320/384px 分类栏（标题 + 总数 + 分类行：名称/数量，active 黑底）+ 右侧 24px 网格底纹内容区；`/bookmarks` 内容区为空并随机显示一条 `quotes.yaml` 语录；`/bookmarks/:slug` 为 onur 式 h1 + 双列书签卡（1200×630 封面、标题、域名、描述，16px 内距、hover 底色、16px 列间距），分类栏高亮当前分类；书签样式集中在 `src/styles/bookmarks.css`，分类与书签数据在 `src/content/bookmarks.yaml`。
 - 移动：48px sticky 顶栏 + 底部抽屉菜单；博客为「列表页 → 文章页」两页。
 - 子页无全站页脚。
 
@@ -230,7 +231,8 @@
 | `/blog/:slug` | 三栏同 `/blog`，列表栏高亮当前文章，右侧白底文章（返回链接仅移动端显示，TOC 为移动端折叠块） |
 | `/projects` | h1 + 说明 + GitHub → 项目表格（移动卡片） |
 | `/skills` | h1 `Stack` + 说明 → onur 式分类 bullet 列表（蓝色分类链接 + ↗ + `—` + 技术项） |
-| `/contact` | h1 + 说明 → 主/次按钮 → 联系链接列表 → 社交行 |
+| `/bookmarks` | 三栏：导航 + 书签分类栏（标题 + 总数 + 分类/数量）+ 右侧网格底纹空内容区（中央随机显示 `quotes.yaml` 的一条语录） |
+| `/bookmarks/:slug` | 三栏同 `/bookmarks`，分类栏高亮当前分类，右侧 onur 式 h1 + 双列书签卡（封面 / 标题 / 域名 / 描述） |
 | `404` | h1 `Not found` + 一句说明 + 返回链接 |
 | `/admin.html` | 侧栏 + 操作栏 + 卡片表单 / 表格 / 预览抽屉 |
 
@@ -319,7 +321,7 @@
 - [x] 博客为 onur 式三栏 master-detail：列表在写作栏，点击文章在右侧显示；移动端为列表页 → 文章页。
 - [x] 博客列表为 onur writing 行（标题 + 日期 · 分类），当前文章黑底高亮；分类/标签为选择框，无摘要与年份列。
 - [x] 文章页 onur 式正文（紧凑标题/列表/引用）+ 头部带灰点、语言与 Copy 的代码块 + KaTeX 行内/块级公式（按需加载） + `video`/`carousel` 媒体块 + 移动端折叠 TOC + 圆角描边图片。
-- [x] 项目页为表格（移动卡片）；技能页为 onur 式 bullet 列表；联系页为链接列表。
+- [x] 项目页为表格（移动卡片）；技能页为 onur 式 bullet 列表；书签页为分类栏 + 双列书签卡，空态显示双语语录。
 - [x] 后台为 onur 式侧栏 + 卡片表单 + 表格 + 预览抽屉。
 - [x] 首页背景为 antfu 式生成艺术，可通过 `src/backgrounds/index.js` 切换 `plum` / `dots` / `none`。
 - [x] 移动端 Lighthouse：三条页面 Performance ≥ 90，其余 ≥ 95。

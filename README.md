@@ -24,7 +24,7 @@
 
 字体：自托管 [Geist Sans / Geist Mono](https://vercel.com/font)（`public/fonts/*.woff2`，SIL OFL 1.1），中文回退到 `PingFang SC` / `Microsoft YaHei` 等系统字体；不请求第三方字体服务。
 
-设计：首页参考 [antfu.me](https://github.com/antfu/antfu.me) 的 65ch 文本流，博客/项目/技能/联系与后台参考 [onur.dev](https://github.com/suyalcinkaya/onur.dev) 的侧栏与表格体系；完整令牌与规则见 `DESIGN.md`。
+设计：首页参考 [antfu.me](https://github.com/antfu/antfu.me) 的 65ch 文本流，博客/项目/技能/书签与后台参考 [onur.dev](https://github.com/suyalcinkaya/onur.dev) 的侧栏与表格体系；完整令牌与规则见 `DESIGN.md`。
 
 ## 快速开始
 
@@ -64,23 +64,24 @@ pnpm run preview
 │   ├── content/
 │   │   ├── site.yaml             # 全站内容配置
 │   │   ├── blog.yaml             # 博客页面与分类配置
-│   │   └── quotes.yaml           # 博客空态随机语录（中英双语）
+│   │   ├── bookmarks.yaml        # 书签分类、书签与封面
+│   │   └── quotes.yaml           # 博客/书签空态随机语录（中英双语）
 │   ├── admin/                    # 本地内容后台（仅 dev，不参与构建）
 │   ├── index.css                 # 全局样式、字体、深色模式
 │   ├── pages/                    # 页面组件
-│   ├── layouts/                  # HomeLayout（antfu 首页）/ SubpageLayout（onur 子页）
+│   ├── layouts/                  # HomeLayout（antfu 首页）/ SubpageLayout（onur 子页）/ BlogLayout / BookmarksLayout
 │   ├── components/
 │   │   ├── site/                 # 侧栏、移动抽屉、按钮、图标、主题语言
 │   │   ├── blog/                 # 文章表格、筛选、搜索、骨架
 │   │   ├── BlogPage/             # 文章 TOC 与 Markdown 渲染组件
+│   │   ├── bookmarks/            # 书签分类栏、卡片与网格
 │   │   ├── projects/             # 项目表格
-│   │   ├── contact/              # 微信二维码弹窗
 │   │   └── shared/               # PageTitle / SocialIcon / ArrowIcon / ScrollToTop
 │   ├── posts/                    # 中文文章 Markdown
 │   │   ├── en/                   # 英文文章
 │   │   └── img/<文章名>/          # 文章配图
 │   ├── hooks/                    # useTheme / useLanguage
-│   ├── styles/blog-post.css      # 文章页专属样式
+│   ├── styles/                   # blog-post.css / bookmarks.css
 │   └── utils/markdown.js         # 读取/解析 Markdown
 ├── index.html                    # 含 SPA 重定向脚本
 └── vite.config.js
@@ -95,7 +96,8 @@ pnpm run preview
 | 项目 | `/projects` | 项目作品 |
 | 博客 | `/blog` | 文章列表（搜索 Ctrl/Cmd+K、分类 + 标签筛选） |
 | 文章详情 | `/blog/:slug` | Markdown 渲染 + 侧边目录 |
-| 联系 | `/contact` | 联系方式、微信二维码、简历下载 |
+| 书签 | `/bookmarks` | 分类列表；桌面右侧空态语录 |
+| 书签分类 | `/bookmarks/:slug` | onur 式双列书签卡片 |
 | 404 | `*` | 未匹配路径 |
 
 ## 配置说明
@@ -104,7 +106,7 @@ pnpm run preview
 
 ### 内容配置 `src/content/site.yaml`
 
-可改内容：站点信息、个人信息、导航、关于、技能、项目、联系、社交链接、页脚。
+可改内容：站点信息、个人信息、导航、关于、技能、项目、联系信息、社交链接、页脚。
 
 多语言字段写成 `{ en: "...", zh: "..." }`；不参与切换的写普通字符串。字段说明见 `src/admin/schema.js`。
 
@@ -123,7 +125,31 @@ pnpm run preview
 
 ### 博客空态语录 `src/content/quotes.yaml`
 
-`quotes` 下每条包含 `en` / `zh`；进入 `/blog` 且未选择文章时，桌面右侧空态会随机显示其中一条，切换语言时显示同一条的对应语言版本。
+`quotes` 下每条包含 `en` / `zh`；进入 `/blog` 或 `/bookmarks` 且未选择条目时，桌面右侧空态会随机显示其中一条，切换语言时显示同一条的对应语言版本。
+
+### 书签配置 `src/content/bookmarks.yaml`
+
+分类和书签都直接写在这个文件里；改完即生效，无需改组件：
+
+```yaml
+page:
+  title: { en: Bookmarks, zh: 书签 }
+  subtitle: { en: "...", zh: "..." }
+
+categories:
+  - slug: frontend            # URL: /bookmarks/frontend
+    title: { en: Frontend, zh: 前端 }
+    bookmarks:
+      - title: MDN Web Docs
+        url: https://developer.mozilla.org
+        description: { en: "...", zh: "..." }
+        cover: /images/bookmarks/mdn.jpg   # 可选，建议 1200×630
+```
+
+- `slug` 只能用小写字母、数字和 `-`，且不能重复；
+- `title` / `description` 可写双语对象，也可直接写普通字符串；
+- 不填 `cover` 或图片加载失败时，卡片会显示域名首字母占位封面；
+- 分类列表、右侧书签网格与桌面空态语录都会自动更新。
 
 ### 本地内容后台
 
@@ -192,10 +218,11 @@ title: 视频标题
 ## 功能特性
 
 - **主题切换**：导航栏太阳/月亮按钮；偏好写入 `localStorage`，首次访问跟随系统
-- **语言切换**：导航栏「中文 / EN」；博客中英文分目录存放，切换语言会重新加载对应版本
+- **语言切换**：导航栏「中文 / EN」；博客与书签内容均支持中英文，切换语言会重新加载对应版本
 - **博客搜索与筛选**：博客页 `Ctrl/Cmd + K` 按标题/摘要/标签/分类过滤；分类 + 标签文本筛选可组合生效
 - **文章目录**：移动端折叠为正文上方的 `<details>`；桌面三栏布局与 onur 一致不显示 TOC
 - **LaTeX 公式**：文章支持行内 `$...$` 与块级 `$$...$$`（KaTeX），仅在含公式的文章按需加载
+- **书签**：`/bookmarks` 分类栏 + 双列书签卡，空态显示语录；分类与书签在 `bookmarks.yaml` 维护
 - **视频与图集**：` ```video ` 支持 YouTube / Vimeo / Bilibili / 直链，` ```carousel ` 支持同位置多图轮播
 - **代码块**：rehype-highlight 高亮 + 行号 + 语言标签与 Copy，13px Mono、横向滚动；文章正文容器 768px / 16px / 1.75
 - **布局与动效**：首页 antfu 式 65ch 文本流；子页 onur 式侧栏（240/288px）；博客为写作列表栏 + 右侧文章；文章 768px。仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮（子页懒加载）

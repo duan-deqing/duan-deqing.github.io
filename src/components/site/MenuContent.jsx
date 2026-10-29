@@ -3,6 +3,7 @@ import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import NavItem from './NavItem'
 import {
+  BookmarkIcon,
   FolderIcon,
   HomeIcon,
   MailIcon,
@@ -17,7 +18,7 @@ const NAV_ICONS = {
   '/projects': FolderIcon,
   '/blog': PenIcon,
   '/skills': WandSparklesIcon,
-  '/contact': MailIcon,
+  '/bookmarks': BookmarkIcon,
 }
 
 // 与首页壳共用 config.navLinks；Home 固定置顶，图标按 href 映射

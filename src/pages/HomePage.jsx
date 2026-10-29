@@ -174,15 +174,14 @@ export default function HomePage() {
             en: (
               <>
                 I write about building AI products in my{' '}
-                <Link className="link" to="/blog">blog</Link>. Say hi via{' '}
-                <Link className="link" to="/contact">contact</Link> or{' '}
+                <Link className="link" to="/blog">blog</Link>. Say hi at{' '}
                 <SiteLink className="link" href={`mailto:${email}`}>{email}</SiteLink>.
               </>
             ),
             zh: (
               <>
                 我在<Link className="link" to="/blog">博客</Link>里记录 AI 产品的构建，
-                欢迎通过<Link className="link" to="/contact">联系页</Link>或{' '}
+                欢迎发邮件至{' '}
                 <SiteLink className="link" href={`mailto:${email}`}>{email}</SiteLink> 找我。
               </>
             ),

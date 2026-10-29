@@ -5,7 +5,7 @@ const PAGES = [
   { path: '/skills', label: '技能' },
   { path: '/projects', label: '项目' },
   { path: '/blog', label: '博客' },
-  { path: '/contact', label: '联系' },
+  { path: '/bookmarks', label: '书签' },
 ]
 
 const DEVICES = [
