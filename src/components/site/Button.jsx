@@ -21,13 +21,16 @@ export default function Button({
   type,
   ...props
 }) {
+  const variantClass = VARIANTS[variant] || VARIANTS.primary
+  const sizeClass = SIZES[size] || SIZES.md
+
   return (
     <Comp
       type={Comp === 'button' ? type || 'button' : type}
       className={cn(
         'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-colors disabled:pointer-events-none disabled:opacity-50',
-        VARIANTS[variant],
-        SIZES[size],
+        variantClass,
+        sizeClass,
         className
       )}
       {...props}

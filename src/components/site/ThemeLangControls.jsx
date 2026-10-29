@@ -8,8 +8,19 @@ const BUTTON =
 
 export default function ThemeLangControls({ variant = 'icon', className }) {
   const { isDark, toggle: toggleTheme } = useTheme()
-  const { lang, toggle: toggleLang } = useLanguage()
+  const { lang, toggle: toggleLang, t } = useLanguage()
   const showLabels = variant === 'sidebar'
+
+  const themeAction = isDark ? t({ en: 'Light', zh: '浅色' }) : t({ en: 'Dark', zh: '深色' })
+  const themeLabel = isDark
+    ? t({ en: 'Switch to light theme', zh: '切换到浅色主题' })
+    : t({ en: 'Switch to dark theme', zh: '切换到深色主题' })
+  const langAction = lang === 'en' ? '中文' : 'English'
+  const langGlyph = lang === 'en' ? '中' : 'EN'
+  const langLabel =
+    lang === 'en'
+      ? t({ en: 'Switch to Chinese', zh: '切换为中文' })
+      : t({ en: 'Switch to English', zh: '切换为英文' })
 
   return (
     <div className={cn('flex items-center gap-1', className)}>
@@ -17,21 +28,20 @@ export default function ThemeLangControls({ variant = 'icon', className }) {
         type="button"
         className={BUTTON}
         onClick={toggleTheme}
-        aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
-        title={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+        aria-label={showLabels ? undefined : themeLabel}
+        title={themeLabel}
       >
         {isDark ? <SunIcon /> : <MoonIcon />}
-        {showLabels ? <span>{isDark ? '浅色' : '深色'}</span> : null}
+        {showLabels ? <span>{themeAction}</span> : null}
       </button>
       <button
         type="button"
         className={BUTTON}
         onClick={toggleLang}
-        aria-label={lang === 'en' ? '切换为中文' : 'Switch to English'}
-        title={lang === 'en' ? '切换为中文' : 'Switch to English'}
+        aria-label={showLabels ? undefined : langLabel}
+        title={langLabel}
       >
-        <span>{lang === 'en' ? '中' : 'EN'}</span>
-        {showLabels ? <span>{lang === 'en' ? '中文' : 'English'}</span> : null}
+        <span>{showLabels ? langAction : langGlyph}</span>
       </button>
     </div>
   )
