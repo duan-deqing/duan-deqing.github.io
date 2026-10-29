@@ -36,6 +36,7 @@
 | `--muted-strong` | `#4B5563` | `#D4D4D8` | 职位、次级正文 |
 | `--accent` | `#2563EB` | `#60A5FA` | 正文链接、焦点环 |
 | `--accent-strong` | `#1D4ED8` | `#93C5FD` | 链接 hover |
+| `--link-underline` | `#555555` | `#BBBBBB` | 社交链接 hover 下边框 |
 | `--active-bg` | `#000000` | `#FAFAFA` | 选中导航、active 胶囊 |
 | `--active-fg` | `#FFFFFF` | `#09090B` | 选中导航文字 |
 | `--code-bg` | `#F3F4F6` | `#18181B` | 行内码 |
@@ -110,7 +111,7 @@
 
 - wordmark 左上 20px；导航右上 32px（随页面滚动，不吸顶）、链接间距 20px、默认 60% 不透明度。
 - 主列 `max-width: 65ch`，`padding: 40px 28px`。
-- “Find me on” 使用正文链接样式：16px / 500，图标 1.2em（约 19px）、`inline-block`、75% 不透明度、`text-bottom` 对齐，图标与文字间隔 4px，链接间距 8px；下方 `Or mail me at` + mono 邮箱。
+- “Find me on” 使用正文链接样式：16px / 500，图标 1.2em（约 19px）、`inline-block`、75% 不透明度、`text-bottom` 对齐，图标与文字间隔 4px，链接间距 8px；hover 仅出现 1px `--link-underline` 下边框，无颜色/位移变化；下方 `Or mail me at` + mono 邮箱。
 - 区块之间使用 50px 居中短分割线，上下 `2em`（与 antfu 的 `.prose hr` 一致）。
 - 页脚：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 antfu/antfu.me`，14px、50% 不透明度，与 65ch 正文对齐；窄屏可换行，无边框、无社交图标（与 antfu 一致）。
 - 移动端顶部为普通文档流，导航收进菜单面板。

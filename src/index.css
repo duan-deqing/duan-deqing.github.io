@@ -55,6 +55,7 @@
   --muted-strong: #4b5563;
   --accent: #2563eb;
   --accent-strong: #1d4ed8;
+  --link-underline: #555555;
   --active-bg: #000000;
   --active-fg: #ffffff;
   --code-bg: #f3f4f6;
@@ -77,6 +78,7 @@
   --muted-strong: #d4d4d8;
   --accent: #60a5fa;
   --accent-strong: #93c5fd;
+  --link-underline: #bbbbbb;
   --active-bg: #fafafa;
   --active-fg: #09090b;
   --code-bg: #18181b;
@@ -141,6 +143,10 @@
   .link:hover {
     color: var(--accent-strong);
     text-decoration: underline;
+  }
+
+  .social-link:hover {
+    border-bottom: 1px solid var(--link-underline);
   }
 
   .home-divider {

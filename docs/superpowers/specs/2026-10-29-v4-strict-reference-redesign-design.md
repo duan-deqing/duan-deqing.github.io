@@ -103,6 +103,7 @@
 | `--muted-strong` | `#4B5563` | `#D4D4D8` | 次级正文、职位 |
 | `--accent` | `#2563EB` | `#60A5FA` | 正文链接、焦点环 |
 | `--accent-strong` | `#1D4ED8` | `#93C5FD` | 链接 hover |
+| `--link-underline` | `#555555` | `#BBBBBB` | 社交链接 hover 下边框 |
 | `--active-bg` | `#000000` | `#FAFAFA` | 选中导航、active 胶囊 |
 | `--active-fg` | `#FFFFFF` | `#09090B` | 选中导航文字 |
 | `--code-bg` | `#F3F4F6` | `#18181B` | 行内码底 |
@@ -234,7 +235,7 @@ App
    - 第 2 段：专注方向（`about.focus`）+ 内联链接 `projects`、`skills`。
    - 第 3 段：写作与联系（`blog`、`contact`、`email`）。
 2. `<hr>`。
-3. **Find me on**：GitHub / Bilibili / RSS，正文式链接（16px / 500、图标 1.2em / `inline-block` / 75% 不透明度 / `text-bottom` 对齐、图标与文字间隔 4px、链接间距 8px）；下一行 `Or mail me at` + mono 字体邮箱链接。
+3. **Find me on**：GitHub / Bilibili / RSS，正文式链接（16px / 500、图标 1.2em / `inline-block` / 75% 不透明度 / `text-bottom` 对齐、图标与文字间隔 4px、链接间距 8px）；hover 仅出现 1px `--link-underline` 下边框；下一行 `Or mail me at` + mono 字体邮箱链接。
 4. `<hr>`。
 5. **Tech Stack**：标题 `Tech Stack / 技术栈` + 右侧 `All skills → /skills`；按 `config.skills` 分组（排除 Hobbies），每行分类 + `·` 连接的技术项。
 6. **Footer**：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 antfu/antfu.me`，14px、50% 不透明度；许可与来源为链接，无 RSS/社交图标。
