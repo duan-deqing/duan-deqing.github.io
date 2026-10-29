@@ -26,6 +26,7 @@ export default function AdminApp() {
     typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
   )
   const iframeRef = useRef(null)
+  const activeNavRef = useRef(null)
 
   const toggleAdminTheme = useCallback(() => {
     const next = !dark
@@ -60,6 +61,12 @@ export default function AdminApp() {
 
   useEffect(() => {
     sessionStorage.setItem('stylan-admin-section', activeId)
+  }, [activeId])
+
+  // 窄屏分区条横向滚动时，把当前分区带回可视区域
+  useEffect(() => {
+    if (!window.matchMedia('(max-width: 1023px)').matches) return
+    activeNavRef.current?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
   }, [activeId])
 
   useEffect(() => {
@@ -164,6 +171,7 @@ export default function AdminApp() {
               {id === 'posts' && <div className="admin-nav-divider" />}
               <button
                 className={`admin-nav-btn ${activeId === id ? 'is-active' : ''}`}
+                ref={activeId === id ? activeNavRef : null}
                 onClick={() => goTo(id)}
                 aria-current={activeId === id ? 'page' : undefined}
               >
@@ -190,6 +198,15 @@ export default function AdminApp() {
             <span className="admin-breadcrumb">内容管理 / {activeItem.label}</span>
           </div>
           <div className="admin-topbar-actions">
+            <button
+              type="button"
+              className="admin-btn admin-theme-toggle"
+              onClick={toggleAdminTheme}
+              aria-label={dark ? '切换到浅色主题' : '切换到深色主题'}
+              title={dark ? '切换到浅色主题' : '切换到深色主题'}
+            >
+              {dark ? '浅色' : '深色'}
+            </button>
             {dirty ? <span className="admin-badge">未保存</span> : null}
             <button className="admin-btn" onClick={discardChanges} disabled={!dirty}>
               撤销

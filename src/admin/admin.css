@@ -326,6 +326,13 @@
   background: rgb(220 38 38 / 0.08);
 }
 
+/* 窄屏侧栏底部隐藏后，用顶栏紧凑按钮承接主题切换 */
+.admin-theme-toggle {
+  height: 32px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
 .admin-tab {
   display: inline-flex;
   height: 30px;
@@ -538,6 +545,12 @@
   }
 }
 
+@media (min-width: 1024px) {
+  .admin-theme-toggle {
+    display: none;
+  }
+}
+
 @media (max-width: 1023px) {
   .admin-shell {
     grid-template-columns: minmax(0, 1fr);
@@ -573,6 +586,15 @@
   .admin-nav-btn {
     width: auto;
     white-space: nowrap;
+  }
+
+  .admin-nav-divider {
+    align-self: stretch;
+    flex: 0 0 auto;
+    width: 0;
+    margin: 4px 6px;
+    border-top: 0;
+    border-left: 1px solid var(--line);
   }
 
   .admin-nav-index,

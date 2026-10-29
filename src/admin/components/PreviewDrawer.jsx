@@ -92,7 +92,7 @@ export default function PreviewDrawer({
       >
         <header className="preview-head">
           <div className="preview-head-group">
-            <span className="admin-label-text">站点预览</span>
+            <span className="admin-panel-title">站点预览</span>
             <select
               className="admin-input preview-page-select"
               aria-label="预览页面"
