@@ -40,6 +40,7 @@
   --color-active: var(--active-bg);
   --color-active-fg: var(--active-fg);
   --color-code: var(--code-bg);
+  --color-code-header: var(--code-header);
 }
 
 :root {
@@ -60,6 +61,7 @@
   --active-bg: #000000;
   --active-fg: #ffffff;
   --code-bg: #f3f4f6;
+  --code-header: #f9fafb;
   --code-line: #9ca3af;
   --overlay: rgb(0 0 0 / 0.2);
   --glow: rgb(173 109 244 / 0.25);
@@ -84,6 +86,7 @@
   --active-bg: #fafafa;
   --active-fg: #09090b;
   --code-bg: #18181b;
+  --code-header: #111113;
   --code-line: #52525b;
   --overlay: rgb(0 0 0 / 0.6);
   --glow: rgb(96 165 250 / 0.12);

@@ -121,7 +121,7 @@ function CodeBlock({ children }) {
 
   return (
     <div ref={frameRef} className="my-6">
-      <div className="flex flex-wrap items-center justify-between gap-2 rounded-t-lg border border-line bg-subtle px-4 py-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded-t-lg border border-line bg-code-header px-4 py-2">
         <div className="flex items-center gap-3">
           <span className="inline-flex items-center gap-1" aria-hidden="true">
             <span className="size-3.5 rounded-full bg-line" />
@@ -134,7 +134,7 @@ function CodeBlock({ children }) {
           type="button"
           disabled={copied}
           onClick={copy}
-          className="inline-flex h-7 shrink-0 items-center justify-center whitespace-nowrap rounded-lg border border-line bg-transparent px-2.5 text-xs font-medium text-ink shadow-xs transition-colors duration-300 hover:bg-subtle focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-heading disabled:pointer-events-none disabled:opacity-50 dark:shadow-none"
+          className="inline-flex h-7 shrink-0 items-center justify-center whitespace-nowrap rounded-lg border border-line bg-transparent px-2.5 text-xs font-medium text-ink shadow-xs transition-colors duration-300 hover:bg-code focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-heading disabled:pointer-events-none disabled:opacity-50 dark:shadow-none"
         >
           <span
             key={copied ? 'copied' : 'copy'}

@@ -107,7 +107,8 @@
 | `--home-body` | `#555555` | `#BBBBBB` | 首页正文（antfu `--fg`） |
 | `--active-bg` | `#000000` | `#FAFAFA` | 选中导航、active 胶囊 |
 | `--active-fg` | `#FFFFFF` | `#09090B` | 选中导航文字 |
-| `--code-bg` | `#F3F4F6` | `#18181B` | 行内码底 |
+| `--code-bg` | `#F3F4F6` | `#18181B` | 行内码底、代码复制按钮 hover |
+| `--code-header` | `#F9FAFB` | `#111113` | 代码块头部 |
 | `--code-line` | `#9CA3AF` | `#52525B` | 代码行号 |
 | `--overlay` | `rgba(0,0,0,.20)` | `rgba(0,0,0,.60)` | 弹窗/抽屉遮罩 |
 | `--glow` | `rgba(173,109,244,.25)` | `rgba(96,165,250,.12)` | 文章页顶部光晕 |
@@ -289,7 +290,7 @@ App
 - 分隔线 `my-12`。
 - 链接黑色 + 常态浅灰底线 + hover 深灰底线；图片圆角 12px + 描边 + 居中小字说明。
 - 行内码：`--code-bg` 底、6px 圆角、13px Mono，采用 onur 的反引号装饰（`::before/::after` 为 `` ` ``）。
-- 代码块：头部 `rounded-t-lg border` + `--bg-subtle` + 14px 中性灰点 + 语言标题 + h-7 Copy（`w-14` 固定文案宽度、300ms 淡入上移、复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯装饰。
+- 代码块：头部 `rounded-t-lg border` + `--code-header`（#F9FAFB / #111113）+ 14px 中性灰点 + 语言标题 + h-7 Copy（`w-14` 固定文案宽度、300ms 淡入上移、hover `--code-bg`、复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯装饰。
 - TOC：移动端为正文上方折叠 `<details>`（「On this page」）；桌面三栏下不显示 200px sticky TOC（右侧内容区宽度与 onur 一致）。
 - 阅读进度/上一篇下一篇：不做（参考站没有）。
 

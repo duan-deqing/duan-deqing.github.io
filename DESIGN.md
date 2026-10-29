@@ -40,7 +40,8 @@
 | `--home-body` | `#555555` | `#BBBBBB` | 首页正文（antfu `--fg`） |
 | `--active-bg` | `#000000` | `#FAFAFA` | 选中导航、active 胶囊 |
 | `--active-fg` | `#FFFFFF` | `#09090B` | 选中导航文字 |
-| `--code-bg` | `#F3F4F6` | `#18181B` | 行内码 |
+| `--code-bg` | `#F3F4F6` | `#18181B` | 行内码、代码复制按钮 hover |
+| `--code-header` | `#F9FAFB` | `#111113` | 代码块头部 |
 | `--code-line` | `#9CA3AF` | `#52525B` | 代码行号 |
 | `--overlay` | `rgb(0 0 0 / .20)` | `rgb(0 0 0 / .60)` | 对话框/抽屉遮罩 |
 | `--glow` | `rgb(173 109 244 / .25)` | `rgb(96 165 250 / .12)` | 文章页顶部光晕 |
@@ -207,7 +208,7 @@
 ### 5.6 代码
 
 - 行内码：`--code-bg`、6px 圆角、13px Mono，前后反引号装饰。
-- 代码块：头部 `rounded-t-lg` 描边 + `--bg-subtle` + 14px 中性灰点 + 语言标题 + h-7 Copy（固定 56px 文案宽度、300ms 淡入上移、复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯。
+- 代码块：头部 `rounded-t-lg` 描边 + `--code-header`（#F9FAFB / #111113）+ 14px 中性灰点 + 语言标题 + h-7 Copy（固定 56px 文案宽度、300ms 淡入上移、hover `--code-bg`、复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯。
 
 ### 5.7 徽标与空状态
 
