@@ -43,52 +43,61 @@ export default function ContactPage() {
               const isWechat = method.icon === 'wechat'
               const isEmail = method.icon === 'email'
               const external = method.href?.startsWith('http')
+              const isNavigational = !isEmail && !isWechat && Boolean(method.href)
+              const rowText = (
+                <div className="min-w-0">
+                  <p className="text-[15px] font-medium text-ink">{t(method.label)}</p>
+                  <p className="mt-0.5 truncate font-mono-ui text-[11px] text-muted">
+                    {method.value}
+                  </p>
+                </div>
+              )
 
               return (
                 <li key={method.icon || method.value} className="border-b border-line">
-                  <div className="flex items-center justify-between gap-4 py-4">
-                    <div className="min-w-0">
-                      <p className="text-[15px] font-medium text-ink">{t(method.label)}</p>
-                      <p className="mt-0.5 truncate font-mono-ui text-[11px] text-muted">
-                        {method.value}
-                      </p>
-                    </div>
+                  {isNavigational ? (
+                    <a
+                      href={method.href}
+                      target={external ? '_blank' : undefined}
+                      rel={external ? 'noopener noreferrer' : undefined}
+                      aria-label={t(method.label)}
+                      className="group flex items-center justify-between gap-4 py-4"
+                    >
+                      {rowText}
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center text-muted transition-colors group-hover:text-accent">
+                        <ArrowIcon direction={external ? 'up-right' : 'right'} size={15} />
+                      </span>
+                    </a>
+                  ) : (
+                    <div className="flex items-center justify-between gap-4 py-4">
+                      {rowText}
 
-                    <div className="flex shrink-0 items-center gap-2">
-                      {isEmail ? (
-                        <CopyButton
-                          value={method.value}
-                          label={{
-                            copy: t({ en: 'Copy', zh: '复制' }),
-                            copied: t({ en: 'Copied', zh: '已复制' }),
-                            failed: t({ en: 'Failed', zh: '失败' }),
-                          }}
-                        />
-                      ) : null}
+                      <div className="flex shrink-0 items-center gap-2">
+                        {isEmail ? (
+                          <CopyButton
+                            value={method.value}
+                            label={{
+                              copy: t({ en: 'Copy', zh: '复制' }),
+                              copied: t({ en: 'Copied', zh: '已复制' }),
+                              failed: t({ en: 'Failed', zh: '失败' }),
+                            }}
+                          />
+                        ) : null}
 
-                      {isWechat ? (
-                        <button
-                          type="button"
-                          onClick={() => setOpenQr((value) => !value)}
-                          aria-expanded={openQr}
-                          aria-label={t({ en: 'Show WeChat QR code', zh: '显示微信二维码' })}
-                          className="flex h-8 w-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-subtle hover:text-ink"
-                        >
-                          <ArrowIcon direction={openQr ? 'down' : 'right'} size={15} />
-                        </button>
-                      ) : method.href ? (
-                        <a
-                          href={method.href}
-                          target={external ? '_blank' : undefined}
-                          rel={external ? 'noopener noreferrer' : undefined}
-                          className="flex h-8 w-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-subtle hover:text-ink"
-                          aria-label={t(method.label)}
-                        >
-                          <ArrowIcon direction={external ? 'up-right' : 'right'} size={15} />
-                        </a>
-                      ) : null}
+                        {isWechat ? (
+                          <button
+                            type="button"
+                            onClick={() => setOpenQr((value) => !value)}
+                            aria-expanded={openQr}
+                            aria-label={t({ en: 'Show WeChat QR code', zh: '显示微信二维码' })}
+                            className="flex h-8 w-8 items-center justify-center rounded-md text-muted transition-colors hover:bg-subtle hover:text-ink"
+                          >
+                            <ArrowIcon direction={openQr ? 'down' : 'right'} size={15} />
+                          </button>
+                        ) : null}
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   {isWechat && openQr && method.qrcode ? (
                     <div className="pb-4">
