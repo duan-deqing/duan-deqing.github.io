@@ -257,7 +257,7 @@ App
 ### 6.3 文章页 `/blog/:slug`
 
 - 顶部：`← Writing` 返回链接 → h1 → 元信息 `日期 · 阅读时长 · 分类` → 标签（12px 文本，不用彩色 chips）。
-- 顶部背景：一层 onur 式径向光晕（`--glow`），高度 320px，`pointer-events: none`，内容在其上。
+- 顶部背景：一层 onur 式径向光晕（`--glow`），高度 320px，`pointer-events: none`，内容在其上；仅 ≥1280px（`xl`）显示，移动端隐藏以免降低 `text-muted` 元信息对比度。
 - 正文：68ch；段落 16px/1.75；h2 20px/600、上间距 40px、`scroll-mt-24`；h3 18px；列表紧凑；引用左侧 1px `--line-strong`、muted；链接蓝 + hover 下划线；图片圆角 12px + 描边 + 居中小字说明。
 - 行内码：`--code-bg` 底、6px 圆角、13px Mono，采用 onur 的反引号装饰（`::before/::after` 为 `` ` ``）。
 - 代码块：白底描边卡片、13px、行号 `--code-line`、横向滚动；不使用 Mac 红绿灯装饰。

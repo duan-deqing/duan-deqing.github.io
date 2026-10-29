@@ -72,7 +72,7 @@ export default function BlogPostPage() {
 
   return (
     <div className="relative mx-auto w-full">
-      <div className="article-glow" aria-hidden="true" />
+      <div className="article-glow hidden xl:block" aria-hidden="true" />
       <PageTitle
         title={`STYLAN · ${t(post.title)}`}
         description={t(post.excerpt)}
