@@ -72,9 +72,15 @@ function getImageUrl(imagePath, filename, isEnglish) {
     return imagePath
   }
   
-  // 移除开头的 ./
-  const cleanImagePath = imagePath.replace(/^\.\//, '')
-  
+  // 移除开头的 ./ 或 ../，统一成 img/<folder>/<file>
+  const cleanImagePath = imagePath.replace(/^(?:\.\.?\/)+/, '')
+
+  // 优先按 Markdown 中写明的 img/<folder>/<file> 精确匹配
+  const exactPath = Object.keys(allImages).find((path) =>
+    path.endsWith(`/posts/${cleanImagePath}`)
+  )
+  if (exactPath) return allImages[exactPath]
+
   // 从路径中提取图片文件名
   const imgFilename = cleanImagePath.split('/').pop()
   

@@ -10,7 +10,7 @@ test('相对图片解析到文章配图目录', () => {
   assert.equal(resolvePreviewImages('![a](./cover.png)', 'dir'), '![a](/src/posts/img/dir/cover.png)')
   assert.equal(
     resolvePreviewImages('![a](./img/folder/cover.png)', 'dir'),
-    '![a](/src/posts/img/dir/cover.png)'
+    '![a](/src/posts/img/folder/cover.png)'
   )
 })
 
@@ -18,6 +18,13 @@ test('带 caption 的图片保留 title', () => {
   assert.equal(
     resolvePreviewImages('![a](./cover.png "Cover")', 'dir'),
     '![a](/src/posts/img/dir/cover.png "Cover")'
+  )
+})
+
+test('显式 img 目录优先按原路径解析', () => {
+  assert.equal(
+    resolvePreviewImages('![a](./img/other-post/pic.jpg "Caption")', 'dir'),
+    '![a](/src/posts/img/other-post/pic.jpg "Caption")'
   )
 })
 

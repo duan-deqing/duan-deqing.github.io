@@ -142,7 +142,7 @@ pnpm dev
 
 - 中文：`src/posts/zh/yyyy-mm-dd-post-title.md`
 - 英文：`src/posts/en/yyyy-mm-dd-post-title-en.md`
-- 配图：`src/posts/img/yyyy-mm-dd-post-title/xxx.jpg`（文件夹名与文章文件名去掉日期前缀后的 slug 对应更稳妥时，请与 `utils/markdown.js` 的匹配规则一致：文件夹名 = 文章文件名去掉 `-en`）
+- 配图：`src/posts/img/<folder>/<file>`；Markdown 可写 `./img/<folder>/<file>`，会优先按该路径精确匹配；只写文件名时回退到与文章同名的图片文件夹
 
 ### Frontmatter 模板
 
