@@ -31,15 +31,19 @@ function SectionHead({ title, href, linkLabel, t }) {
 
 export default function HomePage() {
   const { lang, t } = useLanguage()
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState(null)
+  const [failed, setFailed] = useState(false)
 
   useEffect(() => {
     let cancelled = false
+    setPosts(null)
+    setFailed(false)
     ;(async () => {
       try {
         const allPosts = await getAllPosts(lang)
         if (!cancelled) setPosts(allPosts)
       } catch (error) {
+        if (!cancelled) setFailed(true)
         console.error('[HomePage] Failed to load posts:', error)
       }
     })()
@@ -66,21 +70,35 @@ export default function HomePage() {
         <ProjectGrid projects={projects} t={t} />
       </section>
 
-      {posts.length > 0 ? (
-        <section className="border-t border-line py-12 sm:py-14">
-          <SectionHead
-            title={t({ en: 'Latest writing', zh: '最新文章' })}
-            href="/blog"
-            linkLabel={t({ en: 'All posts', zh: '全部文章' })}
-            t={t}
-          />
+      <section className="border-t border-line py-12 sm:py-14">
+        <SectionHead
+          title={t({ en: 'Latest writing', zh: '最新文章' })}
+          href="/blog"
+          linkLabel={t({ en: 'All posts', zh: '全部文章' })}
+          t={t}
+        />
+        {posts === null && !failed ? (
+          <div className="border-t border-line" aria-hidden>
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className="h-[4.5rem] border-b border-line sm:h-[5rem]" />
+            ))}
+          </div>
+        ) : failed ? (
+          <p className="py-6 font-mono-ui text-xs text-muted">
+            {t({ en: 'Unable to load posts.', zh: '文章加载失败。' })}
+          </p>
+        ) : posts?.length === 0 ? (
+          <p className="py-6 font-mono-ui text-xs text-muted">
+            {t({ en: 'No posts yet.', zh: '暂无文章。' })}
+          </p>
+        ) : (
           <div className="border-t border-line">
             {posts.slice(0, 4).map((post) => (
               <PostRow key={post.slug} post={post} t={t} />
             ))}
           </div>
-        </section>
-      ) : null}
+        )}
+      </section>
 
       <section className="border-t border-line py-12 sm:py-14">
         <SectionHead

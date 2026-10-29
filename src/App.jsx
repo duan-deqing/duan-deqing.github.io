@@ -44,7 +44,7 @@ export default function App() {
       <div className="flex min-h-screen flex-col bg-page text-ink">
         <ScrollToTop />
         <SiteHeader />
-        <main className="flex-1">
+        <main className="container-page flex-1">
           <Suspense fallback={<div className="container-page min-h-[50vh]" aria-hidden />}>
             <Routes>
               <Route path="/" element={<HomePage />} />
