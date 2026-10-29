@@ -4,22 +4,8 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import blogConfig from '../../content/blog.yaml'
 import ArrowIcon from '../shared/ArrowIcon'
-
-function categoryLabel(id, t) {
-  const cat = blogConfig.categories.find((c) => c.id === id)
-  return cat ? t(cat.label) : id
-}
-
-function formatDate(dateString, t) {
-  if (!dateString) return ''
-  return new Date(dateString).toLocaleDateString(t({ en: 'en-CA', zh: 'zh-CN' }), {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  })
-}
+import { categoryLabel, formatDate } from '../../utils/postFormat'
 
 export default function BlogSearch({ isOpen, onClose, posts, t }) {
   const [query, setQuery] = useState('')
@@ -170,7 +156,7 @@ export default function BlogSearch({ isOpen, onClose, posts, t }) {
         <div ref={listRef} className="search-modal-body">
           {results.length === 0 && (
             <div className="px-5 py-12 text-center">
-              <p className="font-display text-lg text-ink mb-1.5">
+              <p className="mb-1.5 text-lg font-semibold text-ink">
                 {t({ en: 'No results', zh: '没有找到文章' })}
               </p>
               <p className="text-sm text-muted">
