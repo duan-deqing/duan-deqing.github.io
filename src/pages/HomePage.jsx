@@ -7,7 +7,6 @@ import {
   ArrowUpRightIcon,
   BilibiliIcon,
   GitHubIcon,
-  MailIcon,
   RssIcon,
 } from '../components/site/icons'
 
@@ -15,9 +14,9 @@ function SocialLink({ href, label, Icon }) {
   return (
     <SiteLink
       href={href}
-      className="inline-flex items-center gap-2 text-sm text-muted-strong transition-colors hover:text-ink"
+      className="inline-flex items-center gap-2 text-base font-medium text-heading transition-colors hover:border-b hover:border-current"
     >
-      <Icon />
+      <Icon size={18} className="opacity-75" />
       {label}
     </SiteLink>
   )
@@ -94,10 +93,10 @@ export default function HomePage() {
         <hr className="home-divider" />
 
         <div>
-          <p className="mb-3 text-sm text-muted">
+          <p className="text-base leading-[1.75]">
             {t({ en: 'Find me on', zh: '在这些地方找到我' })}
           </p>
-          <div className="flex flex-wrap gap-x-5 gap-y-2">
+          <div className="mt-1 flex flex-wrap gap-2">
             {socials.map((social) => (
               <SocialLink
                 key={social.platform}
@@ -106,9 +105,19 @@ export default function HomePage() {
                 Icon={social.platform.toLowerCase().includes('github') ? GitHubIcon : BilibiliIcon}
               />
             ))}
-            {email ? <SocialLink href={`mailto:${email}`} label="Email" Icon={MailIcon} /> : null}
             <SocialLink href="/rss.xml" label="RSS" Icon={RssIcon} />
           </div>
+          {email ? (
+            <p className="mt-3 text-base leading-[1.75]">
+              {t({ en: 'Or mail me at', zh: '或发邮件至' })}{' '}
+              <SiteLink
+                href={`mailto:${email}`}
+                className="font-mono text-accent underline-offset-4 hover:underline"
+              >
+                {email}
+              </SiteLink>
+            </p>
+          ) : null}
         </div>
 
         <hr className="home-divider" />

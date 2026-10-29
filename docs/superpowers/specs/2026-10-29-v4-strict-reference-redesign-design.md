@@ -234,7 +234,7 @@ App
    - 第 2 段：专注方向（`about.focus`）+ 内联链接 `projects`、`skills`。
    - 第 3 段：写作与联系（`blog`、`contact`、`email`）。
 2. `<hr>`。
-3. **Find me on**：GitHub / Bilibili / Email / RSS，图标 + 文字，14px；邮箱行用等宽字体 `duan-deqing@foxmail.com`。
+3. **Find me on**：GitHub / Bilibili / RSS，正文式链接（16px / 500、图标 18px / 75% 不透明度、gap 8px）；下一行 `Or mail me at` + mono 字体邮箱链接。
 4. `<hr>`。
 5. **Tech Stack**：标题 `Tech Stack / 技术栈` + 右侧 `All skills → /skills`；按 `config.skills` 分组（排除 Hobbies），每行分类 + `·` 连接的技术项。
 6. **Footer**：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 antfu/antfu.me`，14px、50% 不透明度；许可与来源为链接，无 RSS/社交图标。
