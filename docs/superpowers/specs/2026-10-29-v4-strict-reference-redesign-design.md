@@ -289,7 +289,7 @@ App
 - 分隔线 `my-12`。
 - 链接黑色 + 常态浅灰底线 + hover 深灰底线；图片圆角 12px + 描边 + 居中小字说明。
 - 行内码：`--code-bg` 底、6px 圆角、13px Mono，采用 onur 的反引号装饰（`::before/::after` 为 `` ` ``）。
-- 代码块：外层 `rounded-lg` 描边；头部 `--bg-subtle` + 三颗中性灰点 + 语言标签 + Copy/已复制按钮；代码区 13px/1.7、行号 `--code-line`、横向滚动；不使用彩色红绿灯装饰。
+- 代码块：头部 `rounded-t-lg border` + `--bg-subtle` + 14px 中性灰点 + 语言标题 + h-7 Copy（`w-14` 固定文案宽度，复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯装饰。
 - TOC：移动端为正文上方折叠 `<details>`（「On this page」）；桌面三栏下不显示 200px sticky TOC（右侧内容区宽度与 onur 一致）。
 - 阅读进度/上一篇下一篇：不做（参考站没有）。
 

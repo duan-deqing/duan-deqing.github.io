@@ -120,32 +120,42 @@ function CodeBlock({ children }) {
   }
 
   return (
-    <div ref={frameRef} className="my-6 overflow-hidden rounded-lg border border-line">
-      <div className="flex items-center justify-between gap-3 border-b border-line bg-subtle px-4 py-2">
-        <div className="flex min-w-0 items-center gap-2.5">
-          <span className="flex shrink-0 items-center gap-1" aria-hidden="true">
-            <span className="size-2.5 rounded-full bg-line-strong" />
-            <span className="size-2.5 rounded-full bg-line-strong" />
-            <span className="size-2.5 rounded-full bg-line-strong" />
+    <div ref={frameRef} className="my-6">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded-t-lg border border-line bg-subtle px-4 py-2">
+        <div className="flex items-center gap-3">
+          <span className="inline-flex items-center gap-1" aria-hidden="true">
+            <span className="size-3.5 rounded-full bg-line" />
+            <span className="size-3.5 rounded-full bg-line" />
+            <span className="size-3.5 rounded-full bg-line" />
           </span>
-          {language ? (
-            <span className="truncate font-mono text-[11px] text-muted-strong">
-              {language}
-            </span>
-          ) : null}
+          {language ? <p className="m-0 text-sm text-ink">{language}</p> : null}
         </div>
         <button
           type="button"
+          disabled={copied}
           onClick={copy}
-          className="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-md border border-line bg-page px-2 text-[11px] font-medium text-ink transition-colors hover:bg-subtle"
+          className="inline-flex h-7 shrink-0 items-center justify-center rounded-lg border border-line bg-transparent px-2.5 text-xs font-medium text-ink shadow-xs transition-colors duration-300 hover:bg-subtle disabled:pointer-events-none disabled:opacity-50 dark:shadow-none"
         >
-          {copied ? <CheckIcon size={13} /> : <CopyIcon size={13} />}
-          {copied
-            ? t({ en: 'Copied', zh: '已复制' })
-            : t({ en: 'Copy', zh: '复制' })}
+          <span className="inline-flex w-14 items-center justify-center gap-0.5">
+            {copied ? (
+              <>
+                <CheckIcon size={14} strokeWidth={2} />
+                {t({ en: 'Copied', zh: '已复制' })}
+              </>
+            ) : (
+              <>
+                <CopyIcon size={14} strokeWidth={2} />
+                {t({ en: 'Copy', zh: '复制' })}
+              </>
+            )}
+          </span>
         </button>
       </div>
-      <pre className="code-block">{children}</pre>
+      <div className="overflow-x-auto">
+        <div className="flex size-full flex-col overflow-x-auto overflow-y-hidden rounded-b-lg border-x border-b border-line bg-page">
+          <pre className="code-block">{children}</pre>
+        </div>
+      </div>
     </div>
   )
 }
