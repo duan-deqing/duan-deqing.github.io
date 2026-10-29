@@ -21,6 +21,9 @@ export const NAV_ITEMS = [
   { href: '/contact', label: { en: 'Contact', zh: '联系' }, Icon: MailIcon },
 ]
 
+const SECTIONS_LABEL = { en: 'Sections', zh: '分区' }
+const ONLINE_LABEL = { en: 'Online', zh: '在线' }
+
 export function isNavActive(pathname, href) {
   if (href === '/') return pathname === '/'
   return pathname === href || pathname.startsWith(`${href}/`)
@@ -72,7 +75,7 @@ export default function MenuContent({ onNavigate }) {
         </span>
       </Link>
 
-      <nav aria-label="Sections" className="flex flex-col gap-1">
+      <nav aria-label={t(SECTIONS_LABEL)} className="flex flex-col gap-1">
         {NAV_ITEMS.map((item, index) => (
           <NavItem
             key={item.href}
@@ -89,7 +92,7 @@ export default function MenuContent({ onNavigate }) {
       <hr className="border-line" />
 
       <div className="flex flex-col gap-2">
-        <span className="px-2 text-xs font-medium text-muted">Online</span>
+        <span className="px-2 text-xs font-medium text-muted">{t(ONLINE_LABEL)}</span>
         <div className="flex flex-col gap-1">
           {online.map((item) => (
             <NavItem

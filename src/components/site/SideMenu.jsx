@@ -14,14 +14,11 @@ export default function SideMenu() {
 
   useEffect(() => {
     function onKeyDown(event) {
-      if (event.metaKey || event.ctrlKey || event.altKey) return
+      if (event.metaKey || event.ctrlKey || event.altKey || event.shiftKey) return
       if (isEditable(event.target)) return
-      const index = Number(event.code.replace('Digit', '')) - 1
-      const item = NAV_ITEMS[index]
-      if (item && event.code.startsWith('Digit')) {
-        event.preventDefault()
-        navigate(item.href)
-      }
+      if (!/^[1-5]$/.test(event.key)) return
+      const item = NAV_ITEMS[Number(event.key) - 1]
+      if (item) navigate(item.href)
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)

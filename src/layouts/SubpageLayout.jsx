@@ -1,13 +1,18 @@
-import { useCallback, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { useCallback, useEffect, useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import MobileHeader from '../components/site/MobileHeader'
 import MobileMenuSheet from '../components/site/MobileMenuSheet'
 import SideMenu from '../components/site/SideMenu'
 
 export default function SubpageLayout() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { pathname } = useLocation()
   const openMenu = useCallback(() => setMenuOpen(true), [])
   const closeMenu = useCallback(() => setMenuOpen(false), [])
+
+  useEffect(() => {
+    closeMenu()
+  }, [pathname, closeMenu])
 
   return (
     <div className="min-h-dvh bg-page text-ink lg:flex lg:h-dvh lg:overflow-hidden">

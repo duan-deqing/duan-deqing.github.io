@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { useLanguage } from '../../hooks/useLanguage'
 import MenuContent from './MenuContent'
 import ThemeLangControls from './ThemeLangControls'
 import { CloseIcon } from './icons'
@@ -6,7 +7,11 @@ import { CloseIcon } from './icons'
 const FOCUSABLE =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
 
+const MENU_LABEL = { en: 'Menu', zh: '菜单' }
+const CLOSE_LABEL = { en: 'Close menu', zh: '关闭菜单' }
+
 export default function MobileMenuSheet({ open, onClose }) {
+  const { t } = useLanguage()
   const panelRef = useRef(null)
   const closeRef = useRef(null)
   const restoreRef = useRef(null)
@@ -54,14 +59,15 @@ export default function MobileMenuSheet({ open, onClose }) {
       <button
         type="button"
         className="absolute inset-0 bg-[var(--overlay)]"
-        aria-label="Close menu"
+        aria-label={t(CLOSE_LABEL)}
         onClick={onClose}
       />
       <div
+        id="mobile-menu-sheet"
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Menu"
+        aria-label={t(MENU_LABEL)}
         className="absolute inset-x-0 bottom-0 max-h-[80dvh] overflow-y-auto rounded-t-2xl border-t border-line bg-page p-4 shadow-xl"
       >
         <div className="mb-3 flex items-center justify-between">
@@ -70,7 +76,7 @@ export default function MobileMenuSheet({ open, onClose }) {
             ref={closeRef}
             type="button"
             className="grid size-8 place-items-center rounded-md text-ink hover:bg-subtle"
-            aria-label="Close menu"
+            aria-label={t(CLOSE_LABEL)}
             onClick={onClose}
           >
             <CloseIcon size={18} />

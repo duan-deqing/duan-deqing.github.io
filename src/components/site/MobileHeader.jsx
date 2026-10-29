@@ -4,6 +4,9 @@ import ThemeLangControls from './ThemeLangControls'
 import { MenuIcon } from './icons'
 import { NAV_ITEMS, isNavActive } from './MenuContent'
 
+const OPEN_LABEL = { en: 'Open menu', zh: '打开菜单' }
+const CLOSE_LABEL = { en: 'Close menu', zh: '关闭菜单' }
+
 export default function MobileHeader({ open, onOpenMenu }) {
   const { pathname } = useLocation()
   const { t } = useLanguage()
@@ -14,8 +17,10 @@ export default function MobileHeader({ open, onOpenMenu }) {
       <button
         type="button"
         className="grid size-8 place-items-center rounded-md text-ink hover:bg-subtle"
-        aria-label="Open menu"
+        aria-label={t(open ? CLOSE_LABEL : OPEN_LABEL)}
         aria-expanded={open}
+        aria-controls="mobile-menu-sheet"
+        aria-haspopup="dialog"
         onClick={onOpenMenu}
       >
         <MenuIcon size={18} />
