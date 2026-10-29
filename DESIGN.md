@@ -205,11 +205,13 @@
 - 移动菜单从底部滑入，80vh，顶部 16px 圆角。
 - Esc、遮罩点击、路由变化关闭；焦点锁定与归还。
 
-### 5.6 代码与公式
+### 5.6 代码、公式与媒体
 
 - 行内码：`--code-bg`、6px 圆角、13px Mono，前后反引号装饰。
 - 代码块：头部 `rounded-t-lg` 描边 + `--code-header`（#F9FAFB / #111113）+ 14px 中性灰点 + 语言标题 + h-7 Copy（固定 56px 文案宽度、300ms 淡入上移、hover `--code-bg`、复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯。
 - 公式：行内 KaTeX 1.08em；`$$...$$` 为居中卡片（`--code-header` 底、1px `--line`、8px 圆角、16px 内边距、横向滚动），字号 1.15em；KaTeX 仅在文章含公式时按需加载。
+- 视频：` ```video ` 块（`url` + `title`）；16:9、圆角 12px + 1px 描边、黑底、进入视口再挂载 iframe/video；标题作为 12px muted 居中说明。
+- 图集：` ```carousel ` 块，每行一张 Markdown 图片；`scroll-snap` 单图轮播、方形 `object-cover`、圆角描边；左右 h-8 圆形描边按钮，caption 随滑动更新并 `aria-live`；移动端同样可滑。
 
 ### 5.7 徽标与空状态
 
@@ -316,7 +318,7 @@
 - [x] 全站 Geist Sans + Geist Mono，自托管，无第三方字体请求。
 - [x] 博客为 onur 式三栏 master-detail：列表在写作栏，点击文章在右侧显示；移动端为列表页 → 文章页。
 - [x] 博客列表为 onur writing 行（标题 + 日期 · 分类），当前文章黑底高亮；分类/标签为选择框，无摘要与年份列。
-- [x] 文章页 onur 式正文（紧凑标题/列表/引用）+ 头部带灰点、语言与 Copy 的代码块 + KaTeX 行内/块级公式（按需加载） + 移动端折叠 TOC + 圆角描边图片。
+- [x] 文章页 onur 式正文（紧凑标题/列表/引用）+ 头部带灰点、语言与 Copy 的代码块 + KaTeX 行内/块级公式（按需加载） + `video`/`carousel` 媒体块 + 移动端折叠 TOC + 圆角描边图片。
 - [x] 项目页为表格（移动卡片）；技能页为 onur 式 bullet 列表；联系页为链接列表。
 - [x] 后台为 onur 式侧栏 + 卡片表单 + 表格 + 预览抽屉。
 - [x] 首页背景为 antfu 式生成艺术，可通过 `src/backgrounds/index.js` 切换 `plum` / `dots` / `none`。

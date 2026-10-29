@@ -170,6 +170,24 @@ featured: true                # true 会在文章页显示「精选」标记
 
 正文支持 LaTeX 公式：行内 `$E = mc^2$`，块级使用 `$$ ... $$`（KaTeX 渲染，仅在含公式的文章按需加载）。
 
+### 视频与图集
+
+````markdown
+```video
+url: https://www.youtube.com/watch?v=xxxxxxxx
+title: 视频标题
+```
+
+```carousel
+![第一张](./img/my-post/a.jpg "第一张说明")
+![第二张](./img/my-post/b.jpg "第二张说明")
+```
+````
+
+- 视频支持 YouTube / Vimeo / Bilibili / 直链 mp4、webm、ogg；其他地址会回退为普通链接。视频进入视口后才加载，避免阻塞首屏。
+- 图集每行一张 Markdown 图片，图片路径规则与普通图片一致；`title` 会作为该图说明，滑动/切换时更新。
+- 图集为单图轮播：左右按钮、触控滑动与键盘方向键均可切换；后台预览同样支持这两种块。
+
 ## 功能特性
 
 - **主题切换**：导航栏太阳/月亮按钮；偏好写入 `localStorage`，首次访问跟随系统
@@ -177,6 +195,7 @@ featured: true                # true 会在文章页显示「精选」标记
 - **博客搜索与筛选**：博客页 `Ctrl/Cmd + K` 按标题/摘要/标签/分类过滤；分类 + 标签文本筛选可组合生效
 - **文章目录**：移动端折叠为正文上方的 `<details>`；桌面三栏布局与 onur 一致不显示 TOC
 - **LaTeX 公式**：文章支持行内 `$...$` 与块级 `$$...$$`（KaTeX），仅在含公式的文章按需加载
+- **视频与图集**：` ```video ` 支持 YouTube / Vimeo / Bilibili / 直链，` ```carousel ` 支持同位置多图轮播
 - **代码块**：rehype-highlight 高亮 + 行号 + 语言标签与 Copy，13px Mono、横向滚动；文章正文容器 768px / 16px / 1.75
 - **布局与动效**：首页 antfu 式 65ch 文本流；子页 onur 式侧栏（240/288px）；博客为写作列表栏 + 右侧文章；文章 768px。仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮（子页懒加载）
 - **RSS**：`pnpm run rss` 或 build 时生成 `public/rss.xml`

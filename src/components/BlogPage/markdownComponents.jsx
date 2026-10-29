@@ -2,6 +2,8 @@ import { cloneElement, isValidElement, useEffect, useRef, useState } from 'react
 import { useLanguage } from '../../hooks/useLanguage'
 import { headingId, getTextContent } from '../../utils/markdownHeading'
 import { CheckIcon, CopyIcon } from '../site/icons'
+import ArticleCarousel from '../blog/ArticleCarousel'
+import ArticleVideo from '../blog/ArticleVideo'
 
 const HEADING_SIZE = {
   2: 'text-lg md:text-xl',
@@ -227,6 +229,15 @@ export const markdownComponents = {
   },
 
   pre({ children }) {
+    const className = isValidElement(children) ? children.props.className || '' : ''
+    const language = (className.match(/language-([\w-]+)/)?.[1] || '').toLowerCase()
+    const source = isValidElement(children)
+      ? getTextContent(children.props.children)
+      : ''
+
+    if (language === 'video') return <ArticleVideo source={source} />
+    if (language === 'carousel') return <ArticleCarousel source={source} />
+
     const content = isValidElement(children)
       ? cloneElement(children, { block: true })
       : children

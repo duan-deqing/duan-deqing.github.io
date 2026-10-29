@@ -271,6 +271,15 @@
     transform-origin: top;
   }
 
+  .article-carousel-track {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .article-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
   .search-dialog-enter {
     animation: dialog-in 180ms ease-out both;
   }

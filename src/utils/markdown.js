@@ -106,11 +106,14 @@ function getImageUrl(imagePath, filename, isEnglish) {
  * @returns {string} 处理后的 markdown 内容
  */
 function processImagePaths(content, filename, isEnglish) {
-  // 匹配 markdown 图片语法: ![alt](path)
-  return content.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, path) => {
-    const imageUrl = getImageUrl(path, filename, isEnglish)
-    return `![${alt}](${imageUrl})`
-  })
+  // 匹配 markdown 图片语法: ![alt](path) 或 ![alt](path "title")
+  return content.replace(
+    /!\[([^\]]*)\]\(\s*([^)\s]+)(\s+(?:"[^"]*"|'[^']*'))?\s*\)/g,
+    (match, alt, path, title = '') => {
+      const imageUrl = getImageUrl(path, filename, isEnglish)
+      return `![${alt}](${imageUrl}${title})`
+    }
+  )
 }
 
 /**

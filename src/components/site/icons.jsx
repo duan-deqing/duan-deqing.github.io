@@ -179,6 +179,20 @@ export const ArrowUpRightIcon = (props) => (
   </LineIcon>
 )
 
+export const ArrowLeftIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="M19 12H5" />
+    <path d="m12 19-7-7 7-7" />
+  </LineIcon>
+)
+
+export const ArrowRightIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </LineIcon>
+)
+
 export const WechatIcon = (props) => (
   <LineIcon {...props}>
     <path d="M21 11.5a8.4 8.4 0 0 1-8.5 8.3 9.6 9.6 0 0 1-3.6-.7L4 20l1-3.4A8.2 8.2 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5Z" />

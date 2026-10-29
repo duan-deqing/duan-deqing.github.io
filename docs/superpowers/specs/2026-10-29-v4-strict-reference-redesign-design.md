@@ -292,6 +292,7 @@ App
 - 行内码：`--code-bg` 底、6px 圆角、13px Mono，采用 onur 的反引号装饰（`::before/::after` 为 `` ` ``）。
 - 代码块：头部 `rounded-t-lg border` + `--code-header`（#F9FAFB / #111113）+ 14px 中性灰点 + 语言标题 + h-7 Copy（`w-14` 固定文案宽度、300ms 淡入上移、hover `--code-bg`、复制后禁用 2s）；代码区 `rounded-b-lg border-x/b`、13px/1.7、行号 20px + 24px 间距、横向滚动；不使用彩色红绿灯装饰。
 - 公式：remark-math + rehype-katex + katex；行内 1.08em；`$$...$$` 为居中卡片（`--code-header` 底、1px `--line`、8px 圆角、16px 内边距、横向滚动），字号 1.15em；仅当文章含 `$` 时动态加载 KaTeX 与 CSS，加载中显示「Rendering formulas…」，失败时回退原文。
+- 媒体块：` ```video `（`url` + `title`，支持 YouTube / Vimeo / Bilibili / 直链 mp4/webm/ogg，其他地址回退链接；16:9、圆角 12px、1px 描边、黑底、进入视口再挂载、12px muted caption）；` ```carousel `（每行一张 Markdown 图片，图片路径规则与普通图片一致；scroll-snap 单图轮播、square `object-cover`、圆角描边、h-8 圆形 prev/next、caption 随滑动更新并 aria-live；不启用 raw HTML）。
 - TOC：移动端为正文上方折叠 `<details>`（「On this page」）；桌面三栏下不显示 200px sticky TOC（右侧内容区宽度与 onur 一致）。
 - 阅读进度/上一篇下一篇：不做（参考站没有）。
 
@@ -353,8 +354,9 @@ App
 - `src/components/site/HomeHeader.jsx`、`SideMenu.jsx`、`MenuContent.jsx`、`NavItem.jsx`、`MobileHeader.jsx`、`MobileMenuSheet.jsx`
 - `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`
 - `src/components/site/Button.jsx`、`IconButton.jsx`、`SiteLink.jsx`
-- `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`WritingTable.jsx`、`SearchDialog.jsx`、`SearchTrigger.jsx`、`RssButton.jsx`、`BlogQuote.jsx`
+- `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`WritingTable.jsx`、`SearchDialog.jsx`、`SearchTrigger.jsx`、`RssButton.jsx`、`BlogQuote.jsx`、`ArticleVideo.jsx`、`ArticleCarousel.jsx`
 - `src/styles/math.css`（KaTeX 行内/块级公式样式）
+- `src/utils/articleEmbeds.js`（video/carousel Markdown 块解析与视频平台识别）
 - `src/content/quotes.yaml`（博客空态双语语录）
 - `src/components/projects/ProjectTable.jsx`
 - `src/components/contact/WechatDialog.jsx`

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { isValidElement, useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
@@ -12,8 +12,23 @@ import {
   isValidPostDate,
   isValidPostSlug,
 } from '../../utils/postFilename'
+import { getTextContent } from '../../utils/markdownHeading'
 import Field from '../components/Field'
+import ArticleCarousel from '../../components/blog/ArticleCarousel'
+import ArticleVideo from '../../components/blog/ArticleVideo'
 import { resolvePreviewImages } from '../lib/preview'
+
+function PreviewPre({ children }) {
+  const className = isValidElement(children) ? children.props.className || '' : ''
+  const language = (className.match(/language-([\w-]+)/)?.[1] || '').toLowerCase()
+  const source = isValidElement(children)
+    ? getTextContent(children.props.children)
+    : ''
+
+  if (language === 'video') return <ArticleVideo source={source} />
+  if (language === 'carousel') return <ArticleCarousel source={source} />
+  return <pre>{children}</pre>
+}
 
 const EMPTY = {
   title: '',
@@ -324,6 +339,7 @@ export default function PostEditor({ state, onClose, onSaved, onDirtyChange }) {
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkMath]}
             rehypePlugins={[rehypeHighlight, rehypeKatex]}
+            components={{ pre: PreviewPre }}
           >
             {previewBody || '（暂无正文）'}
           </ReactMarkdown>
