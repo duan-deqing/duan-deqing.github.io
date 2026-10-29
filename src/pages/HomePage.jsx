@@ -122,7 +122,9 @@ export default function HomePage() {
           })}
         </p>
 
-        <div className="mt-10">
+        <hr className="home-divider" />
+
+        <div>
           <p className="mb-3 text-sm text-muted">
             {t({ en: 'Find me on', zh: '在这些地方找到我' })}
           </p>
@@ -140,7 +142,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <hr className="my-10 border-line" />
+        <hr className="home-divider" />
 
         <section aria-labelledby="home-writing">
           <div className="mb-2 flex items-center justify-between gap-4">

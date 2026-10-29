@@ -143,6 +143,13 @@
     text-decoration: underline;
   }
 
+  .home-divider {
+    width: 50px;
+    margin: 2em auto;
+    border: 0;
+    border-top: 1px solid color-mix(in srgb, var(--muted) 30%, transparent);
+  }
+
   .year-mark {
     position: absolute;
     left: -0.5rem;

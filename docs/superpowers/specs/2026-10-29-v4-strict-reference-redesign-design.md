@@ -233,13 +233,15 @@ App
    - 第 1 段：`Hi, I'm STYLAN.` + `personal.bio`。
    - 第 2 段：专注方向（`about.focus`）+ 内联链接 `projects`、`skills`。
    - 第 3 段：写作与联系（`blog`、`contact`、`email`）。
-2. **Find me on**：GitHub / Bilibili / Email / RSS，图标 + 文字，14px；邮箱行用等宽字体 `duan-deqing@foxmail.com`。
-3. `<hr>`。
-4. **Writing**：标题 `Writing / 写作` + 最新 5 篇文章；年份水印（2026 / 2023）+ 标题 + 日期；底部 `All posts →`。
-5. **Footer**：`© 2026 STYLAN` 单行，14px、50% 不透明度；无 RSS/社交图标。
+2. `<hr>`。
+3. **Find me on**：GitHub / Bilibili / Email / RSS，图标 + 文字，14px；邮箱行用等宽字体 `duan-deqing@foxmail.com`。
+4. `<hr>`。
+5. **Writing**：标题 `Writing / 写作` + 最新 5 篇文章；年份水印（2026 / 2023）+ 标题 + 日期；底部 `All posts →`。
+6. **Footer**：`© 2026 STYLAN` 单行，14px、50% 不透明度；无 RSS/社交图标。
 
 规则：
 
+- `<hr>` 为 50px 居中短横线，上下 `2em`（与 antfu.me 的 `.prose hr` 一致）。
 - 不出现项目卡片、技能网格、联系 CTA、Hero 大标题、头像大图。
 - 所有段落可含内联链接；外链带 ↗ 图标。
 - 首页内容以 `slide-enter` 阶梯进入。
