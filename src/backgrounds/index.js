@@ -7,5 +7,12 @@ export const BACKGROUNDS = {
   dots: DotsBackground,
 }
 
-// Change this value to switch the homepage background: 'plum' | 'dots' | 'none'.
+export const BACKGROUND_ORDER = ['plum', 'dots', 'none']
+
+// Change this value to switch the default homepage background.
 export const HOME_BACKGROUND = 'plum'
+
+export function nextBackground(current) {
+  const index = BACKGROUND_ORDER.indexOf(current)
+  return BACKGROUND_ORDER[(index + 1) % BACKGROUND_ORDER.length] ?? HOME_BACKGROUND
+}

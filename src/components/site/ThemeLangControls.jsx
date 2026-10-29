@@ -3,8 +3,11 @@ import { useTheme } from '../../hooks/useTheme'
 import { cn } from '../../utils/cn'
 import { MoonIcon, SunIcon } from './icons'
 
-const BUTTON =
-  'inline-flex h-8 items-center justify-center gap-1.5 rounded-md px-2 text-xs font-medium text-muted-strong transition-colors hover:bg-hover hover:text-ink'
+const BASE = 'inline-flex h-8 items-center justify-center gap-1.5'
+const ICON_BUTTON =
+  'rounded-none px-1 text-sm text-ink opacity-60 transition-opacity hover:opacity-100'
+const SIDEBAR_BUTTON =
+  'rounded-md px-2 text-xs font-medium text-muted-strong transition-colors hover:bg-hover hover:text-ink'
 
 export default function ThemeLangControls({ variant = 'icon', className }) {
   const { isDark, toggle: toggleTheme } = useTheme()
@@ -26,7 +29,7 @@ export default function ThemeLangControls({ variant = 'icon', className }) {
     <div className={cn('flex items-center gap-1', className)}>
       <button
         type="button"
-        className={BUTTON}
+        className={cn(BASE, showLabels ? SIDEBAR_BUTTON : ICON_BUTTON)}
         onClick={toggleTheme}
         aria-label={showLabels ? undefined : themeLabel}
         title={themeLabel}
@@ -36,7 +39,7 @@ export default function ThemeLangControls({ variant = 'icon', className }) {
       </button>
       <button
         type="button"
-        className={BUTTON}
+        className={cn(BASE, showLabels ? SIDEBAR_BUTTON : ICON_BUTTON)}
         onClick={toggleLang}
         aria-label={showLabels ? undefined : langLabel}
         title={langLabel}

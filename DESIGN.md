@@ -109,9 +109,9 @@
 └──────────────────────────────────────────────┘
 ```
 
-- wordmark 左上 20px；导航右上 32px（随页面滚动，不吸顶）、链接间距 20px、默认 60% 不透明度。
+- wordmark 左上 20px；导航右上 32px（随页面滚动，不吸顶）、链接间距 20px、默认 60% 不透明度。背景/主题/语言控制为裸图标按钮：无边框无底色，60% 不透明度，hover 100%。
 - 主列 `max-width: 65ch`，`padding: 40px 28px`。
-- 背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条，40fps，停笔后静止）；通过 `src/backgrounds/index.js` 的 `HOME_BACKGROUND` 切换 `plum` / `dots` / `none`；背景层固定 `z-0`，内容 `z-10`；其他页面可直接引用 `<BackgroundLayer variant="dots" />`；`prefers-reduced-motion` 下关闭。
+- 背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条，40fps，停笔后静止）；右上角按钮循环 `plum → dots → none` 并写入 `localStorage.home-background`；也可通过 `src/backgrounds/index.js` 的 `HOME_BACKGROUND` 切换默认值；背景层固定 `z-0`，内容 `z-10`；其他页面可直接引用 `<BackgroundLayer variant="dots" />`；`prefers-reduced-motion` 下关闭。
 - “Find me on” 使用正文链接样式：16px / 400（`font-weight: inherit`），图标 1.2em（约 19px）、`inline-block`、75% 不透明度、`text-bottom` 对齐，图标与文字间隔 4px，链接间距 8px；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`（#555/#BBB），`border 0.3s ease-in-out`，底线常驻不挤压布局；下方 `Or mail me at` + mono 邮箱。
 - 区块之间使用 50px 居中短分割线，上下 `2em`（与 antfu 的 `.prose hr` 一致）。
 - 页脚：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 antfu/antfu.me`，14px、50% 不透明度，与 65ch 正文对齐；链接使用同一 1px 底线规则；窄屏可换行，无边框、无社交图标（与 antfu 一致）。
@@ -302,6 +302,6 @@
 - [x] 文章页 68ch + TOC + 行号代码块 + 圆角描边图片。
 - [x] 项目页为表格（移动卡片）；技能页为定义行；联系页为链接列表。
 - [x] 后台为 onur 式侧栏 + 卡片表单 + 表格 + 预览抽屉。
-- [ ] 首页背景为 antfu 式生成艺术，可通过 `src/backgrounds/index.js` 切换 `plum` / `dots` / `none`。
+- [x] 首页背景为 antfu 式生成艺术，可通过 `src/backgrounds/index.js` 切换 `plum` / `dots` / `none`。
 - [x] 移动端 Lighthouse：三条页面 Performance ≥ 90，其余 ≥ 95。
 - [x] 双主题、双语、搜索、筛选、TOC、RSS、简历、二维码全部可用。

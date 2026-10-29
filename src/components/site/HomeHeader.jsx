@@ -4,9 +4,10 @@ import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
 import ThemeLangControls from './ThemeLangControls'
+import BackgroundToggle from '../../backgrounds/BackgroundToggle'
 import { CloseIcon, MenuIcon } from './icons'
 
-export default function HomeHeader() {
+export default function HomeHeader({ background, onCycleBackground }) {
   const { t } = useLanguage()
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
@@ -46,10 +47,16 @@ export default function HomeHeader() {
               {t(link.label)}
             </Link>
           ))}
+          {onCycleBackground ? (
+            <BackgroundToggle variant={background} onCycle={onCycleBackground} />
+          ) : null}
           <ThemeLangControls />
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
+          {onCycleBackground ? (
+            <BackgroundToggle variant={background} onCycle={onCycleBackground} />
+          ) : null}
           <ThemeLangControls />
           <button
             type="button"

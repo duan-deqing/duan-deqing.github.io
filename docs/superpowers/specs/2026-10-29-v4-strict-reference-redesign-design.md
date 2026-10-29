@@ -204,7 +204,7 @@ App
 
 ### 5.2 首页壳（antfu）
 
-- 桌面：wordmark 在左上 `1.25rem`、导航在右上 `2rem`，随页面滚动（与 antfu 的 NavBar 一致，不吸顶）；链接 60% 不透明度、hover 100%，间距 20px；主题/语言图标在导航末尾。
+- 桌面：wordmark 在左上 `1.25rem`、导航在右上 `2rem`，随页面滚动（与 antfu 的 NavBar 一致，不吸顶）；链接 60% 不透明度、hover 100%，间距 20px；背景/主题/语言控制为裸图标按钮（无边框无底色，60% opacity，hover 100%），顺序为背景切换 → 主题 → 语言。
 - 移动：顶部普通流式排布（不固定），wordmark 左、菜单按钮右；展开为全屏面板，导航项大号、分隔线。
 - 主列：`max-width: 65ch`，居中，`padding: 2.5rem 1.75rem`。
 - 页脚：`© 2026 STYLAN` 单行，14px、50% 不透明度，与 65ch 正文对齐；无边框、无社交图标（与 antfu 一致）。
@@ -246,7 +246,7 @@ App
 - 不出现项目卡片、技能网格、联系 CTA、Hero 大标题、头像大图。
 - 所有段落可含内联链接；外链带 ↗ 图标。
 - 首页内容以 `slide-enter` 阶梯进入。
-- 首页背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条）；背景层固定 `z-0`、内容 `z-10`；通过 `src/backgrounds/index.js` 切换 `plum` / `dots` / `none`；其他页面可引用 `<BackgroundLayer />`；`prefers-reduced-motion` 下关闭。
+- 首页背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条）；右上角按钮循环 `plum → dots → none` 并持久化到 `localStorage.home-background`；背景层固定 `z-0`、内容 `z-10`；也可通过 `src/backgrounds/index.js` 切换默认值；其他页面可引用 `<BackgroundLayer />`；`prefers-reduced-motion` 下关闭。
 
 ### 6.2 博客列表 `/blog`
 
@@ -320,7 +320,7 @@ App
 ### 7.1 新增
 
 - `src/layouts/HomeLayout.jsx`、`src/layouts/SubpageLayout.jsx`
-- `src/backgrounds/`：`index.js`（注册表与 `HOME_BACKGROUND`）、`BackgroundLayer.jsx`、`PlumBackground.jsx`、`DotsBackground.jsx`
+- `src/backgrounds/`：`index.js`（注册表、顺序与 `HOME_BACKGROUND`）、`BackgroundLayer.jsx`、`BackgroundToggle.jsx`、`PlumBackground.jsx`、`DotsBackground.jsx`
 - `src/components/site/HomeHeader.jsx`、`SideMenu.jsx`、`MenuContent.jsx`、`NavItem.jsx`、`MobileHeader.jsx`、`MobileMenuSheet.jsx`
 - `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`
 - `src/components/site/Button.jsx`、`IconButton.jsx`、`SiteLink.jsx`
