@@ -114,7 +114,7 @@
 - 主列 `max-width: 65ch`，`padding: 40px 28px`。首页正文颜色为 `--home-body`（#555/#BBB，对应 antfu 的 `--fg`）；标题用 `--heading`，链接用 `--heading`。
 - Stack 区块无可见标题：介绍（`text-ink`）+ `list-disc` 列表（`pl-6`、`gap-2px`、marker `--code-line`）；每行分类为蓝色 `/skills` 链接 + ↗ + `—` + 技术项（muted）；链接仿 onur `.link`，hover 下划线、无常态底线。
 - 背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条，40fps，停笔后静止）；右上角按钮循环 `plum → dots → none` 并写入 `localStorage.home-background`；也可通过 `src/backgrounds/index.js` 的 `HOME_BACKGROUND` 切换默认值；背景层固定 `z-0`，内容 `z-10`；其他页面可直接引用 `<BackgroundLayer variant="dots" />`；`prefers-reduced-motion` 下关闭。
-- “Find me on” 使用正文链接样式：16px / 400（`font-weight: inherit`），图标 1.2em（约 19px）、`inline-block`、75% 不透明度、`text-bottom` 对齐，图标与文字间隔 4px，链接间距 8px；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`（#555/#BBB），`border 0.3s ease-in-out`，底线常驻不挤压布局；下方 `Or mail me at` + mono 邮箱。
+- “Find me on” 使用正文链接样式：16px / 400（`font-weight: inherit`），图标 1.2em（约 19px）、`inline-block`、75% 不透明度、`text-bottom` 对齐，图标与文字间隔 4px，链接间距 8px；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`（#555/#BBB），`border 0.3s ease-in-out`，底线常驻不挤压布局。平台为 GitHub / Bilibili / Bluesky / WeChat；WeChat 在 hover/focus 时显示二维码气泡（触摸端点击切换）。下方 `Or mail me at` + mono 邮箱。
 - 区块之间使用 50px 居中短分割线，上下 `2em`（与 antfu 的 `.prose hr` 一致）。
 - 页脚：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 antfu/antfu.me`，14px、50% 不透明度，与 65ch 正文对齐；链接使用同一 1px 底线规则；窄屏可换行，无边框、无社交图标（与 antfu 一致）。
 - 移动端顶部为普通文档流，导航收进菜单面板。

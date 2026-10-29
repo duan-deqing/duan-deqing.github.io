@@ -265,5 +265,7 @@ socialLinks:
     url: https://github.com/duan-deqing
   - platform: Bilibili
     url: https://space.bilibili.com/18756460
+  - platform: Bluesky
+    url: https://bsky.app/profile/stylan.bsky.social
 footer:
   copyright: 2026 © STYLAN

@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import config from '../content/site.yaml'
 import { useLanguage } from '../hooks/useLanguage'
@@ -5,9 +6,8 @@ import PageTitle from '../components/shared/PageTitle'
 import SiteLink from '../components/site/SiteLink'
 import {
   ArrowUpRightIcon,
-  BilibiliIcon,
-  GitHubIcon,
-  RssIcon,
+  WechatIcon,
+  platformIcon,
 } from '../components/site/icons'
 
 function SocialLink({ href, label, Icon }) {
@@ -21,11 +21,65 @@ function SocialLink({ href, label, Icon }) {
   )
 }
 
+function WechatSocialLink({ method, t }) {
+  const [open, setOpen] = useState(false)
+  const wrapperRef = useRef(null)
+  const label = t(method.label || { en: 'WeChat', zh: '微信' })
+  const qrLabel = t({ en: 'WeChat QR code', zh: '微信二维码' })
+
+  const closeIfOutside = (event) => {
+    if (!wrapperRef.current?.contains(event.relatedTarget)) setOpen(false)
+  }
+
+  return (
+    <span
+      ref={wrapperRef}
+      className="relative inline-flex"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        className="social-link text-base text-heading"
+        aria-label={label}
+        aria-expanded={open}
+        aria-haspopup="dialog"
+        onClick={() => setOpen((value) => !value)}
+        onFocus={() => setOpen(true)}
+        onBlur={closeIfOutside}
+      >
+        <WechatIcon size={19} className="mr-1 inline-block opacity-75 align-text-bottom" />
+        {label}
+      </button>
+      {open ? (
+        <span
+          role="dialog"
+          aria-label={qrLabel}
+          className="absolute left-0 top-full z-20 mt-2 block w-48 rounded-lg border border-line bg-page p-2 shadow-xl max-sm:bottom-full max-sm:top-auto max-sm:mb-2 max-sm:mt-0"
+        >
+          <img
+            src={method.qrcode}
+            alt={qrLabel}
+            width={176}
+            height={176}
+            loading="lazy"
+            decoding="async"
+            className="h-44 w-44 rounded-md object-contain"
+          />
+        </span>
+      ) : null}
+    </span>
+  )
+}
+
 export default function HomePage() {
   const { lang, t } = useLanguage()
   const focus = (config.about?.focus || []).map((item) => t(item))
   const socials = config.socialLinks || []
   const email = config.contact?.email
+  const wechat = (config.contactPage?.contactMethods || []).find(
+    (method) => method.icon === 'wechat' && method.qrcode
+  )
   const skills = (config.skills || []).filter((group) => {
     const label = `${group.category?.en || ''} ${group.category?.zh || ''}`.toLowerCase()
     return !label.includes('hobbies') && !label.includes('爱好')
@@ -101,10 +155,10 @@ export default function HomePage() {
                 key={social.platform}
                 href={social.url}
                 label={social.platform}
-                Icon={social.platform.toLowerCase().includes('github') ? GitHubIcon : BilibiliIcon}
+                Icon={platformIcon(social.platform)}
               />
             ))}
-            <SocialLink href="/rss.xml" label="RSS" Icon={RssIcon} />
+            {wechat ? <WechatSocialLink method={wechat} t={t} /> : null}
           </div>
           {email ? (
             <p className="mt-3 text-base leading-[1.75]">

@@ -3,14 +3,13 @@ import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import NavItem from './NavItem'
 import {
-  BilibiliIcon,
   FolderIcon,
-  GitHubIcon,
   HomeIcon,
   MailIcon,
   PenIcon,
   RssIcon,
   SparklesIcon,
+  platformIcon,
 } from './icons'
 
 const NAV_ICONS = {
@@ -54,7 +53,7 @@ export default function MenuContent({ onNavigate }) {
     ...socials.map((social) => ({
       href: social.url,
       label: social.platform,
-      Icon: social.platform.toLowerCase().includes('github') ? GitHubIcon : BilibiliIcon,
+      Icon: platformIcon(social.platform),
     })),
     ...(email ? [{ href: `mailto:${email}`, label: 'Email', Icon: MailIcon }] : []),
     { href: '/rss.xml', label: 'RSS', Icon: RssIcon },
