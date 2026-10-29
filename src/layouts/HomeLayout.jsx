@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import BackgroundLayer from '../backgrounds/BackgroundLayer'
 import { BACKGROUNDS, HOME_BACKGROUND, nextBackground } from '../backgrounds'
+import { useLanguage } from '../hooks/useLanguage'
 import HomeFooter from '../components/site/HomeFooter'
 import HomeHeader from '../components/site/HomeHeader'
 
@@ -15,6 +16,7 @@ function readBackground() {
 }
 
 export default function HomeLayout() {
+  const { lang } = useLanguage()
   const [background, setBackground] = useState(readBackground)
   const cycleBackground = useCallback(() => {
     setBackground((current) => {
@@ -36,7 +38,7 @@ export default function HomeLayout() {
         <main className="mx-auto w-full max-w-[65ch] flex-1 px-5 py-10 md:px-7">
           <Outlet />
         </main>
-        <HomeFooter />
+        <HomeFooter key={lang} />
       </div>
     </div>
   )

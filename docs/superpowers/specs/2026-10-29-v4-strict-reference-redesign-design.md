@@ -182,7 +182,7 @@
 - 首页内容使用 `slide-enter`：1s、`translateY(10px)`、90ms 阶梯；仅首页。
 - 其余交互只做颜色/背景/边框 150–300ms 过渡；抽屉 `transform 300ms`。
 - 主题切换与 antfu.me 一致：以点击位置为圆心的 View Transition 圆形扩散，400ms `ease-out`；切到深色时反向收缩；不支持 View Transition 或 `prefers-reduced-motion` 时即时换色。
-- 语言切换：View Transition 交叉淡入淡出 240ms `ease-out`；浅色淡入新快照、深色淡出旧快照；不支持或 `prefers-reduced-motion` 时即时切换。
+- 语言切换：重放首页加载效果（内容 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场）；`prefers-reduced-motion` 下无动画。
 - `prefers-reduced-motion` 下关闭入场与过渡位移；抽屉直接显示。
 
 ## 5. 页面架构

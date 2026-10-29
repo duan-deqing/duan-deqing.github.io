@@ -4,9 +4,7 @@
  */
 
 import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react'
-import { flushSync } from 'react-dom'
 import { animateThemeChange } from '../utils/themeTransition'
-import { startLanguageTransition } from '../utils/languageTransition'
 
 const ThemeCtx = createContext(null)
 const LangCtx = createContext(null)
@@ -38,11 +36,7 @@ export function AppSettingsProvider({ children }) {
   const toggleTheme = useCallback((event) => {
     animateThemeChange(event, (nextDark) => setIsDark(nextDark))
   }, [])
-  const toggleLang = useCallback(() => {
-    startLanguageTransition(() => {
-      flushSync(() => setLang((value) => (value === 'en' ? 'zh' : 'en')))
-    })
-  }, [])
+  const toggleLang = useCallback(() => setLang((v) => (v === 'en' ? 'zh' : 'en')), [])
 
   const t = useCallback(
     (value) => {
