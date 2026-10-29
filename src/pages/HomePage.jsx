@@ -11,7 +11,7 @@ import {
   platformIcon,
 } from '../components/site/icons'
 
-const WECHAT_CLOSE_DELAY = 1000
+const WECHAT_CLOSE_DELAY = 500
 
 function SocialLink({ href, label, Icon }) {
   return (
