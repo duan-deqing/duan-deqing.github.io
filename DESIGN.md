@@ -1,24 +1,36 @@
-# STYLAN Site · Design Spec v2
+# STYLAN Site · Design Spec v3
 
-> 状态：**主体已实施**（表现层为 SiteRail 左轨 + 静态 CSS 网格，非独立 Hero 全屏页）  
-> 主方向：**A · Neo Editorial** + 少量 **B · Soft Glass**  
-> 用户锁定：Roboto Display · 双主题对等 · 极细网格 · 项目**无** hover 预览  
-> 布局参考：[brittanychiang.com](https://brittanychiang.com/) · [oiloil.org](https://www.oiloil.org/)
-> 实现说明：全屏交互画布（ShapeGrid / PixelBlast / Dither）已移除，背景改为纯 CSS 网格 + 径向光晕；Display 字体为本地 Roboto，不使用 Clash Display。
+> 状态：**v3 已实施**（2026-10-29 重构）
+> 主方向：**居中单列 · 低饱和卡片 · 系统字体**
+> 参考：antfu.me（项目卡片网格）· onur.dev（博客排版）
+> 设计规格：`docs/superpowers/specs/2026-10-29-redesign-antfu-onur-design.md`
+> 说明：左轨布局、Web 字体、网格背景与重型动效已移除。
+
+> **历史说明**：§2、§3.3–§3.4、§4、§5、§7–§9 描述的是 v2 方案（Brittany 式左轨、Roboto/FiraCode、网格背景、入场动效、首屏 Loading），已于 v3 移除，仅作历史记录，不再是实现依据。**当前实现以本文件 §1、§3.1–§3.2 与设计规格为准**：
+
+| 项目 | v3 现状 |
+|------|---------|
+| 布局 | 顶部导航（sticky）+ 居中单列，内容容器 `max-width: 72rem` |
+| 字体 | 系统字体栈（`--font-sans` / `--font-mono`），无 `@font-face`、无 Google Fonts |
+| 背景 | 纯色 `--bg`，无网格/光晕/渐变 |
+| 动效 | 仅颜色、边框、背景 150ms 过渡；无滚动 Reveal、无磁吸按钮、无逐字动画 |
+| 加载 | 无首屏 Loading 门；首页静态导入，子页 `lazy` + `Suspense` 占位 |
 
 ---
 
 ## 1. 设计原则
 
-1. **编辑部优先**：编号章节、大标题、严网格、留白；动效只做标点。
-2. **唯一强调色**：蓝 `#3B82F6` 收敛使用，禁止彩虹渐变。
-3. **科技感**：mono 角标、细线、编号、精确排版；不用满屏粒子。
+1. **内容优先**：居中单列、克制的字号层级与留白，装饰只服务于信息层级。
+2. **唯一强调色**：蓝 `#2563EB`（dark `#60A5FA`），仅用于链接、焦点环、活动标签、当前路由。
+3. **低饱和**：卡片用 `--bg-elevated` + 1px `--line` 描边，不用渐变、阴影、光晕。
 4. **双主题对等**：Light / Dark 都是完整一等公民，默认跟随系统，可手动切换。
 5. **原结构与原功能全保留**：只升级表现层与局部实现质量；不改目录约定、路由语义、内容数据源（详见 §12）。
 
 ---
 
-## 2. 布局总纲（融合两站）
+## 2. 布局总纲（v2 · 历史）
+
+> 本节为 v2 的「左轨 + 锚点」方案，v3 已改为顶部导航 + 居中单列；保留仅供追溯。
 
 ### 从 Brittany 借
 
@@ -44,48 +56,46 @@
 
 ## 3. 视觉系统
 
-### 3.1 色板（双主题对等）
+### 3.1 颜色令牌（v3，与 `src/index.css` 一致）
 
 | Token | Light | Dark | 用途 |
-|-------|-------|------|------|
-| `--bg` | `#F7F7F5` | `#0B0C0E` | 页面底 |
-| `--bg-elevated` | `#FFFFFF` | `#12141A` | 卡片/面板 |
-| `--ink` | `#12141A` | `#F2F3F5` | 主文字 |
-| `--ink-muted` | `#5C6370` | `#9AA1AC` | 次要文字 |
-| `--line` | `#E4E6EA` | `#2A2E36` | 分割线 |
-| `--accent` | `#3B82F6` | `#5B9CFF` | 唯一强调色 |
-| `--accent-soft` | `rgba(59,130,246,.10)` | `rgba(91,156,255,.14)` | 选中/底 |
-| `--accent-glow` | `rgba(59,130,246,.20)` | `rgba(91,156,255,.26)` | 极轻光晕（CTA/菜单） |
+| --- | --- | --- | --- |
+| `--bg` | `#FAFAF9` | `#0E0E10` | 页面底色 |
+| `--bg-elevated` | `#FFFFFF` | `#17171A` | 卡片、面板 |
+| `--bg-subtle` | `#F4F4F2` | `#1D1D20` | 标签底、代码底 |
+| `--ink` | `#18181B` | `#ECECEE` | 主文字 |
+| `--ink-muted` | `#71717A` | `#A1A1AA` | 次要文字 |
+| `--line` | `#E7E5E4` | `#27272A` | 分割线、描边 |
+| `--accent` | `#2563EB` | `#60A5FA` | 唯一强调色 |
+| `--accent-soft` | `rgba(37,99,235,.08)` | `rgba(96,165,250,.12)` | 选中底、hover 底 |
 
-**蓝的使用面**：链接、焦点环、主 CTA、活动锚点、hover 描边微光、少量数字。  
-**禁止**：大面积蓝渐变底、多色按钮、重阴影。
+强调色仅用于链接、焦点环、活动标签、当前路由。不使用渐变、阴影、光晕、网格背景。
 
-### 3.2 字体
+### 3.2 字体（v3：系统字体栈，无 Web 字体）
 
-| 角色 | 字体 | 规格 |
-|------|------|------|
-| Display | **Roboto**（本地 `public/fonts`） | `clamp(2.75rem, 8vw, 6.5rem)` / 500–700 / tracking `-0.03em` / lh `0.95–1.05` |
-| 中文大标题 | Noto Sans SC 800–900 | 紧字距，与 Display 同级 |
-| 正文 | Inter + Noto Sans SC | 16–18px / 1.7 |
-| Mono 元信息 | FiraCode Nerd Font（本地） | 11–13px / `0.04em` / 常 uppercase |
-| 博客正文 | Noto Sans SC | 17–18px / 行宽 `38–42rem` |
+```css
+--font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "PingFang SC",
+  "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+--font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+  "Liberation Mono", monospace;
+```
 
-实现口径（与 `src/index.css` 一致）：
+- 全站只使用上面两个 CSS 变量：正文 / 标题用 `--font-sans`，元信息、标签、代码用 `--font-mono`。
+- **不加载任何 Web 字体**：无 Google Fonts `@import`、无 `@font-face`、无字体文件请求；`public/fonts/` 为历史遗留，当前未被引用。
+- Roboto / FiraCode Nerd Font 与 `--font-display` / `--font-heading` / `--font-body` / `--font-post` 旧变量均已删除，字体不做 CDN 回退。
 
-- `--font-display` / `--font-heading`: `"Roboto", "Noto Sans SC", sans-serif`
-- `--font-body` / `--font-post`: Noto Sans SC 优先
-- `--font-mono`: `"FiraCode Nerd Font", "Fira Code", ui-monospace, monospace`
-- Roboto 300/400/500/700 本地 `@font-face`；中文回退 Noto Sans SC，**不用** Roboto 顶中文
-- Noto Sans SC + Inter 经 Google Fonts CDN；Display/Mono 不走 CDN
+字号层级见设计规格 §5.3：h1 `clamp(2rem, 5vw, 3rem)` / 600 / `-0.03em`；区块标题 1.5rem / 600；卡片标题 0.9375rem / 600；正文 0.9375rem–1rem / 1.75；文章正文 1.0625rem / 1.85；元信息 0.6875–0.75rem mono 大写。
 
-### 3.3 网格与间距
+### 3.3 网格与间距（v2 · 历史）
+
+> v3 已取消网格背景：间距基准 4px，区块纵向 64px（移动）/ 96px（桌面），容器 `max-width: 72rem`，圆角 8–10px，详见规格 §5.4。以下为 v2 记录。
 
 - 基准 8px；区块间距 96–160px（移动 64–80px）
 - 容器 `max-width: 1120–1200px`
 - 圆角 4–8px；描边 `1px solid var(--line)`
 - **Hero 极细网格**：CSS 背景网格，线宽 1px，间距 48–64px，颜色 `var(--line)` 或 accent @ 4–6% opacity；Light/Dark 都要清晰但不抢戏
 
-### 3.4 动效（克制 + reduced-motion）
+### 3.4 动效（v2 · 历史；v3 仅保留 150ms 颜色/边框过渡）
 
 | 场景 | 方案 | 时长 |
 |------|------|------|
@@ -103,7 +113,9 @@
 
 ---
 
-## 4. 全局导航
+## 4. 全局导航（v2 · 历史）
+
+> v3 已改为：sticky 顶部导航（品牌 + Projects / Blog / Skills / Contact + 主题/语言 + 移动端菜单）+ 居中单列内容，不再有左轨与锚点高亮。以下为 v2 记录。
 
 ### 桌面（≥1024px）— Brittany 轨
 
@@ -304,7 +316,7 @@ src/
   utils/markdown.js
   styles/blog-post.css
 scripts/generate-rss.js
-public/（字体、图片、404、rss）
+public/（图片、404、robots.txt、rss；`public/fonts/` 为历史遗留、当前未引用）
 ```
 
 路由语义保持：`/` `/skills` `/projects` `/blog` `/blog/:slug` `/contact` `*`。
@@ -326,7 +338,7 @@ public/（字体、图片、404、rss）
 | **GitHub Pages SPA** | `404.html` + index 重定向脚本 | **保留**，404 视觉对齐新设计 |
 | **SEO** | index meta + `PageTitle` | **保留并延续** `STYLAN · ` 标题约定 |
 | **动画配置项** | `heroRight.type` wave/dots/rays… | **组件已移除**；`heroRight` 仅作为遗留字段留在 `site.yaml`，不再生效，可删除 |
-| **Loading 首屏** | `Loading` + lazy 路由 | **保留**；缩短时长、样式对齐；并补上缺失的 `<Suspense>` 包裹 |
+| **Loading 首屏** | `Loading` + lazy 路由 | **v3 已移除**：首页静态导入，子页 `lazy` + `Suspense`（占位预留一屏高度以避免 CLS）；无启动 Loading 门 |
 
 ### 12.3 明确禁止的「重构过界」
 
@@ -353,4 +365,4 @@ public/（字体、图片、404、rss）
 | 工具层（markdown.js、generate-rss） | 可修 bug、可增强，不换产品形态 |
 | Hook 层 | 可升 Context，对外 API 尽量保持 `useTheme()` / `useLanguage()` |
 | 组件/页面 JSX + CSS | **主要改造面**（布局、排版、动效） |
-| 依赖 | 可增 Display/Mono 字体资源（当前 Roboto + FiraCode 本地）、可选动画库；`react-markdown` 链保留 |
+| 依赖 | 不引入任何 Web 字体资源（系统字体栈），不引入动画库；`react-markdown` 链保留 |

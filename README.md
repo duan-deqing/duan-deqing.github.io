@@ -21,7 +21,7 @@
 | 包管理 | pnpm |
 | 部署 | GitHub Pages（Actions 自动构建） |
 
-字体：Noto Sans SC（Google Fonts）+ Roboto / Merriweather / Fira Code Nerd Font（本地 `public/fonts`）。
+字体：系统字体栈（`system-ui` / `-apple-system` / `PingFang SC` / `Microsoft YaHei` 等），等宽部分用 `ui-monospace` / `Consolas`；**不加载任何 Web 字体**（无 Google Fonts、无 `@font-face`、无字体文件请求），`public/fonts/` 为历史遗留、当前未引用。
 
 ## 快速开始
 
@@ -47,7 +47,7 @@ pnpm run preview
 ```txt
 ├── .github/workflows/deploy.yml  # GitHub Pages 自动部署
 ├── public/
-│   ├── fonts/                    # 本地字体
+│   ├── fonts/                    # 历史字体文件（当前未引用）
 │   ├── images/                   # 图片资源
 │   ├── favicon.ico
 │   ├── 404.html                  # GitHub Pages SPA 重定向兜底
@@ -66,8 +66,8 @@ pnpm run preview
 │   ├── index.css                 # 全局样式、字体、深色模式
 │   ├── pages/                    # 页面组件
 │   ├── components/
-│   │   ├── shared/               # Header / Footer / Title / Loading
-│   │   ├── HomePage/             # Hero、技能、项目、博客精选、动画
+│   │   ├── shared/               # SiteHeader / SiteFooter / PageHeader / 主题语言控件
+│   │   ├── HomePage/             # Hero、关于、项目卡片、文章行、技能、联系
 │   │   └── BlogPage/             # 列表、搜索、筛选、目录
 │   ├── posts/                    # 中文文章 Markdown
 │   │   ├── en/                   # 英文文章
@@ -171,9 +171,9 @@ featured: true                # true 会出现在主页「最新文章」优先�
 - **主题切换**：导航栏太阳/月亮按钮；偏好写入 `localStorage`，首次访问跟随系统
 - **语言切换**：导航栏「中文 / EN」；博客中英文分目录存放，切换语言会重新加载对应版本
 - **博客搜索**：博客页 `Ctrl/Cmd + K`，按标题/摘要/标签/分类过滤
-- **文章目录**：桌面端左侧浮动 TOC，基于 h2–h4
+- **文章目录**：≥1280px 右侧 sticky TOC，小屏折叠为正文上方的 `<details>`
 - **代码块**：Mac 风格窗口 + rehype-highlight 高亮
-- **动画**：Reveal 滚动入场 / MagneticButton 磁吸按钮 / 页面切换过渡
+- **布局与动效**：顶部导航 + 居中单列（内容 `max-width: 72rem`）；仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮、无首屏 Loading 页（首页静态导入，子页懒加载）
 - **RSS**：`pnpm run rss` 或 build 时生成 `public/rss.xml`
 - **GitHub Pages SPA**：`public/404.html` + `index.html` 内重定向脚本（spa-github-pages 方案）
 
