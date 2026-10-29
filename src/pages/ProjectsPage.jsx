@@ -1,31 +1,46 @@
-import { useLanguage } from '../hooks/useLanguage'
 import config from '../content/site.yaml'
+import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/shared/PageTitle'
-import PageHeader from '../components/shared/PageHeader'
-import ProjectGrid from '../components/HomePage/ProjectGrid'
+import PageHeading from '../components/site/PageHeading'
+import ProjectTable from '../components/projects/ProjectTable'
+import Button from '../components/site/Button'
+import { ArrowUpRightIcon } from '../components/site/icons'
 
 export default function ProjectsPage() {
   const { lang, t } = useLanguage()
+  const projects = config.projects || []
 
   return (
-    <>
+    <div className="mx-auto w-full max-w-3xl">
       <PageTitle
-        title={t({ en: 'STYLAN · Projects', zh: 'STYLAN · 项目' })}
-        description={t(config.site?.description)}
+        title={`STYLAN · ${t({ en: 'Projects', zh: '项目' })}`}
+        description={t({
+          en: 'Projects I build and maintain — AI agents, writing tools and small products.',
+          zh: '我构建与维护的项目：AI Agent、写作工具与小产品。',
+        })}
         t={t}
         lang={lang}
       />
-      <PageHeader
-        kicker="WORK"
-        title={t(config.projectsSection?.title) || t({ en: 'Featured Projects', zh: '精选项目' })}
+      <PageHeading
+        title={t({ en: 'Projects', zh: '项目' })}
         description={t({
-          en: 'Selected work across LLM applications, RAG systems and full-stack delivery.',
-          zh: '大模型应用、RAG 系统与全栈交付的精选作品。',
+          en: 'A selection of things I have built or maintained.',
+          zh: '我构建或维护过的一部分作品。',
         })}
+        actions={
+          <Button
+            as="a"
+            variant="outline"
+            href="https://github.com/duan-deqing"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+            <ArrowUpRightIcon size={14} />
+          </Button>
+        }
       />
-      <section className="py-10 sm:py-12">
-        <ProjectGrid projects={config.projects || []} t={t} />
-      </section>
-    </>
+      <ProjectTable projects={projects} />
+    </div>
   )
 }
