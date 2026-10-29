@@ -151,6 +151,16 @@
     color: var(--home-body);
   }
 
+  .stack-link {
+    color: var(--accent);
+    text-decoration: none;
+    text-underline-offset: 4px;
+  }
+
+  .stack-link:hover {
+    text-decoration: underline;
+  }
+
   .home-links-bold .link,
   .home-links-bold .social-link {
     font-weight: 600;

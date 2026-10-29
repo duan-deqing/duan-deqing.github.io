@@ -122,35 +122,33 @@ export default function HomePage() {
         <hr className="home-divider" />
 
         <section aria-labelledby="home-stack">
-          <div className="mb-2 flex items-center justify-between gap-4">
-            <h2
-              id="home-stack"
-              className="text-lg font-semibold tracking-tight text-heading md:text-xl"
-            >
-              {t({ en: 'Tech Stack', zh: '技术栈' })}
-            </h2>
-            <Link
-              to="/skills"
-              className="inline-flex items-center gap-1 text-sm text-muted-strong transition-colors hover:text-ink"
-            >
-              {t({ en: 'All skills', zh: '全部技能' })}
-              <ArrowUpRightIcon size={14} />
-            </Link>
-          </div>
+          <h2
+            id="home-stack"
+            className="text-lg font-semibold tracking-tight text-heading md:text-xl"
+          >
+            {t({ en: 'Stack', zh: '技术栈' })}
+          </h2>
+          <p className="mb-4 mt-2 text-base leading-[1.75] text-ink">
+            {t({
+              en: 'Tools and technologies I use to build and ship AI products.',
+              zh: '我用来构建与交付 AI 产品的工具与技术。',
+            })}
+          </p>
 
-          <dl className="border-t border-line">
+          <ul className="flex list-disc flex-col gap-0.5 pl-6">
             {skills.map((group) => (
-              <div
+              <li
                 key={group.category?.en || t(group.category)}
-                className="grid gap-1 border-b border-line py-3 sm:grid-cols-[8rem_1fr] sm:gap-4"
+                className="marker:text-[var(--code-line)] leading-[1.75]"
               >
-                <dt className="text-sm font-medium text-heading">{t(group.category)}</dt>
-                <dd className="text-sm leading-relaxed">
-                  {(group.items || []).join(' · ')}
-                </dd>
-              </div>
+                <Link to="/skills" className="stack-link">
+                  {t(group.category)}
+                  <ArrowUpRightIcon size={14} className="ml-1 inline-block align-text-bottom" />
+                </Link>
+                <span className="text-muted"> — {(group.items || []).join(' · ')}</span>
+              </li>
             ))}
-          </dl>
+          </ul>
         </section>
       </div>
     </>

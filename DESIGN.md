@@ -34,7 +34,7 @@
 | `--ink` | `#111827` | `#E4E4E7` | 正文 |
 | `--muted` | `#6B7280` | `#A1A1AA` | 日期、表头、次要文字 |
 | `--muted-strong` | `#4B5563` | `#D4D4D8` | 职位、次级正文 |
-| `--accent` | `#2563EB` | `#60A5FA` | 焦点环、文章光晕、后台链接 |
+| `--accent` | `#2563EB` | `#60A5FA` | 焦点环、文章光晕、后台链接、Stack 分类链接 |
 | `--accent-strong` | `#1D4ED8` | `#93C5FD` | 强调色深阶（备用） |
 | `--link-underline` | `#555555` | `#BBBBBB` | 正文/社交/页脚链接 hover 下边框 |
 | `--home-body` | `#555555` | `#BBBBBB` | 首页正文（antfu `--fg`） |
@@ -104,7 +104,7 @@
 │           ───                                │
 │           Find me on …                       │
 │           ───                                │
-│           Tech Stack（分类 + 技术项）          │
+│           Stack（分类链接 + 技术项）          │
 │                                              │
 │ © 2026 STYLAN                               │
 └──────────────────────────────────────────────┘
@@ -112,6 +112,7 @@
 
 - wordmark 左上 20px；导航右上 32px（随页面滚动，不吸顶）、链接间距 20px、默认 60% 不透明度。背景/主题/语言控制为同一组裸图标按钮：组内间距 4px，无边框无底色，60% 不透明度，hover 100%。
 - 主列 `max-width: 65ch`，`padding: 40px 28px`。首页正文颜色为 `--home-body`（#555/#BBB，对应 antfu 的 `--fg`）；标题用 `--heading`，链接用 `--heading`。
+- Stack：h2 + 介绍（`text-ink`）+ `list-disc` 列表（`pl-6`、`gap-2px`、marker `--code-line`）；每行分类为蓝色 `/skills` 链接 + ↗ + `—` + 技术项（muted）；链接仿 onur `.link`，hover 下划线、无常态底线。
 - 背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条，40fps，停笔后静止）；右上角按钮循环 `plum → dots → none` 并写入 `localStorage.home-background`；也可通过 `src/backgrounds/index.js` 的 `HOME_BACKGROUND` 切换默认值；背景层固定 `z-0`，内容 `z-10`；其他页面可直接引用 `<BackgroundLayer variant="dots" />`；`prefers-reduced-motion` 下关闭。
 - “Find me on” 使用正文链接样式：16px / 400（`font-weight: inherit`），图标 1.2em（约 19px）、`inline-block`、75% 不透明度、`text-bottom` 对齐，图标与文字间隔 4px，链接间距 8px；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`（#555/#BBB），`border 0.3s ease-in-out`，底线常驻不挤压布局；下方 `Or mail me at` + mono 邮箱。
 - 区块之间使用 50px 居中短分割线，上下 `2em`（与 antfu 的 `.prose hr` 一致）。
@@ -213,7 +214,7 @@
 
 | 页面 | 构图 |
 | --- | --- |
-| `/` | Intro 三段 → hr → Find me on → hr → Tech Stack → 页脚 |
+| `/` | Intro 三段 → hr → Find me on → hr → Stack → 页脚 |
 | `/blog` | h1 + 副标题 + RSS/Search → 分类/标签 → 年/日期/标题/分类 grid 行（视觉上表格式） |
 | `/blog/:slug` | 返回 → h1 → 日期·阅读时长·分类 → 正文 68ch + 右侧 TOC |
 | `/projects` | h1 + 说明 + GitHub → 项目表格（移动卡片） |
