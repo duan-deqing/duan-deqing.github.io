@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { extractHeadings } from '../../utils/markdownHeading'
 
-export default function TableOfContents({ content, onItemClick }) {
+export default function TableOfContents({ content, onItemClick, showTitle = true }) {
   const headings = useMemo(() => extractHeadings(content), [content])
   const [activeId, setActiveId] = useState('')
 
@@ -33,10 +33,8 @@ export default function TableOfContents({ content, onItemClick }) {
     (event, id) => {
       event.preventDefault()
       const el = document.getElementById(id)
-      if (el) {
-        const top = el.getBoundingClientRect().top + window.scrollY - 80
-        window.scrollTo({ top, behavior: 'auto' })
-      }
+      // 标题自带 scroll-mt-24；scrollIntoView 在 onur 壳的内层滚动容器中也能生效。
+      if (el) el.scrollIntoView({ block: 'start', behavior: 'auto' })
       onItemClick?.()
     },
     [onItemClick]
@@ -46,9 +44,7 @@ export default function TableOfContents({ content, onItemClick }) {
 
   return (
     <nav aria-label="Table of contents">
-      <p className="mb-3 font-mono-ui text-[10px] uppercase tracking-[0.1em] text-muted">
-        On this page
-      </p>
+      {showTitle ? <p className="mb-3 text-xs font-medium text-muted">On this page</p> : null}
       <ul className="border-l border-line">
         {headings.map(({ level, text, id }) => {
           const active = activeId === id
@@ -58,9 +54,9 @@ export default function TableOfContents({ content, onItemClick }) {
                 href={`#${id}`}
                 onClick={(event) => handleClick(event, id)}
                 style={{ paddingLeft: `${0.75 + (level - 2) * 0.75}rem` }}
-                className={`-ml-px block border-l-2 py-1 pr-2 text-[13px] leading-snug transition-colors ${
+                className={`-ml-px block border-l-2 py-1 pr-2 text-sm leading-snug transition-colors ${
                   active
-                    ? 'border-accent text-ink'
+                    ? 'border-ink text-ink'
                     : 'border-transparent text-muted hover:text-ink'
                 }`}
               >

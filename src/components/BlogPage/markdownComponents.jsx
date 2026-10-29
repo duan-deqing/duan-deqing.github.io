@@ -1,14 +1,13 @@
-import { cloneElement } from 'react'
 import { headingId, getTextContent } from '../../utils/markdownHeading'
 
 const heading = (level) => {
   const Tag = `h${level}`
   const className =
     level === 2
-      ? 'mt-10 mb-4 scroll-mt-24 text-2xl font-semibold tracking-[-0.02em] text-ink'
+      ? 'mt-10 mb-4 scroll-mt-24 text-xl font-semibold tracking-tight text-heading md:text-2xl'
       : level === 3
-        ? 'mt-8 mb-3 scroll-mt-24 text-xl font-semibold tracking-[-0.01em] text-ink'
-        : 'mt-6 mb-2 scroll-mt-24 text-lg font-semibold text-ink'
+        ? 'mt-8 mb-3 scroll-mt-24 text-lg font-semibold tracking-tight text-heading'
+        : 'mt-6 mb-2 scroll-mt-24 text-base font-semibold text-heading'
 
   return function Heading({ children }) {
     return (
@@ -25,14 +24,12 @@ export const markdownComponents = {
   h3: heading(3),
   h4: heading(4),
 
-  p: ({ children }) => (
-    <p className="mb-4 text-[1.0625rem] leading-[1.85] text-ink/90">{children}</p>
-  ),
+  p: ({ children }) => <p className="mb-5 text-base leading-[1.75] text-ink">{children}</p>,
 
   a: ({ href, children }) => (
     <a
       href={href}
-      className="text-accent underline decoration-accent/40 underline-offset-2 transition-colors hover:decoration-accent"
+      className="link"
       target={href?.startsWith('http') ? '_blank' : undefined}
       rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
     >
@@ -41,13 +38,13 @@ export const markdownComponents = {
   ),
 
   ul: ({ children }) => (
-    <ul className="mb-4 list-disc space-y-2 pl-5 text-[1.0625rem] leading-[1.85] text-ink/90">
+    <ul className="mb-5 list-disc space-y-1.5 pl-5 text-base leading-[1.75] text-ink">
       {children}
     </ul>
   ),
 
   ol: ({ children }) => (
-    <ol className="mb-4 list-decimal space-y-2 pl-5 text-[1.0625rem] leading-[1.85] text-ink/90">
+    <ol className="mb-5 list-decimal space-y-1.5 pl-5 text-base leading-[1.75] text-ink">
       {children}
     </ol>
   ),
@@ -55,49 +52,30 @@ export const markdownComponents = {
   li: ({ children }) => <li className="pl-0.5">{children}</li>,
 
   blockquote: ({ children }) => (
-    <blockquote className="my-6 border-l-2 border-accent bg-subtle py-1 pl-4 text-ink/75">
+    <blockquote className="my-6 border-l border-line-strong pl-4 text-muted-strong">
       {children}
     </blockquote>
   ),
 
-  code({ block, node, className, children, ...props }) {
-    if (block) {
+  // react-markdown 会把 hast 的 node 传给自定义组件；不透传给 DOM。
+  code({ className, children, node, ...props }) {
+    const isBlock = typeof className === 'string' && /(^|\s)(hljs|language-)/.test(className)
+    if (isBlock) {
       return (
         <code className={className} {...props}>
           {children}
         </code>
       )
     }
-
     return (
-      <code
-        className="rounded bg-subtle px-1.5 py-0.5 font-mono text-[0.875em] text-ink"
-        {...props}
-      >
+      <code className="inline-code" {...props}>
         {children}
       </code>
     )
   },
 
-  pre({ children, node, ...props }) {
-    const codeChild = children?.props
-    const className = codeChild?.className || ''
-    const match = /language-([\w+#-]+)/.exec(className)
-    const language = match ? match[1] : 'code'
-
-    return (
-      <div className="my-6 overflow-hidden rounded-lg border border-line">
-        <div className="border-b border-line bg-subtle px-4 py-2 font-mono-ui text-[10px] uppercase tracking-[0.08em] text-ink/75">
-          {language}
-        </div>
-        <pre
-          {...props}
-          className="overflow-x-auto bg-elevated px-4 py-5 font-mono text-[0.875rem] leading-[1.7]"
-        >
-          {cloneElement(children, { block: true })}
-        </pre>
-      </div>
-    )
+  pre({ children }) {
+    return <pre className="code-block">{children}</pre>
   },
 
   img: ({ src, alt }) => (
@@ -106,7 +84,7 @@ export const markdownComponents = {
       alt={alt || ''}
       loading="lazy"
       decoding="async"
-      className="my-6 h-auto w-full rounded-lg border border-line"
+      className="my-6 h-auto w-full rounded-xl border border-line"
     />
   ),
 
@@ -117,13 +95,13 @@ export const markdownComponents = {
   ),
 
   th: ({ children }) => (
-    <th className="border-b border-line bg-subtle px-4 py-2 text-left font-medium text-ink">
+    <th className="border-b border-line px-4 py-2 text-left font-medium text-muted">
       {children}
     </th>
   ),
 
   td: ({ children }) => (
-    <td className="border-b border-line px-4 py-2 text-ink/85 last:border-0">{children}</td>
+    <td className="border-b border-line px-4 py-2 text-ink last:border-0">{children}</td>
   ),
 
   hr: () => <hr className="my-10 border-line" />,
