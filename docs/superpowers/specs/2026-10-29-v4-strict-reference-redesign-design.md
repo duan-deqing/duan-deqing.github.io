@@ -28,7 +28,7 @@
 3. 全站自托管 Geist Sans + Geist Mono，中文回退系统字体。
 4. 首页只保留：自我介绍（内联链接）、社交与邮箱、技术栈、页脚；移除首页项目卡片、技能网格、联系 CTA。
 5. 博客列表改为 onur 式「年 / 日期 / 标题 / 分类」表格行；文章页改为 onur 式排版 + 保留 TOC。
-6. 项目页改为 onur `workspace` 式表格；技能页改为 onur 定义行；联系页改为 onur 文本页 + 链接列表。
+6. 项目页改为 onur `workspace` 式表格；技能页改为 onur 式 bullet 列表；联系页改为 onur 文本页 + 链接列表。
 7. 后台在保留全部功能的前提下，视觉与布局重做为 onur 风格。
 8. 移动端 Lighthouse Performance ≥ 90（`/`、`/blog`、`/blog/<slug>`），A11y / Best Practices / SEO ≥ 95。
 9. 不新增运行时依赖（不引入 shadcn/Radix/cva/vaul/framer-motion/图标库）。
@@ -114,7 +114,7 @@
 
 规则：
 
-- 蓝色只用于**正文链接与焦点环**；按钮、选中态、导航 active 一律黑/白。
+- 蓝色只用于**正文链接、Stack 分类标签与焦点环**；按钮、选中态、导航 active 一律黑/白。
 - 不使用渐变、玻璃模糊、彩色描边、彩色阴影（文章页光晕除外）。
 - 卡片只有 1px `--line` 描边；唯一阴影为 `0 1px 2px rgb(0 0 0 / .05)`（按钮/输入框），深色不用阴影。
 - 选区：浅色黑底白字，深色白底黑字。
@@ -283,10 +283,11 @@ App
 
 ### 6.5 Stack 页 `/skills`
 
-- 页头：h1 `Stack / 技术栈` + 一段说明。
-- 每个分类一行：桌面 `grid-cols-[160px_1fr]`，分类名 14px/500 `text-heading`，技术项为 14px 文本、`·` 分隔、可换行；行间 `border-t`、纵向 24px。
-- 不使用 chips、卡片、图标。
-- 移动：分类名在上，技术项在下。
+- 页头：h1 `Stack / 技术栈`，下方 16px 说明（`text-ink`、`leading-[1.75]`）。
+- 列表与 onur `/stack` 一致：`ul` 为 `list-disc`、`flex flex-col gap-0.5 pl-6 mb-4`；`li` 为 16px / `leading-[1.75]`、`pl-2`、marker `--code-line`。
+- 每行：蓝色分类名（`text-accent`，非链接）` — ` 技术项（`·` 分隔、可换行、正文色）。
+- 不使用 chips、卡片、图标、行间边框。
+- 移动端保持同一单列列表。
 
 ### 6.6 联系页 `/contact`
 

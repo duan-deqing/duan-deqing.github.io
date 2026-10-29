@@ -18,27 +18,26 @@ export default function SkillsPage() {
         t={t}
         lang={lang}
       />
-      <PageHeading
-        title={t({ en: 'Stack', zh: '技术栈' })}
-        description={t({
+      <PageHeading title={t({ en: 'Stack', zh: '技术栈' })} />
+
+      <p className="mb-1 text-base leading-[1.75] text-ink">
+        {t({
           en: 'Tools I reach for when building and shipping.',
           zh: '构建与交付时常用的工具。',
         })}
-      />
+      </p>
 
-      <div className="border-t border-line">
+      <ul className="mb-4 flex list-disc flex-col gap-0.5 pl-6">
         {groups.map((group) => (
-          <section
+          <li
             key={t(group.category)}
-            className="grid gap-2 border-b border-line py-5 md:grid-cols-[160px_1fr] md:gap-6"
+            className="pl-2 text-base leading-[1.75] marker:text-[var(--code-line)]"
           >
-            <h2 className="text-sm font-medium text-heading">{t(group.category)}</h2>
-            <p className="text-sm leading-relaxed text-muted">
-              {(group.items || []).join(' · ')}
-            </p>
-          </section>
+            <span className="text-accent">{t(group.category)}</span>
+            <span> — {(group.items || []).join(' · ')}</span>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   )
 }
