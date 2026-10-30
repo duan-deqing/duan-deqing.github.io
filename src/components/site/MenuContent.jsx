@@ -1,15 +1,19 @@
+import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import NavItem from './NavItem'
+import WechatDialog from './WechatDialog'
 import {
+  BilibiliIcon,
   BookmarkIcon,
   FolderIcon,
+  GitHubIcon,
   HomeIcon,
   MailIcon,
   PenIcon,
-  RssIcon,
   WandSparklesIcon,
+  WechatIcon,
   platformIcon,
 } from './icons'
 
@@ -19,6 +23,13 @@ const NAV_ICONS = {
   '/blog': PenIcon,
   '/skills': WandSparklesIcon,
   '/bookmarks': BookmarkIcon,
+}
+
+const CONTACT_ICONS = {
+  email: MailIcon,
+  github: GitHubIcon,
+  bilibili: BilibiliIcon,
+  wechat: WechatIcon,
 }
 
 // 与首页壳共用 config.navLinks；Home 固定置顶，图标按 href 映射
@@ -36,6 +47,10 @@ export const NAV_ITEMS = [
 const SECTIONS_LABEL = { en: 'Sections', zh: '分区' }
 const ONLINE_LABEL = { en: 'Online', zh: '在线' }
 
+function normalizeUrl(value) {
+  return String(value || '').replace(/\/+$/, '')
+}
+
 export function isNavActive(pathname, href) {
   if (href === '/') return pathname === '/'
   return pathname === href || pathname.startsWith(`${href}/`)
@@ -44,21 +59,22 @@ export function isNavActive(pathname, href) {
 export default function MenuContent({ onNavigate }) {
   const { t } = useLanguage()
   const { pathname } = useLocation()
+  const [wechat, setWechat] = useState(null)
   const name = t(config.personal.name)
   const role = t(config.personal.tags?.[0] || '')
-  const email = config.contact?.email
   const socials = config.socialLinks || []
+  const methods = config.contactPage?.contactMethods || []
   const avatar = config.personal.avatar
-
-  const online = [
-    ...socials.map((social) => ({
+  const linkedUrls = new Set(
+    methods.filter((method) => method.href).map((method) => normalizeUrl(method.href))
+  )
+  const extraSocials = socials
+    .filter((social) => !linkedUrls.has(normalizeUrl(social.url)))
+    .map((social) => ({
       href: social.url,
       label: social.platform,
       Icon: platformIcon(social.platform),
-    })),
-    ...(email ? [{ href: `mailto:${email}`, label: 'Email', Icon: MailIcon }] : []),
-    { href: '/rss.xml', label: 'RSS', Icon: RssIcon },
-  ]
+    }))
 
   return (
     <div className="flex w-full flex-col gap-4 text-sm">
@@ -110,7 +126,32 @@ export default function MenuContent({ onNavigate }) {
       <div className="flex flex-col gap-2">
         <span className="px-2 text-xs font-medium text-muted">{t(ONLINE_LABEL)}</span>
         <div className="flex flex-col gap-1">
-          {online.map((item) => (
+          {methods.map((method) => {
+            const Icon = CONTACT_ICONS[method.icon] || MailIcon
+            if (method.icon === 'wechat' && method.qrcode) {
+              return (
+                <NavItem
+                  key={`contact-${method.icon}`}
+                  label={t(method.label)}
+                  Icon={Icon}
+                  onClick={() => setWechat(method)}
+                  hasPopup="dialog"
+                />
+              )
+            }
+            if (!method.href) return null
+            return (
+              <NavItem
+                key={`contact-${method.icon}-${method.href}`}
+                href={method.href}
+                label={t(method.label)}
+                Icon={Icon}
+                external
+                onNavigate={onNavigate}
+              />
+            )
+          })}
+          {extraSocials.map((item) => (
             <NavItem
               key={item.href + item.label}
               href={item.href}
@@ -122,6 +163,13 @@ export default function MenuContent({ onNavigate }) {
           ))}
         </div>
       </div>
+
+      <WechatDialog
+        open={Boolean(wechat)}
+        onClose={() => setWechat(null)}
+        qrcode={wechat?.qrcode}
+        alt={wechat ? t(wechat.label) : 'WeChat'}
+      />
     </div>
   )
 }

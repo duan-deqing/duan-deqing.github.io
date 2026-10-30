@@ -224,7 +224,7 @@ App
 
 ### 5.3 子页壳（onur）
 
-- 桌面侧栏固定、独立滚动：名片 → 主导航（Home / Projects / Blog / Skills / Bookmarks，编号 1–5，active 黑底白字）→ 分隔线 → Online（GitHub / Bilibili / Bluesky / Email / RSS，带 ↗）；侧栏不再放主题/语言按钮。
+- 桌面侧栏固定、独立滚动：名片 → 主导航（Home / Projects / Blog / Skills / Bookmarks，编号 1–5，active 黑底白字）→ 分隔线 → Online（Email / GitHub / Bilibili / WeChat / Bluesky；前四项来自 `contactPage.contactMethods`，Bluesky 来自 `socialLinks` 并去重；WeChat 打开二维码弹窗，无 RSS）；侧栏不再放主题/语言按钮。
 - 主题/语言控制固定在内容区右上角（`right: 32px; top: 24px`，随内容滚动），使用与首页相同的裸图标组（组内 4px、无边框、60% 不透明度、hover 100%）。
 - 侧栏在 ≥1024 显示；<1024 隐藏，改为 48px sticky 顶栏：左菜单按钮、中当前页标题、右主题。
 - 移动菜单为底部抽屉（80vh、顶部圆角、上滑 300ms），内容复用 `MenuContent`，主题与语言控件在抽屉内；Esc、遮罩点击、路由变化均可关闭，焦点在打开时锁定、关闭后归还。
@@ -319,7 +319,7 @@ App
 
 - 与博客同款三栏壳：导航栏 + 320/384px 书签分类栏 + 右侧网格底纹内容区；分类栏标题右侧显示书签总数，分类行显示名称与 `N 个书签`，active 黑底白字、hover `--bg-hover`。
 - `/bookmarks` 桌面右侧为空态，中央随机显示 `src/content/quotes.yaml` 的一条语录；移动端为 h1 + 说明 + 分类列表（行间 1px 下边框）。
-- `/bookmarks/:slug`：右侧 h1 + onur 式双列书签卡；卡片间距 16px，卡片内距 16px、圆角 12px、hover `--bg-subtle`；封面 1200×630，缺失或加载失败时显示域名首字母占位；正文为标题、域名（Link2 图标）与描述，卡片 25ms 阶梯入场。
+- `/bookmarks/:slug`：右侧 h1 + onur 式双列书签卡；卡片间距 16px，卡片内距 16px、圆角 12px、hover `--bg-subtle`；封面 1200×630，缺失或加载失败时显示域名首字母占位；正文为标题（18px/600）、域名（Link2 图标，14px/20px）与描述（14px/20px），卡片高度随内容自适应，25ms 阶梯入场。
 - 分类与书签全部来自 `src/content/bookmarks.yaml`（支持双语标题/描述与可选 `cover`）；书签专属样式集中在 `src/styles/bookmarks.css`，后续可单独调整。
 - 旧 `/contact` 页与微信弹窗移除；邮箱、微信气泡、社交链接仍保留在首页。
 - 移动端分类页提供返回书签的文本链接。
@@ -357,7 +357,7 @@ App
 - `src/components/blog/BlogProvider.jsx`、`WritingRail.jsx`
 - `src/backgrounds/`：`index.js`（注册表、顺序与 `HOME_BACKGROUND`）、`BackgroundLayer.jsx`、`BackgroundToggle.jsx`、`PlumBackground.jsx`、`DotsBackground.jsx`
 - `src/components/site/HomeHeader.jsx`、`SideMenu.jsx`、`MenuContent.jsx`、`NavItem.jsx`、`MobileHeader.jsx`、`MobileMenuSheet.jsx`
-- `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`
+- `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`、`WechatDialog.jsx`（侧栏微信二维码）
 - `src/components/site/Button.jsx`、`IconButton.jsx`、`SiteLink.jsx`
 - `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`WritingTable.jsx`、`SearchDialog.jsx`、`SearchTrigger.jsx`、`RssButton.jsx`、`BlogQuote.jsx`、`ArticleVideo.jsx`、`ArticleCarousel.jsx`
 - `src/styles/math.css`（KaTeX 行内/块级公式样式）
@@ -383,7 +383,7 @@ App
 
 - `src/components/shared/SiteHeader.jsx`、`SiteFooter.jsx`、`ThemeLangControls.jsx`、`PageHeader.jsx`、`TagChip.jsx`、`SkillGroups.jsx`
 - `src/components/HomePage/*`（Hero、AboutSection、ProjectGrid、ProjectCard、PostRow、PostRowSkeleton、SkillsSection、ContactCta）
-- `src/pages/ContactPage.jsx`、`src/components/contact/WechatDialog.jsx`（联系页改为书签页后移除）
+- `src/pages/ContactPage.jsx`（联系页改为书签页后移除；微信二维码弹窗迁至 `src/components/site/WechatDialog.jsx`，供侧栏使用）
 - `src/components/BlogPage/BlogHero.jsx`、`CategoryFilter.jsx`、`TagFilter.jsx`、`SearchTrigger.jsx`、`BlogSearch.jsx`、`BlogList.jsx`
 - 仅服务旧布局的 CSS 类与工具类。
 

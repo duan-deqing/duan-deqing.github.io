@@ -105,6 +105,7 @@
   padding: 1rem;
   border-radius: 12px;
   background-color: var(--bg);
+  line-height: 1.5;
   box-shadow:
     0 0 0 0.5px var(--line),
     0 0 0 3px var(--bg),
@@ -170,7 +171,7 @@
   display: -webkit-box;
   overflow: hidden;
   font-size: 1.125rem;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.375;
   color: var(--heading);
   -webkit-box-orient: vertical;
@@ -183,6 +184,7 @@
   align-items: center;
   gap: 0.25rem;
   font-size: 0.875rem;
+  line-height: 1.25rem;
   color: var(--muted);
 }
 
@@ -199,9 +201,8 @@
 .bookmark-description {
   display: -webkit-box;
   overflow: hidden;
-  margin-top: 0.25rem;
   font-size: 0.875rem;
-  line-height: 1.5;
+  line-height: 1.25rem;
   color: var(--ink);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 6;

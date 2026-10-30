@@ -12,6 +12,8 @@ export default function NavItem({
   shortcut,
   external = false,
   onNavigate,
+  onClick,
+  hasPopup,
 }) {
   const inner = (
     <>
@@ -41,6 +43,19 @@ export default function NavItem({
     BASE,
     active ? 'bg-active text-active-fg' : 'text-ink hover:bg-hover'
   )
+
+  if (typeof onClick === 'function' && !href) {
+    return (
+      <button
+        type="button"
+        className={className}
+        onClick={onClick}
+        aria-haspopup={hasPopup || undefined}
+      >
+        {inner}
+      </button>
+    )
+  }
 
   if (external) {
     return (
