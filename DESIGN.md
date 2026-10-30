@@ -101,6 +101,7 @@
 │                             Skills Bookmarks│
 │                                              │
 │           65ch 居中正文                       │
+│           姓名 h1（STYLAN）                   │
 │           自我介绍（内联链接）                 │
 │           ───                                │
 │           Find me on …                       │
@@ -112,6 +113,7 @@
 ```
 
 - wordmark 左上 20px；导航右上 32px（随页面滚动，不吸顶）。Projects/Blog 为文本链接，沿用首页常驻 1px 下划线（默认 60% 不透明度，hover 文字加深至 100%、下划线变为 `--link-underline`，间距 20px）；Stack/Bookmarks 改为 16px 魔杖/书签图标，并与背景、主题、语言按钮合并为同一组裸图标控件（组内间距 4px，无边框无底色，60% 不透明度，hover 100%，图标带 `aria-label` 与 `title`）；语言按钮使用地球图标，侧栏变体显示地球图标 + 文字。
+- 正文前显示姓名 h1（`personal.name`，36px/800/1.11、`mb-8`、`--heading`），位于 65ch 自我介绍之前，与 antfu 首页一致；这是首页唯一 h1。
 - 主列 `max-width: 65ch`，`padding: 40px 28px`。首页正文颜色为 `--home-body`（#555/#BBB，对应 antfu 的 `--fg`）；标题用 `--heading`，链接用 `--heading`。
 - Stack 区块无可见标题：介绍（`text-ink`）+ `list-disc` 列表（`pl-6`、`gap-2px`、marker `--code-line`）；每行分类为蓝色 `/skills` 链接 + ↗ + `—` + 技术项（muted）；链接沿用 `.link` 下划线：常驻 1px `rgba(125,125,125,.3)`，hover 加深为 `--link-underline`，文字保持蓝色。
 - 背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条，40fps，停笔后静止）；右上角按钮循环 `plum → dots → none` 并写入 `localStorage.home-background`；也可通过 `src/backgrounds/index.js` 的 `HOME_BACKGROUND` 切换默认值；背景层固定 `z-0`，内容 `z-10`；其他页面可直接引用 `<BackgroundLayer variant="dots" />`；`prefers-reduced-motion` 下关闭。
@@ -226,7 +228,7 @@
 
 | 页面 | 构图 |
 | --- | --- |
-| `/` | Intro 三段 → hr → Find me on → hr → Stack → 页脚 |
+| `/` | 姓名 h1 → Intro 三段 → hr → Find me on → hr → Stack → 页脚 |
 | `/home` | 子页 Home（onur）：两段介绍（Hello + focus 链接）→ Writing 标题 → 年/日期/标题/分类表格；桌面无可见大标题 |
 | `/blog` | 三栏：导航 + 写作列表栏（标题 + RSS/Search + 分类/标签选择框 + onur writing 行）+ 右侧点状空内容区（中央随机显示 `quotes.yaml` 的一条语录） |
 | `/blog/:slug` | 三栏同 `/blog`，列表栏高亮当前文章，右侧白底文章（返回链接仅移动端显示，TOC 为移动端折叠块） |

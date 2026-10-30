@@ -245,6 +245,7 @@ App
 
 内容顺序：
 
+- 页面唯一 h1：`personal.name`（36px/800/1.11、`mb-8`、`--heading`），位于 Intro 之前，与 antfu 首页的姓名标题一致。
 1. **Intro**（3 段，65ch）：
    - 第 1 段：`Hi, I'm STYLAN.` + `personal.bio`。
    - 第 2 段：专注方向（`about.focus`）+ 内联链接 `projects`、`skills`。
