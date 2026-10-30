@@ -2,7 +2,7 @@ import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 
 const LICENSE_URL = 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
-const REFERENCE_URL = 'https://github.com/antfu/antfu.me'
+const REFERENCE_URL = 'https://github.com/suyalcinkaya/onur.dev'
 
 export default function FooterInfo({ className = '', stacked = false }) {
   const { t } = useLanguage()
@@ -30,8 +30,8 @@ export default function FooterInfo({ className = '', stacked = false }) {
             rel="noopener noreferrer"
           >
             {t({
-              en: 'Design reference: antfu/antfu.me',
-              zh: '设计参考：antfu/antfu.me',
+              en: 'Design reference: onur.dev',
+              zh: '设计参考：onur.dev',
             })}
           </a>
         </p>
@@ -58,8 +58,8 @@ export default function FooterInfo({ className = '', stacked = false }) {
         rel="noopener noreferrer"
       >
         {t({
-          en: 'Design reference: antfu/antfu.me',
-          zh: '设计参考：antfu/antfu.me',
+          en: 'Design reference: onur.dev',
+          zh: '设计参考：onur.dev',
         })}
       </a>
     </p>
