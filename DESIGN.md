@@ -118,7 +118,7 @@
 - “Find me on” 使用正文链接样式：16px / 400（`font-weight: inherit`），图标 1.2em（约 19px）、`inline-block`、75% 不透明度、`text-bottom` 对齐，图标与文字间隔 4px，链接间距 8px；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`（#555/#BBB），`border 0.3s ease-in-out`，底线常驻不挤压布局。平台为 GitHub / Bilibili / Bluesky / WeChat；WeChat 在 hover/focus 时显示二维码气泡（触摸端点击切换），气泡桌面端位于按钮右侧并垂直居中、移动端位于按钮上方，以 `slide-enter` 1s 入场；关闭前先保留 0.5s，随后气泡像素分解为粒子并汇聚到 WeChat 按钮（`src/utils/dispersion.js`），reduced-motion 下 0.5s 后直接关闭。下方 `Or mail me at` + mono 邮箱。
 - 区块之间使用 50px 居中短分割线，上下 `2em`（与 antfu 的 `.prose hr` 一致）。
 - 页脚：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 antfu/antfu.me`，14px、50% 不透明度，与 65ch 正文对齐；链接使用同一 1px 底线规则；窄屏可换行，无边框、无社交图标（与 antfu 一致）。
-- 移动端右上：Stack/Bookmarks 图标与背景、主题、语言按钮同组；汉堡按钮打开右上浮层选项框（`rounded-lg`、1px `--line`、`--bg` 底、`shadow-lg`，160ms 淡入上移），不再向下展开；选项框包含全部导航项，点击外部、Esc 或路由变化关闭。
+- 移动端右上：Stack/Bookmarks 图标与背景、主题、语言按钮同组；汉堡按钮打开右上浮层选项框（`rounded-lg`、1px `--line`、`--bg` 底、`shadow-lg`，160ms 淡入上移），不再向下展开；选项框仅保留 Projects/Blog（Stack/Bookmarks 由右上图标承担），点击外部、Esc 或路由变化关闭。
 - 页面无侧栏、无大标题、无项目卡片。
 
 ### 4.2 子页壳（onur）

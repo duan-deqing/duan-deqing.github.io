@@ -139,7 +139,7 @@ export default function HomeHeader({ background, onCycleBackground }) {
               aria-label="Mobile"
               className="home-menu-enter absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-line bg-page p-1 shadow-lg"
             >
-              {links.map((link) => (
+              {textLinks.map((link) => (
                 <Link
                   key={link.href}
                   to={link.href}

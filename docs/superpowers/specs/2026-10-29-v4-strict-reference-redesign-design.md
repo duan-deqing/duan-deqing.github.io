@@ -219,7 +219,7 @@ App
 ### 5.2 首页壳（antfu）
 
 - 桌面：wordmark 在左上 `1.25rem`、导航在右上 `2rem`，随页面滚动（与 antfu 的 NavBar 一致，不吸顶）；Projects/Blog 为文本链接（60% 不透明度、hover 100%，间距 20px）；Stack/Bookmarks 为 16px 魔杖/书签图标，并与背景、主题、语言按钮合并为同一组裸图标控件（组内 4px，无边框无底色，60% opacity，hover 100%，图标链接带 `aria-label` / `title`），顺序为 Stack → Bookmarks → 背景切换 → 主题 → 语言。
-- 移动：顶部普通流式排布（不固定），wordmark 左；右上为 Stack/Bookmarks 图标 + 背景/主题/语言 + 汉堡按钮的同一组控件；点击汉堡打开右上浮层选项框（`rounded-lg`、1px `--line`、`--bg` 底、`shadow-lg`，160ms 淡入上移），列出全部导航项，不再向下展开；点击外部、Esc 或路由变化关闭。
+- 移动：顶部普通流式排布（不固定），wordmark 左；右上为 Stack/Bookmarks 图标 + 背景/主题/语言 + 汉堡按钮的同一组控件；点击汉堡打开右上浮层选项框（`rounded-lg`、1px `--line`、`--bg` 底、`shadow-lg`，160ms 淡入上移），仅列出 Projects/Blog（Stack/Bookmarks 由右上图标承担），不再向下展开；点击外部、Esc 或路由变化关闭。
 - 主列：`max-width: 65ch`，居中，`padding: 2.5rem 1.75rem`。
 - 页脚：`© 2026 STYLAN` 单行，14px、50% 不透明度，与 65ch 正文对齐；无边框、无社交图标（与 antfu 一致）。
 
