@@ -271,6 +271,11 @@
     transform-origin: top;
   }
 
+  .home-menu-enter {
+    animation: filter-menu-in 160ms ease-out both;
+    transform-origin: top right;
+  }
+
   .search-dialog-enter {
     animation: dialog-in 180ms ease-out both;
   }
@@ -402,6 +407,10 @@
     }
 
     .filter-menu-enter {
+      animation: none;
+    }
+
+    .home-menu-enter {
       animation: none;
     }
 

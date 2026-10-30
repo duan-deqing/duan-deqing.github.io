@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
@@ -18,6 +18,8 @@ export default function HomeHeader({ background, onCycleBackground }) {
   const { t } = useLanguage()
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
+  const panelRef = useRef(null)
+  const buttonRef = useRef(null)
   const links = config.navLinks || []
   const textLinks = links.filter((link) => !ICON_LINKS[link.href])
   const iconLinks = links.filter((link) => ICON_LINKS[link.href])
@@ -30,8 +32,17 @@ export default function HomeHeader({ background, onCycleBackground }) {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') setOpen(false)
     }
+    function handlePointerDown(event) {
+      if (panelRef.current?.contains(event.target)) return
+      if (buttonRef.current?.contains(event.target)) return
+      setOpen(false)
+    }
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    document.addEventListener('pointerdown', handlePointerDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      document.removeEventListener('pointerdown', handlePointerDown)
+    }
   }, [open])
 
   return (
@@ -84,12 +95,29 @@ export default function HomeHeader({ background, onCycleBackground }) {
           </div>
         </nav>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="relative flex items-center gap-1 md:hidden">
+          {iconLinks.map((link) => {
+            const Icon = ICON_LINKS[link.href]
+            const label = t(link.label)
+            return (
+              <Link
+                key={link.href}
+                to={link.href}
+                aria-label={label}
+                title={label}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                className={ICON_LINK}
+              >
+                <Icon size={16} />
+              </Link>
+            )
+          })}
           <ThemeLangControls
             background={background}
             onCycleBackground={onCycleBackground}
           />
           <button
+            ref={buttonRef}
             type="button"
             className="grid size-8 place-items-center rounded-md text-ink hover:bg-subtle"
             aria-label={
@@ -103,31 +131,34 @@ export default function HomeHeader({ background, onCycleBackground }) {
           >
             {open ? <CloseIcon size={18} /> : <MenuIcon size={18} />}
           </button>
+
+          {open ? (
+            <nav
+              ref={panelRef}
+              id="home-mobile-nav"
+              aria-label="Mobile"
+              className="home-menu-enter absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-line bg-page p-1 shadow-lg"
+            >
+              {links.map((link) => (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  className={cn(
+                    'block rounded-md px-3 py-2.5 text-sm transition-colors',
+                    isActive(link.href)
+                      ? 'bg-active text-active-fg'
+                      : 'text-ink hover:bg-subtle'
+                  )}
+                >
+                  {t(link.label)}
+                </Link>
+              ))}
+            </nav>
+          ) : null}
         </div>
       </div>
-
-      {open ? (
-        <nav
-          id="home-mobile-nav"
-          aria-label="Mobile"
-          className="mt-4 flex flex-col divide-y divide-line border-y border-line md:hidden"
-        >
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              to={link.href}
-              onClick={() => setOpen(false)}
-              aria-current={isActive(link.href) ? 'page' : undefined}
-              className={cn(
-                'py-3 text-base',
-                isActive(link.href) ? 'text-heading' : 'text-muted-strong'
-              )}
-            >
-              {t(link.label)}
-            </Link>
-          ))}
-        </nav>
-      ) : null}
     </header>
   )
 }
