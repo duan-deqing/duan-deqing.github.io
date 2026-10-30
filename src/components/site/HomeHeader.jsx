@@ -62,7 +62,7 @@ export default function HomeHeader({ background, onCycleBackground }) {
               key={link.href}
               to={link.href}
               aria-current={isActive(link.href) ? 'page' : undefined}
-              className="text-sm text-ink opacity-60 transition-opacity hover:opacity-100"
+              className="home-nav-link text-sm"
             >
               {t(link.label)}
             </Link>
