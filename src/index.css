@@ -279,34 +279,26 @@
     position: relative;
     height: 2.25rem;
     overflow: hidden;
+    overflow: clip;
     border-radius: 0.5rem;
   }
 
-  .online-email-slide {
-    position: absolute;
-    inset: 0;
-    transition:
-      transform 300ms cubic-bezier(0.4, 0, 0.2, 1),
-      background-color 200ms ease;
+  .online-email-track {
+    display: flex;
+    width: 200%;
+    height: 100%;
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .online-email-front {
-    transform: translateX(0);
+  .online-email-swap.is-open .online-email-track {
+    transform: translateX(-50%);
   }
 
-  .online-email-back {
-    transform: translateX(-100%);
-    pointer-events: none;
-  }
-
-  .online-email-swap.is-open .online-email-front {
-    transform: translateX(100%);
-    pointer-events: none;
-  }
-
-  .online-email-swap.is-open .online-email-back {
-    transform: translateX(0);
-    pointer-events: auto;
+  .online-email-pane {
+    flex: 0 0 50%;
+    width: 50%;
+    height: 100%;
+    transition: background-color 200ms ease;
   }
 
   .quote-enter {
@@ -410,7 +402,7 @@
       animation: none;
     }
 
-    .online-email-slide {
+    .online-email-track {
       transition: none;
     }
 
