@@ -4,6 +4,7 @@ import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
 import ThemeLangControls from './ThemeLangControls'
+import HomeSignature from './HomeSignature'
 import { BookmarkIcon, CloseIcon, MenuIcon, WandSparklesIcon } from './icons'
 
 const ICON_LINKS = {
@@ -50,10 +51,10 @@ export default function HomeHeader({ background, onCycleBackground }) {
       <div className="flex items-center justify-between gap-4">
         <Link
           to="/"
-          className="text-sm font-semibold tracking-tight text-heading"
-          aria-label={t({ en: 'STYLAN home', zh: 'STYLAN 首页' })}
+          className="home-signature-link inline-flex shrink-0 items-center text-heading"
+          aria-label={t({ en: 'deqing — STYLAN home', zh: 'deqing — STYLAN 首页' })}
         >
-          STYLAN
+          <HomeSignature />
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-5 md:flex">
