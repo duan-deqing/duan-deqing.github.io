@@ -224,7 +224,7 @@ title: 视频标题
 - **LaTeX 公式**：文章支持行内 `$...$` 与块级 `$$...$$`（KaTeX），仅在含公式的文章按需加载
 - **书签**：`/bookmarks` 分类栏 + 双列书签卡，空态显示语录；分类与书签在 `bookmarks.yaml` 维护
 - **侧栏联系方式**：Online 依次为 GitHub / Email / Bilibili / WeChat / Bluesky；邮箱右侧保持箭头，点击后两张卡片原位叠放、以从左往右的遮罩擦除切换并支持复制，微信带右侧箭头并显示二维码与微信号 `stylan-ai`；不再显示 RSS
-- **侧栏页脚**：桌面侧栏底部固定显示与首页一致的 CC BY-NC-SA 4.0 / 版权 / 设计参考信息
+- **侧栏页脚**：桌面侧栏底部固定显示 CC BY-NC-SA 4.0、版权与设计参考 `onur.dev`；首页页脚仍指向 antfu/antfu.me
 - **视频与图集**：` ```video ` 支持 YouTube / Vimeo / Bilibili / 直链，` ```carousel ` 支持同位置多图轮播
 - **代码块**：rehype-highlight 高亮 + 行号 + 语言标签与 Copy，13px Mono、横向滚动；文章正文容器 768px / 16px / 1.75
 - **布局与动效**：首页 antfu 式 65ch 文本流；子页 onur 式侧栏（240/288px）；博客为写作列表栏 + 右侧文章；文章 768px。仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮（子页懒加载）

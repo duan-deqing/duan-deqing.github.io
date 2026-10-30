@@ -2,11 +2,28 @@ import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 
 const LICENSE_URL = 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
-const REFERENCE_URL = 'https://github.com/suyalcinkaya/onur.dev'
 
-export default function FooterInfo({ className = '', stacked = false }) {
+const REFERENCES = {
+  antfu: {
+    url: 'https://github.com/antfu/antfu.me',
+    label: {
+      en: 'Design reference: antfu/antfu.me',
+      zh: '设计参考：antfu/antfu.me',
+    },
+  },
+  onur: {
+    url: 'https://github.com/suyalcinkaya/onur.dev',
+    label: {
+      en: 'Design reference: onur.dev',
+      zh: '设计参考：onur.dev',
+    },
+  },
+}
+
+export default function FooterInfo({ className = '', stacked = false, reference = 'antfu' }) {
   const { t } = useLanguage()
   const copyright = config.footer?.copyright || '2026 © STYLAN'
+  const referenceMeta = REFERENCES[reference] || REFERENCES.antfu
 
   if (stacked) {
     return (
@@ -25,14 +42,11 @@ export default function FooterInfo({ className = '', stacked = false }) {
         <p className="mt-1">
           <a
             className="footer-link"
-            href={REFERENCE_URL}
+            href={referenceMeta.url}
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t({
-              en: 'Design reference: onur.dev',
-              zh: '设计参考：onur.dev',
-            })}
+            {t(referenceMeta.label)}
           </a>
         </p>
       </div>
@@ -53,14 +67,11 @@ export default function FooterInfo({ className = '', stacked = false }) {
       {' · '}
       <a
         className="footer-link"
-        href={REFERENCE_URL}
+        href={referenceMeta.url}
         target="_blank"
         rel="noopener noreferrer"
       >
-        {t({
-          en: 'Design reference: onur.dev',
-          zh: '设计参考：onur.dev',
-        })}
+        {t(referenceMeta.label)}
       </a>
     </p>
   )

@@ -30,7 +30,7 @@ export default function SideMenu() {
         <MenuContent />
       </div>
       <footer className="shrink-0 border-t border-line px-4 py-4">
-        <FooterInfo stacked className="text-xs leading-relaxed opacity-50" />
+        <FooterInfo stacked reference="onur" className="text-xs leading-relaxed opacity-50" />
       </footer>
     </aside>
   )

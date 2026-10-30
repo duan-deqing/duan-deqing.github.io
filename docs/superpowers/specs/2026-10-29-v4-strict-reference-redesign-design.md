@@ -230,7 +230,7 @@ App
 - 侧栏在 ≥1024 显示；<1024 隐藏，改为 48px sticky 顶栏：左菜单按钮、中当前页标题、右主题。
 - 移动菜单为底部抽屉（80vh、顶部圆角、上滑 300ms），内容复用 `MenuContent`，主题与语言控件在抽屉内；Esc、遮罩点击、路由变化均可关闭，焦点在打开时锁定、关闭后归还。
 - 内容区 `max-width: 768px` 居中；`ScrollArea` 保证侧栏固定、内容滚动。
-- 所有子页内容区不显示全站页脚；桌面侧栏底部固定显示与首页一致的 CC BY-NC-SA 4.0 / 版权 / 设计参考信息（12px、50% 不透明度，链接沿用 1px 底线）。
+- 所有子页内容区不显示全站页脚；桌面侧栏底部固定显示 CC BY-NC-SA 4.0 / 版权与设计参考 `onur.dev`（12px、50% 不透明度，链接沿用 1px 底线）。
 
 ### 5.4 后台壳
 
@@ -253,7 +253,7 @@ App
 3. **Find me on**：GitHub / Bilibili / Bluesky / WeChat，正文式链接（16px / 600、图标 1.2em / `inline-block` / 75% 不透明度 / `text-bottom` 对齐、图标与文字间隔 4px、链接间距 8px）；链接常态有 1px `rgba(125,125,125,.3)` 下边框，hover 变为 `--link-underline`，`border 0.3s ease-in-out`；WeChat hover/focus 显示二维码气泡，触摸端点击切换，气泡桌面端在按钮右侧垂直居中、移动端在按钮上方，以 `slide-enter` 1s 入场，关闭前保留 0.5s 再分解为粒子汇聚到按钮；下一行 `Or mail me at` + mono 字体邮箱链接。首页内所有带底线链接字重 600，页脚链接例外（400）。
 4. `<hr>`。
 5. **Stack**：无可见标题；介绍段落（`text-ink`）+ `ul.list-disc pl-6`、`gap-0.5`、marker `--code-line`；每行分类为蓝色 `/skills` 链接 + ↗ + `—` + `·` 连接的技术项（muted）；链接沿用 `.link` 下划线：常驻 1px `rgba(125,125,125,.3)`，hover 加深为 `--link-underline`，文字保持蓝色。
-6. **Footer**：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 onur.dev`，14px、50% 不透明度；许可与来源为链接，无 RSS/社交图标。
+6. **Footer**：`CC BY-NC-SA 4.0 2026 © STYLAN · 设计参考 antfu/antfu.me`，14px、50% 不透明度；许可与来源为链接，无 RSS/社交图标。
 
 规则：
 
