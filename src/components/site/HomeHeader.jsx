@@ -4,13 +4,23 @@ import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
 import ThemeLangControls from './ThemeLangControls'
-import { CloseIcon, MenuIcon } from './icons'
+import { BookmarkIcon, CloseIcon, MenuIcon, WandSparklesIcon } from './icons'
+
+const ICON_LINKS = {
+  '/skills': WandSparklesIcon,
+  '/bookmarks': BookmarkIcon,
+}
+
+const ICON_LINK =
+  'inline-flex h-8 items-center justify-center rounded-none px-1 text-ink opacity-60 transition-opacity hover:opacity-100'
 
 export default function HomeHeader({ background, onCycleBackground }) {
   const { t } = useLanguage()
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
   const links = config.navLinks || []
+  const textLinks = links.filter((link) => !ICON_LINKS[link.href])
+  const iconLinks = links.filter((link) => ICON_LINKS[link.href])
   const isActive = (href) => pathname === href || pathname.startsWith(`${href}/`)
 
   useEffect(() => setOpen(false), [pathname])
@@ -36,7 +46,7 @@ export default function HomeHeader({ background, onCycleBackground }) {
         </Link>
 
         <nav aria-label="Main" className="hidden items-center gap-5 md:flex">
-          {links.map((link) => (
+          {textLinks.map((link) => (
             <Link
               key={link.href}
               to={link.href}
@@ -46,14 +56,32 @@ export default function HomeHeader({ background, onCycleBackground }) {
               {t(link.label)}
             </Link>
           ))}
-          {onCycleBackground ? (
-            <ThemeLangControls
-              background={background}
-              onCycleBackground={onCycleBackground}
-            />
-          ) : (
-            <ThemeLangControls />
-          )}
+          <div className="flex items-center gap-1">
+            {iconLinks.map((link) => {
+              const Icon = ICON_LINKS[link.href]
+              const label = t(link.label)
+              return (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  aria-label={label}
+                  title={label}
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  className={ICON_LINK}
+                >
+                  <Icon size={16} />
+                </Link>
+              )
+            })}
+            {onCycleBackground ? (
+              <ThemeLangControls
+                background={background}
+                onCycleBackground={onCycleBackground}
+              />
+            ) : (
+              <ThemeLangControls />
+            )}
+          </div>
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">

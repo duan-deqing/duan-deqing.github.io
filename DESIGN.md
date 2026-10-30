@@ -111,7 +111,7 @@
 └──────────────────────────────────────────────┘
 ```
 
-- wordmark 左上 20px；导航右上 32px（随页面滚动，不吸顶）、链接间距 20px、默认 60% 不透明度。背景/主题/语言控制为同一组裸图标按钮：组内间距 4px，无边框无底色，60% 不透明度，hover 100%。
+- wordmark 左上 20px；导航右上 32px（随页面滚动，不吸顶）。Projects/Blog 为文本链接（间距 20px、默认 60% 不透明度、hover 100%）；Stack/Bookmarks 改为 16px 魔杖/书签图标，并与背景、主题、语言按钮合并为同一组裸图标控件（组内间距 4px，无边框无底色，60% 不透明度，hover 100%，图标带 `aria-label` 与 `title`）。
 - 主列 `max-width: 65ch`，`padding: 40px 28px`。首页正文颜色为 `--home-body`（#555/#BBB，对应 antfu 的 `--fg`）；标题用 `--heading`，链接用 `--heading`。
 - Stack 区块无可见标题：介绍（`text-ink`）+ `list-disc` 列表（`pl-6`、`gap-2px`、marker `--code-line`）；每行分类为蓝色 `/skills` 链接 + ↗ + `—` + 技术项（muted）；链接沿用 `.link` 下划线：常驻 1px `rgba(125,125,125,.3)`，hover 加深为 `--link-underline`，文字保持蓝色。
 - 背景：antfu 式生成艺术，默认 `plum`（Canvas 分形枝条，40fps，停笔后静止）；右上角按钮循环 `plum → dots → none` 并写入 `localStorage.home-background`；也可通过 `src/backgrounds/index.js` 的 `HOME_BACKGROUND` 切换默认值；背景层固定 `z-0`，内容 `z-10`；其他页面可直接引用 `<BackgroundLayer variant="dots" />`；`prefers-reduced-motion` 下关闭。
@@ -170,7 +170,7 @@
 ### 5.1 导航
 
 - 子页导航项：`rounded-lg`、`padding: 8px`、14px/500；默认 `hover: bg-hover`；选中 `bg-active-bg text-active-fg`；快捷键徽标 20px、1px 描边。
-- 首页导航：纯文本，60% 不透明度，hover 100%；无背景、无边框。
+- 首页导航：Projects/Blog 为纯文本，Stack/Bookmarks 为图标；两者均 60% 不透明度，hover 100%，无背景、无边框；Stack/Bookmarks 与背景/主题/语言按钮同组。
 - 当前路由必须 `aria-current="page"`。
 
 ### 5.2 按钮
