@@ -136,6 +136,7 @@ export default function MenuContent({ onNavigate }) {
                   Icon={Icon}
                   onClick={() => setWechat(method)}
                   hasPopup="dialog"
+                  showArrow
                 />
               )
             }
@@ -168,6 +169,7 @@ export default function MenuContent({ onNavigate }) {
         open={Boolean(wechat)}
         onClose={() => setWechat(null)}
         qrcode={wechat?.qrcode}
+        wechatId={wechat?.value}
         alt={wechat ? t(wechat.label) : 'WeChat'}
       />
     </div>

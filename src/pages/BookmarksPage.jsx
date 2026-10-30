@@ -17,9 +17,7 @@ export default function BookmarksPage() {
         lang={lang}
       />
       <PageHeading title={t(page.title)} description={t(page.subtitle)} />
-      <div className="bookmarks-mobile-list">
-        <BookmarkCategoryList />
-      </div>
+      <BookmarkCategoryList />
     </div>
   )
 }

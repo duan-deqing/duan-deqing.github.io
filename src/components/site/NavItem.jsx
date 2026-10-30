@@ -11,6 +11,7 @@ export default function NavItem({
   active = false,
   shortcut,
   external = false,
+  showArrow = external,
   onNavigate,
   onClick,
   hasPopup,
@@ -21,7 +22,7 @@ export default function NavItem({
         <Icon size={16} className="shrink-0" />
         <span className={cn('truncate font-medium', active && 'text-active-fg')}>{label}</span>
       </span>
-      {external ? (
+      {showArrow ? (
         <ArrowUpRightIcon size={14} className="shrink-0 opacity-70" />
       ) : shortcut ? (
         <span

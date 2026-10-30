@@ -23,20 +23,31 @@ export default function BookmarkCategoryList({ activeSlug = null, onNavigate }) 
   }
 
   return (
-    <ul className="bookmarks-nav">
-      {bookmarkCategories.map((category) => {
+    <ul className="flex flex-col gap-1 text-sm">
+      {bookmarkCategories.map((category, index) => {
         const active = activeSlug === category.slug
         const count = category.bookmarks?.length || 0
         return (
-          <li key={category.slug}>
+          <li
+            key={category.slug}
+            className="writing-card-enter"
+            style={{ '--card-index': Math.min(index, 12) }}
+          >
             <Link
               to={`/bookmarks/${category.slug}`}
               aria-current={active ? 'page' : undefined}
               onClick={onNavigate}
-              className={cn('bookmark-category', active && 'is-active')}
+              className={cn(
+                'flex flex-col gap-1 rounded-lg p-2 transition-colors duration-300',
+                active ? 'bg-active text-active-fg' : 'hover:bg-hover'
+              )}
             >
-              <span className="bookmark-category-title">{t(category.title)}</span>
-              <span className="bookmark-category-count">{countLabel(count, t)}</span>
+              <span className={cn('font-medium', active ? 'text-active-fg' : 'text-heading')}>
+                {t(category.title)}
+              </span>
+              <span className={cn(active ? 'text-active-fg opacity-70' : 'text-muted')}>
+                {countLabel(count, t)}
+              </span>
             </Link>
           </li>
         )

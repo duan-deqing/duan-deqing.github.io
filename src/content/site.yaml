@@ -234,18 +234,18 @@ contactPage:
     en: I'd love to hear from you! Whether you have a question, a project idea, or just want to say hello, feel free to reach out.
     zh: 很高兴收到你的来信！无论你有问题、项目想法，还是只想打个招呼，都欢迎联系我。
   contactMethods:
-    - icon: email
-      label:
-        en: Email
-        zh: 邮箱
-      value: duan-deqing@foxmail.com
-      href: mailto:duan-deqing@foxmail.com
     - icon: github
       label:
         en: GitHub
         zh: GitHub
       value: duan-deqing
       href: https://github.com/duan-deqing
+    - icon: email
+      label:
+        en: Email
+        zh: 邮箱
+      value: duan-deqing@foxmail.com
+      href: mailto:duan-deqing@foxmail.com
     - icon: bilibili
       label:
         en: Bilibili
@@ -256,7 +256,7 @@ contactPage:
       label:
         en: WeChat
         zh: 微信
-      value: -stylan-
+      value: stylan-ai
       href: null
       qrcode: /images/wechat-qrcode.png
   image: /images/contact-illustration.jpg
