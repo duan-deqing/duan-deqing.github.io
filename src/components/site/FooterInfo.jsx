@@ -1,4 +1,4 @@
-import config from '../../content/site.yaml'
+import config from '@content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 
 const LICENSE_URL = 'https://creativecommons.org/licenses/by-nc-sa/4.0/'

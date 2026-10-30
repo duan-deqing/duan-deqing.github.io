@@ -1,0 +1,11 @@
+# 此文件由本地管理后台维护；字段说明见 src/admin/schema.js 与 README。
+about:
+  focus:
+    - en: LLM applications
+      zh: 大模型应用
+    - en: RAG systems
+      zh: RAG 检索增强
+    - en: Full-stack delivery
+      zh: 全栈交付
+    - en: Design-aware engineering
+      zh: 有设计感的工程

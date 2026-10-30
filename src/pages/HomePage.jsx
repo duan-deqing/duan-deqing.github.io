@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import config from '../content/site.yaml'
+import config from '@content/site.yaml'
+import homeConfig from '@content/pages/home.yaml'
+import stackConfig from '@content/pages/stack.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/shared/PageTitle'
 import SiteLink from '../components/site/SiteLink'
@@ -120,13 +122,13 @@ function WechatSocialLink({ method, t }) {
 
 export default function HomePage() {
   const { lang, t } = useLanguage()
-  const focus = (config.about?.focus || []).map((item) => t(item))
+  const focus = (homeConfig.about?.focus || []).map((item) => t(item))
   const socials = config.socialLinks || []
   const email = config.contact?.email
   const wechat = (config.contactPage?.contactMethods || []).find(
     (method) => method.icon === 'wechat' && method.qrcode
   )
-  const skills = (config.skills || []).filter((group) => {
+  const skills = (stackConfig.skills || []).filter((group) => {
     const label = `${group.category?.en || ''} ${group.category?.zh || ''}`.toLowerCase()
     return !label.includes('hobbies') && !label.includes('爱好')
   })

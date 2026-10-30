@@ -5,26 +5,26 @@ import { resolvePreviewImages } from '../../src/admin/lib/preview.js'
 test('相对图片解析到文章配图目录', () => {
   assert.equal(
     resolvePreviewImages('![a](cover.png)', '2026-04-20-building-modern-portfolio'),
-    '![a](/src/posts/img/2026-04-20-building-modern-portfolio/cover.png)'
+    '![a](/content/pages/posts/img/2026-04-20-building-modern-portfolio/cover.png)'
   )
-  assert.equal(resolvePreviewImages('![a](./cover.png)', 'dir'), '![a](/src/posts/img/dir/cover.png)')
+  assert.equal(resolvePreviewImages('![a](./cover.png)', 'dir'), '![a](/content/pages/posts/img/dir/cover.png)')
   assert.equal(
     resolvePreviewImages('![a](./img/folder/cover.png)', 'dir'),
-    '![a](/src/posts/img/folder/cover.png)'
+    '![a](/content/pages/posts/img/folder/cover.png)'
   )
 })
 
 test('带 caption 的图片保留 title', () => {
   assert.equal(
     resolvePreviewImages('![a](./cover.png "Cover")', 'dir'),
-    '![a](/src/posts/img/dir/cover.png "Cover")'
+    '![a](/content/pages/posts/img/dir/cover.png "Cover")'
   )
 })
 
 test('显式 img 目录优先按原路径解析', () => {
   assert.equal(
     resolvePreviewImages('![a](./img/other-post/pic.jpg "Caption")', 'dir'),
-    '![a](/src/posts/img/other-post/pic.jpg "Caption")'
+    '![a](/content/pages/posts/img/other-post/pic.jpg "Caption")'
   )
 })
 

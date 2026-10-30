@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import quotesConfig from '../../content/quotes.yaml'
+import quotesConfig from '@content/pages/quotes.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 
 export default function BlogQuote() {

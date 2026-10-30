@@ -1,0 +1,63 @@
+# 此文件由本地管理后台维护；字段说明见 src/admin/schema.js 与 README。
+page:
+  title:
+    en: Stack
+    zh: 技术栈
+  description:
+    en: The tools and technologies I use to build AI products.
+    zh: 我用来构建 AI 产品的工具与技术。
+  intro:
+    en: Tools I reach for when building and shipping.
+    zh: 构建与交付时常用的工具。
+skills:
+  - category:
+      en: Artificial Intelligence
+      zh: 人工智能
+    items:
+      - RAG
+      - LangChain
+      - Prompt
+  - category:
+      en: Frontend
+      zh: 前端
+    items:
+      - React
+      - JavaScript
+      - HTML
+      - CSS
+      - Tailwind CSS
+  - category:
+      en: Backend
+      zh: 后端
+    items:
+      - Python
+      - Flask
+      - FastAPI
+      - Node.js
+  - category:
+      en: Data
+      zh: 数据
+    items:
+      - SQLite
+      - FAISS
+      - Vector DB
+  - category:
+      en: Tools
+      zh: 工具
+    items:
+      - OpenCode
+      - Git
+      - Docker
+      - pnpm
+      - VS Code
+      - Markdown
+  - category:
+      en: Hobbies
+      zh: 爱好
+    items:
+      - Gaming
+      - Music
+      - Animation
+      - Computer
+      - Tech
+      - ACG

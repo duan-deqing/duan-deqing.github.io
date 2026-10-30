@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom'
-import blogConfig from '../../content/blog.yaml'
+import blogConfig from '@content/pages/blog.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { useBlog } from './BlogProvider'
 import RssButton from './RssButton'

@@ -143,14 +143,14 @@
 ```
 
 - 侧栏：240px（≥1024）/ 288px（≥1280），`--bg-sidebar`，右边框，独立滚动；底部不再放控制按钮。
-- 主题与语言控制位于内容区右上角（`right: 32px; top: 24px`，随内容滚动），使用与首页相同的裸图标组（间距 4px、无边框、60% 不透明度、hover 100%）；移动端仍在 48px 顶栏右上角。
+- 主题与语言控制位于内容区右上角（`right: 32px; top: 24px`，随内容滚动），使用与首页相同的裸图标组（间距 4px、无边框、60% 不透明度、hover 100%）；移动端仍在 48px 胶囊顶栏右上角。
 - 导航图标与 onur 一致：Home 房子、Projects 文件夹、Blog 钢笔、Stack 魔杖星光（WandSparkles）、Bookmarks 书签。
 - Online 依次为 GitHub、Email、Bilibili、WeChat、Bluesky：前四项来自 `contactPage.contactMethods`，Bluesky 来自 `socialLinks` 且与联系方式去重；Email 右侧保持 ↗，点击后两张卡片叠放在同一位置，上层用 clip-path 从左往右擦除、露出下层邮箱卡（400ms），并可一键复制；WeChat 与其它项一样带右侧 ↗ 图标，点击打开无顶栏极简二维码弹窗（二维码 + 微信号 `stylan-ai`，右上悬浮关闭按钮）；不再显示 RSS。
 - 侧栏 Home 指向子页 `/home`（onur 式首页）；顶部头像/姓名卡片是指向 `/`（antfu 首页）的唯一入口，头像读取 `personal.avatar`，当前为 GitHub 头像 URL。
 - 内容：普通页面 `max-width: 768px`，`padding: 32px 24px`（桌面 `96px 32px 64px`）。
-- 博客路由为 onur 式三栏：导航栏 + 320/384px 写作列表栏（`--bg-sidebar`、右边框、标题 + RSS/Search + 选择框 + 列表）+ 右侧内容区；`/blog` 内容区为空并显示 16px 点状底纹，中央居中随机显示一条双语语录（`src/content/quotes.yaml`，18px muted、600ms 入场）；`/blog/:slug` 为白底文章（`max-width: 768px`），列表栏常驻并高亮当前文章。
-- 书签路由为 blog 同款三栏：导航栏 + 320/384px 分类栏（标题 + 总数 + 分类行：名称/数量，复用写作列表卡片的 60px 高度与 hover/active 样式）+ 右侧 24px 网格底纹内容区；`/bookmarks` 内容区为空并随机显示一条 `quotes.yaml` 语录；`/bookmarks/:slug` 为 onur 式 h1 + 双列书签卡（1200×630 封面、标题 18px/600、域名与描述 14px/20px，16px 内距与卡片间距、hover 底色；卡片高度随内容自适应），分类栏高亮当前分类；书签样式集中在 `src/styles/bookmarks.css`，分类与书签数据在 `src/content/bookmarks.yaml`。
-- 移动：48px sticky 顶栏 + 底部抽屉菜单；博客为「列表页 → 文章页」两页。
+- 博客路由为 onur 式三栏：导航栏 + 320/384px 写作列表栏（`--bg-sidebar`、右边框、标题 + RSS/Search + 选择框 + 列表）+ 右侧内容区；`/blog` 内容区为空并显示 16px 点状底纹，中央居中随机显示一条双语语录（`content/pages/quotes.yaml`，18px muted、600ms 入场）；`/blog/:slug` 为白底文章（`max-width: 768px`），列表栏常驻并高亮当前文章。
+- 书签路由为 blog 同款三栏：导航栏 + 320/384px 分类栏（标题 + 总数 + 分类行：名称/数量，复用写作列表卡片的 60px 高度与 hover/active 样式）+ 右侧 24px 网格底纹内容区；`/bookmarks` 内容区为空并随机显示一条 `quotes.yaml` 语录；`/bookmarks/:slug` 为 onur 式 h1 + 双列书签卡（1200×630 封面、标题 18px/600、域名与描述 14px/20px，16px 内距与卡片间距、hover 底色；卡片高度随内容自适应），分类栏高亮当前分类；书签样式集中在 `src/styles/bookmarks.css`，分类与书签数据在 `content/pages/bookmarks.yaml`。
+- 移动：48px 胶囊形 sticky 顶栏（两侧 12px 留白、1px 描边、85% 页面底色 + 背景模糊）+ 底部抽屉菜单；博客为「列表页 → 文章页」两页。
 - 侧栏底部固定显示 CC BY-NC-SA 4.0 / 版权，以及设计参考 `onur.dev`（12px、50% 不透明度，链接沿用 1px 底线）；内容区不显示全站页脚。
 
 ### 4.3 后台壳
@@ -206,7 +206,7 @@
 - 遮罩 `--overlay`；面板白底、1px 描边、8px 圆角、`shadow-xl`。
 - 搜索面板 `max-width: 576px`、无内边距：h-14 输入行（放大镜 + 16px 输入 + ESC）、Posts 列表、底部快捷键提示条；打开 180ms 淡入 + 轻微缩放上移，reduced-motion 关闭。
 - 预览抽屉 720px / 90vw，右侧滑入。
-- 移动菜单从底部滑入，80vh，顶部 16px 圆角。
+- 移动菜单：80dvh、顶部 16px 圆角、无标题栏（关闭按钮居右上）；顶部保持 32px 行高，行内在关闭按钮左侧居中显示一条随机语录（取自 `quotes.yaml`，每次打开刷新，单行截断），不增加栏高；打开 460ms 上滑 + 540ms 轻微弹性缩放 + 240ms 淡入，菜单项自 80ms 起以 22ms 间隔依次浮入（380ms easeOutBack）；关闭 300ms 下滑 + 200ms 淡出，内容保持显示；遮罩 260ms 淡入并过渡到 2px 背景模糊。
 - Esc、遮罩点击、路由变化关闭；焦点锁定与归还。
 
 ### 5.6 代码、公式与媒体
@@ -252,7 +252,8 @@
 | 主题切换 | View Transition 圆形扩散（点击位置为圆心，400ms ease-out；切到深色反向）；不支持 API 或 reduced-motion 时即时换色 |
 | 语言切换 | 重放首页加载效果：内容用 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场；reduced-motion 下无动画 |
 | 首页移动菜单 | 右上浮层选项框，160ms 淡入上移；点击外部 / Esc / 路由变化关闭；reduced-motion 下无动画 |
-| 子页导航 / 加载 | 与首页相同：页面根节点使用 `.slide-enter-content`，`slide-enter` 1s + 90ms 阶梯；路由 key 重挂载；懒加载时居中 16px spinner（sr-only Loading）；reduced-motion 下无动画 |
+| 子页移动菜单 | 底部抽屉：打开 460ms 上滑 + 540ms 弹性缩放（0.97→1）+ 240ms 淡入，遮罩过渡到 2px 模糊；头像、导航项、Online 项以 22ms 阶梯依次浮入（380ms easeOutBack）；关闭 300ms 下滑 + 200ms 淡出，内容保持；无标题栏；reduced-motion 下无动画 |
+| 子页导航 / 加载 | 与首页相同：页面根节点使用 `.slide-enter-content`，`slide-enter` 1s + 90ms 阶梯；路由 key 重挂载；除文章页外直接预加载（避免首次点击出现整页 spinner），文章页懒加载并在空闲时预取，懒加载时居中 16px spinner（sr-only Loading）；reduced-motion 下无动画 |
 | 二维码气泡关闭 | 关闭前保留 0.5s，随后气泡快照采样为 Canvas 粒子，立即散开并沿贝塞尔曲线汇聚到触发按钮，约 0.6s；reduced-motion 下 0.5s 后直接关闭 |
 | Writing 列表 | 加载时骨架脉冲；卡片以 `slide-enter` 0.5s + 25ms 阶梯入场（筛选/语言切换重播，最多 12 张）；reduced-motion 下关闭 |
 | Online 邮箱 | 两张卡片叠放在同一位置，上层 `clip-path` 从左往右擦除露出下层（400ms）；复制成功显示「已复制」2s；reduced-motion 下无过渡 |
@@ -321,7 +322,7 @@
 
 - [x] 首页为 65ch 文本流，无项目卡片与技能网格。
 - [x] 子页 Home 为 onur 式独立页（介绍 + Writing 表格）；侧栏 Home 指向 `/home`，只有头像卡片回到 `/`。
-- [x] 子页为 240/288px 侧栏 + 768px 内容区；移动端 48px 顶栏 + 底部抽屉。
+- [x] 子页为 240/288px 侧栏 + 768px 内容区；移动端 48px 胶囊顶栏 + 底部抽屉。
 - [x] 浅色为纯白 / zinc-50 / gray-200 / 黑 / 蓝链接；深色为等价推导。
 - [x] 全站 Geist Sans + Geist Mono，自托管，无第三方字体请求。
 - [x] 博客为 onur 式三栏 master-detail：列表在写作栏，点击文章在右侧显示；移动端为列表页 → 文章页。

@@ -13,22 +13,24 @@ export default function MobileHeader({ open, onOpenMenu }) {
   const current = NAV_ITEMS.find((item) => isNavActive(pathname, item.href))
 
   return (
-    <header className="sticky top-0 z-30 flex h-12 items-center gap-2 border-b border-line bg-page px-3 lg:hidden">
-      <button
-        type="button"
-        className="grid size-8 place-items-center rounded-md text-ink hover:bg-subtle"
-        aria-label={t(open ? CLOSE_LABEL : OPEN_LABEL)}
-        aria-expanded={open}
-        aria-controls="mobile-menu-sheet"
-        aria-haspopup="dialog"
-        onClick={onOpenMenu}
-      >
-        <MenuIcon size={18} />
-      </button>
-      <span className="min-w-0 flex-1 truncate text-sm font-semibold tracking-tight text-heading">
-        {current ? t(current.label) : 'STYLAN'}
-      </span>
-      <ThemeLangControls />
+    <header className="sticky top-0 z-30 bg-page px-3 pb-1 pt-3 lg:hidden">
+      <div className="flex h-12 items-center gap-2 rounded-full border border-line bg-page/85 pl-1.5 pr-2.5 shadow-sm backdrop-blur-md">
+        <button
+          type="button"
+          className="grid size-9 place-items-center rounded-full text-ink transition-colors hover:bg-subtle active:bg-subtle"
+          aria-label={t(open ? CLOSE_LABEL : OPEN_LABEL)}
+          aria-expanded={open}
+          aria-controls="mobile-menu-sheet"
+          aria-haspopup="dialog"
+          onClick={onOpenMenu}
+        >
+          <MenuIcon size={18} />
+        </button>
+        <span className="min-w-0 flex-1 truncate text-sm font-semibold tracking-tight text-heading">
+          {current ? t(current.label) : 'STYLAN'}
+        </span>
+        <ThemeLangControls />
+      </div>
     </header>
   )
 }

@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom'
-import bookmarksConfig from '../../content/bookmarks.yaml'
+import bookmarksConfig from '@content/pages/bookmarks.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { bookmarkCategories } from '../../utils/bookmarks'
 import BookmarkCategoryList from './BookmarkCategoryList'

@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import config from '../../content/site.yaml'
+import config from '@content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
 import NavItem from './NavItem'
@@ -136,11 +136,11 @@ export default function MenuContent({ onNavigate }) {
   }
 
   return (
-    <div className="flex w-full flex-col gap-4 text-sm">
+    <div className="mobile-menu-content flex w-full flex-col gap-4 text-sm">
       <Link
         to="/"
         aria-label={t({ en: 'STYLAN homepage', zh: 'STYLAN 首页' })}
-        className="flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-hover"
+        className="menu-avatar flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-hover"
         onClick={onNavigate}
       >
         {typeof avatar === 'string' &&
@@ -183,8 +183,8 @@ export default function MenuContent({ onNavigate }) {
       <hr className="border-line" />
 
       <div className="flex flex-col gap-2">
-        <span className="px-2 text-xs font-medium text-muted">{t(ONLINE_LABEL)}</span>
-        <div className="flex flex-col gap-1">
+        <span className="menu-online-label px-2 text-xs font-medium text-muted">{t(ONLINE_LABEL)}</span>
+        <div className="menu-online-list flex flex-col gap-1">
           {methods.map((method) => {
             const Icon = CONTACT_ICONS[method.icon] || MailIcon
             if (method.icon === 'email' && method.value) {

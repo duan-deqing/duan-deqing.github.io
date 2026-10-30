@@ -58,14 +58,22 @@ pnpm run preview
 │   └── rss.xml                   # RSS（由脚本生成，勿手改）
 ├── scripts/
 │   └── generate-rss.js           # 构建时生成 RSS
+├── content/                      # 所有可编辑内容（对标 antfu.me 的 pages 结构）
+│   ├── site.yaml                 # 全站共享：站点信息、个人、导航、联系、社交、页脚
+│   └── pages/
+│       ├── home.yaml             # 首页 / 与 Home 子页共用的介绍重点
+│       ├── projects.yaml         # 项目页文案与项目列表
+│       ├── stack.yaml            # Stack 页文案与技能分类
+│       ├── blog.yaml             # 博客页与分类
+│       ├── bookmarks.yaml        # 书签页、分类与书签
+│       ├── quotes.yaml           # 博客/书签空态随机语录
+│       └── posts/
+│           ├── zh/               # 中文文章 Markdown
+│           ├── en/               # 英文文章 Markdown
+│           └── img/<文章名>/      # 文章配图
 ├── src/
 │   ├── main.jsx                  # 入口（BrowserRouter）
-│   ├── App.jsx                   # 路由与懒加载
-│   ├── content/
-│   │   ├── site.yaml             # 全站内容配置
-│   │   ├── blog.yaml             # 博客页面与分类配置
-│   │   ├── bookmarks.yaml        # 书签分类、书签与封面
-│   │   └── quotes.yaml           # 博客/书签空态随机语录（中英双语）
+│   ├── App.jsx                   # 路由与预加载（仅文章页懒加载）
 │   ├── admin/                    # 本地内容后台（仅 dev，不参与构建）
 │   ├── index.css                 # 全局样式、字体、深色模式
 │   ├── pages/                    # 页面组件
@@ -77,9 +85,6 @@ pnpm run preview
 │   │   ├── bookmarks/            # 书签分类栏、卡片与网格
 │   │   ├── projects/             # 项目表格
 │   │   └── shared/               # PageTitle / SocialIcon / ArrowIcon / ScrollToTop
-│   ├── posts/                    # 中文文章 Markdown
-│   │   ├── en/                   # 英文文章
-│   │   └── img/<文章名>/          # 文章配图
 │   ├── hooks/                    # useTheme / useLanguage
 │   ├── styles/                   # blog-post.css / bookmarks.css
 │   └── utils/markdown.js         # 读取/解析 Markdown
@@ -102,15 +107,22 @@ pnpm run preview
 
 ## 配置说明
 
-日常维护**只需要改配置文件和文章**，一般不用动组件代码。
+日常维护**只需要改 `content/` 下的配置和文章**，一般不用动组件代码。内容结构参考 antfu.me 的 `pages/` 组织方式，统一放在 `content/`：
 
-### 内容配置 `src/content/site.yaml`
+| 文件 | 内容 |
+|------|------|
+| `content/site.yaml` | 站点信息、个人信息、导航、联系方式、社交链接、页脚（全站共享） |
+| `content/pages/home.yaml` | 首页 `/` 与 Home 子页 `/home` 共用的介绍重点 |
+| `content/pages/projects.yaml` | `/projects` 页头文案、GitHub 按钮与项目列表 |
+| `content/pages/stack.yaml` | `/skills`（Stack）页头文案与技能分类 |
+| `content/pages/blog.yaml` | `/blog` 页头与分类 |
+| `content/pages/bookmarks.yaml` | `/bookmarks` 页头、分类与书签 |
+| `content/pages/quotes.yaml` | 博客/书签空态随机语录 |
+| `content/pages/posts/` | 中英文文章与配图 |
 
-可改内容：站点信息、个人信息、导航、关于、技能、项目、联系信息、社交链接、页脚。
+多语言字段写成 `{ en: "...", zh: "..." }`；不参与切换的写普通字符串。字段说明见 `src/admin/schema.js`；项目页、Stack 页的 `page` 字段用于页面标题/描述/按钮文案。
 
-多语言字段写成 `{ en: "...", zh: "..." }`；不参与切换的写普通字符串。字段说明见 `src/admin/schema.js`。
-
-### 博客配置 `src/content/blog.yaml`
+### 博客配置 `content/pages/blog.yaml`
 
 分类 id 必须与文章 frontmatter 的 `category` 完全一致（小写）：
 
@@ -123,11 +135,11 @@ pnpm run preview
 
 > 注意：文章里不要写 `Tutorials`、`Technology` 这类展示文案，要写 id（如 `tutorial`），否则分类筛选点不出来。
 
-### 博客空态语录 `src/content/quotes.yaml`
+### 博客空态语录 `content/pages/quotes.yaml`
 
 `quotes` 下每条包含 `en` / `zh`；进入 `/blog` 或 `/bookmarks` 且未选择条目时，桌面右侧空态会随机显示其中一条，切换语言时显示同一条的对应语言版本。
 
-### 书签配置 `src/content/bookmarks.yaml`
+### 书签配置 `content/pages/bookmarks.yaml`
 
 分类和书签都直接写在这个文件里；改完即生效，无需改组件：
 
@@ -160,16 +172,16 @@ pnpm dev
 打开 http://localhost:5173/admin ，可按区块编辑配置、管理文章、上传图片，右侧实时预览。
 
 - 后台只在 `vite dev` 存在，`pnpm build` 的产物不包含 `admin.html` 与 `src/admin/**`；
-- 保存会直接改写 `src/content/*.yaml` 与 `src/posts/**/*.md`，用 git 查看和回滚改动；
+- 保存会直接改写 `content/` 下的 YAML 与 `content/pages/posts/**/*.md`，用 git 查看和回滚改动；
 - 接口只监听本机回环地址。
 
 ## 写博客
 
 ### 文件命名
 
-- 中文：`src/posts/zh/yyyy-mm-dd-post-title.md`
-- 英文：`src/posts/en/yyyy-mm-dd-post-title-en.md`
-- 配图：`src/posts/img/<folder>/<file>`；Markdown 可写 `./img/<folder>/<file>`，会优先按该路径精确匹配；只写文件名时回退到与文章同名的图片文件夹
+- 中文：`content/pages/posts/zh/yyyy-mm-dd-post-title.md`
+- 英文：`content/pages/posts/en/yyyy-mm-dd-post-title-en.md`
+- 配图：`content/pages/posts/img/<folder>/<file>`；Markdown 可写 `./img/<folder>/<file>`，会优先按该路径精确匹配；只写文件名时回退到与文章同名的图片文件夹
 
 ### Frontmatter 模板
 
@@ -179,7 +191,7 @@ pnpm dev
 ---
 title: "构建现代个人主页"
 excerpt: "使用 React 和 Tailwind CSS 创建精美开发者主页的分步指南。"
-category: "tech"              # 必须是 blog.yaml categories 里的 id
+category: "tech"              # 必须是 content/pages/blog.yaml categories 里的 id
 readTime: "8 分钟阅读"
 author: "STYLAN"
 tags: ["React", "Tailwind CSS", "Portfolio"]
@@ -191,7 +203,7 @@ featured: true                # true 会在文章页显示「精选」标记
 支持 GFM 表格、任务列表、代码块语法高亮。
 ```
 
-英文版放在 `src/posts/en/`，使用相同字段的英文值，例如 `title: "Building a Modern Portfolio Website"`、`readTime: "8 min read"`。
+英文版放在 `content/pages/posts/en/`，使用相同字段的英文值，例如 `title: "Building a Modern Portfolio Website"`、`readTime: "8 min read"`。
 
 正文里的第一个 `# 一级标题` 会被自动去掉，避免和页面标题重复。
 
@@ -229,7 +241,7 @@ title: 视频标题
 - **首页签名**：左上 `deqing` 单笔画 SVG，沿用 antfu 的 grow 关键帧，10s 循环按字母路径绘制/擦除；键盘聚焦时完整显示
 - **视频与图集**：` ```video ` 支持 YouTube / Vimeo / Bilibili / 直链，` ```carousel ` 支持同位置多图轮播
 - **代码块**：rehype-highlight 高亮 + 行号 + 语言标签与 Copy，13px Mono、横向滚动；文章正文容器 768px / 16px / 1.75
-- **布局与动效**：首页 antfu 式 65ch 文本流；子页 onur 式侧栏（240/288px）；博客为写作列表栏 + 右侧文章；文章 768px。仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮（子页懒加载）
+- **布局与动效**：首页 antfu 式 65ch 文本流；子页 onur 式侧栏（240/288px）；博客为写作列表栏 + 右侧文章；文章 768px。仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮（仅文章页懒加载并空闲预取）
 - **RSS**：`pnpm run rss` 或 build 时生成 `public/rss.xml`
 - **GitHub Pages SPA**：`public/404.html` + `index.html` 内重定向脚本（spa-github-pages 方案）
 

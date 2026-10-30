@@ -5,10 +5,10 @@ export function resolvePreviewImages(body, dir) {
     (_, prefix, src, title = '') => {
       const explicit = src.match(/(?:^|\/)img\/(.+)$/)
       if (explicit) {
-        return `${prefix}/src/posts/img/${explicit[1]}${title})`
+        return `${prefix}/content/pages/posts/img/${explicit[1]}${title})`
       }
       const filename = src.split('/').filter(Boolean).pop() || src
-      return `${prefix}/src/posts/img/${dir}/${filename}${title})`
+      return `${prefix}/content/pages/posts/img/${dir}/${filename}${title})`
     }
   )
 }

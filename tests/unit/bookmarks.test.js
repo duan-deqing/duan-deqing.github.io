@@ -6,7 +6,7 @@ import YAML from 'yaml'
 import { getBookmarkDomain } from '../../src/utils/bookmarkFormat.js'
 
 const source = YAML.parse(
-  readFileSync(fileURLToPath(new URL('../../src/content/bookmarks.yaml', import.meta.url)), 'utf8')
+  readFileSync(fileURLToPath(new URL('../../content/pages/bookmarks.yaml', import.meta.url)), 'utf8')
 )
 
 test('getBookmarkDomain 去掉 www 并容错', () => {

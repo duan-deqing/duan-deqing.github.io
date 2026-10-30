@@ -20,7 +20,7 @@
 
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import config from '../../content/site.yaml'
+import config from '@content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 
 function upsertMeta(attr, key, content) {

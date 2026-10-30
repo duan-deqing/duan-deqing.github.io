@@ -8,9 +8,9 @@
  * 例如: 2026-04-25-getting-started-with-react-hooks.md
  *
  * 【文件夹结构】
- * - src/posts/zh/ (中文文章)
- * - src/posts/en/ (英文文章)
- * - src/posts/img/ (文章图片)
+ * - content/pages/posts/zh/ (中文文章)
+ * - content/pages/posts/en/ (英文文章)
+ * - content/pages/posts/img/ (文章图片)
  *
  * 【功能说明】
  * 1. 使用 Vite 的 import.meta.glob 动态导入 markdown 文件
@@ -25,14 +25,23 @@
  * ============================================================================
  */
 
-import fm from 'front-matter'
 import { parsePostFilename } from './postFilename'
 
+// front-matter 依赖 js-yaml（较大），仅在真正解析文章时加载，避免进入首屏包
+let frontMatterParser
+
+function loadFrontMatter() {
+  if (!frontMatterParser) {
+    frontMatterParser = import('front-matter').then((module) => module.default)
+  }
+  return frontMatterParser
+}
+
 // 使用 Vite 的 import.meta.glob 动态导入所有 markdown 文件
-const allMarkdownFiles = import.meta.glob('../**/*.md', { query: '?raw', import: 'default', eager: false })
+const allMarkdownFiles = import.meta.glob('/content/pages/posts/**/*.md', { query: '?raw', import: 'default', eager: false })
 
 // 动态导入所有图片文件
-const allImages = import.meta.glob('../posts/img/**/*', { eager: true, query: '?url', import: 'default' })
+const allImages = import.meta.glob('/content/pages/posts/img/**/*', { eager: true, query: '?url', import: 'default' })
 
 // 分离中文和英文文章
 const zhMarkdownFiles = {}
@@ -129,13 +138,14 @@ function processImagePaths(content, filename, isEnglish) {
  */
 export async function getAllPosts(lang = 'zh') {
   const markdownFiles = getFilesByLang(lang)
+  const parser = loadFrontMatter()
 
-  // 并行加载所有 markdown chunk（串行 await 会让每个 chunk 各等一个 RTT，
+  // 并行加载所有 markdown chunk 与解析器（串行 await 会让每个 chunk 各等一个 RTT，
   // 直接拖慢博客列表的首屏渲染 / LCP）。
   const posts = await Promise.all(
     Object.keys(markdownFiles).map(async (path) => {
       try {
-        const content = await markdownFiles[path]()
+        const [content, fm] = await Promise.all([markdownFiles[path](), parser])
         const { attributes: data } = fm(content)
 
         // 从文件名提取信息
@@ -182,6 +192,7 @@ export function getPostCount(lang = 'zh') {
 export async function getPostBySlug(slug, lang = 'zh') {
   const markdownFiles = getFilesByLang(lang)
   const isEnglish = lang === 'en'
+  const fm = await loadFrontMatter()
 
   for (const path in markdownFiles) {
     try {
@@ -225,6 +236,7 @@ export async function getPostBySlug(slug, lang = 'zh') {
 export async function getPostByFilename(filename, lang = 'zh') {
   const markdownFiles = getFilesByLang(lang)
   const isEnglish = lang === 'en'
+  const fm = await loadFrontMatter()
   
   const targetPath = Object.keys(markdownFiles).find(path => {
     const pathParts = path.split('/')

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import blogConfig from '../content/blog.yaml'
-import config from '../content/site.yaml'
+import blogConfig from '@content/pages/blog.yaml'
+import config from '@content/site.yaml'
+import homeConfig from '@content/pages/home.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import { getAllPosts } from '../utils/markdown'
 import PageTitle from '../components/shared/PageTitle'
@@ -27,7 +28,7 @@ export default function SubpageHomePage() {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [failed, setFailed] = useState(false)
-  const focus = (config.about?.focus || []).map((item) => t(item))
+  const focus = (homeConfig.about?.focus || []).map((item) => t(item))
 
   useEffect(() => {
     let cancelled = false

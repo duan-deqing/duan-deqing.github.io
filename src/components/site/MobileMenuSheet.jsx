@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import quotesConfig from '@content/pages/quotes.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
+import { cn } from '../../utils/cn'
 import MenuContent from './MenuContent'
-import ThemeLangControls from './ThemeLangControls'
 import { CloseIcon } from './icons'
 
 const FOCUSABLE =
@@ -15,9 +16,30 @@ export default function MobileMenuSheet({ open, onClose }) {
   const panelRef = useRef(null)
   const closeRef = useRef(null)
   const restoreRef = useRef(null)
+  const [mounted, setMounted] = useState(open)
+  const [visible, setVisible] = useState(false)
+  const [entered, setEntered] = useState(false)
+  const [quote, setQuote] = useState(null)
 
   useEffect(() => {
-    if (!open) return undefined
+    if (open) {
+      const quotes = quotesConfig.quotes || []
+      setQuote(quotes.length ? quotes[Math.floor(Math.random() * quotes.length)] : null)
+      setMounted(true)
+      setEntered(true)
+      let frame = requestAnimationFrame(() => {
+        frame = requestAnimationFrame(() => setVisible(true))
+      })
+      return () => cancelAnimationFrame(frame)
+    }
+    setVisible(false)
+    setEntered(false)
+    const timer = window.setTimeout(() => setMounted(false), 320)
+    return () => window.clearTimeout(timer)
+  }, [open])
+
+  useEffect(() => {
+    if (!open || !mounted) return undefined
     restoreRef.current = document.activeElement
     const previousOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
@@ -50,15 +72,18 @@ export default function MobileMenuSheet({ open, onClose }) {
       const restore = restoreRef.current
       if (restore instanceof HTMLElement) restore.focus()
     }
-  }, [open, onClose])
+  }, [open, mounted, onClose])
 
-  if (!open) return null
+  if (!mounted) return null
 
   return (
-    <div className="fixed inset-0 z-50 lg:hidden">
+    <div className={cn('fixed inset-0 z-50 lg:hidden', !visible && 'pointer-events-none')}>
       <button
         type="button"
-        className="absolute inset-0 bg-[var(--overlay)]"
+        className={cn(
+          'mobile-sheet-backdrop absolute inset-0 bg-[var(--overlay)]',
+          visible && 'is-visible'
+        )}
         aria-label={t(CLOSE_LABEL)}
         onClick={onClose}
       />
@@ -68,14 +93,25 @@ export default function MobileMenuSheet({ open, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-label={t(MENU_LABEL)}
-        className="absolute inset-x-0 bottom-0 max-h-[80dvh] overflow-y-auto rounded-t-2xl border-t border-line bg-page p-4 shadow-xl"
+        className={cn(
+          'mobile-sheet-panel absolute inset-x-0 bottom-0 max-h-[80dvh] overflow-y-auto rounded-t-2xl border-t border-line bg-page p-4 shadow-xl',
+          visible && 'is-visible',
+          entered && 'is-entered'
+        )}
       >
-        <div className="mb-3 flex items-center justify-between">
-          <span className="text-sm font-semibold tracking-tight text-heading">STYLAN</span>
+        <div className="relative mb-2 flex h-8 items-center justify-center">
+          {quote ? (
+            <p
+              className="mx-10 min-w-0 truncate text-center text-xs text-muted"
+              title={t(quote)}
+            >
+              {t(quote)}
+            </p>
+          ) : null}
           <button
             ref={closeRef}
             type="button"
-            className="grid size-8 place-items-center rounded-md text-ink hover:bg-subtle"
+            className="absolute right-0 top-0 grid size-8 place-items-center rounded-full text-ink transition-colors hover:bg-subtle"
             aria-label={t(CLOSE_LABEL)}
             onClick={onClose}
           >
@@ -83,9 +119,6 @@ export default function MobileMenuSheet({ open, onClose }) {
           </button>
         </div>
         <MenuContent onNavigate={onClose} />
-        <div className="mt-3 border-t border-line pt-3">
-          <ThemeLangControls variant="sidebar" className="justify-between" />
-        </div>
       </div>
     </div>
   )

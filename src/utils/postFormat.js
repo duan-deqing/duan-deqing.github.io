@@ -1,4 +1,4 @@
-import blogConfig from '../content/blog.yaml'
+import blogConfig from '@content/pages/blog.yaml'
 import { parsePostDate } from './postDate.js'
 
 export function formatDate(dateString, t) {

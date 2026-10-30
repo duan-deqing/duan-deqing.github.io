@@ -1,4 +1,4 @@
-import blogConfig from '../content/blog.yaml'
+import blogConfig from '@content/pages/blog.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import { useBlog } from '../components/blog/BlogProvider'
 import PageTitle from '../components/shared/PageTitle'

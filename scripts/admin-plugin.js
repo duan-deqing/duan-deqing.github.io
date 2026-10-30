@@ -10,12 +10,18 @@ import { parsePost, serializePost, validateFrontmatter, normalizePostDate } from
 import { parsePostFilename, postImageDirName } from '../src/utils/postFilename.js'
 
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)))
-const SITE_FILE = path.join(ROOT, 'src/content/site.yaml')
-const BLOG_FILE = path.join(ROOT, 'src/content/blog.yaml')
-const POSTS_ZH = path.join(ROOT, 'src/posts/zh')
-const POSTS_EN = path.join(ROOT, 'src/posts/en')
-const POST_IMG = path.join(ROOT, 'src/posts/img')
+const CONTENT_DIR = path.join(ROOT, 'content')
+const PAGES_DIR = path.join(CONTENT_DIR, 'pages')
+const SITE_FILE = path.join(CONTENT_DIR, 'site.yaml')
+const HOME_FILE = path.join(PAGES_DIR, 'home.yaml')
+const STACK_FILE = path.join(PAGES_DIR, 'stack.yaml')
+const PROJECTS_FILE = path.join(PAGES_DIR, 'projects.yaml')
+const BLOG_FILE = path.join(PAGES_DIR, 'blog.yaml')
+const POSTS_ZH = path.join(PAGES_DIR, 'posts/zh')
+const POSTS_EN = path.join(PAGES_DIR, 'posts/en')
+const POST_IMG = path.join(PAGES_DIR, 'posts/img')
 const PUBLIC_IMAGES = path.join(ROOT, 'public/images')
+const SITE_FILES = [SITE_FILE, HOME_FILE, STACK_FILE, PROJECTS_FILE]
 const MAX_BODY = 5 * 1024 * 1024
 const API_PREFIX = '/__admin/api'
 
@@ -68,18 +74,40 @@ function guard(req) {
   }
 }
 
+function siteRevision() {
+  return SITE_FILES.reduce((sum, file) => sum + fileRevision(file), 0)
+}
+
+function composeSite() {
+  const global = readYamlFile(SITE_FILE) || {}
+  const home = readYamlFile(HOME_FILE) || {}
+  const stack = readYamlFile(STACK_FILE) || {}
+  const projects = readYamlFile(PROJECTS_FILE) || {}
+  return {
+    site: global.site,
+    personal: global.personal,
+    navLinks: global.navLinks,
+    about: home.about,
+    skills: stack.skills,
+    projects: projects.projects,
+    contact: global.contact,
+    contactPage: global.contactPage,
+    socialLinks: global.socialLinks,
+    footer: global.footer,
+  }
+}
+
 function readConfig() {
   return {
-    site: readYamlFile(SITE_FILE),
+    site: composeSite(),
     blog: readYamlFile(BLOG_FILE),
-    revision: { site: fileRevision(SITE_FILE), blog: fileRevision(BLOG_FILE) },
+    revision: { site: siteRevision(), blog: fileRevision(BLOG_FILE) },
   }
 }
 
 const SITE_TOP_KEYS = [
-  'site', 'personal', 'navLinks', 'about', 'buttons',
-  'skillsSection', 'skills', 'projectsSection', 'projects', 'contact',
-  'contactPage', 'socialLinks', 'footer',
+  'site', 'personal', 'navLinks', 'about', 'skills', 'projects',
+  'contact', 'contactPage', 'socialLinks', 'footer',
 ]
 
 const BLOG_TOP_KEYS = ['page', 'categories']
@@ -111,17 +139,38 @@ function saveConfig(body) {
   if (!Array.isArray(blog.categories)) {
     throw Object.assign(new Error('博客分类必须是数组'), { status: 400 })
   }
-  const current = { site: fileRevision(SITE_FILE), blog: fileRevision(BLOG_FILE) }
+  const current = {
+    site: Math.round(siteRevision()),
+    blog: Math.round(fileRevision(BLOG_FILE)),
+  }
   if (
     !revision ||
-    Math.round(revision.site) !== Math.round(current.site) ||
-    Math.round(revision.blog) !== Math.round(current.blog)
+    Math.round(revision.site) !== current.site ||
+    Math.round(revision.blog) !== current.blog
   ) {
     throw Object.assign(new Error('文件已被外部修改，请刷新后再保存'), { status: 409 })
   }
-  writeYamlFile(SITE_FILE, site)
+
+  const home = readYamlFile(HOME_FILE) || {}
+  const stack = readYamlFile(STACK_FILE) || {}
+  const projects = readYamlFile(PROJECTS_FILE) || {}
+
+  writeYamlFile(SITE_FILE, {
+    site: site.site,
+    personal: site.personal,
+    navLinks: site.navLinks,
+    contact: site.contact,
+    contactPage: site.contactPage,
+    socialLinks: site.socialLinks,
+    footer: site.footer,
+  })
+  writeYamlFile(HOME_FILE, { ...home, about: site.about })
+  writeYamlFile(STACK_FILE, { ...stack, skills: site.skills })
+  writeYamlFile(PROJECTS_FILE, { ...projects, projects: site.projects })
   writeYamlFile(BLOG_FILE, blog)
-  return { revision: { site: fileRevision(SITE_FILE), blog: fileRevision(BLOG_FILE) } }
+  return {
+    revision: { site: siteRevision(), blog: fileRevision(BLOG_FILE) },
+  }
 }
 
 function postsDir(lang) {

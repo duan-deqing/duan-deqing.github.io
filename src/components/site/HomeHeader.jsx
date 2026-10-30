@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import config from '../../content/site.yaml'
+import config from '@content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
 import ThemeLangControls from './ThemeLangControls'
