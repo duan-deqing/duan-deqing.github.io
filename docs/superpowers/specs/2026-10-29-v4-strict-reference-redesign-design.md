@@ -230,7 +230,7 @@ App
 - 侧栏在 ≥1024 显示；<1024 隐藏，改为 48px sticky 顶栏：左菜单按钮、中当前页标题、右主题。
 - 移动菜单为底部抽屉（80vh、顶部圆角、上滑 300ms），内容复用 `MenuContent`，主题与语言控件在抽屉内；Esc、遮罩点击、路由变化均可关闭，焦点在打开时锁定、关闭后归还。
 - 内容区 `max-width: 768px` 居中；`ScrollArea` 保证侧栏固定、内容滚动。
-- 所有子页均不显示全站页脚。
+- 所有子页内容区不显示全站页脚；桌面侧栏底部固定显示与首页一致的 CC BY-NC-SA 4.0 / 版权 / 设计参考信息（12px、50% 不透明度，链接沿用 1px 底线）。
 
 ### 5.4 后台壳
 
@@ -358,7 +358,7 @@ App
 - `src/components/blog/BlogProvider.jsx`、`WritingRail.jsx`
 - `src/backgrounds/`：`index.js`（注册表、顺序与 `HOME_BACKGROUND`）、`BackgroundLayer.jsx`、`BackgroundToggle.jsx`、`PlumBackground.jsx`、`DotsBackground.jsx`
 - `src/components/site/HomeHeader.jsx`、`SideMenu.jsx`、`MenuContent.jsx`、`NavItem.jsx`、`MobileHeader.jsx`、`MobileMenuSheet.jsx`
-- `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`、`WechatDialog.jsx`（侧栏微信二维码）
+- `src/components/site/PageHeading.jsx`、`ThemeLangControls.jsx`、`HomeFooter.jsx`、`FooterInfo.jsx`（首页页脚与侧栏页脚共享信息）、`WechatDialog.jsx`（侧栏微信二维码）
 - `src/components/site/Button.jsx`、`IconButton.jsx`、`SiteLink.jsx`
 - `src/components/blog/WritingList.jsx`、`WritingFilterBar.jsx`、`WritingRowSkeleton.jsx`、`WritingTable.jsx`、`SearchDialog.jsx`、`SearchTrigger.jsx`、`RssButton.jsx`、`BlogQuote.jsx`、`ArticleVideo.jsx`、`ArticleCarousel.jsx`
 - `src/styles/math.css`（KaTeX 行内/块级公式样式）

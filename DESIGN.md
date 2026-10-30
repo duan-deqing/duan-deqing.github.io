@@ -149,7 +149,7 @@
 - 博客路由为 onur 式三栏：导航栏 + 320/384px 写作列表栏（`--bg-sidebar`、右边框、标题 + RSS/Search + 选择框 + 列表）+ 右侧内容区；`/blog` 内容区为空并显示 16px 点状底纹，中央居中随机显示一条双语语录（`src/content/quotes.yaml`，18px muted、600ms 入场）；`/blog/:slug` 为白底文章（`max-width: 768px`），列表栏常驻并高亮当前文章。
 - 书签路由为 blog 同款三栏：导航栏 + 320/384px 分类栏（标题 + 总数 + 分类行：名称/数量，复用写作列表卡片的 60px 高度与 hover/active 样式）+ 右侧 24px 网格底纹内容区；`/bookmarks` 内容区为空并随机显示一条 `quotes.yaml` 语录；`/bookmarks/:slug` 为 onur 式 h1 + 双列书签卡（1200×630 封面、标题 18px/600、域名与描述 14px/20px，16px 内距与卡片间距、hover 底色；卡片高度随内容自适应），分类栏高亮当前分类；书签样式集中在 `src/styles/bookmarks.css`，分类与书签数据在 `src/content/bookmarks.yaml`。
 - 移动：48px sticky 顶栏 + 底部抽屉菜单；博客为「列表页 → 文章页」两页。
-- 子页无全站页脚。
+- 侧栏底部固定显示与首页一致的 CC BY-NC-SA 4.0 / 版权 / 设计参考信息（12px、50% 不透明度，链接沿用 1px 底线）；内容区不显示全站页脚。
 
 ### 4.3 后台壳
 

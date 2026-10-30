@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import FooterInfo from './FooterInfo'
 import MenuContent, { NAV_ITEMS } from './MenuContent'
 
 function isEditable(target) {
@@ -28,6 +29,9 @@ export default function SideMenu() {
       <div className="flex-1 overflow-y-auto p-3">
         <MenuContent />
       </div>
+      <footer className="shrink-0 border-t border-line px-4 py-4">
+        <FooterInfo stacked className="text-xs leading-relaxed opacity-50" />
+      </footer>
     </aside>
   )
 }
