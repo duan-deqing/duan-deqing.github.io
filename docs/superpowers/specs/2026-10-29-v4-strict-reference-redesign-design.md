@@ -186,7 +186,7 @@
 - 语言切换：重放首页加载效果（内容 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场）；`prefers-reduced-motion` 下无动画。
 - 子页导航：与首页相同的 `.slide-enter-content`（`slide-enter` 1s + 90ms 阶梯）；路由 key 重挂载；懒加载 `Suspense` fallback 为居中 16px spinner + sr-only Loading；`prefers-reduced-motion` 下无动画。
 - 二维码气泡关闭：关闭前保留 0.5s，随后气泡快照采样为 Canvas 粒子，立即散开并沿贝塞尔曲线汇聚到触发按钮，约 0.6s；`prefers-reduced-motion` 下 0.5s 后直接关闭。
-- Online 邮箱切换：点击 Email 整行，两张卡片在同一轨道内滑动切换（300ms），邮箱卡片显示地址与复制按钮；点击地址、Esc 或外部区域滑回；复制成功显示「已复制」2s；`prefers-reduced-motion` 下无过渡。
+- Online 邮箱切换：点击 Email 整行，两张卡片原位叠放，上层通过 `clip-path` 遮罩从左往右擦除、露出下层邮箱卡（400ms）；点击地址、Esc 或外部区域反向擦回；复制成功显示「已复制」2s；`prefers-reduced-motion` 下无过渡。
 - `prefers-reduced-motion` 下关闭入场与过渡位移；抽屉直接显示。
 
 ## 5. 页面架构
@@ -225,7 +225,7 @@ App
 
 ### 5.3 子页壳（onur）
 
-- 桌面侧栏固定、独立滚动：名片 → 主导航（Home / Projects / Blog / Skills / Bookmarks，编号 1–5，active 黑底白字）→ 分隔线 → Online（GitHub / Email / Bilibili / WeChat / Bluesky；前四项来自 `contactPage.contactMethods`，Bluesky 来自 `socialLinks` 并去重；Email 右侧带 ↗、点击后双卡轨道滑动切换并复制，WeChat 带 ↗ 并打开二维码弹窗、显示微信号 `stylan-ai`，无 RSS）；侧栏不再放主题/语言按钮。
+- 桌面侧栏固定、独立滚动：名片 → 主导航（Home / Projects / Blog / Skills / Bookmarks，编号 1–5，active 黑底白字）→ 分隔线 → Online（GitHub / Email / Bilibili / WeChat / Bluesky；前四项来自 `contactPage.contactMethods`，Bluesky 来自 `socialLinks` 并去重；Email 右侧带 ↗、点击后原位遮罩擦除切换到邮箱卡并复制，WeChat 带 ↗ 并打开二维码弹窗、显示微信号 `stylan-ai`，无 RSS）；侧栏不再放主题/语言按钮。
 - 主题/语言控制固定在内容区右上角（`right: 32px; top: 24px`，随内容滚动），使用与首页相同的裸图标组（组内 4px、无边框、60% 不透明度、hover 100%）。
 - 侧栏在 ≥1024 显示；<1024 隐藏，改为 48px sticky 顶栏：左菜单按钮、中当前页标题、右主题。
 - 移动菜单为底部抽屉（80vh、顶部圆角、上滑 300ms），内容复用 `MenuContent`，主题与语言控件在抽屉内；Esc、遮罩点击、路由变化均可关闭，焦点在打开时锁定、关闭后归还。
