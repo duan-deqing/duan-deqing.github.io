@@ -2,7 +2,7 @@ import { useLanguage } from '../../hooks/useLanguage'
 import { useTheme } from '../../hooks/useTheme'
 import { cn } from '../../utils/cn'
 import BackgroundToggle from '../../backgrounds/BackgroundToggle'
-import { MoonIcon, SunIcon } from './icons'
+import { GlobeIcon, MoonIcon, SunIcon } from './icons'
 
 const BASE = 'inline-flex h-8 items-center justify-center gap-1.5'
 const ICON_BUTTON =
@@ -25,7 +25,6 @@ export default function ThemeLangControls({
     ? t({ en: 'Switch to light theme', zh: '切换到浅色主题' })
     : t({ en: 'Switch to dark theme', zh: '切换到深色主题' })
   const langAction = lang === 'en' ? '中文' : 'English'
-  const langGlyph = lang === 'en' ? '中' : 'EN'
   const langLabel =
     lang === 'en'
       ? t({ en: 'Switch to Chinese', zh: '切换为中文' })
@@ -53,7 +52,8 @@ export default function ThemeLangControls({
         aria-label={showLabels ? undefined : langLabel}
         title={langLabel}
       >
-        <span>{showLabels ? langAction : langGlyph}</span>
+        <GlobeIcon />
+        {showLabels ? <span>{langAction}</span> : null}
       </button>
     </div>
   )
