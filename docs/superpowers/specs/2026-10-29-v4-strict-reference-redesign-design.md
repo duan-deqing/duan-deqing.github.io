@@ -225,7 +225,7 @@ App
 
 ### 5.3 子页壳（onur）
 
-- 桌面侧栏固定、独立滚动：名片 → 主导航（Home / Projects / Blog / Skills / Bookmarks，编号 1–5，active 黑底白字）→ 分隔线 → Online（GitHub / Email / Bilibili / WeChat / Bluesky；前四项来自 `contactPage.contactMethods`，Bluesky 来自 `socialLinks` 并去重；Email 右侧带 ↗、点击后原位遮罩擦除切换到邮箱卡并复制，WeChat 带 ↗ 并打开二维码弹窗、显示微信号 `stylan-ai`，无 RSS）；侧栏不再放主题/语言按钮。
+- 桌面侧栏固定、独立滚动：名片 → 主导航（Home / Projects / Blog / Skills / Bookmarks，编号 1–5，active 黑底白字）→ 分隔线 → Online（GitHub / Email / Bilibili / WeChat / Bluesky；前四项来自 `contactPage.contactMethods`，Bluesky 来自 `socialLinks` 并去重；Email 右侧带 ↗、点击后原位遮罩擦除切换到邮箱卡并复制，WeChat 带 ↗ 并打开无顶栏极简二维码弹窗、显示微信号 `stylan-ai`，无 RSS）；侧栏不再放主题/语言按钮。
 - 主题/语言控制固定在内容区右上角（`right: 32px; top: 24px`，随内容滚动），使用与首页相同的裸图标组（组内 4px、无边框、60% 不透明度、hover 100%）。
 - 侧栏在 ≥1024 显示；<1024 隐藏，改为 48px sticky 顶栏：左菜单按钮、中当前页标题、右主题。
 - 移动菜单为底部抽屉（80vh、顶部圆角、上滑 300ms），内容复用 `MenuContent`，主题与语言控件在抽屉内；Esc、遮罩点击、路由变化均可关闭，焦点在打开时锁定、关闭后归还。

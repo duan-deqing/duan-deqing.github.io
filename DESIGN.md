@@ -143,7 +143,7 @@
 - 侧栏：240px（≥1024）/ 288px（≥1280），`--bg-sidebar`，右边框，独立滚动；底部不再放控制按钮。
 - 主题与语言控制位于内容区右上角（`right: 32px; top: 24px`，随内容滚动），使用与首页相同的裸图标组（间距 4px、无边框、60% 不透明度、hover 100%）；移动端仍在 48px 顶栏右上角。
 - 导航图标与 onur 一致：Home 房子、Projects 文件夹、Blog 钢笔、Stack 魔杖星光（WandSparkles）、Bookmarks 书签。
-- Online 依次为 GitHub、Email、Bilibili、WeChat、Bluesky：前四项来自 `contactPage.contactMethods`，Bluesky 来自 `socialLinks` 且与联系方式去重；Email 右侧保持 ↗，点击后两张卡片叠放在同一位置，上层用 clip-path 从左往右擦除、露出下层邮箱卡（400ms），并可一键复制；WeChat 与其它项一样带右侧 ↗ 图标，点击打开二维码弹窗（页头图标 + 二维码卡片 + 微信号 `stylan-ai`）；不再显示 RSS。
+- Online 依次为 GitHub、Email、Bilibili、WeChat、Bluesky：前四项来自 `contactPage.contactMethods`，Bluesky 来自 `socialLinks` 且与联系方式去重；Email 右侧保持 ↗，点击后两张卡片叠放在同一位置，上层用 clip-path 从左往右擦除、露出下层邮箱卡（400ms），并可一键复制；WeChat 与其它项一样带右侧 ↗ 图标，点击打开无顶栏极简二维码弹窗（二维码 + 微信号 `stylan-ai`，右上悬浮关闭按钮）；不再显示 RSS。
 - 侧栏 Home 指向子页 `/home`（onur 式首页）；顶部头像/姓名卡片是指向 `/`（antfu 首页）的唯一入口，头像读取 `personal.avatar`，当前为 GitHub 头像 URL。
 - 内容：普通页面 `max-width: 768px`，`padding: 32px 24px`（桌面 `96px 32px 64px`）。
 - 博客路由为 onur 式三栏：导航栏 + 320/384px 写作列表栏（`--bg-sidebar`、右边框、标题 + RSS/Search + 选择框 + 列表）+ 右侧内容区；`/blog` 内容区为空并显示 16px 点状底纹，中央居中随机显示一条双语语录（`src/content/quotes.yaml`，18px muted、600ms 入场）；`/blog/:slug` 为白底文章（`max-width: 768px`），列表栏常驻并高亮当前文章。
