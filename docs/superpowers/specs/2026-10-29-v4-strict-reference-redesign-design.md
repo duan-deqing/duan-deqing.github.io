@@ -181,7 +181,7 @@
 
 - 图标为内联 SVG，16px，`stroke-width: 1.5`，无图标库依赖；外链统一 `↗`（ArrowUpRight）。
 - 首页内容使用 `slide-enter`：1s、`translateY(10px)`、90ms 阶梯；仅首页。
-- 首页签名：左上 deqing 使用 Hershey Script 1-stroke 单笔画连笔路径（h-7、约 1.2px 线宽），10s 循环（0–40% `stroke-dasharray` 0→350 按字母路径绘制，40–85% 停留，85–95% 擦除）；`focus-visible` 时静态显示完整签名；`prefers-reduced-motion` 下静态显示。
+- 首页 Logo：左上使用 antfu 原始 Logo SVG（viewBox 100×100、mask + stroke-width 2.5、currentColor），10s 循环（0–40% `stroke-dasharray` 0→350 按路径绘制，40–85% 停留，85–95% 擦除）；`focus-visible` 时静态显示完整 Logo；`prefers-reduced-motion` 下静态显示。
 - 其余交互只做颜色/背景/边框 150–300ms 过渡；抽屉 `transform 300ms`。
 - 主题切换与 antfu.me 一致：以点击位置为圆心的 View Transition 圆形扩散，400ms `ease-out`；切到深色时反向收缩；不支持 View Transition 或 `prefers-reduced-motion` 时即时换色。
 - 语言切换：重放首页加载效果（内容 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场）；`prefers-reduced-motion` 下无动画。
@@ -219,7 +219,7 @@ App
 
 ### 5.2 首页壳（antfu）
 
-- 桌面：左上为 deqing 手写签名（Hershey Script 1-stroke 单笔画连笔签名、h-7，10s 循环按路径绘制/停留/擦除；focus-visible 完整显示，reduced-motion 静态），导航在右上 `2rem`，随页面滚动（与 antfu 的 NavBar 一致，不吸顶）；Projects/Blog 为文本链接，沿用首页常驻 1px 下划线（60% 不透明度、hover 100% 并加深下划线，间距 20px）；Stack/Bookmarks 为 16px 魔杖/书签图标，并与背景、主题、语言按钮合并为同一组裸图标控件（组内 4px，无边框无底色，60% opacity，hover 100%，图标链接带 `aria-label` / `title`），顺序为 Stack → Bookmarks → 背景切换 → 主题 → 语言；语言按钮使用地球图标，侧栏变体为地球图标 + 文字。
+- 桌面：左上使用 antfu 原始 Logo SVG（48×48、mask + stroke-width 2.5，10s grow 循环按路径绘制/停留/擦除；focus-visible 完整显示，reduced-motion 静态），导航在右上 `2rem`，随页面滚动（与 antfu 的 NavBar 一致，不吸顶）；Projects/Blog 为文本链接，沿用首页常驻 1px 下划线（60% 不透明度、hover 100% 并加深下划线，间距 20px）；Stack/Bookmarks 为 16px 魔杖/书签图标，并与背景、主题、语言按钮合并为同一组裸图标控件（组内 4px，无边框无底色，60% opacity，hover 100%，图标链接带 `aria-label` / `title`），顺序为 Stack → Bookmarks → 背景切换 → 主题 → 语言；语言按钮使用地球图标，侧栏变体为地球图标 + 文字。
 - 移动：顶部普通流式排布（不固定），wordmark 左；右上为 Stack/Bookmarks 图标 + 背景/主题/语言 + 汉堡按钮的同一组控件；点击汉堡打开右上浮层选项框（`rounded-lg`、1px `--line`、`--bg` 底、`shadow-lg`，160ms 淡入上移），仅列出 Projects/Blog（Stack/Bookmarks 由右上图标承担），不再向下展开；点击外部、Esc 或路由变化关闭。
 - 主列：`max-width: 65ch`，居中，`padding: 2.5rem 1.75rem`。
 - 页脚：`© 2026 STYLAN` 单行，14px、50% 不透明度，与 65ch 正文对齐；无边框、无社交图标（与 antfu 一致）。
