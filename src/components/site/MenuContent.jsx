@@ -1,12 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import config from '../../content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
+import { cn } from '../../utils/cn'
+import Button from './Button'
 import NavItem from './NavItem'
 import WechatDialog from './WechatDialog'
 import {
   BilibiliIcon,
   BookmarkIcon,
+  CheckIcon,
+  ChevronDownIcon,
+  CopyIcon,
   FolderIcon,
   GitHubIcon,
   HomeIcon,
@@ -60,6 +65,10 @@ export default function MenuContent({ onNavigate }) {
   const { t } = useLanguage()
   const { pathname } = useLocation()
   const [wechat, setWechat] = useState(null)
+  const [emailOpen, setEmailOpen] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const emailRef = useRef(null)
+  const emailPanelId = useId()
   const name = t(config.personal.name)
   const role = t(config.personal.tags?.[0] || '')
   const socials = config.socialLinks || []
@@ -75,6 +84,44 @@ export default function MenuContent({ onNavigate }) {
       label: social.platform,
       Icon: platformIcon(social.platform),
     }))
+
+  useEffect(() => {
+    setEmailOpen(false)
+    setCopied(false)
+  }, [pathname])
+
+  useEffect(() => {
+    if (!emailOpen) return undefined
+    function onPointerDown(event) {
+      if (emailRef.current && !emailRef.current.contains(event.target)) {
+        setEmailOpen(false)
+      }
+    }
+    function onKeyDown(event) {
+      if (event.key === 'Escape') setEmailOpen(false)
+    }
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKeyDown)
+    }
+  }, [emailOpen])
+
+  useEffect(() => {
+    if (!copied) return undefined
+    const timer = setTimeout(() => setCopied(false), 2000)
+    return () => clearTimeout(timer)
+  }, [copied])
+
+  async function copyEmail(value) {
+    try {
+      await navigator.clipboard.writeText(value)
+      setCopied(true)
+    } catch {
+      setCopied(false)
+    }
+  }
 
   return (
     <div className="flex w-full flex-col gap-4 text-sm">
@@ -128,6 +175,62 @@ export default function MenuContent({ onNavigate }) {
         <div className="flex flex-col gap-1">
           {methods.map((method) => {
             const Icon = CONTACT_ICONS[method.icon] || MailIcon
+            if (method.icon === 'email' && method.value) {
+              return (
+                <div key={`contact-${method.icon}`} ref={emailRef}>
+                  <button
+                    type="button"
+                    aria-expanded={emailOpen}
+                    aria-controls={emailPanelId}
+                    onClick={() => setEmailOpen((value) => !value)}
+                    className="flex w-full items-center justify-between gap-2 rounded-lg p-2 text-sm text-ink transition-colors hover:bg-hover"
+                  >
+                    <span className="flex min-w-0 items-center gap-2">
+                      <Icon size={16} className="shrink-0" />
+                      <span className="truncate font-medium">{t(method.label)}</span>
+                    </span>
+                    <ChevronDownIcon
+                      size={14}
+                      className={cn(
+                        'shrink-0 text-muted transition-transform duration-200',
+                        emailOpen && 'rotate-180'
+                      )}
+                    />
+                  </button>
+                  <div
+                    id={emailPanelId}
+                    aria-hidden={!emailOpen}
+                    inert={!emailOpen ? true : undefined}
+                    className={cn('email-reveal', emailOpen && 'is-open')}
+                  >
+                    <div className="email-reveal-body">
+                      <div className="mt-1 rounded-lg border border-line bg-page p-2.5 shadow-xs dark:shadow-none">
+                        <p className="text-[11px] font-medium text-muted">
+                          {t({ en: 'Email address', zh: '邮箱地址' })}
+                        </p>
+                        <p className="mt-0.5 break-all font-mono text-xs text-heading">
+                          {method.value}
+                        </p>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="mt-2 h-7 w-full px-2.5 text-xs"
+                          onClick={() => copyEmail(method.value)}
+                        >
+                          {copied ? <CheckIcon size={13} /> : <CopyIcon size={13} />}
+                          {copied
+                            ? t({ en: 'Copied', zh: '已复制' })
+                            : t({ en: 'Copy', zh: '复制' })}
+                        </Button>
+                        <span className="sr-only" aria-live="polite">
+                          {copied ? t({ en: 'Email copied', zh: '邮箱已复制' }) : ''}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
+            }
             if (method.icon === 'wechat' && method.qrcode) {
               return (
                 <NavItem

@@ -275,6 +275,38 @@
     animation: dialog-in 180ms ease-out both;
   }
 
+  .email-reveal {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition:
+      grid-template-rows 220ms ease,
+      opacity 160ms ease,
+      transform 220ms ease,
+      visibility 0s linear 220ms;
+  }
+
+  .email-reveal.is-open {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+    transition:
+      grid-template-rows 220ms ease,
+      opacity 160ms ease 40ms,
+      transform 220ms ease,
+      visibility 0s;
+  }
+
+  .email-reveal-body {
+    overflow: hidden;
+    min-height: 0;
+  }
+
   .quote-enter {
     animation: quote-in 600ms ease-out both;
   }
@@ -374,6 +406,10 @@
 
     .search-dialog-enter {
       animation: none;
+    }
+
+    .email-reveal {
+      transition: none;
     }
 
     .quote-enter {
