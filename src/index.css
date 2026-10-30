@@ -178,57 +178,35 @@
     letter-spacing: -0.02em;
   }
 
-  .home-signature {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      #000 0%,
-      #000 49%,
-      transparent 51%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to right,
-      #000 0%,
-      #000 49%,
-      transparent 51%,
-      transparent 100%
-    );
-    -webkit-mask-size: 200% 100%;
-    mask-size: 200% 100%;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: 100% 0;
-    mask-position: 100% 0;
-    animation: home-signature-write 10s ease forwards infinite;
+  .home-signature-path {
+    stroke-dashoffset: 1px;
+    stroke-dasharray: 0 350px;
+    animation: home-signature-grow 10s ease forwards infinite;
   }
 
-  .home-signature-link:focus-visible .home-signature {
+  .home-signature-link:focus-visible .home-signature-path {
     animation: none;
-    opacity: 1;
-    -webkit-mask: none;
-    mask: none;
+    stroke-dasharray: unset;
   }
 
-  @keyframes home-signature-write {
+  @keyframes home-signature-grow {
     0% {
-      -webkit-mask-position: 100% 0;
-      mask-position: 100% 0;
+      stroke-dashoffset: 1px;
+      stroke-dasharray: 0 350px;
       opacity: 0;
     }
     10% {
       opacity: 1;
     }
-    40%,
+    40% {
+      stroke-dasharray: 350px 0;
+    }
     85% {
-      -webkit-mask-position: 0 0;
-      mask-position: 0 0;
-      opacity: 1;
+      stroke-dasharray: 350px 0;
     }
     95%,
     100% {
-      -webkit-mask-position: 100% 0;
-      mask-position: 100% 0;
-      opacity: 1;
+      stroke-dasharray: 0 350px;
     }
   }
 
@@ -475,9 +453,9 @@
       animation: none;
     }
 
-    .home-signature {
+    .home-signature-path {
       animation: none;
-      clip-path: none;
+      stroke-dasharray: unset;
     }
 
     .qr-bubble-enter {
