@@ -226,7 +226,7 @@ title: 视频标题
 - **侧栏联系方式**：Online 依次为 GitHub / Email / Bilibili / WeChat / Bluesky；邮箱右侧保持箭头，点击后两张卡片原位叠放、以从左往右的遮罩擦除切换并支持复制，微信带右侧箭头并显示二维码与微信号 `stylan-ai`；不再显示 RSS
 - **侧栏页脚**：桌面侧栏底部固定显示 CC BY-NC-SA 4.0、版权与设计参考 `onur.dev`；首页页脚仍指向 antfu/antfu.me
 - **移动端首页导航**：右上 Stack/Bookmarks 图标与背景、主题、语言同组；汉堡按钮打开右上浮动选项框，仅列出项目与博客
-- **首页 Logo**：左上使用 antfu 原始 Logo SVG（mask + stroke），10s 循环按路径绘制/擦除；键盘聚焦时完整显示
+- **首页签名**：左上 `deqing` 单笔画 SVG，沿用 antfu 的 grow 关键帧，10s 循环按字母路径绘制/擦除；键盘聚焦时完整显示
 - **视频与图集**：` ```video ` 支持 YouTube / Vimeo / Bilibili / 直链，` ```carousel ` 支持同位置多图轮播
 - **代码块**：rehype-highlight 高亮 + 行号 + 语言标签与 Copy，13px Mono、横向滚动；文章正文容器 768px / 16px / 1.75
 - **布局与动效**：首页 antfu 式 65ch 文本流；子页 onur 式侧栏（240/288px）；博客为写作列表栏 + 右侧文章；文章 768px。仅颜色/边框 150ms 过渡，无滚动 Reveal、无磁吸按钮（子页懒加载）

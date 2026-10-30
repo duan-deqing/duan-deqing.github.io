@@ -52,7 +52,7 @@ export default function HomeHeader({ background, onCycleBackground }) {
         <Link
           to="/"
           className="home-signature-link inline-flex shrink-0 items-center text-heading"
-          aria-label={t({ en: 'STYLAN home', zh: 'STYLAN 首页' })}
+          aria-label={t({ en: 'deqing — STYLAN home', zh: 'deqing — STYLAN 首页' })}
         >
           <HomeSignature />
         </Link>

@@ -97,7 +97,7 @@
 
 ```text
 ┌──────────────────────────────────────────────┐
-│ logo                          Projects Blog│
+│ deqing                        Projects Blog│
 │                             Skills Bookmarks│
 │                                              │
 │           65ch 居中正文                       │
@@ -112,7 +112,7 @@
 └──────────────────────────────────────────────┘
 ```
 
-- 左上 20px 处使用 antfu 原始 Logo SVG（viewBox 100×100、48×48、mask + stroke-width 2.5、currentColor），按路径以 stroke-dasharray/offset 绘制，10s grow 循环（0–40% 绘制、40–85% 停留、85–95% 擦除）；focus-visible 静态显示完整 Logo，reduced-motion 静态；导航右上 32px（随页面滚动，不吸顶）。Projects/Blog 为文本链接，沿用首页常驻 1px 下划线（默认 60% 不透明度，hover 文字加深至 100%、下划线变为 `--link-underline`，间距 20px）；Stack/Bookmarks 改为 16px 魔杖/书签图标，并与背景、主题、语言按钮合并为同一组裸图标控件（组内间距 4px，无边框无底色，60% 不透明度，hover 100%，图标带 `aria-label` 与 `title`）；语言按钮使用地球图标，侧栏变体显示地球图标 + 文字。
+- 左上 20px 处使用 deqing 单笔画 SVG（viewBox 100×100、48×48、stroke-width 2.5、currentColor），沿用 antfu 的 grow 关键帧，以 stroke-dasharray/offset 按字母路径绘制，10s 循环（0–40% 绘制、40–85% 停留、85–95% 擦除）；focus-visible 静态显示完整签名，reduced-motion 静态；导航右上 32px（随页面滚动，不吸顶）。Projects/Blog 为文本链接，沿用首页常驻 1px 下划线（默认 60% 不透明度，hover 文字加深至 100%、下划线变为 `--link-underline`，间距 20px）；Stack/Bookmarks 改为 16px 魔杖/书签图标，并与背景、主题、语言按钮合并为同一组裸图标控件（组内间距 4px，无边框无底色，60% 不透明度，hover 100%，图标带 `aria-label` 与 `title`）；语言按钮使用地球图标，侧栏变体显示地球图标 + 文字。
 - 正文前显示姓名 h1（`personal.name`，36px/800/1.11、`mb-8`、`--heading`），位于 65ch 自我介绍之前，与 antfu 首页一致；这是首页唯一 h1。
 - 主列 `max-width: 65ch`，`padding: 40px 28px`。首页正文颜色为 `--home-body`（#555/#BBB，对应 antfu 的 `--fg`）；标题用 `--heading`，链接用 `--heading`。
 - Stack 区块无可见标题：介绍（`text-ink`）+ `list-disc` 列表（`pl-6`、`gap-2px`、marker `--code-line`）；每行分类为蓝色 `/skills` 链接 + ↗ + `—` + 技术项（muted）；链接沿用 `.link` 下划线：常驻 1px `rgba(125,125,125,.3)`，hover 加深为 `--link-underline`，文字保持蓝色。
@@ -248,7 +248,7 @@
 | 首页入场 | 1s、上移 10px、90ms 阶梯；仅 `/` |
 | 链接/导航 hover | 颜色/背景 150–300ms |
 | 抽屉/对话框 | 透明度 + 位移 300ms |
-| 首页 Logo | antfu 原始 Logo 路径，10s grow 循环：0–40% `stroke-dasharray` 0→350px 按路径绘制，40–85% 停留，85–95% 擦除；focus-visible 静态显示；reduced-motion 静态 |
+| 首页签名 | deqing 单笔画路径，10s grow 循环：0–40% `stroke-dasharray` 0→350px 按字母路径绘制，40–85% 停留，85–95% 擦除；focus-visible 静态显示；reduced-motion 静态 |
 | 主题切换 | View Transition 圆形扩散（点击位置为圆心，400ms ease-out；切到深色反向）；不支持 API 或 reduced-motion 时即时换色 |
 | 语言切换 | 重放首页加载效果：内容用 `key={lang}` 重挂载，`slide-enter` 1s + 90ms 阶梯；页脚 1.2s 入场；reduced-motion 下无动画 |
 | 首页移动菜单 | 右上浮层选项框，160ms 淡入上移；点击外部 / Esc / 路由变化关闭；reduced-motion 下无动画 |
