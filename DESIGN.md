@@ -143,7 +143,7 @@
 - 侧栏：240px（≥1024）/ 288px（≥1280），`--bg-sidebar`，右边框，独立滚动；底部不再放控制按钮。
 - 主题与语言控制位于内容区右上角（`right: 32px; top: 24px`，随内容滚动），使用与首页相同的裸图标组（间距 4px、无边框、60% 不透明度、hover 100%）；移动端仍在 48px 顶栏右上角。
 - 导航图标与 onur 一致：Home 房子、Projects 文件夹、Blog 钢笔、Stack 魔杖星光（WandSparkles）、Bookmarks 书签。
-- Online 依次为 GitHub、Email、Bilibili、WeChat、Bluesky：前四项来自 `contactPage.contactMethods`，Bluesky 来自 `socialLinks` 且与联系方式去重；Email 点击整行 420ms 翻转显示邮箱地址并可一键复制；WeChat 与其它项一样带右侧 ↗ 图标，点击打开二维码弹窗（页头图标 + 二维码卡片 + 微信号 `stylan-ai`）；不再显示 RSS。
+- Online 依次为 GitHub、Email、Bilibili、WeChat、Bluesky：前四项来自 `contactPage.contactMethods`，Bluesky 来自 `socialLinks` 且与联系方式去重；Email 右侧保持 ↗，点击后整行从左侧滑入邮箱地址并可一键复制；WeChat 与其它项一样带右侧 ↗ 图标，点击打开二维码弹窗（页头图标 + 二维码卡片 + 微信号 `stylan-ai`）；不再显示 RSS。
 - 侧栏 Home 指向子页 `/home`（onur 式首页）；顶部头像/姓名卡片是指向 `/`（antfu 首页）的唯一入口，头像读取 `personal.avatar`，当前为 GitHub 头像 URL。
 - 内容：普通页面 `max-width: 768px`，`padding: 32px 24px`（桌面 `96px 32px 64px`）。
 - 博客路由为 onur 式三栏：导航栏 + 320/384px 写作列表栏（`--bg-sidebar`、右边框、标题 + RSS/Search + 选择框 + 列表）+ 右侧内容区；`/blog` 内容区为空并显示 16px 点状底纹，中央居中随机显示一条双语语录（`src/content/quotes.yaml`，18px muted、600ms 入场）；`/blog/:slug` 为白底文章（`max-width: 768px`），列表栏常驻并高亮当前文章。
@@ -251,7 +251,7 @@
 | 子页导航 / 加载 | 与首页相同：页面根节点使用 `.slide-enter-content`，`slide-enter` 1s + 90ms 阶梯；路由 key 重挂载；懒加载时居中 16px spinner（sr-only Loading）；reduced-motion 下无动画 |
 | 二维码气泡关闭 | 关闭前保留 0.5s，随后气泡快照采样为 Canvas 粒子，立即散开并沿贝塞尔曲线汇聚到触发按钮，约 0.6s；reduced-motion 下 0.5s 后直接关闭 |
 | Writing 列表 | 加载时骨架脉冲；卡片以 `slide-enter` 0.5s + 25ms 阶梯入场（筛选/语言切换重播，最多 12 张）；reduced-motion 下关闭 |
-| Online 邮箱 | 点击整行 3D 翻转（rotateY 420ms），在邮箱卡片内显示地址与复制按钮；复制成功显示「已复制」2s；reduced-motion 下无过渡 |
+| Online 邮箱 | 点击整行，内容从左侧滑入（300ms），在邮箱卡片内显示地址与复制按钮；复制成功显示「已复制」2s；reduced-motion 下无过渡 |
 | `prefers-reduced-motion` | 关闭入场与所有位移动画 |
 
 ---

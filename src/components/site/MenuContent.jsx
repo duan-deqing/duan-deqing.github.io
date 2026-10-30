@@ -6,10 +6,10 @@ import { cn } from '../../utils/cn'
 import NavItem from './NavItem'
 import WechatDialog from './WechatDialog'
 import {
+  ArrowUpRightIcon,
   BilibiliIcon,
   BookmarkIcon,
   CheckIcon,
-  ChevronDownIcon,
   CopyIcon,
   FolderIcon,
   GitHubIcon,
@@ -190,55 +190,53 @@ export default function MenuContent({ onNavigate }) {
             if (method.icon === 'email' && method.value) {
               return (
                 <div key={`contact-${method.icon}`} ref={emailRef}>
-                  <div className={cn('online-email-flip', emailOpen && 'is-flipped')}>
-                    <div className="online-email-flip-inner">
+                  <div className={cn('online-email-swap', emailOpen && 'is-open')}>
+                    <button
+                      ref={emailFrontRef}
+                      type="button"
+                      aria-expanded={emailOpen}
+                      aria-controls={emailPanelId}
+                      inert={emailOpen ? true : undefined}
+                      onClick={() => setEmailOpen((value) => !value)}
+                      className="online-email-slide online-email-front flex items-center justify-between gap-2 rounded-lg p-2 text-sm text-ink hover:bg-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
+                    >
+                      <span className="flex min-w-0 items-center gap-2">
+                        <Icon size={16} className="shrink-0" />
+                        <span className="truncate font-medium">{t(method.label)}</span>
+                      </span>
+                      <ArrowUpRightIcon size={14} className="shrink-0 opacity-70" />
+                    </button>
+                    <div
+                      id={emailPanelId}
+                      inert={!emailOpen ? true : undefined}
+                      className="online-email-slide online-email-back flex items-center gap-1.5 rounded-lg bg-subtle px-2 py-1"
+                    >
                       <button
-                        ref={emailFrontRef}
                         type="button"
-                        aria-expanded={emailOpen}
-                        aria-controls={emailPanelId}
-                        inert={emailOpen ? true : undefined}
-                        onClick={() => setEmailOpen((value) => !value)}
-                        className="online-email-face flex items-center justify-between gap-2 rounded-lg p-2 text-sm text-ink transition-colors hover:bg-hover"
+                        onClick={closeEmail}
+                        title={t({ en: 'Hide email', zh: '收起邮箱' })}
+                        className="min-w-0 flex-1 truncate text-left font-mono text-[11px] leading-4 text-heading"
                       >
-                        <span className="flex min-w-0 items-center gap-2">
-                          <Icon size={16} className="shrink-0" />
-                          <span className="truncate font-medium">{t(method.label)}</span>
-                        </span>
-                        <ChevronDownIcon size={14} className="shrink-0 text-muted" />
+                        {method.value}
                       </button>
-                      <div
-                        id={emailPanelId}
-                        inert={!emailOpen ? true : undefined}
-                        className="online-email-face online-email-back flex items-center gap-1.5 rounded-lg bg-subtle px-2 py-1"
+                      <button
+                        ref={emailCopyRef}
+                        type="button"
+                        onClick={() => copyEmail(method.value)}
+                        aria-label={
+                          copied
+                            ? t({ en: 'Copied', zh: '已复制' })
+                            : t({ en: 'Copy email', zh: '复制邮箱' })
+                        }
+                        title={
+                          copied
+                            ? t({ en: 'Copied', zh: '已复制' })
+                            : t({ en: 'Copy email', zh: '复制邮箱' })
+                        }
+                        className="grid size-7 shrink-0 place-items-center rounded-md border border-line bg-page text-ink transition-colors hover:bg-hover"
                       >
-                        <button
-                          type="button"
-                          onClick={closeEmail}
-                          title={t({ en: 'Hide email', zh: '收起邮箱' })}
-                          className="min-w-0 flex-1 truncate text-left font-mono text-[11px] leading-4 text-heading"
-                        >
-                          {method.value}
-                        </button>
-                        <button
-                          ref={emailCopyRef}
-                          type="button"
-                          onClick={() => copyEmail(method.value)}
-                          aria-label={
-                            copied
-                              ? t({ en: 'Copied', zh: '已复制' })
-                              : t({ en: 'Copy email', zh: '复制邮箱' })
-                          }
-                          title={
-                            copied
-                              ? t({ en: 'Copied', zh: '已复制' })
-                              : t({ en: 'Copy email', zh: '复制邮箱' })
-                          }
-                          className="grid size-7 shrink-0 place-items-center rounded-md border border-line bg-page text-ink transition-colors hover:bg-hover"
-                        >
-                          {copied ? <CheckIcon size={13} /> : <CopyIcon size={13} />}
-                        </button>
-                      </div>
+                        {copied ? <CheckIcon size={13} /> : <CopyIcon size={13} />}
+                      </button>
                     </div>
                   </div>
                   <span className="sr-only" aria-live="polite">
