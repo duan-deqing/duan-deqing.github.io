@@ -275,36 +275,31 @@
     animation: dialog-in 180ms ease-out both;
   }
 
-  .email-reveal {
-    display: grid;
-    grid-template-rows: 0fr;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(-4px);
-    transition:
-      grid-template-rows 220ms ease,
-      opacity 160ms ease,
-      transform 220ms ease,
-      visibility 0s linear 220ms;
+  .online-email-flip {
+    height: 2.25rem;
+    perspective: 900px;
   }
 
-  .email-reveal.is-open {
-    grid-template-rows: 1fr;
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translateY(0);
-    transition:
-      grid-template-rows 220ms ease,
-      opacity 160ms ease 40ms,
-      transform 220ms ease,
-      visibility 0s;
+  .online-email-flip-inner {
+    position: relative;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 420ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .email-reveal-body {
-    overflow: hidden;
-    min-height: 0;
+  .online-email-flip.is-flipped .online-email-flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  .online-email-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .online-email-back {
+    transform: rotateY(180deg);
   }
 
   .quote-enter {
@@ -408,7 +403,7 @@
       animation: none;
     }
 
-    .email-reveal {
+    .online-email-flip-inner {
       transition: none;
     }
 
