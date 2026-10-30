@@ -6,7 +6,7 @@ export default function HomeSignature() {
       viewBox={HOME_SIGNATURE_VIEWBOX}
       aria-hidden="true"
       focusable="false"
-      className="home-signature h-9 w-auto"
+      className="home-signature h-7 w-auto"
     >
       <path d={HOME_SIGNATURE_PATH} fill="currentColor" fillRule="nonzero" />
     </svg>

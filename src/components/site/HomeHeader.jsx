@@ -51,7 +51,7 @@ export default function HomeHeader({ background, onCycleBackground }) {
       <div className="flex items-center justify-between gap-4">
         <Link
           to="/"
-          className="home-signature-link inline-flex shrink-0 items-center text-heading"
+          className="home-signature-link -m-2 inline-flex shrink-0 items-center p-2 text-heading"
           aria-label={t({ en: 'deqing — STYLAN home', zh: 'deqing — STYLAN 首页' })}
         >
           <HomeSignature />
