@@ -3,7 +3,7 @@
 简约现代风格的程序员个人主页：支持浅色/深色主题、中英文切换，以及基于 Markdown 文件的博客系统。
 
 - **线上地址**：https://duan-deqing.github.io
-- **当前版本**：1.6.0
+- **当前版本**：1.6.1
 
 ![主页图片](./public/images/1_1_main-page.jpg)
 
@@ -251,14 +251,14 @@ categories:
 
 ```markdown
 ---
-version: "1.6.0"
+version: "1.6.1"
 date: "2026-11-01"
 latest: true
 pages: [home, projects, stack]
 ---
 
-- **液态玻璃**：微信二维码弹窗改用随尺寸自适应的 SVG 折射镜片。
-- **项目页**：项目列表由表格改为图标卡片网格。
+- **弹窗拖动**：二维码弹窗可拖到视口内任意位置，重新打开回到居中。
+- **通用玻璃弹窗**：抽出 `GlassDialog` 外壳，微信二维码只填内容槽。
 ```
 
 - `version`、`date` 必填；文件名与 frontmatter 保持一致；
