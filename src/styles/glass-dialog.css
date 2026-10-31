@@ -1,0 +1,236 @@
+/* Reusable liquid-glass dialog shell, adapted from archisvaze/liquid-glass:
+   canvas displacement/specular maps + SVG backdrop refraction + inner tint.
+   Content-specific styling (QR tray, ID pill, …) stays with the caller. */
+
+.modal-backdrop.glass-dialog-backdrop {
+  background-color: rgb(15 23 42 / 0.15);
+}
+
+.dark .modal-backdrop.glass-dialog-backdrop {
+  background-color: rgb(0 0 0 / 0.36);
+}
+
+.modal-backdrop.glass-dialog-backdrop.is-visible {
+  -webkit-backdrop-filter: blur(1.5px);
+  backdrop-filter: blur(1.5px);
+}
+
+.modal-panel.glass-dialog {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: transparent;
+  border-radius: 3rem;
+  background: transparent;
+  color: var(--heading);
+  box-shadow:
+    0 0 0 1px rgb(15 23 42 / 0.06),
+    0 18px 48px -24px rgb(15 23 42 / 0.3),
+    0 4px 20px rgb(15 23 42 / 0.14);
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
+  transition:
+    transform 350ms cubic-bezier(0.32, 0.72, 0, 1),
+    opacity 200ms ease-out;
+}
+
+.modal-panel.glass-dialog.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.modal-panel.glass-dialog.is-closing {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transition:
+    transform 180ms ease-in,
+    opacity 140ms ease-in;
+}
+
+/* Tint + inner rim, sitting above the refracted backdrop. */
+.modal-panel.glass-dialog::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  background-color: rgb(255 255 255 / 0.12);
+  box-shadow: inset 0 0 28px -4px rgb(255 255 255 / 0.55);
+  pointer-events: none;
+}
+
+.dark .modal-panel.glass-dialog {
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.08),
+    0 18px 48px -24px rgb(0 0 0 / 0.65),
+    0 4px 20px rgb(0 0 0 / 0.35);
+}
+
+.dark .modal-panel.glass-dialog::before {
+  background-color: rgb(255 255 255 / 0.06);
+  box-shadow: inset 0 0 28px -4px rgb(255 255 255 / 0.3);
+}
+
+/* Lens layer rendered by LiquidGlassLens; the frosted fill is the first-frame
+   fallback that fades out once the generated filter is applied. */
+.liquid-glass-lens {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-color: color-mix(in srgb, var(--bg) 72%, transparent);
+  transition: background-color 260ms ease;
+}
+
+.liquid-glass-lens.is-ready {
+  background-color: transparent;
+}
+
+.liquid-glass-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 展示型小弹窗：文字不参与选中，避免与拖动/长按打架。 */
+.glass-dialog-content {
+  position: relative;
+  z-index: 2;
+  max-height: inherit;
+  overflow-y: auto;
+  padding: 1.5rem;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Head row doubles as the drag handle marked by Modal's data-modal-drag-handle.
+   The close button stays right; an optional kicker is pushed to the left edge. */
+.glass-dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-bottom: 1.35rem;
+}
+
+.glass-dialog-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-right: auto;
+  height: 1.5rem;
+  padding: 0 0.65rem;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.62);
+  background: rgb(255 255 255 / 0.42);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.45);
+  color: color-mix(in srgb, var(--heading) 88%, transparent);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.glass-dialog-kicker::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #60a5fa;
+  box-shadow:
+    0 0 10px rgb(96 165 250 / 0.9),
+    inset 0 0 2px rgb(255 255 255 / 0.9);
+}
+
+.glass-dialog-close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.66);
+  background: rgb(255 255 255 / 0.34);
+  color: var(--ink);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.5);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition:
+    transform 180ms cubic-bezier(0.32, 0.72, 0, 1),
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.glass-dialog-close:hover {
+  background: rgb(255 255 255 / 0.4);
+  border-color: rgb(255 255 255 / 0.85);
+  transform: scale(1.06);
+}
+
+.glass-dialog-close:active {
+  transform: scale(0.94);
+}
+
+.glass-dialog-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.glass-dialog-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.4rem;
+}
+
+.dark .glass-dialog-kicker {
+  border-color: rgb(255 255 255 / 0.28);
+  background: rgb(255 255 255 / 0.16);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.18);
+  color: color-mix(in srgb, var(--heading) 86%, transparent);
+}
+
+.dark .glass-dialog-close {
+  border-color: rgb(255 255 255 / 0.28);
+  background: rgb(255 255 255 / 0.14);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22);
+}
+
+.dark .glass-dialog-close:hover {
+  border-color: rgb(255 255 255 / 0.36);
+  background: rgb(255 255 255 / 0.18);
+}
+
+@media (max-width: 380px) {
+  .modal-panel.glass-dialog {
+    border-radius: 2.5rem;
+  }
+
+  .glass-dialog-content {
+    padding: 1.25rem;
+  }
+
+  .glass-dialog-head {
+    margin-bottom: 1.15rem;
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .modal-panel.glass-dialog {
+    background: color-mix(in srgb, var(--bg) 94%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-panel.glass-dialog,
+  .modal-panel.glass-dialog.is-visible,
+  .modal-panel.glass-dialog.is-closing,
+  .liquid-glass-lens {
+    transition: none;
+  }
+}

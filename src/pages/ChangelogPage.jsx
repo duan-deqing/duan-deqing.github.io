@@ -60,7 +60,7 @@ export default function ChangelogPage() {
   }, [logs])
 
   return (
-    <div className="mx-auto w-full max-w-3xl">
+    <div className="slide-enter-content mx-auto w-full max-w-3xl">
       <PageTitle
         title={`STYLAN · ${title}`}
         description={description}

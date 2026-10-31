@@ -69,7 +69,7 @@ export default function LiquidGlassLens() {
       <div
         ref={lensRef}
         aria-hidden="true"
-        className={markup ? 'wechat-glass-lens is-ready' : 'wechat-glass-lens'}
+        className={markup ? 'liquid-glass-lens is-ready' : 'liquid-glass-lens'}
         style={
           markup
             ? {
@@ -81,7 +81,7 @@ export default function LiquidGlassLens() {
       />
       {markup ? (
         <svg
-          className="wechat-glass-defs"
+          className="liquid-glass-defs"
           aria-hidden="true"
           focusable="false"
           colorInterpolationFilters="sRGB"

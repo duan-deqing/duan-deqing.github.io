@@ -458,6 +458,19 @@
     transition-timing-function: ease-in;
   }
 
+  /* 可拖动弹窗的把手：光标与触摸手势归拖动，不归内容 */
+  .modal-panel [data-modal-drag-handle] {
+    cursor: grab;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .modal-panel.is-dragging,
+  .modal-panel.is-dragging :where(*) {
+    cursor: grabbing;
+  }
+
   .online-email-stack {
     position: relative;
     height: 2.25rem;
