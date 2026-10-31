@@ -13,7 +13,7 @@ export default function BookmarkGrid({ bookmarks = [] }) {
   }
 
   return (
-    <div className="bookmarks-grid">
+    <div className="content-cards-grid">
       {bookmarks.map((bookmark, index) => (
         <BookmarkCard key={`${bookmark.url}-${index}`} bookmark={bookmark} index={index} />
       ))}

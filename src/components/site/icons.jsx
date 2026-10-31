@@ -70,23 +70,67 @@ export const LinkIcon = (props) => (
   </LineIcon>
 )
 
-export const SparklesIcon = (props) => (
+export const PlumBranchIcon = (props) => (
   <LineIcon {...props}>
-    <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8Z" />
-    <path d="M19 15.5 19.7 18l2.3.7-2.3.8L19 22l-.7-2.5-2.3-.8 2.3-.7Z" />
+    <path d="M4 20c3.1-2.3 5.3-5.4 6.6-9 1-2.9 3.1-5.3 6.8-6.6" />
+    <path d="M10.6 11C8.9 9.9 7.1 9.4 5.1 9.5" />
+    <path d="M12.7 7.2c1.3-1.1 2.9-1.7 4.6-1.8" />
+    <circle cx="4.3" cy="9.1" r="0.9" fill="currentColor" stroke="none" />
+    <circle cx="18.6" cy="3.1" r="0.9" fill="currentColor" stroke="none" />
   </LineIcon>
 )
 
-export const WandSparklesIcon = (props) => (
+export const DotsIcon = (props) => (
   <LineIcon {...props}>
-    <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72" />
-    <path d="m14 7 3 3" />
-    <path d="M5 6v4" />
-    <path d="M19 14v4" />
-    <path d="M10 2v2" />
-    <path d="M7 8H3" />
-    <path d="M21 16h-4" />
-    <path d="M11 3H9" />
+    <circle cx="5.5" cy="5.5" r="1.2" fill="currentColor" stroke="none" opacity="0.65" />
+    <circle cx="12" cy="5.5" r="0.9" fill="currentColor" stroke="none" />
+    <circle cx="18.5" cy="5.5" r="1.3" fill="currentColor" stroke="none" opacity="0.45" />
+    <circle cx="5.5" cy="12" r="0.9" fill="currentColor" stroke="none" opacity="0.45" />
+    <circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none" opacity="0.8" />
+    <circle cx="18.5" cy="12" r="1" fill="currentColor" stroke="none" />
+    <circle cx="5.5" cy="18.5" r="1.3" fill="currentColor" stroke="none" />
+    <circle cx="12" cy="18.5" r="1" fill="currentColor" stroke="none" opacity="0.55" />
+    <circle cx="18.5" cy="18.5" r="0.9" fill="currentColor" stroke="none" opacity="0.8" />
+  </LineIcon>
+)
+
+export const GridIcon = (props) => (
+  <LineIcon {...props}>
+    <rect x="3.5" y="3.5" width="7" height="7" rx="1" />
+    <rect x="13.5" y="3.5" width="7" height="7" rx="1" />
+    <rect x="3.5" y="13.5" width="7" height="7" rx="1" />
+    <rect x="13.5" y="13.5" width="7" height="7" rx="1" />
+  </LineIcon>
+)
+
+export const WavesIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="M3 7c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0" />
+    <path d="M3 12c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0" />
+    <path d="M3 17c1.5-1.6 3-1.6 4.5 0s3 1.6 4.5 0 3-1.6 4.5 0 3 1.6 4.5 0" />
+  </LineIcon>
+)
+
+export const AuroraIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="M4 20c3-6.4 4.4-11.7 9.8-15.6" />
+    <path d="M9.2 20c2.9-5.8 4.1-9.9 10.2-13.4" />
+    <path d="M14.4 20c1.8-3.4 2.5-5.7 6.4-7.8" />
+  </LineIcon>
+)
+
+export const BackgroundOffIcon = (props) => (
+  <LineIcon {...props}>
+    <circle cx="12" cy="12" r="8.5" />
+    <path d="m6 6 12 12" />
+  </LineIcon>
+)
+
+export const CodeIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="m18 16 4-4-4-4" />
+    <path d="m6 8-4 4 4 4" />
+    <path d="m14.5 4-5 16" />
   </LineIcon>
 )
 
@@ -106,6 +150,14 @@ export const CopyIcon = (props) => (
   <LineIcon {...props}>
     <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
     <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+  </LineIcon>
+)
+
+export const HistoryIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="M3 12a9 9 0 1 0 2.64-6.36L3 8" />
+    <path d="M3 3v5h5" />
+    <path d="M12 7v5l3 2" />
   </LineIcon>
 )
 

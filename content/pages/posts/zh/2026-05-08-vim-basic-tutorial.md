@@ -1,11 +1,10 @@
 ---
 title: "Vim编辑器基础使用教程"
+date: "2026-05-08"
+category: tutorial
+duration: 3min
+tags: [Tutorial, Tools]
 excerpt: "Linux基础文本编辑器Vim使用指南"
-category: "tutorial"
-readTime: "3 分钟阅读"
-author: "STYLAN"
-tags: ["Tutorial","Tools"]
-featured: false
 ---
 
 # Vim 编辑器基础使用教程

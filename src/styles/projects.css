@@ -1,0 +1,143 @@
+/**
+ * projects.css — 项目页网格与 antfu 式项目条目。
+ */
+
+.project-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: 1rem;
+  padding-block: 0.5rem;
+}
+
+.project-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  padding: 0.5rem 0.875rem 0.875rem;
+  border-radius: 6px;
+  color: var(--muted-strong);
+  text-decoration: none;
+  opacity: 0.6;
+  transition: all 0.2s ease-out;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 2px;
+  height: 1.25rem;
+  border-radius: 999px;
+  background-color: var(--active-bg);
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity 0.2s ease-out;
+}
+
+.project-card:hover,
+.project-card:focus-visible {
+  background-color: color-mix(in srgb, var(--muted) 8%, transparent);
+  opacity: 1;
+}
+
+.project-card.is-active {
+  background-color: color-mix(in srgb, var(--muted) 8%, transparent);
+  color: var(--heading);
+  opacity: 1;
+}
+
+.project-card.is-active::before {
+  opacity: 1;
+}
+
+.project-card.is-active .project-card-icon-image {
+  opacity: 1;
+}
+
+.project-card.is-compact {
+  min-height: 3.75rem;
+  padding: 0.625rem 0.75rem;
+}
+
+.project-card.is-compact .project-card-icon {
+  width: 28px;
+  height: 28px;
+  margin-right: 0.75rem;
+}
+
+.project-card.is-compact .project-card-icon-image,
+.project-card.is-compact .project-card-icon-fallback {
+  width: 28px;
+  height: 28px;
+}
+
+.project-card.is-compact .project-card-icon-fallback {
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+.project-card.is-compact .project-card-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+}
+
+.project-card.is-compact .project-card-description {
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.project-card-icon {
+  display: grid;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  margin-right: 1.25rem;
+  place-items: center;
+}
+
+.project-card-icon-image {
+  width: 36px;
+  height: 36px;
+  background-color: currentColor;
+  opacity: 0.75;
+  transition: opacity 0.2s ease-out;
+  -webkit-mask: var(--project-icon) center / contain no-repeat;
+  mask: var(--project-icon) center / contain no-repeat;
+}
+
+.project-card-icon-fallback {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background-color: var(--bg-subtle);
+  color: var(--muted-strong);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.project-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.project-card-title {
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.project-card-description {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  opacity: 0.5;
+}

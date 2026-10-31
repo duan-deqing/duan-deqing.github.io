@@ -1,11 +1,10 @@
 ---
 title: "Getting Started with React Hooks"
+date: "2026-04-25"
+category: tutorial
+duration: 5min
+tags: [React, JavaScript, Hooks]
 excerpt: "Learn how to use React Hooks to build more elegant and maintainable components."
-category: "tutorial"
-readTime: "5 min read"
-author: "STYLAN"
-tags: ["React", "JavaScript", "Hooks"]
-featured: true
 ---
 
 ## What are React Hooks?

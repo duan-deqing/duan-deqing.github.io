@@ -7,9 +7,11 @@ import ThemeLangControls from '../components/site/ThemeLangControls'
 import { BlogProvider } from '../components/blog/BlogProvider'
 import BlogQuote from '../components/blog/BlogQuote'
 import WritingRail from '../components/blog/WritingRail'
+import { useLanguage } from '../hooks/useLanguage'
 import { cn } from '../utils/cn'
 
 export default function BlogLayout() {
+  const { lang } = useLanguage()
   const [menuOpen, setMenuOpen] = useState(false)
   const { pathname } = useLocation()
   const scrollRef = useRef(null)
@@ -31,7 +33,7 @@ export default function BlogLayout() {
         <div className="flex min-w-0 flex-1 flex-col lg:h-dvh lg:overflow-hidden">
           <MobileHeader open={menuOpen} onOpenMenu={openMenu} />
           <div className="flex min-w-0 flex-1 lg:h-dvh lg:min-h-0">
-            <WritingRail />
+            <WritingRail key={lang} />
             <div
               ref={scrollRef}
               className={cn(
@@ -39,12 +41,12 @@ export default function BlogLayout() {
                 isPost ? 'lg:bg-page' : 'lg:bg-dots'
               )}
             >
-              <div className="absolute right-8 top-6 z-20 hidden lg:block">
+              <div className="fixed right-8 top-6 z-40 hidden lg:block">
                 <ThemeLangControls />
               </div>
               {!isPost ? <BlogQuote /> : null}
               <main className="mx-auto w-full max-w-5xl px-6 pb-16 pt-8 lg:px-8 lg:pb-16 lg:pt-24">
-                <Outlet />
+                <Outlet key={lang} />
               </main>
             </div>
           </div>

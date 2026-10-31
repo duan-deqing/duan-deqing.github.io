@@ -1,27 +1,29 @@
 import { useState } from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
-import { getBookmarkDomain } from '../../utils/bookmarkFormat'
+import { getBookmarkCover, getBookmarkDomain } from '../../utils/bookmarkFormat'
+import ContentCard from '../shared/ContentCard'
 import { LinkIcon } from '../site/icons'
 
 export default function BookmarkCard({ bookmark, index }) {
   const { t } = useLanguage()
   const [coverFailed, setCoverFailed] = useState(false)
+  const cover = getBookmarkCover(bookmark)
   const domain = getBookmarkDomain(bookmark.url)
-  const showCover = Boolean(bookmark.cover) && !coverFailed
+  const showCover = Boolean(cover) && !coverFailed
   const initial = (domain[0] || '?').toUpperCase()
 
   return (
-    <a
+    <ContentCard
       href={bookmark.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="bookmark-card bookmark-card-enter"
-      style={{ '--bookmark-index': Math.min(index, 12) }}
-    >
-      <span className="bookmark-media">
-        {showCover ? (
+      index={index}
+      title={bookmark.title}
+      meta={domain}
+      MetaIcon={LinkIcon}
+      description={bookmark.description ? t(bookmark.description) : null}
+      media={
+        showCover ? (
           <img
-            src={bookmark.cover}
+            src={cover}
             alt=""
             width={1200}
             height={630}
@@ -30,22 +32,11 @@ export default function BookmarkCard({ bookmark, index }) {
             onError={() => setCoverFailed(true)}
           />
         ) : (
-          <span className="bookmark-media-fallback" aria-hidden="true">
-            <span className="bookmark-media-mark">{initial}</span>
+          <span className="content-card-media-fallback" aria-hidden="true">
+            <span className="content-card-media-mark">{initial}</span>
           </span>
-        )}
-      </span>
-
-      <span className="bookmark-body">
-        <span className="bookmark-title">{bookmark.title}</span>
-        <span className="bookmark-domain">
-          <LinkIcon size={15} />
-          <span className="bookmark-domain-text">{domain}</span>
-        </span>
-        {bookmark.description ? (
-          <span className="bookmark-description">{t(bookmark.description)}</span>
-        ) : null}
-      </span>
-    </a>
+        )
+      }
+    />
   )
 }

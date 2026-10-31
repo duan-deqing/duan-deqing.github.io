@@ -1,11 +1,13 @@
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import bookmarksConfig from '@content/pages/bookmarks.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import { getBookmarkCategory } from '../utils/bookmarks'
 import PageTitle from '../components/shared/PageTitle'
 import PageHeading from '../components/site/PageHeading'
+import CenteredPageHeading from '../components/site/CenteredPageHeading'
+import ParentLink from '../components/site/ParentLink'
+import QuoteFooter from '../components/site/QuoteFooter'
 import BookmarkGrid from '../components/bookmarks/BookmarkGrid'
-import { ArrowUpRightIcon } from '../components/site/icons'
 
 export default function BookmarkCategoryPage() {
   const { slug } = useParams()
@@ -29,32 +31,36 @@ export default function BookmarkCategoryPage() {
             zh: '这个分类不存在，或已经被移除。',
           })}
         </p>
-        <Link to="/bookmarks" className="link mt-6 inline-block text-sm">
-          {t({ en: 'Back to bookmarks', zh: '返回书签' })}
-        </Link>
+        <ParentLink
+          to="/bookmarks"
+          label={t({ en: 'Back to bookmarks', zh: '返回书签' })}
+          className="mt-6"
+        />
       </div>
     )
   }
 
   return (
-    <div className="bookmarks-page">
+    <div className="bookmarks-page content-cards-page">
       <PageTitle
         title={`STYLAN · ${t(page.title)} · ${t(category.title)}`}
-        description={t(page.subtitle)}
+        description={t(category.description || page.subtitle)}
         t={t}
         lang={lang}
       />
 
-      <Link
+      <ParentLink
         to="/bookmarks"
-        className="mb-4 inline-flex items-center gap-1 text-sm text-muted-strong transition-colors hover:text-ink lg:hidden"
-      >
-        <ArrowUpRightIcon size={14} className="rotate-180" />
-        {t(page.title)}
-      </Link>
+        label={t({ en: 'Back to bookmarks', zh: '返回书签' })}
+        className="mb-4 lg:hidden"
+      />
 
-      <PageHeading title={t(category.title)} />
+      <CenteredPageHeading
+        title={t(category.title)}
+        description={t(category.description || page.subtitle)}
+      />
       <BookmarkGrid bookmarks={category.bookmarks || []} />
+      <QuoteFooter />
     </div>
   )
 }

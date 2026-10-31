@@ -1,0 +1,48 @@
+.changelog-new {
+  display: inline-flex;
+  align-items: center;
+  height: 1.1rem;
+  padding: 0 0.4rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1;
+}
+
+.changelog-markdown p,
+.changelog-markdown ul,
+.changelog-markdown ol {
+  margin-bottom: 0.5rem;
+  color: var(--muted-strong);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.changelog-markdown p:last-child,
+.changelog-markdown ul:last-child,
+.changelog-markdown ol:last-child {
+  margin-bottom: 0;
+}
+
+.changelog-markdown li {
+  line-height: 1.7;
+}
+
+.changelog-markdown li p {
+  margin-bottom: 0;
+}
+
+.changelog-markdown strong {
+  color: var(--heading);
+  font-weight: 600;
+}
+
+.changelog-markdown .article-heading {
+  margin-top: 1rem;
+  font-size: 1rem;
+}

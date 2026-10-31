@@ -48,7 +48,7 @@ function isAlreadyWrapped(code) {
 
 function isCustomFence(code) {
   return code.properties?.className?.some((name) =>
-    /^language-(video|carousel)$/i.test(name)
+    /^language-(video|carousel|mermaid)$/i.test(name)
   )
 }
 
@@ -59,6 +59,7 @@ function transformPre(pre) {
   if (!code?.children || isAlreadyWrapped(code) || isCustomFence(code)) return
 
   const lines = splitLineNodes(code.children)
+  while (lines.length > 1 && lines[lines.length - 1].length === 0) lines.pop()
   code.children = lines.map((line, index) => ({
     type: 'element',
     tagName: 'span',

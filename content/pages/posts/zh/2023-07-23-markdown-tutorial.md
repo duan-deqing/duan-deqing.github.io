@@ -1,16 +1,22 @@
 ---
 title: "Markdown 指南：从基础到 GitHub 开源贡献"
-excerpt: "一份全面的 Markdown 语法、编辑器和高级功能指南。"
-category: "tutorial"
-readTime: "10 分钟阅读"
-author: "STYLAN"
-tags: ["Markdown","Tutorial","Documentation"]
-featured: false
+date: "2023-07-23"
+category: tutorial
+duration: 10min
+tags: [Markdown, Tutorial, Documentation]
+excerpt: "从基础语法到 GitHub 协作格式，一份可直接套用的 Markdown 实战指南。"
 ---
 
 # Markdown 指南：从基础到 GitHub 开源贡献
 
-欢迎来到 Markdown 的世界！无论你是刚刚接触编程的开发者，还是准备在 GitHub 上大展拳脚参与开源项目的贡献者，掌握 Markdown 都是一项必不可少的技能。它能让你用纯文本快速排版，将精力集中在内容创作上。本教程将带你从最基础的语法起步，逐步掌握 GitHub 上的高级排版技巧。
+欢迎来到 Markdown 的世界！无论你是刚接触编程的开发者，还是准备参与 GitHub 开源项目的贡献者，Markdown 都能让你用纯文本快速排版，把精力留给内容本身。
+
+本文从基础语法讲到 GitHub 文档中常用的协作格式，所有示例都在本站真实渲染。可以按顺序阅读，也可以直接跳到需要的部分：
+
+- [Markdown 基础语法](#markdown-基础语法最常用)：标题、段落、列表、链接、图片、引用与代码
+- [GitHub 文档与协作常用格式](#github-文档与协作常用格式)：任务列表、表格、脚注、自动链接、提及、徽章与折叠块
+- [进阶技巧](#进阶技巧不常用的扩展内容)：公式、Mermaid、内部锚点与提示块
+- [推荐阅读与工具](#推荐阅读与工具)
 
 ## Markdown 基础语法（最常用）
 
@@ -23,8 +29,6 @@ Markdown 支持 1 到 6 级标题，使用 `#` 号表示，`#` 的数量代表�
 
 ## 二级标题
 
-### 三级标题
-
 ###### 六级标题
 ```
 
@@ -36,8 +40,8 @@ Markdown 支持 1 到 6 级标题，使用 `#` 号表示，`#` 的数量代表�
 - **换行**：在当前行的结尾输入**两个或以上的空格**，然后回车。
 - **分割线**：使用三个以上的连续星号 `***` 或减号 `---`。
 
-```Markdown
-这是第一行。
+```markdown
+这是第一行。  
 这是第二行（上一行末尾有两个空格，实现了硬换行）。
 
 这是另一个段落（上面有一个空行）。
@@ -46,22 +50,39 @@ Markdown 支持 1 到 6 级标题，使用 `#` 号表示，`#` 的数量代表�
 上面是一条分割线。
 ```
 
+**渲染结果：**
+
+这是第一行。  
+这是第二行（上一行末尾有两个空格，实现了硬换行）。
+
+这是另一个段落（上面有一个空行）。
+
+---
+上面是一条分割线。
+
 ### 3. 字体样式
 
 你可以为文本添加加粗、斜体或删除线效果。
 
-```Markdown
-这是 **加粗** 的文字。
+```markdown
+这是 **加粗** 的文字。  
 这是 *斜体* 的文字。
 这是 ***加粗且斜体*** 的文字。
 这是 ~~被删除~~ 的文字。
 ```
 
+**渲染结果：**
+
+这是 **加粗** 的文字。  
+这是 *斜体* 的文字。  
+这是 ***加粗且斜体*** 的文字。  
+这是 ~~被删除~~ 的文字。
+
 ### 4. 列表
 
 列表分为无序列表和有序列表，并且可以通过缩进实现嵌套。
 
-```Markdown
+```markdown
 - 无序列表项 1
 - 无序列表项 2
   - 嵌套的子项目 (前面有两到四个空格)
@@ -72,28 +93,60 @@ Markdown 支持 1 到 6 级标题，使用 `#` 号表示，`#` 的数量代表�
    1. 嵌套的有序子项目
 ```
 
+**渲染结果：**
+
+- 无序列表项 1
+- 无序列表项 2
+  - 嵌套的子项目（前面有两到四个空格）
+  - 另一个子项目
+
+1. 有序列表项 1
+2. 有序列表项 2
+   1. 嵌套的有序子项目
+   2. 第二个嵌套子项目
+
 ### 5. 链接
 
 链接分为行内式和引用式。对于直接展示的 URL，大多数解析器也支持自动链接。
 
-```Markdown
+```markdown
 这是一个 [GitHub](https://github.com) 的行内链接。
 这是一个引用链接：请参考 [Markdown 官网][1]。
-[1]: [https://daringfireball.net/projects/markdown/](https://daringfireball.net/projects/markdown/)
+[1]: https://daringfireball.net/projects/markdown/
 直接使用 URL：[https://bing.com](https://bing.com)
 ```
 
+**渲染结果：**
+
+这是一个 [GitHub](https://github.com) 的行内链接。  
+这是一个引用链接：请参考 [Markdown 官网][1]。  
+直接使用 URL：[https://bing.com](https://bing.com)
+
+[1]: https://daringfireball.net/projects/markdown/
+
 ### 6. 图片
 
-图片的语法与链接类似，只是在最前面多了一个感叹号 `!`。你还可以为图片添加一个鼠标悬停时显示的“标题”。
+图片的语法与链接类似，只是在最前面多了一个感叹号 `!`。你还可以为图片添加一个 `title`，在本站会显示为图片下方的说明文字。
 
-```Markdown
+```markdown
 ![Octocat 占位图](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png "可爱的 GitHub Logo")
 ```
 
 **渲染结果：**
 
 ![Octocat 占位图](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png "可爱的 GitHub Logo")
+
+本站还额外支持视频与图集扩展块：
+
+```video
+url: https://www.bilibili.com/video/BV1GJ411x7h7
+title: Never Gonna Give You Up - Rick Astley
+```
+ 
+```carousel
+![第一张](../img/2026-04-15-my-journey-into-web-development/132578575_p0.jpg "第一张说明")
+![第二张](../img/2026-04-25-getting-started-with-react-hooks/134637964_p0.jpg "第二张说明")
+```
 
 ### 7. 引用
 
@@ -107,11 +160,19 @@ Markdown 支持 1 到 6 级标题，使用 `#` 号表示，`#` 的数量代表�
 > - 引用中也可以使用列表。
 ```
 
+**渲染结果：**
+
+> 这是一段引用。
+>
+> > 这是嵌套的引用内容。
+>
+> - 引用中也可以使用列表。
+
 ### 8. 行内代码与代码块
 
 代码是开发者文档的核心。行内代码使用单反引号包裹；多行代码块使用三个反引号包裹。
 
-````Markdown
+````markdown
 在终端中输入 `npm install` 来安装依赖。
 
 下面是一段 JavaScript 代码：
@@ -122,6 +183,10 @@ function greet(name) {
 ```
 ````
 
+**渲染结果：**
+
+在终端中输入 `npm install` 来安装依赖。
+
 下面是一段 JavaScript 代码：
 
 ```JavaScript
@@ -130,17 +195,23 @@ function greet(name) {
 }
 ```
 
-💡 **最佳实践**：在使用代码块时，务必在第一行反引号后指定语言标识符（如 `javascript`, `python`, `bash` 等）。这不仅能触发语法高亮，还能让阅读者一目了然。
+也可以用文件路径标注语言，渲染时会按最后一个扩展名高亮：
 
-## GitHub 开源项目常见设计（GFM 特色）
+```src/main.js
+function greet(name) {
+  console.log("Hello, " + name);
+}
+```
 
-GitHub Flavored Markdown (GFM) 扩展了基础语法，专门为代码托管和团队协作量身定制。
+💡 **最佳实践**：在代码块开头的反引号后指定语言标识符（如 `javascript`、`js`、`src/main.js`、`python`、`bash`），既能触发语法高亮，也方便读者识别代码类型。
+
+## GitHub 文档与协作常用格式
+
+GitHub Flavored Markdown（GFM）在基础语法上扩展了任务列表、表格、脚注等能力；下面还会介绍 GitHub 文档里常见的提及、徽章与折叠块。其中提及、徽章和折叠块依赖平台或本站渲染器，不属于所有 Markdown 实现都支持的标准语法。
 
 ### 1. 任务列表
 
-在开源项目中，常用于 Issue 或 Pull Request 的待办事项跟踪，勾选框直观展示进度。
-
-Markdown
+在 Issue 或 Pull Request 中，任务列表能直观展示待办进度。
 
 ```markdown
 - [x] 完善文档结构
@@ -158,7 +229,7 @@ Markdown
 
 用于有条理地展示参数说明或数据对比。使用 `:` 可以控制对齐方式。
 
-```Markdown
+```markdown
 | 左对齐 | 居中对齐 | 右对齐 |
 | :----- | :------: | -----: |
 | 参数 A | `string` |   必填 |
@@ -184,26 +255,32 @@ Markdown
 [^1]: 这里是对该术语的详细解释和补充说明。
 ```
 
-### 4. 自动链接与 Emoji
+**渲染结果：**
 
-GitHub 会自动将纯文本的网址或邮箱识别为链接。同时，通过特定的简写可以快速输入表情符号，增加交流的亲和力。
+这是一个需要解释的专业术语[^1]。
 
-```Markdown
+[^1]: 这里是对该术语的详细解释和补充说明。
+
+### 4. 自动链接
+
+GitHub 会自动将纯文本网址和邮箱识别为链接。Emoji 短代码（如 `:smile:`）是否转换取决于平台，本站会保留原样。
+
+```markdown
 访问我的博客：https://example.com
-你好呀！ :smile: :rocket:
+联系邮箱：hello@example.com
 ```
 
-**渲染结果：** 访问我的博客：[https://example.com](https://example.com) 你好呀！ :smile: :rocket:
+**渲染结果：** 访问我的博客：[https://example.com](https://example.com)，联系邮箱：[hello@example.com](mailto:hello@example.com)。
 
 ### 5. 提及与引用
 
-GitHub 特有的社交与版本控制协作语法。
+GitHub 会识别裸 `@username`、`#123` 和 commit hash。为了不与普通 `@` 符号、邮箱地址冲突，本站改用显式 `{@username}` 语法。
 
-- `@username`：通知某位开发者。
+- `{@username}`：生成 GitHub 提及；`{@username|显示名称}` 可自定义显示文字。
 - `#123`：链接到当前仓库的第 123 号 Issue 或 PR。
-- `a1b2c3d`：直接写出 commit hash，GitHub 会自动将其转换为指向该提交的链接。
+- `d0f6f23`：7–40 位 commit hash 会链接到对应提交。
 
-**渲染效果：** _（这些特性无需额外语法，直接在文本中输入即可被 GitHub 解析器捕获。）_
+**渲染效果：** 感谢 {@duan-deqing} 的贡献；相关讨论见 #123，对应提交 d0f6f23。
 
 ### 6. 徽章（Badge）
 
@@ -213,14 +290,15 @@ GitHub 特有的社交与版本控制协作语法。
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ```
 
-**渲染结果：** _(会显示一个蓝色背景，白字的 MIT 协议小徽章标签)_
+**渲染结果：**
+
 ![license](https://img.shields.io/badge/license-MIT-blue)
 
-**说明**：徽章本质上就是一张在线生成的图片(运用了前面的图片语法)，通过参数改变文字和颜色。
+**说明**：徽章本质上是一张在线生成的图片，通过参数改变文字和颜色。本站会把徽章按 20px 高度内联显示，而不是铺满正文。
 
 ### 7. 折叠块（Details）
 
-开源项目的 README 有时会非常长，使用折叠块可以隐藏大段的日志、配置代码或 Q&A。
+开源项目的 README 有时会非常长，使用折叠块可以隐藏大段日志、配置代码或 Q&A。折叠块内部可以继续使用 Markdown；为了让 HTML 与 Markdown 正确衔接，`<details>`、Markdown 内容与 `</details>` 之间建议保留空行。
 
 ````markdown
 <details>
@@ -232,15 +310,28 @@ GitHub 特有的社交与版本控制协作语法。
     "description": "Awesome project"
   }
   ```
+</details>
 ````
 
-**渲染结果：** ▶ 点击查看详细配置代码 _(点击后展开内部的代码块)_
+**渲染结果：**
+
+<details>
+<summary>点击查看详细配置代码</summary>
+
+```json
+{
+  "version": "1.0.0",
+  "description": "Awesome project"
+}
+```
+
+</details>
 
 ### 8. 关于 HTML 的建议
 
-GitHub 允许使用部分安全的 HTML 标签（如 `<kbd>` 键位说明、`<br>` 强制换行、`<details>` 等）。
+GitHub 和本站都允许使用一部分安全的 HTML 标签，例如 `<kbd>` 键位说明、`<br>` 强制换行、`<details>` 折叠块与 `<a name>` 自定义锚点。
 
-**建议**：除非 Markdown 无法实现（如折叠块、居中对齐、特定颜色），否则尽量使用纯 Markdown，以保证文档在不同平台间的最佳可移植性。
+本站会经过安全白名单过滤：脚本、内联样式、`iframe` 和事件属性都会被移除。能用 Markdown 表达的内容仍建议优先使用 Markdown，以保证文档在不同平台间的可移植性。
 
 ## 进阶技巧（不常用的扩展内容）
 
@@ -258,6 +349,8 @@ $$
 
 **渲染结果：**
 
+著名的质能方程是 $E = mc^2$。
+
 $$
 \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
 $$
@@ -266,7 +359,7 @@ $$
 
 使用代码的方式绘制图表，GitHub 已经原生支持 Mermaid 语法。常用于流程图或架构图。
 
-````txt
+````markdown
 ```mermaid
 graph TD;
     A[客户端] --> B{是否登录?};
@@ -274,6 +367,8 @@ graph TD;
     B -- 否 --> D[登录页面];
 ```
 ````
+
+本站会按需加载 Mermaid，并让图表颜色跟随明暗主题。
 
 **渲染结果：**
 
@@ -286,18 +381,21 @@ graph TD;
 
 ### 3. 内部锚点与跳转
 
-用于长文档内部跳转。通常，GitHub 会为所有的标题自动生成不可见的锚点（将标题转为小写并用 `-` 替换空格）。
+用于长文档内部跳转。GitHub 会为标题自动生成锚点；本站的规则是转为小写、空格替换为 `-` 并移除标点。文章加载完成后会自动定位 URL 中的 `#hash`，若目标位于折叠块内还会自动展开。
 
 ```markdown
-点击这里跳回到 [顶部目录](#目录)。
-或者使用 HTML 设置自定义锚点 <a name="my-anchor"></a>
+点击这里跳转到 [Markdown 基础语法](#markdown-基础语法最常用)。
+或者使用 HTML 设置自定义锚点 <a name="my-anchor"></a>，再通过 [自定义锚点](#my-anchor) 跳转。
 ```
 
-**渲染结果：**[顶部目录](#Markdown 基础语法（最常用）)
+**渲染结果：** [跳到 Markdown 基础语法](#markdown-基础语法最常用)，也可以跳到 [数学公式](#1-数学公式)。
+
+<a name="my-anchor"></a>
+**自定义锚点目标**：点击 [跳到自定义锚点](#my-anchor) 会滚动到这里。
 
 ### 4. 警告块（Admonitions）
 
-在文档中用来吸引读者注意力的特殊区块。GitHub 近期正式推出了支持。
+用于强调关键信息的特殊区块，支持 `NOTE`、`TIP`、`IMPORTANT`、`WARNING`、`CAUTION` 五种类型。标记必须紧跟在 `>` 后，并且每种类型独占一个引用块。
 
 ```markdown
 > [!NOTE]
@@ -307,19 +405,29 @@ graph TD;
 > 这是一个警告信息，提醒你需要注意的潜在风险。
 ```
 
+**渲染结果：**
+
+> [!NOTE]
+> 这是一个提示信息，告诉你一些有用的背景知识。
+
+> [!WARNING]
+> 这是一个警告信息，提醒你需要注意的潜在风险。
+
 ### 5. 其他特定解析器扩展
 
-- **定义列表**：`术语 \n : 释义`（部分解析器支持，GFM 不原生支持）。
-- **上下标**：使用 `^上标^` 和 `~下标~`（建议直接使用 HTML 的 `<sup>` 和 `<sub>` 以保兼容）。
-- **高亮标记**：使用 `==高亮内容==`（需 Typora 或 Markdown Preview Enhanced 等插件支持）。
+以下写法在部分编辑器中可用，但不属于 GFM，本站也不会转换：
+
+- **定义列表**：`术语 \n : 释义`。
+- **上下标**：`^上标^` 和 `~下标~`；需要兼容时可写 HTML 的 `<sup>` / `<sub>`。
+- **高亮标记**：`==高亮内容==`（需 Typora、Markdown Preview Enhanced 等插件支持）。
 
 ## 推荐阅读与工具
 
-现在你已经掌握了 Markdown 的核心武功秘籍！理论结合实践才能炉火纯青，以下是一些强烈推荐的资源：
+掌握基础语法后，多写、多看优秀项目的 README 是提升排版能力最快的方式。以下资源可以作为参考：
 
 - **官方与权威规范**：
-  - [GitHub Flavored Markdown (GFM) 官方文档](https://github.github.com/gfm/) - 编写开源项目文档的终极参考。
-  - [Markdown 官方语法指南 (John Gruber)](https://www.markdownguide.org/) - Markdown 创始人的原始文档。
+  - [GitHub Flavored Markdown (GFM) 官方文档](https://github.github.com/gfm/) - 编写开源项目文档的权威参考。
+  - [Markdown 原始语法文档 (John Gruber)](https://daringfireball.net/projects/markdown/) - Markdown 创始人的原始规范。
 - **推荐编辑器**：
   - [VS Code](https://code.visualstudio.com/) - 搭配插件极其强大，开发者首选。
   - [Typora](https://typora.io/) - 极致的“所见即所得” Markdown 写作体验。
@@ -329,3 +437,7 @@ graph TD;
   - [Shields.io](https://shields.io/) - 为你的开源项目制作专属 Badge 徽章。
 
 现在，打开你的编辑器，创建一个 `README.md`，开始你的创作与开源之旅吧！
+
+---
+
+**作者**：STYLAN · 邮箱：[2030851914@qq.com](mailto:2030851914@qq.com) · GitHub：{@duan-deqing}

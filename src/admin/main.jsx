@@ -4,6 +4,7 @@ import '../index.css'
 import 'katex/dist/katex.min.css'
 import './admin.css'
 import '../styles/math.css'
+import '../styles/markdown-extras.css'
 import AdminApp from './AdminApp'
 
 try {

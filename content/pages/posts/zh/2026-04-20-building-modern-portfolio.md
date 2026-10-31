@@ -1,11 +1,10 @@
 ---
 title: "构建现代个人主页"
+date: "2026-04-20"
+category: tech
+duration: 8min
+tags: [React, Tailwind CSS, Portfolio]
 excerpt: "使用 React 和 Tailwind CSS 创建精美开发者主页的分步指南。"
-category: "tech"
-readTime: "8 分钟阅读"
-author: "STYLAN"
-tags: ["React","Tailwind CSS","Portfolio"]
-featured: true
 ---
 
 # 构建现代个人主页

@@ -1,11 +1,10 @@
 ---
 title: "React Hooks 入门指南"
+date: "2026-04-25"
+category: tutorial
+duration: 5min
+tags: [React, JavaScript, Hooks]
 excerpt: "学习如何使用 React Hooks 构建更优雅、可维护的组件。"
-category: "tutorial"
-readTime: "5 分钟阅读"
-author: "STYLAN"
-tags: ["React","JavaScript","Hooks"]
-featured: true
 ---
 
 # React Hooks 入门指南

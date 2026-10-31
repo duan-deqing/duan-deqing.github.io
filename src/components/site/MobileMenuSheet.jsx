@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import quotesConfig from '@content/pages/quotes.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
+import ChangelogLink from './ChangelogLink'
 import MenuContent from './MenuContent'
 import { CloseIcon } from './icons'
 
@@ -46,6 +47,7 @@ export default function MobileMenuSheet({ open, onClose }) {
     closeRef.current?.focus()
 
     function onKeyDown(event) {
+      if (document.querySelector('.modal-panel')) return
       if (event.key === 'Escape') {
         event.preventDefault()
         onClose()
@@ -119,6 +121,9 @@ export default function MobileMenuSheet({ open, onClose }) {
           </button>
         </div>
         <MenuContent onNavigate={onClose} />
+        <div className="mt-4 border-t border-line pt-3">
+          <ChangelogLink onNavigate={onClose} />
+        </div>
       </div>
     </div>
   )

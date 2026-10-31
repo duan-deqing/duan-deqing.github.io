@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { AppSettingsProvider } from './hooks/AppSettings'
 import ScrollToTop from './components/shared/ScrollToTop'
 import PageFallback from './components/site/PageFallback'
@@ -18,6 +18,7 @@ import SubpageHomePage from './pages/SubpageHomePage'
 import NotFoundPage from './pages/NotFoundPage'
 
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage'))
+const ChangelogPage = lazy(() => import('./pages/ChangelogPage'))
 
 function prefetchArticlePage() {
   import('./pages/BlogPostPage').catch(() => {})
@@ -63,7 +64,10 @@ export default function App() {
         <Route element={<SubpageLayout />}>
           <Route path="/home" element={page(<SubpageHomePage />)} />
           <Route path="/projects" element={page(<ProjectsPage />)} />
-          <Route path="/skills" element={page(<SkillsPage />)} />
+          <Route path="/stack" element={page(<SkillsPage />)} />
+          <Route path="/changelog" element={page(<ChangelogPage />)} />
+          <Route path="/changelog/:scope" element={page(<ChangelogPage />)} />
+          <Route path="/skills" element={<Navigate to="/stack" replace />} />
           <Route path="*" element={page(<NotFoundPage />)} />
         </Route>
       </Routes>

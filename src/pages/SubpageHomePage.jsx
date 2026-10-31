@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import blogConfig from '@content/pages/blog.yaml'
 import config from '@content/site.yaml'
-import homeConfig from '@content/pages/home.yaml'
+import homeIntroEn from '@content/pages/home.en.md?raw'
+import homeIntroZh from '@content/pages/home.zh.md?raw'
 import { useLanguage } from '../hooks/useLanguage'
 import { getAllPosts } from '../utils/markdown'
 import PageTitle from '../components/shared/PageTitle'
+import RichText from '../components/shared/RichText'
 import WritingTable from '../components/blog/WritingTable'
+import QuoteFooter from '../components/site/QuoteFooter'
 
 function WritingTableSkeleton() {
   return (
@@ -28,7 +31,6 @@ export default function SubpageHomePage() {
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
   const [failed, setFailed] = useState(false)
-  const focus = (homeConfig.about?.focus || []).map((item) => t(item))
 
   useEffect(() => {
     let cancelled = false
@@ -61,26 +63,7 @@ export default function SubpageHomePage() {
 
       <h1 className="sr-only">{t({ en: 'Home', zh: '首页' })}</h1>
 
-      <p className="mb-6 text-base leading-[1.75]">
-        {t({ en: "Hi 👋 I'm ", zh: '你好 👋 我是 ' })}
-        <strong className="font-semibold text-heading">{t(config.personal.name)}</strong>
-        {t({ en: ', ', zh: '，' })}
-        {t(config.personal.bio)}
-      </p>
-
-      <p className="mb-6 text-base leading-[1.75]">
-        {t({ en: 'I focus on ', zh: '我专注于 ' })}
-        {focus.join(' · ')}
-        {t({ en: '. See my ', zh: '。查看我的 ' })}
-        <Link className="link" to="/projects">
-          {t({ en: 'projects', zh: '项目' })}
-        </Link>
-        {t({ en: ' and ', zh: '与' })}
-        <Link className="link" to="/skills">
-          {t({ en: 'skills', zh: '技能' })}
-        </Link>
-        {t({ en: '.', zh: '。' })}
-      </p>
+      <RichText content={lang === 'zh' ? homeIntroZh : homeIntroEn} />
 
       <h2 className="mt-8 mb-4 text-lg font-semibold tracking-tight text-heading">
         <Link to="/blog" className="underline-offset-4 hover:underline">
@@ -97,6 +80,8 @@ export default function SubpageHomePage() {
       ) : (
         <WritingTable posts={posts} t={t} />
       )}
+
+      <QuoteFooter />
     </div>
   )
 }

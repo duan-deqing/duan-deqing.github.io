@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom'
 import stackConfig from '@content/pages/stack.yaml'
 import { useLanguage } from '../hooks/useLanguage'
+import CategoryHeading from '../components/site/CategoryHeading'
+import CenteredPageHeading from '../components/site/CenteredPageHeading'
+import StackButtonGroup from '../components/site/StackButtonGroup'
+import QuoteFooter from '../components/site/QuoteFooter'
 import PageTitle from '../components/shared/PageTitle'
-import PageHeading from '../components/site/PageHeading'
 import { ArrowUpRightIcon } from '../components/site/icons'
 
 const FALLBACK_TITLE = { en: 'Stack', zh: '技术栈' }
@@ -15,39 +17,77 @@ const FALLBACK_INTRO = {
   zh: '构建与交付时常用的工具。',
 }
 
+const BUTTON_LINKS = new Map(
+  (stackConfig.buttons || [])
+    .filter((button) => button.link)
+    .map((button) => [button.name, button.link])
+)
+
 export default function SkillsPage() {
   const { lang, t } = useLanguage()
   const page = stackConfig.page || {}
-  const groups = stackConfig.skills || []
+  const categories = stackConfig.categories || []
 
   return (
-    <div className="slide-enter-content mx-auto w-full max-w-3xl">
+    <div className="slide-enter-content mx-auto w-full max-w-5xl">
       <PageTitle
         title={`STYLAN · ${t(page.title || FALLBACK_TITLE)}`}
         description={t(page.description || FALLBACK_DESCRIPTION)}
         t={t}
         lang={lang}
       />
-      <PageHeading title={t(page.title || FALLBACK_TITLE)} />
+      <CenteredPageHeading
+        title={t(page.title || FALLBACK_TITLE)}
+        description={t(page.intro || FALLBACK_INTRO)}
+        actions={<StackButtonGroup className="mx-auto max-w-3xl justify-center" />}
+      />
 
-      <p className="mb-1 text-base leading-[1.75] text-ink">
-        {t(page.intro || FALLBACK_INTRO)}
-      </p>
+      {categories.map((category, index) => (
+        <section
+          key={category.id}
+          aria-labelledby={`stack-category-${category.id}`}
+        >
+          <CategoryHeading
+            id={`stack-category-${category.id}`}
+            label={t(category.label)}
+            index={index}
+          />
+          <ul className="stack-list">
+            {(category.items || []).map((item) => {
+              const href = BUTTON_LINKS.get(item.name)
+              return (
+                <li key={item.name}>
+                  <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1.5">
+                    {href ? (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="stack-link"
+                      >
+                        {item.name}
+                        <ArrowUpRightIcon
+                          size={14}
+                          className="ml-1 inline-block align-text-bottom"
+                        />
+                      </a>
+                    ) : (
+                      <span className="stack-item-name">{item.name}</span>
+                    )}
+                    {item.description ? (
+                      <span className="stack-item-description">
+                        — {t(item.description)}
+                      </span>
+                    ) : null}
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+        </section>
+      ))}
 
-      <ul className="mb-4 flex list-disc flex-col gap-0.5 pl-6">
-        {groups.map((group) => (
-          <li
-            key={t(group.category)}
-            className="pl-2 text-base leading-[1.75] marker:text-[var(--code-line)]"
-          >
-            <Link to="/skills" replace className="stack-link">
-              {t(group.category)}
-              <ArrowUpRightIcon size={14} className="ml-1 inline-block align-text-bottom" />
-            </Link>
-            <span> — {(group.items || []).join(' · ')}</span>
-          </li>
-        ))}
-      </ul>
+      <QuoteFooter />
     </div>
   )
 }

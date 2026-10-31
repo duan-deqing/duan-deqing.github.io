@@ -10,13 +10,13 @@ import {
   BilibiliIcon,
   BookmarkIcon,
   CheckIcon,
+  CodeIcon,
   CopyIcon,
   FolderIcon,
   GitHubIcon,
   HomeIcon,
   MailIcon,
   PenIcon,
-  WandSparklesIcon,
   WechatIcon,
   platformIcon,
 } from './icons'
@@ -25,7 +25,7 @@ const NAV_ICONS = {
   '/': HomeIcon,
   '/projects': FolderIcon,
   '/blog': PenIcon,
-  '/skills': WandSparklesIcon,
+  '/stack': CodeIcon,
   '/bookmarks': BookmarkIcon,
 }
 

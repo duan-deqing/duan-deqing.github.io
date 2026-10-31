@@ -1,16 +1,22 @@
 ---
 title: "Markdown Tutorial: From Basics to GitHub Open Source Contributions"
-excerpt: "A comprehensive guide to Markdown syntax, editors, and advanced features for GitHub."
-category: "tutorial"
-readTime: "10 min read"
-author: "duan-deqing"
-tags: ["Markdown", "Tutorial", "Documentation"]
-featured: false
+date: "2023-07-23"
+category: tutorial
+duration: 10min
+tags: [Markdown, Tutorial, Documentation]
+excerpt: "A practical Markdown guide from basic syntax to the formats used in GitHub collaboration."
 ---
 
 # Markdown Tutorial: From Basics to GitHub Open Source Contributions
 
-Welcome to the world of Markdown! Whether you're a developer just getting into programming or a contributor ready to make your mark on open source projects on GitHub, mastering Markdown is an essential skill. It allows you to quickly format plain text and focus on content creation. This tutorial will take you from the most basic syntax to advanced formatting techniques used on GitHub.
+Welcome to the world of Markdown! Whether you're new to programming or getting ready to contribute to open source projects on GitHub, Markdown lets you format plain text quickly and keep your focus on the content itself.
+
+This guide starts with the basics and moves on to the formats commonly used in GitHub documentation. Every example is rendered live on this site. Read it in order or jump straight to a section:
+
+- [Basic Markdown Syntax](#basic-markdown-syntax-most-commonly-used): headings, paragraphs, lists, links, images, blockquotes, and code
+- [GitHub Documentation and Collaboration Formats](#github-documentation-and-collaboration-formats): task lists, tables, footnotes, automatic links, mentions, badges, and details
+- [Advanced Techniques](#advanced-techniques-less-common-extended-content): formulas, Mermaid, internal anchors, and callouts
+- [Recommended Reading and Tools](#recommended-reading-and-tools)
 
 ## Basic Markdown Syntax (Most Commonly Used)
 
@@ -46,6 +52,16 @@ This is another paragraph (there's a blank line above).
 Above is a horizontal rule.
 ```
 
+**Rendered Result:**
+
+This is the first line.  
+This is the second line (the previous line has two spaces at the end for a hard line break).
+
+This is another paragraph (there's a blank line above).
+
+---
+Above is a horizontal rule.
+
 ### 3. Text Styles
 
 You can add bold, italic, or strikethrough effects to text.
@@ -56,6 +72,13 @@ This is *italic* text.
 This is ***bold and italic*** text.
 This is ~~strikethrough~~ text.
 ```
+
+**Rendered Result:**
+
+This is **bold** text.  
+This is *italic* text.  
+This is ***bold and italic*** text.  
+This is ~~strikethrough~~ text.
 
 ### 4. Lists
 
@@ -72,6 +95,18 @@ Lists come in unordered and ordered varieties, and can be nested through indenta
    1. Nested ordered sub-item
 ```
 
+**Rendered Result:**
+
+- Unordered list item 1
+- Unordered list item 2
+  - Nested sub-item
+  - Another sub-item
+
+1. Ordered list item 1
+2. Ordered list item 2
+   1. Nested ordered sub-item
+   2. Second nested ordered sub-item
+
 ### 5. Links
 
 Links come in inline and reference styles. For directly displayed URLs, most parsers also support automatic linking.
@@ -85,14 +120,15 @@ Direct URL: https://bing.com
 
 **Rendered Result:**
 
-- This is an inline link to [GitHub](https://github.com).
-- This is a reference link: see [Markdown documentation][1].
-- [1]: https://daringfireball.net/projects/markdown/
-- Direct URL: https://bing.com
+This is an inline link to [GitHub](https://github.com).  
+This is a reference link: see [Markdown documentation][1].  
+Direct URL: https://bing.com
+
+[1]: https://daringfireball.net/projects/markdown/
 
 ### 6. Images
 
-Image syntax is similar to links, but with an exclamation mark `!` at the beginning. You can also add a "title" that appears on hover.
+Image syntax is similar to links, but with an exclamation mark `!` at the beginning. You can also add a `title`, which this site displays as a caption below the image.
 
 ```markdown
 ![Octocat placeholder](https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png "Cute GitHub Logo")
@@ -114,6 +150,14 @@ When you need to quote someone or emphasize content, use `>`. Blockquotes can be
 > - You can also use lists in blockquotes.
 ```
 
+**Rendered Result:**
+
+> This is a blockquote.
+>
+> > This is nested blockquote content.
+>
+> - You can also use lists in blockquotes.
+
 ### 8. Inline Code and Code Blocks
 
 Code is the core of developer documentation. Inline code is wrapped with single backticks; multi-line code blocks use triple backticks.
@@ -129,6 +173,10 @@ function greet(name) {
 ```
 ````
 
+**Rendered Result:**
+
+Type `npm install` in the terminal to install dependencies.
+
 Here's a JavaScript code snippet:
 
 ```javascript
@@ -137,11 +185,19 @@ function greet(name) {
 }
 ```
 
-💡 **Best Practice**: When using code blocks, always specify the language identifier after the first set of backticks (e.g., `javascript`, `python`, `bash`). This not only enables syntax highlighting but also makes it immediately clear to readers.
+You can also label a fence with a file path; highlighting uses the last extension:
 
-## Common Patterns in GitHub Open Source Projects (GFM Features)
+```src/main.js
+function greet(name) {
+  console.log("Hello, " + name);
+}
+```
 
-GitHub Flavored Markdown (GFM) extends basic syntax, specifically tailored for code hosting and team collaboration.
+💡 **Best Practice**: Specify the language identifier after the opening backticks (e.g., `javascript`, `js`, `src/main.js`, `python`, `bash`). It enables syntax highlighting and helps readers identify the code type.
+
+## GitHub Documentation and Collaboration Formats
+
+GitHub Flavored Markdown (GFM) extends the basics with task lists, tables, footnotes, and more. This section also covers mentions, badges, and details that are common in GitHub documentation. Mentions, badges, and details depend on the platform or this site's renderer rather than being part of every Markdown implementation.
 
 ### 1. Task Lists
 
@@ -195,26 +251,26 @@ This is a technical term that needs explanation[^1].
 
 [^1]: Here is the detailed explanation and supplementary information for this term.
 
-### 4. Automatic Links and Emoji
+### 4. Automatic Links
 
-GitHub automatically recognizes plain text URLs or email addresses as links. Additionally, specific shortcuts allow quick insertion of emoji, adding friendliness to communication.
+GitHub automatically recognizes plain text URLs and email addresses as links. Emoji shortcodes such as `:smile:` depend on the platform; this site leaves them as plain text.
 
 ```markdown
 Visit my blog: https://example.com
-Hello! :smile: :rocket:
+Contact: hello@example.com
 ```
 
-**Rendered Result:** Visit my blog: https://example.com Hello! :smile: :rocket:
+**Rendered Result:** Visit my blog: [https://example.com](https://example.com), or contact [hello@example.com](mailto:hello@example.com).
 
 ### 5. Mentions and References
 
-GitHub-specific social and version control collaboration syntax.
+GitHub recognizes bare `@username`, `#123`, and commit hashes. To avoid conflicts with ordinary `@` symbols and email addresses, this site uses explicit `{@username}` syntax.
 
-- `@username`: Notify a developer.
+- `{@username}`: Create a GitHub mention; `{@username|Display Name}` customizes the label.
 - `#123`: Link to Issue or PR #123 in the current repository.
-- `a1b2c3d`: Write a commit hash directly, and GitHub will automatically convert it to a link to that commit.
+- `d0f6f23`: A 7–40 character commit hash links to the corresponding commit.
 
-**Rendered Result:** *(These features require no additional syntax; simply typing them in text will be captured by GitHub's parser.)*
+**Rendered Result:** Thanks to {@duan-deqing}; see #123 and commit d0f6f23.
 
 ### 6. Badges
 
@@ -224,12 +280,15 @@ In `README.md`, projects often use badges to display build status, license, etc.
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ```
 
-**Rendered Result:** *(A blue badge with white text showing the MIT license)*![license](https://img.shields.io/badge/license-MIT-blue)
-**Note**: Badges are essentially images generated online (using the image syntax above), with text and colors changed through parameters.
+**Rendered Result:**
+
+![license](https://img.shields.io/badge/license-MIT-blue)
+
+**Note**: Badges are images generated online, with text and colors controlled by parameters. This site renders them inline at a 20px height instead of stretching them across the content.
 
 ### 7. Details (Collapsible Blocks)
 
-READMEs for open source projects can sometimes be very long. Using collapsible blocks can hide large sections of logs, configuration code, or Q&A.
+READMEs for open source projects can sometimes be very long. Using collapsible blocks can hide large sections of logs, configuration code, or Q&A. Markdown still works inside details; leave blank lines between `<details>`, the Markdown content, and `</details>` so the HTML and Markdown parse correctly.
 
 ````markdown
 <details>
@@ -244,13 +303,25 @@ READMEs for open source projects can sometimes be very long. Using collapsible b
 </details>
 ````
 
-**Rendered Result:** ▶ Click to view detailed configuration code *(Expands to show the code block inside when clicked)*
+**Rendered Result:**
+
+<details>
+<summary>Click to view detailed configuration code</summary>
+
+```json
+{
+  "version": "1.0.0",
+  "description": "Awesome project"
+}
+```
+
+</details>
 
 ### 8. Advice on HTML
 
-GitHub allows the use of some safe HTML tags (like `<kbd>` for keyboard shortcuts, `<br>` for forced line breaks, `<details>`, etc.).
+GitHub and this site allow a subset of safe HTML tags, such as `<kbd>` for keyboard shortcuts, `<br>` for forced line breaks, `<details>` for collapsible blocks, and `<a name>` for custom anchors.
 
-**Advice**: Unless Markdown cannot achieve it (like collapsible blocks, center alignment, specific colors), try to use pure Markdown to ensure the best portability of documentation across different platforms.
+This site runs the content through a safe allowlist: scripts, inline styles, `iframe`, and event attributes are removed. When Markdown can express the same thing, prefer Markdown for better portability across platforms.
 
 ## Advanced Techniques (Less Common Extended Content)
 
@@ -268,6 +339,8 @@ $$
 
 **Rendered Result:**
 
+The famous mass-energy equation is $E = mc^2$.
+
 $$
 \int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
 $$
@@ -276,7 +349,7 @@ $$
 
 Draw diagrams using code. GitHub natively supports Mermaid syntax. Commonly used for flowcharts or architecture diagrams.
 
-````txt
+````markdown
 ```mermaid
 graph TD;
     A[Client] --> B{Logged in?};
@@ -284,6 +357,8 @@ graph TD;
     B -- No --> D[Login Page];
 ```
 ````
+
+This site loads Mermaid on demand and adapts diagrams to the light and dark themes.
 
 **Rendered Result:**
 
@@ -296,18 +371,21 @@ graph TD;
 
 ### 3. Internal Anchors and Navigation
 
-Used for navigation within long documents. Typically, GitHub automatically generates invisible anchors for all headings (converting headings to lowercase and replacing spaces with hyphens).
+Used for navigation within long documents. GitHub generates anchors for headings automatically; this site uses the same idea—lowercase the heading, replace spaces with `-`, and remove punctuation. After the article loads, the site scrolls to the `#hash` in the URL, and automatically opens any collapsed details containing the target.
 
 ```markdown
-Click here to jump back to [Table of Contents](#table-of-contents).
-Or use HTML to set a custom anchor <a name="my-anchor"></a>
+Click here to jump to [Basic Markdown Syntax](#basic-markdown-syntax-most-commonly-used).
+Or use HTML to set a custom anchor <a name="my-anchor"></a>, then jump with [Custom anchor](#my-anchor).
 ```
 
-**Rendered Result:** [Table of Contents](#basic-markdown-syntax-most-commonly-used)
+**Rendered Result:** [Jump to Basic Markdown Syntax](#basic-markdown-syntax-most-commonly-used), or [jump to Headings](#1-headings).
+
+<a name="my-anchor"></a>
+**Custom anchor target**: clicking [jump to custom anchor](#my-anchor) scrolls here.
 
 ### 4. Admonitions
 
-Special blocks used in documentation to attract reader attention. GitHub recently officially launched support for these.
+Callouts highlight important information. Supported types are `NOTE`, `TIP`, `IMPORTANT`, `WARNING`, and `CAUTION`. The marker must follow `>` directly, and each type needs its own blockquote.
 
 ```markdown
 > [!NOTE]
@@ -317,19 +395,29 @@ Special blocks used in documentation to attract reader attention. GitHub recentl
 > This is a warning alerting you to potential risks.
 ```
 
+**Rendered Result:**
+
+> [!NOTE]
+> This is a note providing useful background information.
+
+> [!WARNING]
+> This is a warning alerting you to potential risks.
+
 ### 5. Other Specific Parser Extensions
 
-- **Definition Lists**: `Term \n : Definition` (supported by some parsers, not natively supported in GFM).
-- **Superscript and Subscript**: Use `^superscript^` and `~subscript~` (recommend using HTML `<sup>` and `<sub>` directly for compatibility).
-- **Highlight Marking**: Use `==highlighted content==` (requires Typora or Markdown Preview Enhanced plugin support).
+The following syntax works in some editors but is not part of GFM, and this site does not convert it:
+
+- **Definition Lists**: `Term \n : Definition`.
+- **Superscript and Subscript**: `^superscript^` and `~subscript~`; use HTML `<sup>` / `<sub>` when compatibility matters.
+- **Highlight Marking**: `==highlighted content==` (requires plugins such as Typora or Markdown Preview Enhanced).
 
 ## Recommended Reading and Tools
 
-You've now mastered the core secrets of Markdown! Theory combined with practice makes perfect. Here are some highly recommended resources:
+Now that you know the core syntax, the fastest way to improve is to write more and read well-structured READMEs. These resources are a good starting point:
 
 - **Official and Authoritative Specifications**:
-  - [GitHub Flavored Markdown (GFM) Official Documentation](https://github.github.com/gfm/) - The ultimate reference for writing open source project documentation.
-  - [Markdown Official Syntax Guide (John Gruber)](https://www.markdownguide.org/) - The original document from Markdown's creator.
+  - [GitHub Flavored Markdown (GFM) Official Documentation](https://github.github.com/gfm/) - The authoritative reference for writing open source documentation.
+  - [Markdown Original Syntax Documentation (John Gruber)](https://daringfireball.net/projects/markdown/) - The original specification from Markdown's creator.
 - **Recommended Editors**:
   - [VS Code](https://code.visualstudio.com/) - Extremely powerful with plugins, the top choice for developers.
   - [Typora](https://typora.io/) - The ultimate "What You See Is What You Get" Markdown writing experience.
@@ -339,3 +427,7 @@ You've now mastered the core secrets of Markdown! Theory combined with practice 
   - [Shields.io](https://shields.io/) - Create custom badges for your open source projects.
 
 Now, open your editor, create a `README.md`, and start your creative and open source journey!
+
+---
+
+**Author**: STYLAN · Email: [2030851914@qq.com](mailto:2030851914@qq.com) · GitHub: {@duan-deqing}

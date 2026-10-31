@@ -2,6 +2,8 @@ import { isValidElement, useEffect, useRef, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
+import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeKatex from 'rehype-katex'
 import { adminApi } from '../api'
@@ -16,6 +18,11 @@ import { getTextContent } from '../../utils/markdownHeading'
 import Field from '../components/Field'
 import ArticleCarousel from '../../components/blog/ArticleCarousel'
 import ArticleVideo from '../../components/blog/ArticleVideo'
+import MermaidDiagram from '../../components/blog/MermaidDiagram'
+import { remarkGithubAlerts } from '../../utils/remarkGithubAlerts'
+import { remarkGithubRefs } from '../../utils/remarkGithubRefs'
+import { markdownSanitizeSchema } from '../../utils/markdownSanitizeSchema'
+import rehypeCodeLanguage from '../../utils/rehypeCodeLanguage'
 import { resolvePreviewImages } from '../lib/preview'
 
 function PreviewPre({ children }) {
@@ -27,17 +34,16 @@ function PreviewPre({ children }) {
 
   if (language === 'video') return <ArticleVideo source={source} />
   if (language === 'carousel') return <ArticleCarousel source={source} />
+  if (language === 'mermaid') return <MermaidDiagram source={source} />
   return <pre>{children}</pre>
 }
 
 const EMPTY = {
   title: '',
   excerpt: '',
-  readTime: '',
-  author: 'STYLAN',
   category: '',
+  duration: '',
   tags: [],
-  featured: false,
 }
 
 function today() {
@@ -293,27 +299,21 @@ export default function PostEditor({ state, onClose, onSaved, onDirtyChange }) {
         value={frontmatter.excerpt}
         onChange={(next) => setFrontmatter({ ...frontmatter, excerpt: next })}
       />
-      <BiTextField
-        label="阅读时长"
-        value={frontmatter.readTime}
-        help="例如 8 min read / 8 分钟阅读"
-        onChange={(next) => setFrontmatter({ ...frontmatter, readTime: next })}
-      />
-      <BiTextField
-        label="作者"
-        value={frontmatter.author}
-        onChange={(next) => setFrontmatter({ ...frontmatter, author: next })}
-      />
+      <label className="block">
+        <span className="admin-label-text">阅读时长</span>
+        <input
+          className="admin-input"
+          placeholder="8min"
+          value={frontmatter.duration || ''}
+          onChange={(event) => setFrontmatter({ ...frontmatter, duration: event.target.value })}
+        />
+        <p className="admin-help">例如 8min</p>
+      </label>
 
       <Field
         field={{ key: 'tags', label: '标签', type: 'stringList' }}
         value={frontmatter.tags}
         onChange={(next) => setFrontmatter({ ...frontmatter, tags: next })}
-      />
-      <Field
-        field={{ key: 'featured', label: '精选', type: 'toggle' }}
-        value={Boolean(frontmatter.featured)}
-        onChange={(next) => setFrontmatter({ ...frontmatter, featured: next })}
       />
 
       <div>
@@ -337,8 +337,14 @@ export default function PostEditor({ state, onClose, onSaved, onDirtyChange }) {
         <p className="admin-label-text mb-3">预览</p>
         <div className="prose-admin">
           <ReactMarkdown
-            remarkPlugins={[remarkGfm, remarkMath]}
-            rehypePlugins={[rehypeHighlight, rehypeKatex]}
+            remarkPlugins={[remarkGfm, remarkGithubAlerts, remarkGithubRefs, remarkMath]}
+            rehypePlugins={[
+              rehypeRaw,
+              [rehypeSanitize, markdownSanitizeSchema],
+              rehypeCodeLanguage,
+              rehypeHighlight,
+              rehypeKatex,
+            ]}
             components={{ pre: PreviewPre }}
           >
             {previewBody || '（暂无正文）'}

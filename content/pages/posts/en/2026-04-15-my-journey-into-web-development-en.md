@@ -1,11 +1,10 @@
 ---
 title: "My Journey into Web Development"
+date: "2026-04-15"
+category: thoughts
+duration: 6min
+tags: [Career, Web Development]
 excerpt: "Reflecting on my experiences and lessons learned while transitioning into web development."
-category: "thoughts"
-readTime: "6 min read"
-author: "STYLAN"
-tags: ["Career", "Web Development"]
-featured: false
 ---
 
 ## Starting Point

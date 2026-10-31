@@ -1,0 +1,9 @@
+你好，我是 **STYLAN**。
+AI 应用开发，专注大模型产品与 RAG 系统。
+用清晰的界面，把模型做成可靠的工具。
+
+我专注于 大模型应用 · RAG 检索增强 · 全栈交付 · 有设计感的工程。
+查看我的 [项目](/projects)与[技能](/stack)。
+
+我在[博客](/blog)里记录 AI 产品的构建。
+欢迎发邮件至 [duan-deqing@foxmail.com](mailto:duan-deqing@foxmail.com) 找我。

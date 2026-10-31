@@ -1,5 +1,17 @@
 # 书签页内容；分类与书签均在此维护。
-# 字段：slug（URL 片段）、title（中英文）、bookmarks[].title/url/description（description 可写字符串或 { en, zh }）、cover（可选，1200×630 图片地址）。
+# 结构：每个分类按 slug → title → description（分类详情页介绍）→ icon → bookmarks 排列。
+# icon 可写 public/images/bookmark-categories 下文件名或图片 URL；cover 可选（建议 1200×630）。
+# description 只展示在分类详情页，不会出现在分类卡片中。
+#
+# 新增分类模板：
+#  - slug: example
+#    title: { en: Example, zh: 示例 }
+#    description: { en: "...", zh: "..." }
+#    icon: example.svg
+#    bookmarks:
+#      - title: Example
+#        url: https://example.com
+#        description: { en: "...", zh: "..." }
 page:
   title:
     en: Bookmarks
@@ -9,111 +21,158 @@ page:
     zh: 值得反复打开的工具、资料与灵感。
 
 categories:
+  #
+  # frontend
+  #
   - slug: frontend
     title:
       en: Frontend
       zh: 前端
+    description:
+      en: References and tools for browser, framework and styling work.
+      zh: 浏览器、框架与样式相关的参考和工具。
+    icon: frontend.svg
     bookmarks:
       - title: MDN Web Docs
         url: https://developer.mozilla.org
         description:
           en: The reference for HTML, CSS and JavaScript, with practical guides and browser compatibility data.
           zh: HTML、CSS 与 JavaScript 的权威参考，包含实用指南与浏览器兼容性数据。
+
       - title: React
         url: https://react.dev
         description:
           en: Official React docs covering components, hooks and the mental model behind modern UI.
           zh: React 官方文档，覆盖组件、Hooks 与现代 UI 的心智模型。
+
       - title: Tailwind CSS
         url: https://tailwindcss.com
         description:
           en: Utility-first CSS framework with a searchable reference and a coherent set of design tokens.
           zh: 原子化 CSS 框架，文档可检索，并提供一致的设计令牌。
+
       - title: Vite
         url: https://vite.dev
         description:
           en: Next-generation frontend tooling with an instant dev server and lean production builds.
           zh: 新一代前端构建工具，开发启动快、生产构建精简。
+  #
+  # AI
+  #
   - slug: ai
     title:
       en: AI & LLM
       zh: AI 与大模型
+    description:
+      en: Models, frameworks and docs for building LLM applications.
+      zh: 构建 LLM 应用所需的模型、框架与文档。
+    icon: ai.svg
     bookmarks:
       - title: LangChain
         url: https://python.langchain.com
         description:
           en: Build LLM applications with chains, tools, retrieval and agents.
           zh: 用链、工具、检索与 Agent 构建 LLM 应用。
+
       - title: LangGraph
         url: https://langchain-ai.github.io/langgraph/
         description:
           en: Stateful, multi-actor agent orchestration for reliable LLM workflows.
           zh: 面向可靠 LLM 工作流的有状态多角色 Agent 编排。
+
       - title: Hugging Face
         url: https://huggingface.co
         description:
           en: Models, datasets and demos from the open machine-learning community.
           zh: 开放机器学习社区的模型、数据集与在线 Demo。
+
       - title: Anthropic Docs
         url: https://docs.anthropic.com
         description:
           en: Claude API guides, prompting patterns and model documentation.
           zh: Claude API 指南、提示词模式与模型文档。
+  #
+  # design
+  #
   - slug: design
     title:
       en: Design
       zh: 设计
+    description:
+      en: Interface, typography and visual inspiration worth revisiting.
+      zh: 界面、排版与值得反复查看的视觉灵感。
+    icon: design.svg
     bookmarks:
       - title: Figma
         url: https://www.figma.com
         description:
           en: Collaborative interface design and prototyping in the browser.
           zh: 浏览器里的协作式界面设计与原型工具。
+
       - title: Dribbble
         url: https://dribbble.com
         description:
           en: A steady stream of interface, brand and illustration inspiration.
           zh: 持续更新的界面、品牌与插画灵感。
+
       - title: Awwwards
         url: https://www.awwwards.com
         description:
           en: Award-winning web design and interaction references.
           zh: 获奖网页设计与交互动效参考。
+  #
+  # tools
+  #
   - slug: tools
     title:
       en: Tools
       zh: 工具
+    description:
+      en: Everyday tools that make development and collaboration smoother.
+      zh: 让开发与协作更顺畅的日常工具。
+    icon: tools.svg
     bookmarks:
       - title: GitHub
         url: https://github.com
         description:
           en: Code hosting, reviews and automation for open-source and private work.
           zh: 代码托管、评审与自动化，覆盖开源与私有项目。
+
       - title: Excalidraw
         url: https://excalidraw.com
         description:
           en: Hand-drawn style diagrams that are quick to sketch and easy to share.
           zh: 手绘风格白板，快速画图并轻松分享。
+
       - title: Raycast
         url: https://www.raycast.com
         description:
           en: A keyboard-first launcher that keeps daily tools one shortcut away.
           zh: 键盘优先的启动器，常用工具一个快捷键直达。
+  #
+  # reading
+  #
   - slug: reading
     title:
       en: Reading
       zh: 阅读
+    description:
+      en: Long reads, books and references worth returning to.
+      zh: 值得反复阅读的长文、书籍与资料。
+    icon: reading.svg
     bookmarks:
       - title: antfu.me
         url: https://antfu.me
         description:
           en: Anthony Fu's notes on open source, tooling and a calm web.
           zh: Anthony Fu 关于开源、工具链与克制网页的笔记。
+
       - title: onur.dev
         url: https://onur.dev
         description:
           en: Onur Şuyalçınkaya's writing on frontend craft, design and life.
           zh: Onur Şuyalçınkaya 关于前端工艺、设计与生活的写作。
+
       - title: web.dev
         url: https://web.dev
         description:

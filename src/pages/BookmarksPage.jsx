@@ -1,7 +1,8 @@
 import bookmarksConfig from '@content/pages/bookmarks.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/shared/PageTitle'
-import PageHeading from '../components/site/PageHeading'
+import CenteredPageHeading from '../components/site/CenteredPageHeading'
+import QuoteFooter from '../components/site/QuoteFooter'
 import BookmarkCategoryList from '../components/bookmarks/BookmarkCategoryList'
 
 export default function BookmarksPage() {
@@ -16,8 +17,9 @@ export default function BookmarksPage() {
         t={t}
         lang={lang}
       />
-      <PageHeading title={t(page.title)} description={t(page.subtitle)} />
+      <CenteredPageHeading title={t(page.title)} description={t(page.subtitle)} />
       <BookmarkCategoryList />
+      <QuoteFooter />
     </div>
   )
 }

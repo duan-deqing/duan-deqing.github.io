@@ -1,0 +1,35 @@
+/**
+ * hover-reveal.css — 悬停/聚焦时显示隐藏面板的通用交互样式。
+ * 用法：容器加 .hover-reveal，触发器加 .hover-reveal-anchor，
+ * 面板加 .hover-reveal-panel（可用 --hover-reveal-opacity 覆盖目标透明度）。
+ */
+
+.hover-reveal-anchor {
+  transition: color 400ms ease;
+}
+
+.hover-reveal-panel {
+  --hover-reveal-opacity: 0.75;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 700ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-reveal:hover .hover-reveal-anchor,
+.hover-reveal:focus-within .hover-reveal-anchor {
+  color: inherit;
+}
+
+.hover-reveal:hover .hover-reveal-panel,
+.hover-reveal:focus-within .hover-reveal-panel,
+.hover-reveal-panel.is-open {
+  opacity: var(--hover-reveal-opacity);
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-reveal-anchor,
+  .hover-reveal-panel {
+    transition: none;
+  }
+}

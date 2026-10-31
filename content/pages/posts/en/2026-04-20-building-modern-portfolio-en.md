@@ -1,11 +1,10 @@
 ---
 title: "Building a Modern Portfolio Website"
+date: "2026-04-20"
+category: tech
+duration: 8min
+tags: [React, Tailwind CSS, Portfolio]
 excerpt: "A step-by-step guide to creating a stunning developer portfolio with React and Tailwind CSS."
-category: "tech"
-readTime: "8 min read"
-author: "STYLAN"
-tags: ["React", "Tailwind CSS", "Portfolio"]
-featured: true
 ---
 
 ## Why do you need a personal portfolio?

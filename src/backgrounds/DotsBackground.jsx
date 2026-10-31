@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react'
 
-const SPACING = 22
-const DOT_RADIUS = 1
+const DESKTOP_SPACING = 18
+const MOBILE_SPACING = 20
 const FRAME_INTERVAL = 33
+const DOT_RADIUS = 1
+const MAX_ALPHA = 0.4
 
 /**
- * Lightweight flow-field take on antfu.me's ArtDots, drawn with Canvas 2D
- * instead of adding a Pixi.js runtime dependency.
+ * Lightweight Canvas take on antfu.me's ArtDots:
+ * each dot has its own opacity and drifts through a smooth pseudo-noise field.
  */
 export default function DotsBackground() {
   const canvasRef = useRef(null)
@@ -19,6 +21,7 @@ export default function DotsBackground() {
     let ctx
     let width = 0
     let height = 0
+    let points = []
     let frameId = 0
     let lastFrame = 0
     let resizeTimer = 0
@@ -33,22 +36,44 @@ export default function DotsBackground() {
       canvas.style.height = `${height}px`
       ctx = canvas.getContext('2d')
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      ctx.fillStyle = 'rgba(136, 136, 136, 1)'
+
+      const spacing = width < 600 ? MOBILE_SPACING : DESKTOP_SPACING
+      points = []
+      for (let x = -spacing / 2; x < width + spacing; x += spacing) {
+        for (let y = -spacing / 2; y < height + spacing; y += spacing) {
+          points.push({
+            x,
+            y,
+            opacity: 0.45 + Math.random() * 0.55,
+            seed: Math.random() * Math.PI * 2,
+          })
+        }
+      }
     }
 
     const draw = (time = 0) => {
       if (!ctx) return
       ctx.clearRect(0, 0, width, height)
-      ctx.fillStyle = 'rgba(136, 136, 136, 0.22)'
       const t = reduceMotion ? 0 : time / 9000
 
-      for (let x = -SPACING / 2; x < width + SPACING; x += SPACING) {
-        for (let y = -SPACING / 2; y < height + SPACING; y += SPACING) {
-          const angle = Math.sin(x * 0.01 + t) + Math.cos(y * 0.012 - t * 0.7)
-          ctx.beginPath()
-          ctx.arc(x + Math.cos(angle) * 3, y + Math.sin(angle) * 3, DOT_RADIUS, 0, Math.PI * 2)
-          ctx.fill()
-        }
+      for (const point of points) {
+        const wave =
+          Math.sin(point.x * 0.008 + t + point.seed * 0.15) +
+          Math.cos(point.y * 0.011 - t * 0.75 + point.seed * 0.2)
+        const drift = 2.5 + (Math.sin(point.x * 0.005 + point.y * 0.007 + t * 0.3) * 0.5 + 0.5) * 3
+        const x = point.x + Math.cos(wave) * drift
+        const y = point.y + Math.sin(wave) * drift
+        const alpha =
+          MAX_ALPHA * point.opacity * (0.22 + Math.abs(Math.cos(wave)) * 0.78)
+
+        ctx.globalAlpha = alpha
+        ctx.beginPath()
+        ctx.arc(x, y, DOT_RADIUS, 0, Math.PI * 2)
+        ctx.fill()
       }
+
+      ctx.globalAlpha = 1
     }
 
     const frame = (now) => {

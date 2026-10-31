@@ -18,7 +18,10 @@ export function parsePost(text) {
 }
 
 export function serializePost(frontmatter, body) {
-  const yaml = YAML.stringify(frontmatter, { lineWidth: 0 })
+  const yaml = YAML.stringify(frontmatter, { lineWidth: 0 }).replace(
+    /^date: (\d{4}-\d{2}-\d{2})$/m,
+    'date: "$1"'
+  )
   const cleanBody = String(body ?? '').replace(/\s+$/, '')
   return `---\n${yaml}---\n\n${cleanBody}\n`
 }

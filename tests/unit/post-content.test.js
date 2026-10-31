@@ -7,8 +7,8 @@ test('序列化后再解析，frontmatter 与正文保持一致', () => {
     title: { en: 'Hello', zh: '你好' },
     excerpt: { en: 'Intro', zh: '简介' },
     category: 'tech',
+    duration: '8min',
     tags: ['React', 'YAML'],
-    featured: true,
     date: '2026-10-28',
   }
   const body = '# 标题\n\n正文内容\n'
@@ -22,6 +22,14 @@ test('正文中的空行与代码块原样保留', () => {
   const body = '段落一\n\n```js\nconsole.log(1)\n```\n\n段落二'
   const text = serializePost({ title: 'A', category: 'tech', date: '2026-10-28' }, body)
   assert.equal(parsePost(text).body.trimEnd(), body)
+})
+
+test('序列化日期时保留字符串，避免被 YAML 解析为 UTC 时间', () => {
+  const text = serializePost(
+    { title: 'A', category: 'tech', date: '2026-10-28' },
+    '正文'
+  )
+  assert.match(text, /^date: "2026-10-28"$/m)
 })
 
 test('frontmatter 日期被规范化为 YYYY-MM-DD', () => {

@@ -20,6 +20,9 @@ export default defineConfig(({ command }) => ({
     },
   },
   base: "/",
+  worker: {
+    format: "es",
+  },
   build: {
     sourcemap: true,
   },

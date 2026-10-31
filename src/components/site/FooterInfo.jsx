@@ -20,7 +20,12 @@ const REFERENCES = {
   },
 }
 
-export default function FooterInfo({ className = '', stacked = false, reference = 'antfu' }) {
+export default function FooterInfo({
+  className = '',
+  stacked = false,
+  reference = 'antfu',
+  showReference = true,
+}) {
   const { t } = useLanguage()
   const copyright = config.footer?.copyright || '2026 © STYLAN'
   const referenceMeta = REFERENCES[reference] || REFERENCES.antfu
@@ -39,16 +44,18 @@ export default function FooterInfo({ className = '', stacked = false, reference 
           </a>{' '}
           {copyright}
         </p>
-        <p className="mt-1">
-          <a
-            className="footer-link"
-            href={referenceMeta.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t(referenceMeta.label)}
-          </a>
-        </p>
+        {showReference ? (
+          <p className="mt-1">
+            <a
+              className="footer-link"
+              href={referenceMeta.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t(referenceMeta.label)}
+            </a>
+          </p>
+        ) : null}
       </div>
     )
   }
@@ -64,15 +71,19 @@ export default function FooterInfo({ className = '', stacked = false, reference 
         CC BY-NC-SA 4.0
       </a>{' '}
       {copyright}
-      {' · '}
-      <a
-        className="footer-link"
-        href={referenceMeta.url}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {t(referenceMeta.label)}
-      </a>
+      {showReference ? (
+        <>
+          {' · '}
+          <a
+            className="footer-link"
+            href={referenceMeta.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t(referenceMeta.label)}
+          </a>
+        </>
+      ) : null}
     </p>
   )
 }

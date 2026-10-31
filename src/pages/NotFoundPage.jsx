@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/shared/PageTitle'
 import PageHeading from '../components/site/PageHeading'
-import { ArrowUpRightIcon } from '../components/site/icons'
+import ParentLink from '../components/site/ParentLink'
 
 export default function NotFoundPage() {
   const { lang, t } = useLanguage()
@@ -26,13 +25,11 @@ export default function NotFoundPage() {
           zh: '这个链接可能已损坏、被删除或移动。总之，这里没有内容可看…',
         })}
       </p>
-      <Link
+      <ParentLink
         to="/"
-        className="link mt-6 inline-flex min-h-10 items-center gap-1 text-sm"
-      >
-        {t({ en: 'Back home', zh: '返回首页' })}
-        <ArrowUpRightIcon size={14} />
-      </Link>
+        label={t({ en: 'Back home', zh: '返回首页' })}
+        className="mt-6"
+      />
     </div>
   )
 }

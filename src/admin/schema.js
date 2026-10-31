@@ -49,13 +49,6 @@ export const contentSchema = [
     ],
   },
   {
-    id: 'about',
-    label: '关于',
-    doc: 'site',
-    path: ['about'],
-    fields: [{ key: 'focus', label: '方向列表', type: 'i18nList' }],
-  },
-  {
     id: 'skills',
     label: '技能',
     doc: 'site',
@@ -64,8 +57,29 @@ export const contentSchema = [
       type: 'objectList',
       label: '技能分类',
       fields: [
-        bilingual('category', '分类名', 'i18nText', { required: true }),
-        { key: 'items', label: '技术项', type: 'stringList' },
+        { key: 'id', label: 'id', type: 'text', required: true, help: '小写，用于锚点' },
+        bilingual('label', '分类名', 'i18nText', { required: true }),
+        {
+          key: 'items', label: '技术项', type: 'objectList',
+          fields: [
+            { key: 'name', label: '名称', type: 'text', required: true },
+            bilingual('description', '介绍', 'i18nTextarea'),
+          ],
+        },
+      ],
+    },
+  },
+  {
+    id: 'projectCategories',
+    label: '项目分类',
+    doc: 'site',
+    path: ['projectCategories'],
+    list: {
+      type: 'objectList',
+      label: '项目分类',
+      fields: [
+        { key: 'id', label: 'id', type: 'text', required: true, help: '小写，需与项目的分类 id 一致' },
+        bilingual('label', '名称', 'i18nText', { required: true }),
       ],
     },
   },
@@ -79,11 +93,12 @@ export const contentSchema = [
       label: '项目',
       fields: [
         bilingual('title', '名称', 'i18nText', { required: true }),
+        { key: 'category', label: '分类 id', type: 'text', help: '需与项目分类的 id 一致' },
         bilingual('description', '描述', 'i18nTextarea'),
         { key: 'tags', label: '技术标签', type: 'stringList' },
         { key: 'link', label: '链接', type: 'url' },
         { key: 'repo', label: '仓库链接', type: 'url' },
-        { key: 'icon', label: '图标', type: 'text', help: '可填一个 emoji' },
+        { key: 'icon', label: '图标', type: 'text', help: 'public/images/projects 下的文件名/路径，或图片 URL；留空用英文首字母' },
         { key: 'featured', label: '首页精选', type: 'toggle', defaultTrue: true, help: '关闭后不出现在首页' },
       ],
     },

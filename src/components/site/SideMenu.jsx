@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ChangelogLink from './ChangelogLink'
 import FooterInfo from './FooterInfo'
 import MenuContent, { NAV_ITEMS } from './MenuContent'
 
@@ -25,12 +26,13 @@ export default function SideMenu() {
   }, [navigate])
 
   return (
-    <aside className="hidden lg:flex lg:h-dvh lg:w-60 lg:shrink-0 lg:flex-col lg:border-r lg:border-line lg:bg-sidebar xl:w-72">
+    <aside className="relative z-10 hidden lg:flex lg:h-dvh lg:w-60 lg:shrink-0 lg:flex-col lg:border-r lg:border-line lg:bg-sidebar xl:w-72">
       <div className="flex-1 overflow-y-auto p-3">
         <MenuContent />
       </div>
       <footer className="shrink-0 border-t border-line px-4 py-4">
         <FooterInfo stacked reference="onur" className="text-xs leading-relaxed opacity-50" />
+        <ChangelogLink className="mt-3" />
       </footer>
     </aside>
   )

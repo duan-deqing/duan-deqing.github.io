@@ -13,7 +13,6 @@ const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)))
 const CONTENT_DIR = path.join(ROOT, 'content')
 const PAGES_DIR = path.join(CONTENT_DIR, 'pages')
 const SITE_FILE = path.join(CONTENT_DIR, 'site.yaml')
-const HOME_FILE = path.join(PAGES_DIR, 'home.yaml')
 const STACK_FILE = path.join(PAGES_DIR, 'stack.yaml')
 const PROJECTS_FILE = path.join(PAGES_DIR, 'projects.yaml')
 const BLOG_FILE = path.join(PAGES_DIR, 'blog.yaml')
@@ -21,7 +20,7 @@ const POSTS_ZH = path.join(PAGES_DIR, 'posts/zh')
 const POSTS_EN = path.join(PAGES_DIR, 'posts/en')
 const POST_IMG = path.join(PAGES_DIR, 'posts/img')
 const PUBLIC_IMAGES = path.join(ROOT, 'public/images')
-const SITE_FILES = [SITE_FILE, HOME_FILE, STACK_FILE, PROJECTS_FILE]
+const SITE_FILES = [SITE_FILE, STACK_FILE, PROJECTS_FILE]
 const MAX_BODY = 5 * 1024 * 1024
 const API_PREFIX = '/__admin/api'
 
@@ -80,15 +79,14 @@ function siteRevision() {
 
 function composeSite() {
   const global = readYamlFile(SITE_FILE) || {}
-  const home = readYamlFile(HOME_FILE) || {}
   const stack = readYamlFile(STACK_FILE) || {}
   const projects = readYamlFile(PROJECTS_FILE) || {}
   return {
     site: global.site,
     personal: global.personal,
     navLinks: global.navLinks,
-    about: home.about,
-    skills: stack.skills,
+    skills: stack.categories,
+    projectCategories: projects.categories,
     projects: projects.projects,
     contact: global.contact,
     contactPage: global.contactPage,
@@ -106,7 +104,7 @@ function readConfig() {
 }
 
 const SITE_TOP_KEYS = [
-  'site', 'personal', 'navLinks', 'about', 'skills', 'projects',
+  'site', 'personal', 'navLinks', 'skills', 'projectCategories', 'projects',
   'contact', 'contactPage', 'socialLinks', 'footer',
 ]
 
@@ -136,6 +134,9 @@ function saveConfig(body) {
   if (!Array.isArray(site.navLinks) || !Array.isArray(site.skills) || !Array.isArray(site.projects)) {
     throw Object.assign(new Error('导航、技能、项目必须是数组'), { status: 400 })
   }
+  if (!Array.isArray(site.projectCategories)) {
+    throw Object.assign(new Error('项目分类必须是数组'), { status: 400 })
+  }
   if (!Array.isArray(blog.categories)) {
     throw Object.assign(new Error('博客分类必须是数组'), { status: 400 })
   }
@@ -151,7 +152,6 @@ function saveConfig(body) {
     throw Object.assign(new Error('文件已被外部修改，请刷新后再保存'), { status: 409 })
   }
 
-  const home = readYamlFile(HOME_FILE) || {}
   const stack = readYamlFile(STACK_FILE) || {}
   const projects = readYamlFile(PROJECTS_FILE) || {}
 
@@ -164,9 +164,12 @@ function saveConfig(body) {
     socialLinks: site.socialLinks,
     footer: site.footer,
   })
-  writeYamlFile(HOME_FILE, { ...home, about: site.about })
-  writeYamlFile(STACK_FILE, { ...stack, skills: site.skills })
-  writeYamlFile(PROJECTS_FILE, { ...projects, projects: site.projects })
+  writeYamlFile(STACK_FILE, { ...stack, categories: site.skills })
+  writeYamlFile(PROJECTS_FILE, {
+    ...projects,
+    categories: site.projectCategories,
+    projects: site.projects,
+  })
   writeYamlFile(BLOG_FILE, blog)
   return {
     revision: { site: siteRevision(), blog: fileRevision(BLOG_FILE) },
@@ -200,7 +203,7 @@ async function listPosts() {
         excerpt: attributes.excerpt ?? '',
         category: attributes.category ?? '',
         tags: attributes.tags ?? [],
-        featured: Boolean(attributes.featured),
+        duration: attributes.duration ?? '',
         mtime: stat.mtimeMs,
       })
     }

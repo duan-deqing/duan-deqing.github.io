@@ -1,0 +1,51 @@
+/**
+ * category-heading.css — 分类大号空心描边标题，Projects / Stack 共用。
+ */
+
+.category-head {
+  position: relative;
+  height: 4.5rem;
+  margin-top: 1.25rem;
+  pointer-events: none;
+  user-select: none;
+}
+
+.category-title {
+  --category-opacity: 0.35;
+  position: absolute;
+  top: 0;
+  left: -1rem;
+  margin: 0;
+  color: transparent;
+  font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong",
+    "SimSun", ui-serif, Georgia, serif;
+  font-size: 80px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  -webkit-text-stroke: 1.5px #aaa;
+  opacity: var(--category-opacity);
+  animation: category-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--category-index, 0) * 60ms);
+}
+
+.dark .category-title {
+  --category-opacity: 0.2;
+}
+
+@keyframes category-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: var(--category-opacity);
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-title {
+    animation: none;
+  }
+}

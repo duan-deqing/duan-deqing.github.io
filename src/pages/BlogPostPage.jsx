@@ -1,34 +1,29 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import rehypeHighlight from 'rehype-highlight'
+import { useParams } from 'react-router-dom'
 import { useLanguage } from '../hooks/useLanguage'
 import { getPostBySlug } from '../utils/markdown'
+import { extractHeadings } from '../utils/markdownHeading'
 import { categoryLabel, formatDate } from '../utils/postFormat'
 import PageTitle from '../components/shared/PageTitle'
 import PageHeading from '../components/site/PageHeading'
+import ParentLink from '../components/site/ParentLink'
+import FooterInfo from '../components/site/FooterInfo'
 import TableOfContents from '../components/BlogPage/TableOfContents'
-import { markdownComponents } from '../components/BlogPage/markdownComponents'
-import rehypeCodeLines from '../utils/rehypeCodeLines'
-import { ArrowUpRightIcon } from '../components/site/icons'
+import BlogMarkdown from '../components/blog/BlogMarkdown'
 import '../styles/math.css'
+import '../styles/markdown-extras.css'
 import '../styles/blog-post.css'
 
 export default function BlogPostPage() {
   const { slug } = useParams()
-  const navigate = useNavigate()
   const { lang, t } = useLanguage()
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const [math, setMath] = useState(null)
-  const [mathFailed, setMathFailed] = useState(false)
-  const hasMath = useMemo(
-    () => Boolean(post && /\$[^$\n]+\$|\$\$[\s\S]*?\$\$/.test(post.content)),
+  const headings = useMemo(
+    () => (post ? extractHeadings(post.content) : []),
     [post]
   )
-  const mathPending = hasMath && !math && !mathFailed
 
   useEffect(() => {
     let cancelled = false
@@ -53,29 +48,41 @@ export default function BlogPostPage() {
   }, [slug, lang])
 
   useEffect(() => {
-    if (!post || !hasMath || math) return undefined
-    let cancelled = false
-    setMathFailed(false)
-    Promise.all([
-      import('remark-math'),
-      import('rehype-katex'),
-      import('katex/dist/katex.min.css'),
-    ])
-      .then(([remarkMathModule, rehypeKatexModule]) => {
-        if (cancelled) return
-        setMath({
-          remarkMath: remarkMathModule.default,
-          rehypeKatex: rehypeKatexModule.default,
-        })
+    if (!post) return undefined
+
+    let frame = 0
+    const scrollToHash = () => {
+      const raw = window.location.hash.slice(1)
+      if (!raw) return
+
+      let id = raw
+      try {
+        id = decodeURIComponent(raw)
+      } catch {
+        // 保持原始 hash
+      }
+
+      const target = document.getElementById(id)
+      if (!target) return
+
+      let details = target.closest('details')
+      while (details) {
+        details.open = true
+        details = details.parentElement?.closest('details') || null
+      }
+
+      frame = requestAnimationFrame(() => {
+        target.scrollIntoView({ block: 'start' })
       })
-      .catch((err) => {
-        console.error('Failed to load math renderer:', err)
-        if (!cancelled) setMathFailed(true)
-      })
-    return () => {
-      cancelled = true
     }
-  }, [post, hasMath, math])
+
+    scrollToHash()
+    window.addEventListener('hashchange', scrollToHash)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('hashchange', scrollToHash)
+    }
+  }, [post])
 
   if (loading) {
     return (
@@ -92,19 +99,17 @@ export default function BlogPostPage() {
         <p className="text-sm text-muted">
           {t({ en: 'The post you are looking for does not exist.', zh: '您查找的文章不存在。' })}
         </p>
-        <button
-          type="button"
-          onClick={() => navigate('/blog')}
-          className="link mt-6 text-sm"
-        >
-          {t({ en: 'Back to blog', zh: '返回博客' })}
-        </button>
+        <ParentLink
+          to="/blog"
+          label={t({ en: 'Back to blog', zh: '返回博客' })}
+          className="mt-6"
+        />
       </div>
     )
   }
 
   return (
-    <div className="relative mx-auto w-full max-w-3xl">
+    <div className="article-page relative mx-auto w-full">
       <div className="article-glow hidden xl:block" aria-hidden="true" />
       <PageTitle
         title={`STYLAN · ${t(post.title)}`}
@@ -114,61 +119,48 @@ export default function BlogPostPage() {
         type="article"
       />
 
-      <div className="slide-enter-content relative">
-        <Link
-          to="/blog"
-          className="inline-flex items-center gap-1 text-sm text-muted-strong transition-colors hover:text-ink lg:hidden"
-        >
-          <ArrowUpRightIcon size={14} className="rotate-180" />
-          {t({ en: 'Writing', zh: '写作' })}
-        </Link>
+      <div className={`article-layout${headings.length ? ' has-toc hover-reveal' : ''}`}>
+        {headings.length ? (
+          <aside className="article-toc">
+            <TableOfContents content={post.content} />
+          </aside>
+        ) : null}
 
-        <div className="mt-6 lg:mt-0">
-          <PageHeading title={t(post.title)} />
-          <div className="mb-8 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted">
-            <time dateTime={post.date}>{formatDate(post.date, t)}</time>
-            {post.readTime ? <span aria-hidden="true">·</span> : null}
-            {post.readTime ? <span>{t(post.readTime)}</span> : null}
-            <span aria-hidden="true">·</span>
-            <span>{categoryLabel(post.category, t)}</span>
-          </div>
-          {post.tags?.length ? (
-            <div className="mb-8 flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted">
-              {post.tags.map((tag) => (
-                <span key={tag}>#{tag}</span>
-              ))}
+        <div className="article-main slide-enter-content relative">
+          <ParentLink
+            to="/blog"
+            label={t({ en: 'Back to blog', zh: '返回博客' })}
+            className="lg:hidden"
+          />
+
+          <div className="mt-6 lg:mt-0">
+            <PageHeading title={t(post.title)} />
+            <div className="mb-8 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted">
+              <time dateTime={post.date}>{formatDate(post.date, t)}</time>
+              {post.duration ? <span aria-hidden="true">·</span> : null}
+              {post.duration ? <span>{post.duration}</span> : null}
+              <span aria-hidden="true">·</span>
+              <span>{categoryLabel(post.category, t)}</span>
             </div>
-          ) : null}
-        </div>
-
-        <details className="mb-8 rounded-lg border border-line p-4 lg:hidden">
-          <summary className="cursor-pointer text-sm font-medium text-heading">
-            {t({ en: 'On this page', zh: '本页目录' })}
-          </summary>
-          <div className="mt-3">
-            <TableOfContents content={post.content} showTitle={false} />
+            {post.tags?.length ? (
+              <div className="mb-8 flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted">
+                {post.tags.map((tag) => (
+                  <span key={tag}>#{tag}</span>
+                ))}
+              </div>
+            ) : null}
           </div>
-        </details>
 
-        <article className="article-content min-w-0">
-          {mathPending ? (
-            <p className="py-8 text-sm text-muted">
-              {t({ en: 'Rendering formulas…', zh: '正在渲染公式…' })}
-            </p>
-          ) : (
-            <ReactMarkdown
-              remarkPlugins={math ? [remarkGfm, math.remarkMath] : [remarkGfm]}
-              rehypePlugins={
-                math
-                  ? [rehypeHighlight, math.rehypeKatex, rehypeCodeLines]
-                  : [rehypeHighlight, rehypeCodeLines]
-              }
-              components={markdownComponents}
-            >
-              {post.content}
-            </ReactMarkdown>
-          )}
-        </article>
+          <article className="article-content min-w-0">
+            <BlogMarkdown content={post.content} />
+          </article>
+          <div className="mt-14 lg:hidden">
+            <FooterInfo
+              showReference={false}
+              className="text-sm opacity-50"
+            />
+          </div>
+        </div>
       </div>
     </div>
   )

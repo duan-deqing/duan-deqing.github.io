@@ -2,11 +2,12 @@ import blogConfig from '@content/pages/blog.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import { useBlog } from '../components/blog/BlogProvider'
 import PageTitle from '../components/shared/PageTitle'
-import PageHeading from '../components/site/PageHeading'
-import RssButton from '../components/blog/RssButton'
+import CenteredPageHeading from '../components/site/CenteredPageHeading'
+import QuietActionLink from '../components/site/QuietActionLink'
+import { RssIcon } from '../components/site/icons'
 import SearchTrigger from '../components/blog/SearchTrigger'
 import WritingFilterBar from '../components/blog/WritingFilterBar'
-import WritingList from '../components/blog/WritingList'
+import WritingTable from '../components/blog/WritingTable'
 import WritingRowSkeleton from '../components/blog/WritingRowSkeleton'
 
 export default function BlogPage() {
@@ -31,10 +32,14 @@ export default function BlogPage() {
         t={t}
         lang={lang}
       />
-      <PageHeading
+      <CenteredPageHeading
         title={t(blogConfig.page.title)}
         description={t(blogConfig.page.subtitle)}
-        actions={<RssButton />}
+        actions={
+          <QuietActionLink href="/rss.xml" external icon={RssIcon}>
+            {t({ en: 'RSS feed', zh: 'RSS 订阅' })}
+          </QuietActionLink>
+        }
       />
 
       <SearchTrigger className="mb-3" onClick={openSearch} />
@@ -57,11 +62,7 @@ export default function BlogPage() {
           {t({ en: 'Unable to load posts.', zh: '文章加载失败。' })}
         </p>
       ) : (
-        <WritingList
-          posts={filtered}
-          resetKey={`${lang}:${category}:${tag ?? 'all'}`}
-          t={t}
-        />
+        <WritingTable posts={filtered} t={t} />
       )}
     </div>
   )

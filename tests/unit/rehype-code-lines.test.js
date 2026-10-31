@@ -33,13 +33,37 @@ test('wraps code children into numbered lines and keeps nested spans', () => {
 
   rehypeCodeLines()(tree)
   const code = tree.children[0].children[0]
-  assert.equal(code.children.length, 3)
+  assert.equal(code.children.length, 2)
   assert.equal(code.children[0].tagName, 'span')
   assert.deepEqual(code.children[0].properties.className, ['code-line'])
   assert.equal(code.children[0].properties['data-line'], '1')
   assert.equal(code.children[0].children[0].tagName, 'span')
   assert.equal(code.children[1].properties['data-line'], '2')
-  assert.equal(code.children[2].properties['data-line'], '3')
+})
+
+test('skips custom fenced blocks and preserves their newlines', () => {
+  for (const lang of ['mermaid', 'video', 'carousel']) {
+    const code = {
+      type: 'element',
+      tagName: 'code',
+      properties: { className: [`language-${lang}`] },
+      children: [{ type: 'text', value: 'graph TD\nA --> B' }],
+    }
+    const tree = {
+      type: 'root',
+      children: [
+        {
+          type: 'element',
+          tagName: 'pre',
+          properties: {},
+          children: [code],
+        },
+      ],
+    }
+
+    rehypeCodeLines()(tree)
+    assert.deepEqual(code.children, [{ type: 'text', value: 'graph TD\nA --> B' }])
+  }
 })
 
 test('leaves non-pre trees unchanged', () => {
@@ -141,9 +165,35 @@ test('normalizes CRLF line endings without leaving carriage returns', () => {
 
   rehypeCodeLines()(tree)
   const code = tree.children[0].children[0]
-  assert.equal(code.children.length, 3)
+  assert.equal(code.children.length, 2)
   assert.deepEqual(code.children[0].children, [{ type: 'text', value: 'one' }])
   assert.deepEqual(code.children[1].children, [{ type: 'text', value: 'two' }])
+})
+
+test('去掉代码块末尾由换行产生的空行', () => {
+  const tree = {
+    type: 'root',
+    children: [
+      {
+        type: 'element',
+        tagName: 'pre',
+        properties: {},
+        children: [
+          {
+            type: 'element',
+            tagName: 'code',
+            properties: {},
+            children: [{ type: 'text', value: 'a\n\nb\n\n\n' }],
+          },
+        ],
+      },
+    ],
+  }
+
+  rehypeCodeLines()(tree)
+  const code = tree.children[0].children[0]
+  assert.equal(code.children.length, 3)
+  assert.deepEqual(code.children[2].children, [{ type: 'text', value: 'b' }])
 })
 
 test('wraps every pre in a document and ignores pre without code', () => {

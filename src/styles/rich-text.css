@@ -1,0 +1,26 @@
+/**
+ * rich-text.css — 首页 / Home 自我介绍 Markdown 样式。
+ * 内容由 ReactMarkdown + remark-breaks 渲染；段内换行直接生效，
+ * 段落之间仍用空行分隔并保持 1.5rem 间距。
+ */
+
+.rich-text {
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.rich-text + .rich-text {
+  margin-top: 1.5rem;
+}
+
+.rich-text p {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.rich-text strong {
+  font-weight: 600;
+  color: var(--heading);
+}

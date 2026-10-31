@@ -23,9 +23,9 @@ export default function SearchDialog({ open, posts, onClose, t }) {
   const results = searchPosts(posts, query, t)
 
   useEffect(() => {
+    if (!open) return undefined
     setQuery('')
     setActiveIndex(0)
-    if (!open) return undefined
     const id = requestAnimationFrame(() => inputRef.current?.focus())
     return () => cancelAnimationFrame(id)
   }, [open])
@@ -53,7 +53,6 @@ export default function SearchDialog({ open, posts, onClose, t }) {
       label={t({ en: 'Search posts', zh: '搜索文章' })}
       maxWidth="max-w-xl"
       flush
-      panelClassName="search-dialog-enter"
     >
       <div className="flex h-14 items-center gap-3 border-b border-line px-4">
         <SearchIcon size={18} className="shrink-0 text-muted" />

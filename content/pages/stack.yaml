@@ -1,4 +1,7 @@
-# 此文件由本地管理后台维护；字段说明见 src/admin/schema.js 与 README。
+# 技术栈页 /stack：页面文案、页头官网按钮与分类条目。
+# buttons 控制页头介绍下方的按钮顺序、名称、链接与 logo；color 可选，不填使用默认强调色。
+# 分类中的同名技术项会自动复用该链接。
+# logo 可写 public/images/stack 下的文件名、站内路径或图片 URL。
 page:
   title:
     en: Stack
@@ -9,55 +12,260 @@ page:
   intro:
     en: Tools I reach for when building and shipping.
     zh: 构建与交付时常用的工具。
-skills:
-  - category:
-      en: Artificial Intelligence
+
+buttons:
+  - name: LangChain
+    link: https://python.langchain.com
+    logo: langchain.svg
+    color: "#22C55E"
+
+  - name: React
+    link: https://react.dev
+    logo: react.svg
+    color: "#0891B2"
+
+  - name: JavaScript
+    link: https://developer.mozilla.org/docs/Web/JavaScript
+    logo: javascript.svg
+    color: "#CA8A04"
+
+  - name: HTML
+    link: https://developer.mozilla.org/docs/Web/HTML
+    logo: html.svg
+    color: "#E34F26"
+
+  - name: CSS
+    link: https://developer.mozilla.org/docs/Web/CSS
+    logo: css.svg
+    color: "#1572B6"
+
+  - name: Tailwind CSS
+    link: https://tailwindcss.com
+    logo: tailwindcss.svg
+    color: "#0E7490"
+
+  - name: Python
+    link: https://www.python.org
+    logo: python.svg
+    color: "#3776AB"
+
+  - name: Flask
+    link: https://flask.palletsprojects.com
+    logo: flask.svg
+    color: "#64748B"
+
+  - name: FastAPI
+    link: https://fastapi.tiangolo.com
+    logo: fastapi.svg
+    color: "#009688"
+
+  - name: Node.js
+    link: https://nodejs.org
+    logo: nodejs.svg
+    color: "#339933"
+
+  - name: SQLite
+    link: https://sqlite.org
+    logo: sqlite.svg
+    color: "#0284C7"
+
+  - name: FAISS
+    link: https://faiss.ai
+    logo: faiss.svg
+    color: "#7C3AED"
+
+  - name: OpenCode
+    link: https://opencode.ai
+    logo: opencode.svg
+    color: "#EA580C"
+
+  - name: Git
+    link: https://git-scm.com
+    logo: git.svg
+    color: "#F05032"
+
+  - name: Docker
+    link: https://www.docker.com
+    logo: docker.svg
+    color: "#2496ED"
+
+  - name: pnpm
+    link: https://pnpm.io
+    logo: pnpm.svg
+    color: "#D97706"
+
+  - name: VS Code
+    link: https://code.visualstudio.com
+    logo: vscode.svg
+    color: "#007ACC"
+
+  - name: Markdown
+    link: https://commonmark.org
+    logo: markdown.svg
+    color: "#6B7280"
+
+categories:
+  - id: ai
+    label:
+      en: AI
       zh: 人工智能
     items:
-      - RAG
-      - LangChain
-      - Prompt
-  - category:
+      - name: RAG
+        description:
+          en: Retrieval-augmented generation that grounds answers in your own data.
+          zh: 把回答建立在自有数据上的检索增强生成。
+
+      - name: LangChain
+        description:
+          en: Framework for building LLM apps with tools and retrieval.
+          zh: 用于构建带工具与检索的 LLM 应用框架。
+
+      - name: Prompt
+        description:
+          en: Prompt design, context control and structured outputs.
+          zh: 提示词设计、上下文控制与结构化输出。
+
+  - id: frontend
+    label:
       en: Frontend
       zh: 前端
     items:
-      - React
-      - JavaScript
-      - HTML
-      - CSS
-      - Tailwind CSS
-  - category:
+      - name: React
+        description:
+          en: Component-driven UI for modern web apps.
+          zh: 用于现代 Web 应用的组件化 UI。
+
+      - name: JavaScript
+        description:
+          en: The language of the web, from UI logic to tooling.
+          zh: 从界面逻辑到工具链的 Web 语言。
+
+      - name: HTML
+        description:
+          en: Semantic structure and accessible page foundations.
+          zh: 语义化结构与可访问的页面基础。
+
+      - name: CSS
+        description:
+          en: Layout, responsive design and visual systems.
+          zh: 布局、响应式设计与视觉系统。
+
+      - name: Tailwind CSS
+        description:
+          en: Utility-first styling with a consistent design scale.
+          zh: 原子化样式与一致的设计尺度。
+
+  - id: backend
+    label:
       en: Backend
       zh: 后端
     items:
-      - Python
-      - Flask
-      - FastAPI
-      - Node.js
-  - category:
+      - name: Python
+        description:
+          en: Primary language for AI services and scripting.
+          zh: 构建 AI 服务与脚本的主要语言。
+
+      - name: Flask
+        description:
+          en: Lightweight Python framework for small services.
+          zh: 适合小型服务的轻量 Python Web 框架。
+
+      - name: FastAPI
+        description:
+          en: Typed async APIs with automatic documentation.
+          zh: 类型化、异步且自带文档的 API 框架。
+
+      - name: Node.js
+        description:
+          en: JavaScript runtime for server-side tools and APIs.
+          zh: 用于服务端工具与 API 的 JavaScript 运行时。
+
+  - id: data
+    label:
       en: Data
       zh: 数据
     items:
-      - SQLite
-      - FAISS
-      - Vector DB
-  - category:
+      - name: SQLite
+        description:
+          en: Embedded relational database for small apps.
+          zh: 适合小型应用的嵌入式关系数据库。
+
+      - name: FAISS
+        description:
+          en: Efficient similarity search for vector embeddings.
+          zh: 高效的向量相似度检索库。
+
+      - name: Vector DB
+        description:
+          en: Storage and retrieval for embedding-based search.
+          zh: 面向向量检索的存储与检索。
+
+  - id: tools
+    label:
       en: Tools
       zh: 工具
     items:
-      - OpenCode
-      - Git
-      - Docker
-      - pnpm
-      - VS Code
-      - Markdown
-  - category:
+      - name: OpenCode
+        description:
+          en: Terminal-based coding agent for daily development.
+          zh: 日常开发使用的终端编程 Agent。
+
+      - name: Git
+        description:
+          en: Version control for every change and experiment.
+          zh: 管理每次改动与实验的版本控制。
+
+      - name: Docker
+        description:
+          en: Reproducible local environments and deployments.
+          zh: 可复现的本地环境与部署。
+
+      - name: pnpm
+        description:
+          en: Fast, disk-efficient package manager.
+          zh: 快速、节省磁盘的包管理器。
+
+      - name: VS Code
+        description:
+          en: My primary editor for coding and writing.
+          zh: 主要使用的代码与写作编辑器。
+
+      - name: Markdown
+        description:
+          en: Plain-text writing for docs and posts.
+          zh: 用于文档与文章的纯文本写作。
+
+  - id: hobbies
+    label:
       en: Hobbies
       zh: 爱好
     items:
-      - Gaming
-      - Music
-      - Animation
-      - Computer
-      - Tech
-      - ACG
+      - name: Gaming
+        description:
+          en: Story-driven games and co-op sessions.
+          zh: 剧情向游戏与联机时光。
+
+      - name: Music
+        description:
+          en: Playlists that keep deep work moving.
+          zh: 陪伴深度工作的歌单。
+
+      - name: Animation
+        description:
+          en: Anime and visual storytelling.
+          zh: 动画与视觉叙事。
+
+      - name: Computer
+        description:
+          en: Tinkering with hardware and setups.
+          zh: 折腾硬件与桌面配置。
+
+      - name: Tech
+        description:
+          en: Following tools, models and the open web.
+          zh: 关注工具、模型与开放网络。
+
+      - name: ACG
+        description:
+          en: Anime, comics and games culture.
+          zh: 动画、漫画与游戏文化。

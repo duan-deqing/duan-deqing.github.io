@@ -1,0 +1,29 @@
+/**
+ * stack-list.css — Stack 页分类条目列表；条目名称与介绍行内排列。
+ */
+
+.stack-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 0 0.5rem 1.5rem;
+  list-style: disc;
+}
+
+.stack-list > li {
+  padding-left: 0.5rem;
+  line-height: 1.75;
+}
+
+.stack-list > li::marker {
+  color: var(--code-line);
+}
+
+.stack-item-name {
+  font-weight: 500;
+  color: var(--heading);
+}
+
+.stack-item-description {
+  color: var(--muted);
+}

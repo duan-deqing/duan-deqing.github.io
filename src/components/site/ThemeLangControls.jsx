@@ -15,6 +15,7 @@ export default function ThemeLangControls({
   className,
   background,
   onCycleBackground,
+  suppressTitle = false,
 }) {
   const { isDark, toggle: toggleTheme } = useTheme()
   const { lang, toggle: toggleLang, t } = useLanguage()
@@ -33,14 +34,18 @@ export default function ThemeLangControls({
   return (
     <div className={cn('flex items-center gap-1', className)}>
       {!showLabels && onCycleBackground ? (
-        <BackgroundToggle variant={background} onCycle={onCycleBackground} />
+        <BackgroundToggle
+          variant={background}
+          onCycle={onCycleBackground}
+          suppressTitle={suppressTitle}
+        />
       ) : null}
       <button
         type="button"
         className={cn(BASE, showLabels ? SIDEBAR_BUTTON : ICON_BUTTON)}
         onClick={toggleTheme}
         aria-label={showLabels ? undefined : themeLabel}
-        title={themeLabel}
+        title={suppressTitle ? undefined : themeLabel}
       >
         {isDark ? <SunIcon /> : <MoonIcon />}
         {showLabels ? <span>{themeAction}</span> : null}
@@ -50,7 +55,7 @@ export default function ThemeLangControls({
         className={cn(BASE, showLabels ? SIDEBAR_BUTTON : ICON_BUTTON)}
         onClick={toggleLang}
         aria-label={showLabels ? undefined : langLabel}
-        title={langLabel}
+        title={suppressTitle ? undefined : langLabel}
       >
         <GlobeIcon />
         {showLabels ? <span>{langAction}</span> : null}

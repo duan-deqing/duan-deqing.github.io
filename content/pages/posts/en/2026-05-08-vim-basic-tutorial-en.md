@@ -1,11 +1,10 @@
 ---
 title: "Vim Editor Basic Usage Tutorial"
+date: "2026-05-08"
+category: tutorial
+duration: 3min
+tags: [Tutorial, Tools]
 excerpt: "Vim Basic Text Editor Usage Guide."
-category: "tutorial"
-readTime: "3 min read"
-author: "STYLAN"
-tags: ["Tutorial","Tools"]
-featured: false
 ---
 
 # Vim Editor Basic Usage Tutorial

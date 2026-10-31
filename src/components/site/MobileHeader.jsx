@@ -10,7 +10,10 @@ const CLOSE_LABEL = { en: 'Close menu', zh: '关闭菜单' }
 export default function MobileHeader({ open, onOpenMenu }) {
   const { pathname } = useLocation()
   const { t } = useLanguage()
-  const current = NAV_ITEMS.find((item) => isNavActive(pathname, item.href))
+  const isChangelog = pathname === '/changelog' || pathname.startsWith('/changelog/')
+  const current = isChangelog
+    ? { label: { en: 'Changelog', zh: '更新日志' } }
+    : NAV_ITEMS.find((item) => isNavActive(pathname, item.href))
 
   return (
     <header className="sticky top-0 z-30 bg-page px-3 pb-1 pt-3 lg:hidden">

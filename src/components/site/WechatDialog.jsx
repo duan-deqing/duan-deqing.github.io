@@ -1,47 +1,68 @@
+import { useRef } from 'react'
 import Modal from './Modal'
+import LiquidGlassLens from './LiquidGlassLens'
 import { useLanguage } from '../../hooks/useLanguage'
 import { CloseIcon } from './icons'
+import '../../styles/wechat-glass.css'
 
 export default function WechatDialog({ open, onClose, qrcode, wechatId, alt }) {
   const { t } = useLanguage()
+  const contentRef = useRef({ qrcode, wechatId, alt })
+
+  if (open) contentRef.current = { qrcode, wechatId, alt }
+  const content = contentRef.current
+  const label = content.alt || 'WeChat QR code'
 
   return (
     <Modal
       open={open}
       onClose={onClose}
-      label={alt || 'WeChat QR code'}
-      maxWidth="max-w-xs"
-      panelClassName="relative"
+      label={label}
+      maxWidth="max-w-[23rem]"
+      panelClassName="wechat-glass"
+      backdropClassName="wechat-glass-backdrop"
+      flush
     >
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label={t({ en: 'Close', zh: '关闭' })}
-        className="absolute right-3 top-3 z-10 grid size-7 place-items-center rounded-full text-muted transition-colors hover:bg-subtle hover:text-ink"
-      >
-        <CloseIcon size={15} />
-      </button>
+      <LiquidGlassLens />
 
-      <div className="flex flex-col items-center">
-        <img
-          src={qrcode}
-          alt={alt || 'WeChat QR code'}
-          width={240}
-          height={240}
-          loading="lazy"
-          decoding="async"
-          className="mt-6 size-60 rounded-lg border border-line bg-white object-contain"
-        />
-        {wechatId ? (
-          <>
-            <p className="mt-4 text-[11px] text-muted">
-              {t({ en: 'WeChat ID', zh: '微信号' })}
-            </p>
-            <p className="mt-1 font-mono text-sm font-medium tracking-tight text-heading">
-              {wechatId}
-            </p>
-          </>
-        ) : null}
+      <div className="wechat-glass-content">
+        <div className="wechat-glass-head">
+          <span className="wechat-glass-kicker">
+            {t({ en: 'WeChat', zh: '微信' })}
+          </span>
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label={t({ en: 'Close', zh: '关闭' })}
+            className="wechat-glass-close"
+          >
+            <CloseIcon size={15} />
+          </button>
+        </div>
+
+        <div className="wechat-glass-body">
+          <div className="wechat-glass-qr-tray">
+            <img
+              src={content.qrcode}
+              alt={label}
+              width={240}
+              height={240}
+              decoding="async"
+              className="wechat-glass-qr"
+            />
+          </div>
+          {content.wechatId ? (
+            <div className="wechat-glass-id">
+              <span className="wechat-glass-id-pill">
+                <span className="wechat-glass-id-label">
+                  {t({ en: 'WeChat ID', zh: '微信号' })}
+                </span>
+                <span className="wechat-glass-id-divider" aria-hidden="true" />
+                <span className="wechat-glass-id-value">{content.wechatId}</span>
+              </span>
+            </div>
+          ) : null}
+        </div>
       </div>
     </Modal>
   )

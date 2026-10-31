@@ -1,19 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import config from '@content/site.yaml'
-import homeConfig from '@content/pages/home.yaml'
-import stackConfig from '@content/pages/stack.yaml'
+import indexIntroEn from '@content/pages/index.en.md?raw'
+import indexIntroZh from '@content/pages/index.zh.md?raw'
 import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/shared/PageTitle'
+import RichText from '../components/shared/RichText'
 import SiteLink from '../components/site/SiteLink'
-import { disperseTo } from '../utils/dispersion'
-import {
-  ArrowUpRightIcon,
-  WechatIcon,
-  platformIcon,
-} from '../components/site/icons'
-
-const WECHAT_CLOSE_DELAY = 500
+import StackButtonGroup from '../components/site/StackButtonGroup'
+import WechatDialog from '../components/site/WechatDialog'
+import { WechatIcon, platformIcon } from '../components/site/icons'
 
 function SocialLink({ href, label, Icon }) {
   return (
@@ -28,110 +23,39 @@ function SocialLink({ href, label, Icon }) {
 
 function WechatSocialLink({ method, t }) {
   const [open, setOpen] = useState(false)
-  const wrapperRef = useRef(null)
-  const buttonRef = useRef(null)
-  const bubbleRef = useRef(null)
-  const effectRef = useRef(null)
-  const closeTimerRef = useRef(0)
   const label = t(method.label || { en: 'WeChat', zh: '微信' })
-  const qrLabel = t({ en: 'WeChat QR code', zh: '微信二维码' })
-
-  const cancelEffect = () => {
-    effectRef.current?.cancel()
-    effectRef.current = null
-  }
-
-  const cancelPendingClose = () => {
-    if (closeTimerRef.current) {
-      clearTimeout(closeTimerRef.current)
-      closeTimerRef.current = 0
-    }
-  }
-
-  const openBubble = () => {
-    cancelPendingClose()
-    cancelEffect()
-    setOpen(true)
-  }
-
-  const closeBubble = () => {
-    if (!open || closeTimerRef.current) return
-    closeTimerRef.current = window.setTimeout(() => {
-      closeTimerRef.current = 0
-      if (bubbleRef.current && buttonRef.current) {
-        cancelEffect()
-        effectRef.current = disperseTo(bubbleRef.current, buttonRef.current)
-      }
-      setOpen(false)
-    }, WECHAT_CLOSE_DELAY)
-  }
-
-  useEffect(() => () => {
-    if (closeTimerRef.current) clearTimeout(closeTimerRef.current)
-    effectRef.current?.cancel()
-  }, [])
-
-  const closeIfOutside = (event) => {
-    if (!wrapperRef.current?.contains(event.relatedTarget)) closeBubble()
-  }
 
   return (
-    <span
-      ref={wrapperRef}
-      className="relative inline-flex"
-      onMouseEnter={openBubble}
-      onMouseLeave={closeBubble}
-    >
+    <>
       <button
-        ref={buttonRef}
         type="button"
-        className="social-link text-base text-heading"
+        className="social-link cursor-pointer text-base text-heading"
         aria-label={label}
         aria-expanded={open}
         aria-haspopup="dialog"
-        onClick={() => (open ? closeBubble() : openBubble())}
-        onFocus={openBubble}
-        onBlur={closeIfOutside}
+        onClick={() => setOpen(true)}
       >
         <WechatIcon size={19} className="mr-1 inline-block opacity-75 align-text-bottom" />
         {label}
       </button>
-      {open ? (
-        <span className="absolute left-full top-1/2 z-20 ml-2 block w-48 -translate-y-1/2 max-sm:bottom-full max-sm:left-0 max-sm:top-auto max-sm:mb-2 max-sm:ml-0 max-sm:translate-y-0">
-          <span
-            ref={bubbleRef}
-            role="dialog"
-            aria-label={qrLabel}
-            className="qr-bubble-enter block rounded-lg border border-line bg-page p-2 shadow-xl"
-          >
-            <img
-              src={method.qrcode}
-              alt={qrLabel}
-              width={176}
-              height={176}
-              loading="lazy"
-              decoding="async"
-              className="h-44 w-44 rounded-md object-contain"
-            />
-          </span>
-        </span>
-      ) : null}
-    </span>
+      <WechatDialog
+        open={open}
+        onClose={() => setOpen(false)}
+        qrcode={method.qrcode}
+        wechatId={method.value}
+        alt={label}
+      />
+    </>
   )
 }
 
 export default function HomePage() {
   const { lang, t } = useLanguage()
-  const focus = (homeConfig.about?.focus || []).map((item) => t(item))
   const socials = config.socialLinks || []
   const email = config.contact?.email
   const wechat = (config.contactPage?.contactMethods || []).find(
     (method) => method.icon === 'wechat' && method.qrcode
   )
-  const skills = (stackConfig.skills || []).filter((group) => {
-    const label = `${group.category?.en || ''} ${group.category?.zh || ''}`.toLowerCase()
-    return !label.includes('hobbies') && !label.includes('爱好')
-  })
 
   return (
     <>
@@ -145,50 +69,7 @@ export default function HomePage() {
       <div key={lang} className="home-body-text home-links-bold slide-enter-content">
         <h1 className="home-name mb-8">{t(config.personal.name)}</h1>
 
-        <p className="mb-6 text-base leading-[1.75]">
-          {t({ en: "Hey, I'm ", zh: '你好，我是 ' })}
-          <strong className="font-semibold text-heading">{t(config.personal.name)}</strong>
-          {t({ en: '. ', zh: '。' })}
-          {t(config.personal.bio)}
-        </p>
-
-        <p className="mb-6 text-base leading-[1.75]">
-          {t({
-            en: (
-              <>
-                I focus on {focus.join(' · ')}. See my{' '}
-                <Link className="link" to="/projects">projects</Link> and{' '}
-                <Link className="link" to="/skills">skills</Link>.
-              </>
-            ),
-            zh: (
-              <>
-                我专注于 {focus.join(' · ')}。查看我的{' '}
-                <Link className="link" to="/projects">项目</Link>与{' '}
-                <Link className="link" to="/skills">技能</Link>。
-              </>
-            ),
-          })}
-        </p>
-
-        <p className="mb-6 text-base leading-[1.75]">
-          {t({
-            en: (
-              <>
-                I write about building AI products in my{' '}
-                <Link className="link" to="/blog">blog</Link>. Say hi at{' '}
-                <SiteLink className="link" href={`mailto:${email}`}>{email}</SiteLink>.
-              </>
-            ),
-            zh: (
-              <>
-                我在<Link className="link" to="/blog">博客</Link>里记录 AI 产品的构建，
-                欢迎发邮件至{' '}
-                <SiteLink className="link" href={`mailto:${email}`}>{email}</SiteLink> 找我。
-              </>
-            ),
-          })}
-        </p>
+        <RichText content={lang === 'zh' ? indexIntroZh : indexIntroEn} />
 
         <hr className="home-divider" />
 
@@ -230,20 +111,7 @@ export default function HomePage() {
             })}
           </p>
 
-          <ul className="flex list-disc flex-col gap-0.5 pl-6">
-            {skills.map((group) => (
-              <li
-                key={group.category?.en || t(group.category)}
-                className="marker:text-[var(--code-line)] leading-[1.75]"
-              >
-                <Link to="/skills" className="stack-link">
-                  {t(group.category)}
-                  <ArrowUpRightIcon size={14} className="ml-1 inline-block align-text-bottom" />
-                </Link>
-                <span className="text-muted"> — {(group.items || []).join(' · ')}</span>
-              </li>
-            ))}
-          </ul>
+          <StackButtonGroup />
         </section>
       </div>
     </>

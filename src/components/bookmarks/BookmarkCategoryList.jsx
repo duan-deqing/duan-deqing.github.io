@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom'
 import { useLanguage } from '../../hooks/useLanguage'
 import { bookmarkCategories } from '../../utils/bookmarks'
-import { cn } from '../../utils/cn'
+import { getProjectInitial, resolveBookmarkCategoryIcon } from '../../utils/projectIcon'
+import ProjectLinkCard from '../shared/ProjectLinkCard'
 
 function countLabel(count, t) {
   return t(
@@ -11,7 +11,7 @@ function countLabel(count, t) {
   )
 }
 
-export default function BookmarkCategoryList({ activeSlug = null, onNavigate }) {
+export default function BookmarkCategoryList({ activeSlug = null }) {
   const { t } = useLanguage()
 
   if (!bookmarkCategories.length) {
@@ -23,35 +23,24 @@ export default function BookmarkCategoryList({ activeSlug = null, onNavigate }) 
   }
 
   return (
-    <ul className="flex flex-col gap-1 text-sm">
-      {bookmarkCategories.map((category, index) => {
-        const active = activeSlug === category.slug
-        const count = category.bookmarks?.length || 0
-        return (
-          <li
-            key={category.slug}
-            className="writing-card-enter"
-            style={{ '--card-index': Math.min(index, 12) }}
-          >
-            <Link
-              to={`/bookmarks/${category.slug}`}
-              aria-current={active ? 'page' : undefined}
-              onClick={onNavigate}
-              className={cn(
-                'flex flex-col gap-1 rounded-lg p-2 transition-colors duration-300',
-                active ? 'bg-active text-active-fg' : 'hover:bg-hover'
-              )}
-            >
-              <span className={cn('font-medium', active ? 'text-active-fg' : 'text-heading')}>
-                {t(category.title)}
-              </span>
-              <span className={cn(active ? 'text-active-fg opacity-70' : 'text-muted')}>
-                {countLabel(count, t)}
-              </span>
-            </Link>
-          </li>
-        )
-      })}
-    </ul>
+    <div className="project-cards-grid bookmark-category-grid">
+      {bookmarkCategories.map((category, index) => (
+        <div
+          key={category.slug}
+          className="writing-card-enter"
+          style={{ '--card-index': Math.min(index, 12) }}
+        >
+          <ProjectLinkCard
+            to={`/bookmarks/${category.slug}`}
+            title={t(category.title)}
+            description={countLabel(category.bookmarks?.length || 0, t)}
+            icon={resolveBookmarkCategoryIcon(category.icon)}
+            iconFallback={getProjectInitial(category.title)}
+            active={activeSlug === category.slug}
+            compact
+          />
+        </div>
+      ))}
+    </div>
   )
 }

@@ -1,11 +1,10 @@
 ---
 title: "我的 Web 开发之旅"
+date: "2026-04-15"
+category: thoughts
+duration: 6min
+tags: [Career, Web Development]
 excerpt: "回顾我转型 Web 开发过程中的经验和教训。"
-category: "thoughts"
-readTime: "6 分钟阅读"
-author: "STYLAN"
-tags: ["Career","Web Development"]
-featured: false
 ---
 
 # 我的 Web 开发之旅

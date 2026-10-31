@@ -1,9 +1,12 @@
 import { cloneElement, isValidElement, useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
 import { headingId, getTextContent } from '../../utils/markdownHeading'
-import { CheckIcon, CopyIcon } from '../site/icons'
+import { isBadgeImage } from '../../utils/articleMedia'
+import { cn } from '../../utils/cn'
+import { CheckIcon, CopyIcon, GitHubIcon } from '../site/icons'
 import ArticleCarousel from '../blog/ArticleCarousel'
 import ArticleVideo from '../blog/ArticleVideo'
+import MermaidDiagram from '../blog/MermaidDiagram'
 
 const HEADING_SIZE = {
   2: 'text-lg md:text-xl',
@@ -15,7 +18,15 @@ const heading = (level) => {
   const Tag = `h${level}`
   const size = HEADING_SIZE[level] || HEADING_SIZE[4]
 
-  return function Heading({ children }) {
+  return function Heading({ children, className, id: providedId }) {
+    if (className === 'sr-only') {
+      return (
+        <Tag id={providedId} className="sr-only">
+          {children}
+        </Tag>
+      )
+    }
+
     const id = headingId(getTextContent(children))
     return (
       <Tag
@@ -53,7 +64,7 @@ const LANGUAGE_LABELS = {
 // 文章配图通常在首屏之外。原生 loading="lazy" 在慢速网络下仍会预取
 // 约 3000px 内的图片，文中长图会挤占首屏带宽；这里等到图片接近视口
 // （600px）再挂载 src，让 LCP 段落先完成渲染。
-function ArticleImage({ src, alt }) {
+function ArticleImage({ src, alt, title }) {
   const anchorRef = useRef(null)
   const [visible, setVisible] = useState(false)
 
@@ -76,16 +87,35 @@ function ArticleImage({ src, alt }) {
     return () => observer.disconnect()
   }, [])
 
-  return (
-    <span ref={anchorRef} className="my-6 block">
-      {/* 未进入视口时保留 img 与 alt（屏幕阅读器可读），只推迟 src。 */}
+  if (isBadgeImage(src)) {
+    return (
       <img
-        src={visible ? src : undefined}
+        src={src}
         alt={alt || ''}
         loading="lazy"
         decoding="async"
-        className="h-auto w-full rounded-xl border border-line"
+        className="article-badge"
       />
+    )
+  }
+
+  return (
+    <span className="my-6 block">
+      <span ref={anchorRef} className="block">
+        {/* 未进入视口时保留 img 与 alt（屏幕阅读器可读），只推迟 src。 */}
+        <img
+          src={visible ? src : undefined}
+          alt={alt || ''}
+          loading="lazy"
+          decoding="async"
+          className="h-auto w-full rounded-xl border border-line"
+        />
+      </span>
+      {title ? (
+        <span className="mt-2 block text-center text-xs text-muted">
+          {title}
+        </span>
+      ) : null}
     </span>
   )
 }
@@ -97,9 +127,9 @@ function CodeBlock({ children }) {
   const [copied, setCopied] = useState(false)
   const className = isValidElement(children) ? children.props.className || '' : ''
   const languageMatch = className.match(/language-([\w-]+)/)
-  const language = languageMatch
-    ? LANGUAGE_LABELS[languageMatch[1]] || languageMatch[1]
-    : ''
+  const languageKey = languageMatch ? languageMatch[1] : ''
+  const pathLabel = isValidElement(children) ? children.props['data-code-label'] || '' : ''
+  const language = pathLabel || LANGUAGE_LABELS[languageKey] || languageKey
 
   useEffect(() => () => clearTimeout(timerRef.current), [])
 
@@ -171,22 +201,86 @@ export const markdownComponents = {
   h3: heading(3),
   h4: heading(4),
 
-  p: ({ children }) => (
-    <p className="mb-4 text-base leading-[1.75] text-ink last:mb-0 [&:has(+ul)]:mb-1">
-      {children}
-    </p>
-  ),
+  p: ({ children, className }) =>
+    className === 'markdown-alert-title' ? (
+      <p className="markdown-alert-title">{children}</p>
+    ) : (
+      <p className="mb-4 text-base leading-[1.75] text-ink last:mb-0 [&:has(+ul)]:mb-1">
+        {children}
+      </p>
+    ),
 
-  a: ({ href, children }) => (
-    <a
-      href={href}
-      className="link"
-      target={href?.startsWith('http') ? '_blank' : undefined}
-      rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-    >
-      {children}
-    </a>
-  ),
+  a: ({ href, children, className, node: _node, name, id, ...props }) => {
+    const classes = Array.isArray(className) ? className.join(' ') : className || ''
+    const isGithubRef = classes.includes('markdown-github-ref')
+    const isMention = classes.includes('markdown-github-mention')
+    const isFootnoteRef = props['data-footnote-ref'] !== undefined
+    const isFootnoteBackref = props['data-footnote-backref'] !== undefined
+    const anchorId = id || name || undefined
+
+    if (!href && anchorId) {
+      return (
+        <span id={anchorId} className="anchor-target">
+          {children}
+        </span>
+      )
+    }
+
+    if (isFootnoteRef || isFootnoteBackref) {
+      return (
+        <a
+          href={href}
+          id={anchorId}
+          className={isFootnoteRef ? 'footnote-ref' : 'footnote-backref'}
+          {...props}
+        >
+          {children}
+        </a>
+      )
+    }
+
+    if (isGithubRef) {
+      return (
+        <a
+          href={href}
+          id={anchorId}
+          className={classes}
+          target="_blank"
+          rel="noopener noreferrer"
+          {...props}
+        >
+          {isMention && href ? (
+            <img
+              src={`${href}.png?size=64`}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="markdown-github-avatar"
+              onError={(event) => {
+                event.currentTarget.style.display = 'none'
+              }}
+            />
+          ) : (
+            <GitHubIcon size={12} className="markdown-github-icon" />
+          )}
+          <span>{children}</span>
+        </a>
+      )
+    }
+
+    return (
+      <a
+        href={href}
+        id={anchorId}
+        className={cn('link', className)}
+        target={href?.startsWith('http') ? '_blank' : undefined}
+        rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+        {...props}
+      >
+        {children}
+      </a>
+    )
+  },
 
   ul: ({ children }) => (
     <ul className="mb-4 list-disc space-y-0.5 pl-6 text-base leading-[1.75] text-ink">
@@ -237,6 +331,7 @@ export const markdownComponents = {
 
     if (language === 'video') return <ArticleVideo source={source} />
     if (language === 'carousel') return <ArticleCarousel source={source} />
+    if (language === 'mermaid') return <MermaidDiagram source={source} />
 
     const content = isValidElement(children)
       ? cloneElement(children, { block: true })

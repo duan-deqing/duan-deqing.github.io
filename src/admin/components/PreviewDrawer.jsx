@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react'
 
 const PAGES = [
   { path: '/', label: '首页' },
-  { path: '/skills', label: '技能' },
+  { path: '/stack', label: '技术栈' },
   { path: '/projects', label: '项目' },
   { path: '/blog', label: '博客' },
   { path: '/bookmarks', label: '书签' },
