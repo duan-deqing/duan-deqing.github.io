@@ -11,14 +11,13 @@ import { parsePostFilename, postImageDirName } from '../src/utils/postFilename.j
 
 const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)))
 const CONTENT_DIR = path.join(ROOT, 'content')
-const PAGES_DIR = path.join(CONTENT_DIR, 'pages')
 const SITE_FILE = path.join(CONTENT_DIR, 'site.yaml')
-const STACK_FILE = path.join(PAGES_DIR, 'stack.yaml')
-const PROJECTS_FILE = path.join(PAGES_DIR, 'projects.yaml')
-const BLOG_FILE = path.join(PAGES_DIR, 'blog.yaml')
-const POSTS_ZH = path.join(PAGES_DIR, 'posts/zh')
-const POSTS_EN = path.join(PAGES_DIR, 'posts/en')
-const POST_IMG = path.join(PAGES_DIR, 'posts/img')
+const STACK_FILE = path.join(CONTENT_DIR, 'stack', 'stack.yaml')
+const PROJECTS_FILE = path.join(CONTENT_DIR, 'projects', 'projects.yaml')
+const BLOG_FILE = path.join(CONTENT_DIR, 'blog', 'blog.yaml')
+const POSTS_ZH = path.join(CONTENT_DIR, 'blog', 'posts', 'zh')
+const POSTS_EN = path.join(CONTENT_DIR, 'blog', 'posts', 'en')
+const POST_IMG = path.join(CONTENT_DIR, 'blog', 'posts', 'img')
 const PUBLIC_IMAGES = path.join(ROOT, 'public/images')
 const SITE_FILES = [SITE_FILE, STACK_FILE, PROJECTS_FILE]
 const MAX_BODY = 5 * 1024 * 1024
@@ -88,9 +87,7 @@ function composeSite() {
     skills: stack.categories,
     projectCategories: projects.categories,
     projects: projects.projects,
-    contact: global.contact,
-    contactPage: global.contactPage,
-    socialLinks: global.socialLinks,
+    contacts: global.contacts,
     footer: global.footer,
   }
 }
@@ -105,7 +102,7 @@ function readConfig() {
 
 const SITE_TOP_KEYS = [
   'site', 'personal', 'navLinks', 'skills', 'projectCategories', 'projects',
-  'contact', 'contactPage', 'socialLinks', 'footer',
+  'contacts', 'footer',
 ]
 
 const BLOG_TOP_KEYS = ['page', 'categories']
@@ -159,9 +156,7 @@ function saveConfig(body) {
     site: site.site,
     personal: site.personal,
     navLinks: site.navLinks,
-    contact: site.contact,
-    contactPage: site.contactPage,
-    socialLinks: site.socialLinks,
+    contacts: site.contacts,
     footer: site.footer,
   })
   writeYamlFile(STACK_FILE, { ...stack, categories: site.skills })

@@ -26,11 +26,7 @@ export const contentSchema = [
     fields: [
       bilingual('name', '名字', 'i18nText', { required: true }),
       { key: 'avatar', label: '头像', type: 'text', upload: true, help: '可填 emoji、图片路径或头像 URL' },
-      bilingual('titlePrefix', '标题前缀'),
-      bilingual('titleName', '标题名字'),
-      { key: 'tags', label: '身份标签', type: 'i18nList' },
-      bilingual('tagDescription', '标签描述'),
-      bilingual('bio', '个人简介', 'i18nTextarea'),
+      bilingual('role', '角色', 'i18nText', { help: '显示在移动菜单头像旁' }),
     ],
   },
   {
@@ -43,6 +39,7 @@ export const contentSchema = [
         key: 'navLinks', label: '导航链接', type: 'objectList',
         fields: [
           { key: 'href', label: '链接', type: 'url', required: true },
+          { key: 'icon', label: '图标', type: 'text', help: 'content/icons.yaml 中登记的图标名称' },
           bilingual('label', '文字', 'i18nText', { required: true }),
         ],
       },
@@ -98,52 +95,28 @@ export const contentSchema = [
         { key: 'tags', label: '技术标签', type: 'stringList' },
         { key: 'link', label: '链接', type: 'url' },
         { key: 'repo', label: '仓库链接', type: 'url' },
-        { key: 'icon', label: '图标', type: 'text', help: 'public/images/projects 下的文件名/路径，或图片 URL；留空用英文首字母' },
+        { key: 'icon', label: '图标', type: 'text', help: 'content/icons.yaml 中登记的图标名称；留空用英文首字母' },
+        { key: 'slug', label: '详情页 slug', type: 'text', help: '可选，小写字母/数字/连字符；填写后需在 content/projects 下提供同名 Markdown' },
         { key: 'featured', label: '首页精选', type: 'toggle', defaultTrue: true, help: '关闭后不出现在首页' },
       ],
     },
   },
   {
     id: 'contact',
-    label: '联系',
+    label: '联系方式',
     doc: 'site',
-    path: [],
-    fields: [
-      {
-        key: 'contact', label: '首页联系区块', type: 'object',
-        fields: [
-          bilingual('title', '标题'),
-          bilingual('description', '描述', 'i18nTextarea'),
-          { key: 'email', label: '邮箱', type: 'text' },
-          bilingual('emailButtonText', '按钮文字'),
-        ],
-      },
-      {
-        key: 'contactPage', label: '联系页', type: 'object',
-        fields: [
-          bilingual('title', '页面标题'),
-          bilingual('description', '页面描述', 'i18nTextarea'),
-          {
-            key: 'contactMethods', label: '联系方式', type: 'objectList',
-            fields: [
-              { key: 'icon', label: '图标', type: 'text', help: 'email / github / bilibili / wechat' },
-              bilingual('label', '名称'),
-              { key: 'value', label: '显示值', type: 'text' },
-              { key: 'href', label: '链接', type: 'url', help: '可留空' },
-              { key: 'qrcode', label: '二维码', type: 'imagePath' },
-            ],
-          },
-          { key: 'image', label: '页面插图', type: 'imagePath' },
-        ],
-      },
-      {
-        key: 'socialLinks', label: '社交链接', type: 'objectList',
-        fields: [
-          { key: 'platform', label: '平台', type: 'text', required: true },
-          { key: 'url', label: '链接', type: 'url', required: true },
-        ],
-      },
-    ],
+    path: ['contacts'],
+    list: {
+      type: 'objectList',
+      label: '联系方式',
+      fields: [
+        { key: 'icon', label: '图标', type: 'text', required: true, help: 'content/icons.yaml 中登记的图标名称，如 github / email / bilibili / wechat / bluesky' },
+        bilingual('label', '名称', 'i18nText', { required: true }),
+        { key: 'value', label: '显示值', type: 'text', help: '邮箱地址或微信号' },
+        { key: 'href', label: '链接', type: 'url', help: '邮箱可留空，按 value 自动生成 mailto' },
+        { key: 'qrcode', label: '二维码', type: 'imagePath', help: 'wechat 项使用' },
+      ],
+    },
   },
   {
     id: 'footer',

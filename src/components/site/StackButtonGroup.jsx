@@ -1,10 +1,12 @@
-import stackConfig from '@content/pages/stack.yaml'
+import stackConfig from '@content/stack/stack.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
-import { resolveStackIcon } from '../../utils/projectIcon'
+import { resolveIconEntry } from '../../utils/icons'
 import { cn } from '../../utils/cn'
 import QuietActionLink from './QuietActionLink'
 
-const BUTTONS = (stackConfig.buttons || []).filter((button) => button.link)
+const BUTTONS = (stackConfig.buttons || [])
+  .map((button) => ({ ...button, entry: resolveIconEntry(button.logo) }))
+  .filter((button) => button.entry?.link)
 
 export default function StackButtonGroup({ className }) {
   const { t } = useLanguage()
@@ -16,9 +18,9 @@ export default function StackButtonGroup({ className }) {
       {BUTTONS.map((button) => (
         <QuietActionLink
           key={button.name}
-          href={button.link}
-          logo={resolveStackIcon(button.logo)}
-          color={button.color}
+          href={button.entry.link}
+          logo={button.entry.src}
+          color={button.entry.color}
           aria-label={t({
             en: `${button.name} official site`,
             zh: `${button.name} 官网`,

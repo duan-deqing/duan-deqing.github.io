@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import bookmarksConfig from '@content/pages/bookmarks.yaml'
+import bookmarksConfig from '@content/bookmarks/bookmarks.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import { getBookmarkCategory } from '../utils/bookmarks'
 import PageTitle from '../components/shared/PageTitle'

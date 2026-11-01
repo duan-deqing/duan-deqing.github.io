@@ -27,6 +27,7 @@ export const PAGE_BACKGROUNDS = {
 export function pageBackgroundForPath(pathname) {
   const key = String(pathname || '').replace(/\/+$/, '') || '/'
   if (key === '/changelog' || key.startsWith('/changelog/')) return 'aurora'
+  if (key.startsWith('/projects/')) return 'dots'
   return PAGE_BACKGROUNDS[key] ?? null
 }
 

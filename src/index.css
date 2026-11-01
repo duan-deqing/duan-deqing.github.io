@@ -196,6 +196,14 @@
     }
   }
 
+  .registry-icon {
+    display: inline-block;
+    flex-shrink: 0;
+    background-color: currentColor;
+    -webkit-mask: var(--registry-icon) center / contain no-repeat;
+    mask: var(--registry-icon) center / contain no-repeat;
+  }
+
   .home-icon-tooltip {
     position: absolute;
     top: 50%;
@@ -223,6 +231,24 @@
     z-index: 20;
   }
 
+  .home-email-tooltip {
+    right: auto;
+    left: calc(100% + 10px);
+    animation-name: home-email-tooltip-in;
+  }
+
+  @keyframes home-email-tooltip-in {
+    from {
+      opacity: 0;
+      transform: translate(-4px, -50%) scale(0.98);
+    }
+
+    to {
+      opacity: 1;
+      transform: translate(0, -50%) scale(1);
+    }
+  }
+
   @keyframes home-icon-tooltip-in {
     from {
       opacity: 0;
@@ -237,6 +263,12 @@
 
   .stack-link {
     color: var(--accent);
+    transition: color 0.2s ease-out, border 0.3s ease-in-out;
+  }
+
+  .stack-link:hover,
+  .stack-link:focus-visible {
+    color: var(--stack-link-color, var(--accent));
   }
 
   .home-links-bold .link,

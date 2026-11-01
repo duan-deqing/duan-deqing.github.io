@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom'
 import { cn } from '../../utils/cn'
 import { ArrowUpRightIcon } from './icons'
+import RegistryIcon from './RegistryIcon'
 
 const BASE = 'flex w-full items-center justify-between gap-2 rounded-lg p-2 text-sm transition-colors'
 
 export default function NavItem({
   href,
   label,
-  Icon,
+  icon,
   active = false,
   shortcut,
   external = false,
@@ -19,7 +20,7 @@ export default function NavItem({
   const inner = (
     <>
       <span className="flex min-w-0 items-center gap-2">
-        <Icon size={16} className="shrink-0" />
+        <RegistryIcon name={icon} size={16} className="shrink-0" />
         <span className={cn('truncate font-medium', active && 'text-active-fg')}>{label}</span>
       </span>
       {showArrow ? (

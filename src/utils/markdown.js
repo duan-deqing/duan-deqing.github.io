@@ -8,9 +8,9 @@
  * 例如: 2026-04-25-getting-started-with-react-hooks.md
  *
  * 【文件夹结构】
- * - content/pages/posts/zh/ (中文文章)
- * - content/pages/posts/en/ (英文文章)
- * - content/pages/posts/img/ (文章图片)
+ * - content/blog/posts/zh/ (中文文章)
+ * - content/blog/posts/en/ (英文文章)
+ * - content/blog/posts/img/ (文章图片)
  *
  * 【功能说明】
  * 1. 使用 Vite 的 import.meta.glob 动态导入 markdown 文件
@@ -38,10 +38,10 @@ function loadFrontMatter() {
 }
 
 // 使用 Vite 的 import.meta.glob 动态导入所有 markdown 文件
-const allMarkdownFiles = import.meta.glob('/content/pages/posts/**/*.md', { query: '?raw', import: 'default', eager: false })
+const allMarkdownFiles = import.meta.glob('/content/blog/posts/**/*.md', { query: '?raw', import: 'default', eager: false })
 
 // 动态导入所有图片文件
-const allImages = import.meta.glob('/content/pages/posts/img/**/*', { eager: true, query: '?url', import: 'default' })
+const allImages = import.meta.glob('/content/blog/posts/img/**/*', { eager: true, query: '?url', import: 'default' })
 
 // 分离中文和英文文章
 const zhMarkdownFiles = {}

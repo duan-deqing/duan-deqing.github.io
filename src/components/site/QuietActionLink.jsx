@@ -1,7 +1,9 @@
 import { cn } from '../../utils/cn'
 
-const BASE =
-  'inline-flex items-center gap-1 rounded border border-[#8884] px-2.5 py-1 text-base leading-6 text-ink font-normal no-underline opacity-50 transition-all duration-200 ease-out hover:opacity-100 focus-visible:opacity-100'
+export const QUIET_ACTION_PILL =
+  'inline-flex items-center gap-1 rounded border border-[#8884] px-2.5 py-1 text-base leading-6 text-ink font-normal no-underline'
+
+const BASE = `${QUIET_ACTION_PILL} opacity-50 transition-all duration-200 ease-out hover:opacity-100 focus-visible:opacity-100`
 
 export default function QuietActionLink({
   href,

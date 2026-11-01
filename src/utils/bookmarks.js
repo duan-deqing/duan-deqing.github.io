@@ -1,4 +1,4 @@
-import bookmarksConfig from '@content/pages/bookmarks.yaml'
+import bookmarksConfig from '@content/bookmarks/bookmarks.yaml'
 
 export const bookmarkCategories = bookmarksConfig.categories || []
 

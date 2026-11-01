@@ -1,4 +1,4 @@
-import projectsConfig from '@content/pages/projects.yaml'
+import projectsConfig from '@content/projects/projects.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import CenteredPageHeading from '../components/site/CenteredPageHeading'
 import CategoryHeading from '../components/site/CategoryHeading'
@@ -6,7 +6,7 @@ import PageTitle from '../components/shared/PageTitle'
 import ProjectGrid from '../components/projects/ProjectGrid'
 import QuietActionLink from '../components/site/QuietActionLink'
 import QuoteFooter from '../components/site/QuoteFooter'
-import { resolveButtonIcon } from '../utils/projectIcon'
+import { resolveIcon } from '../utils/icons'
 
 const FALLBACK_TITLE = { en: 'Projects', zh: '项目' }
 const FALLBACK_DESCRIPTION = {
@@ -60,7 +60,7 @@ export default function ProjectsPage() {
                 <QuietActionLink
                   key={button.name}
                   href={button.link}
-                  logo={resolveButtonIcon(button.logo)}
+                  logo={resolveIcon(button.logo)}
                   color={button.color}
                 >
                   {button.name}

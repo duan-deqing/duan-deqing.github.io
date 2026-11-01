@@ -1,29 +1,35 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import config from '@content/site.yaml'
-import indexIntroEn from '@content/pages/index.en.md?raw'
-import indexIntroZh from '@content/pages/index.zh.md?raw'
+import indexIntroEn from '@content/home/index.en.md?raw'
+import indexIntroZh from '@content/home/index.zh.md?raw'
 import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/shared/PageTitle'
 import RichText from '../components/shared/RichText'
+import RegistryIcon from '../components/site/RegistryIcon'
 import SiteLink from '../components/site/SiteLink'
 import StackButtonGroup from '../components/site/StackButtonGroup'
 import WechatDialog from '../components/site/WechatDialog'
-import { WechatIcon, platformIcon } from '../components/site/icons'
+import { CheckIcon } from '../components/site/icons'
 
-function SocialLink({ href, label, Icon }) {
+function SocialLink({ href, label, icon }) {
   return (
     <SiteLink
       href={href}
       className="social-link text-base text-heading"
     >
-      <Icon size={19} className="mr-1 inline-block opacity-75 align-text-bottom" />{label}
+      <RegistryIcon
+        name={icon}
+        size={19}
+        className="mr-1 inline-block opacity-75 align-text-bottom"
+      />
+      {label}
     </SiteLink>
   )
 }
 
-function WechatSocialLink({ method, t }) {
+function WechatSocialLink({ contact, t }) {
   const [open, setOpen] = useState(false)
-  const label = t(method.label || { en: 'WeChat', zh: '微信' })
+  const label = t(contact.label || { en: 'WeChat', zh: '微信' })
 
   return (
     <>
@@ -35,27 +41,93 @@ function WechatSocialLink({ method, t }) {
         aria-haspopup="dialog"
         onClick={() => setOpen(true)}
       >
-        <WechatIcon size={19} className="mr-1 inline-block opacity-75 align-text-bottom" />
+        <RegistryIcon
+          name="wechat"
+          size={19}
+          className="mr-1 inline-block opacity-75 align-text-bottom"
+        />
         {label}
       </button>
       <WechatDialog
         open={open}
         onClose={() => setOpen(false)}
-        qrcode={method.qrcode}
-        wechatId={method.value}
+        qrcode={contact.qrcode}
+        wechatId={contact.value}
         alt={label}
       />
     </>
   )
 }
 
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text)
+    return true
+  } catch {
+    const textarea = document.createElement('textarea')
+    textarea.value = text
+    textarea.setAttribute('readonly', '')
+    textarea.style.position = 'fixed'
+    textarea.style.opacity = '0'
+    document.body.appendChild(textarea)
+    textarea.select()
+    const ok = document.execCommand('copy')
+    document.body.removeChild(textarea)
+    return ok
+  }
+}
+
+function EmailCopyLink({ value, t }) {
+  const [hovered, setHovered] = useState(false)
+  const [copied, setCopied] = useState(false)
+  const label = copied
+    ? t({ en: 'Copied', zh: '已复制' })
+    : t({ en: 'Click to copy', zh: '点击复制' })
+
+  useEffect(() => {
+    if (!copied) return undefined
+    const timer = setTimeout(() => setCopied(false), 2000)
+    return () => clearTimeout(timer)
+  }, [copied])
+
+  function handleCopy() {
+    setCopied(true)
+    copyText(value)
+  }
+
+  return (
+    <span
+      className="relative inline-flex"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <button
+        type="button"
+        onClick={handleCopy}
+        onFocus={() => setHovered(true)}
+        onBlur={() => setHovered(false)}
+        className="link cursor-pointer font-mono"
+      >
+        {value}
+      </button>
+      {hovered || copied ? (
+        <span className="home-icon-tooltip home-email-tooltip" aria-hidden="true">
+          {copied ? <CheckIcon size={12} className="mr-1 shrink-0" /> : null}
+          {label}
+        </span>
+      ) : null}
+      <span className="sr-only" aria-live="polite">
+        {copied ? t({ en: 'Email copied', zh: '邮箱已复制' }) : ''}
+      </span>
+    </span>
+  )
+}
+
 export default function HomePage() {
   const { lang, t } = useLanguage()
-  const socials = config.socialLinks || []
-  const email = config.contact?.email
-  const wechat = (config.contactPage?.contactMethods || []).find(
-    (method) => method.icon === 'wechat' && method.qrcode
-  )
+  const contacts = config.contacts || []
+  const email = contacts.find((item) => item.icon === 'email')
+  const links = contacts.filter((item) => item.icon !== 'email')
 
   return (
     <>
@@ -78,25 +150,26 @@ export default function HomePage() {
             {t({ en: 'Find me on', zh: '在这些地方找到我' })}
           </p>
           <div className="mt-1 flex flex-wrap gap-2">
-            {socials.map((social) => (
-              <SocialLink
-                key={social.platform}
-                href={social.url}
-                label={social.platform}
-                Icon={platformIcon(social.platform)}
-              />
-            ))}
-            {wechat ? <WechatSocialLink method={wechat} t={t} /> : null}
+            {links.map((item, index) => {
+              const key = `${item.icon}-${item.href || item.value || index}`
+              if (item.icon === 'wechat' && item.qrcode) {
+                return <WechatSocialLink key={key} contact={item} t={t} />
+              }
+              if (!item.href) return null
+              return (
+                <SocialLink
+                  key={key}
+                  href={item.href}
+                  label={t(item.label)}
+                  icon={item.icon}
+                />
+              )
+            })}
           </div>
-          {email ? (
+          {email?.value ? (
             <p className="mt-3 text-base leading-[1.75]">
               {t({ en: 'Or mail me at', zh: '或发邮件至' })}{' '}
-              <SiteLink
-                href={`mailto:${email}`}
-                className="link font-mono"
-              >
-                {email}
-              </SiteLink>
+              <EmailCopyLink value={email.value} t={t} />
             </p>
           ) : null}
         </div>

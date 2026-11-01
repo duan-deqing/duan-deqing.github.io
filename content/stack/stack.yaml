@@ -1,0 +1,285 @@
+# 技术栈页 /stack：页面文案、页头官网按钮与分类条目。
+# buttons 控制页头介绍下方的按钮顺序与名称；tags 仅用于项目详情页的标签按钮。
+# logo / link 都写 content/icons.yaml 中登记的条目名称：logo 取图标，link 取官网地址与颜色。
+# 分类技术项通过 link 引用登记名，渲染为带颜色的链接，不显示图标。
+page:
+  title:
+    en: Stack
+    zh: 技术栈
+  description:
+    en: The tools and technologies I use to build AI products.
+    zh: 我用来构建 AI 产品的工具与技术。
+  intro:
+    en: Tools I reach for when building and shipping.
+    zh: 构建与交付时常用的工具。
+
+buttons:
+  - name: LangChain
+    logo: langchain
+
+  - name: React
+    logo: react
+
+  - name: JavaScript
+    logo: javascript
+
+  - name: HTML
+    logo: html
+
+  - name: CSS
+    logo: css
+
+  - name: Tailwind CSS
+    logo: tailwindcss
+
+  - name: Python
+    logo: python
+
+  - name: Flask
+    logo: flask
+
+  - name: FastAPI
+    logo: fastapi
+
+  - name: Node.js
+    logo: nodejs
+
+  - name: SQLite
+    logo: sqlite
+
+  - name: FAISS
+    logo: faiss
+
+  - name: OpenCode
+    logo: opencode
+
+  - name: Git
+    logo: git
+
+  - name: Docker
+    logo: docker
+
+  - name: pnpm
+    logo: pnpm
+
+  - name: VS Code
+    logo: vscode
+
+  - name: Markdown
+    logo: markdown
+
+# 项目详情页标签补充：仅用于把 projects.yaml 里的 tags 渲染成带图标与链接的按钮，不在技术栈页页头展示。
+tags:
+  - name: RAG
+    logo: rag
+
+  - name: SSE
+    logo: sse
+
+  - name: LangGraph
+    logo: langgraph
+
+  - name: TypeScript
+    logo: typescript
+
+  - name: Vite
+    logo: vite
+
+  - name: CLI
+    logo: cli
+
+  - name: Agents
+    logo: agents
+
+categories:
+  - id: ai
+    label:
+      en: AI
+      zh: 人工智能
+    items:
+      - name: RAG
+        link: rag
+        description:
+          en: Retrieval-augmented generation that grounds answers in your own data.
+          zh: 把回答建立在自有数据上的检索增强生成。
+
+      - name: LangChain
+        link: langchain
+        description:
+          en: Framework for building LLM apps with tools and retrieval.
+          zh: 用于构建带工具与检索的 LLM 应用框架。
+
+      - name: Prompt
+        link: prompt
+        description:
+          en: Prompt design, context control and structured outputs.
+          zh: 提示词设计、上下文控制与结构化输出。
+
+  - id: frontend
+    label:
+      en: Frontend
+      zh: 前端
+    items:
+      - name: React
+        link: react
+        description:
+          en: Component-driven UI for modern web apps.
+          zh: 用于现代 Web 应用的组件化 UI。
+
+      - name: JavaScript
+        link: javascript
+        description:
+          en: The language of the web, from UI logic to tooling.
+          zh: 从界面逻辑到工具链的 Web 语言。
+
+      - name: HTML
+        link: html
+        description:
+          en: Semantic structure and accessible page foundations.
+          zh: 语义化结构与可访问的页面基础。
+
+      - name: CSS
+        link: css
+        description:
+          en: Layout, responsive design and visual systems.
+          zh: 布局、响应式设计与视觉系统。
+
+      - name: Tailwind CSS
+        link: tailwindcss
+        description:
+          en: Utility-first styling with a consistent design scale.
+          zh: 原子化样式与一致的设计尺度。
+
+  - id: backend
+    label:
+      en: Backend
+      zh: 后端
+    items:
+      - name: Python
+        link: python
+        description:
+          en: Primary language for AI services and scripting.
+          zh: 构建 AI 服务与脚本的主要语言。
+
+      - name: Flask
+        link: flask
+        description:
+          en: Lightweight Python framework for small services.
+          zh: 适合小型服务的轻量 Python Web 框架。
+
+      - name: FastAPI
+        link: fastapi
+        description:
+          en: Typed async APIs with automatic documentation.
+          zh: 类型化、异步且自带文档的 API 框架。
+
+      - name: Node.js
+        link: nodejs
+        description:
+          en: JavaScript runtime for server-side tools and APIs.
+          zh: 用于服务端工具与 API 的 JavaScript 运行时。
+
+  - id: data
+    label:
+      en: Data
+      zh: 数据
+    items:
+      - name: SQLite
+        link: sqlite
+        description:
+          en: Embedded relational database for small apps.
+          zh: 适合小型应用的嵌入式关系数据库。
+
+      - name: FAISS
+        link: faiss
+        description:
+          en: Efficient similarity search for vector embeddings.
+          zh: 高效的向量相似度检索库。
+
+      - name: Vector DB
+        link: vector-db
+        description:
+          en: Storage and retrieval for embedding-based search.
+          zh: 面向向量检索的存储与检索。
+
+  - id: tools
+    label:
+      en: Tools
+      zh: 工具
+    items:
+      - name: OpenCode
+        link: opencode
+        description:
+          en: Terminal-based coding agent for daily development.
+          zh: 日常开发使用的终端编程 Agent。
+
+      - name: Git
+        link: git
+        description:
+          en: Version control for every change and experiment.
+          zh: 管理每次改动与实验的版本控制。
+
+      - name: Docker
+        link: docker
+        description:
+          en: Reproducible local environments and deployments.
+          zh: 可复现的本地环境与部署。
+
+      - name: pnpm
+        link: pnpm
+        description:
+          en: Fast, disk-efficient package manager.
+          zh: 快速、节省磁盘的包管理器。
+
+      - name: VS Code
+        link: vscode
+        description:
+          en: My primary editor for coding and writing.
+          zh: 主要使用的代码与写作编辑器。
+
+      - name: Markdown
+        link: markdown
+        description:
+          en: Plain-text writing for docs and posts.
+          zh: 用于文档与文章的纯文本写作。
+
+  - id: hobbies
+    label:
+      en: Hobbies
+      zh: 爱好
+    items:
+      - name: Gaming
+        link: gaming
+        description:
+          en: Story-driven games and co-op sessions.
+          zh: 剧情向游戏与联机时光。
+
+      - name: Music
+        link: music
+        description:
+          en: Playlists that keep deep work moving.
+          zh: 陪伴深度工作的歌单。
+
+      - name: Animation
+        link: animation
+        description:
+          en: Anime and visual storytelling.
+          zh: 动画与视觉叙事。
+
+      - name: Computer
+        link: computer
+        description:
+          en: Tinkering with hardware and setups.
+          zh: 折腾硬件与桌面配置。
+
+      - name: Tech
+        link: tech
+        description:
+          en: Following tools, models and the open web.
+          zh: 关注工具、模型与开放网络。
+
+      - name: ACG
+        link: acg
+        description:
+          en: Anime, comics and games culture.
+          zh: 动画、漫画与游戏文化。

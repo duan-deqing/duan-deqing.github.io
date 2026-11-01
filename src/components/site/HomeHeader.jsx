@@ -2,22 +2,9 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import config from '@content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
+import RegistryIcon from './RegistryIcon'
 import ThemeLangControls from './ThemeLangControls'
 import HomeSignature from './HomeSignature'
-import {
-  BookmarkIcon,
-  CodeIcon,
-  FolderIcon,
-  HomeIcon,
-  PenIcon,
-} from './icons'
-
-const ICON_LINKS = {
-  '/projects': FolderIcon,
-  '/blog': PenIcon,
-  '/stack': CodeIcon,
-  '/bookmarks': BookmarkIcon,
-}
 
 const ICON_LINK =
   'inline-flex h-8 items-center justify-center rounded-none px-1 text-ink opacity-60 transition-opacity hover:opacity-100'
@@ -28,11 +15,11 @@ export default function HomeHeader({ background, onCycleBackground }) {
   const { pathname } = useLocation()
   const [hint, setHint] = useState(null)
   const iconEntries = [
-    { href: '/home', label: { en: 'Home', zh: '首页' }, Icon: HomeIcon },
+    { href: '/home', label: { en: 'Home', zh: '首页' }, icon: 'home' },
     ...(config.navLinks || []).map((link) => ({
       href: link.href,
       label: link.label,
-      Icon: ICON_LINKS[link.href] || FolderIcon,
+      icon: link.icon || 'projects',
     })),
   ]
   const isActive = (href) => pathname === href || pathname.startsWith(`${href}/`)
@@ -70,7 +57,7 @@ export default function HomeHeader({ background, onCycleBackground }) {
             if (!event.currentTarget.contains(event.relatedTarget)) setHint(null)
           }}
         >
-          {iconEntries.map(({ href, label, Icon }) => {
+          {iconEntries.map(({ href, label, icon }) => {
             const text = t(label)
             return (
               <Link
@@ -80,7 +67,7 @@ export default function HomeHeader({ background, onCycleBackground }) {
                 aria-current={isActive(href) ? 'page' : undefined}
                 className={ICON_LINK}
               >
-                <Icon size={NAV_ICON_SIZE} />
+                <RegistryIcon name={icon} size={NAV_ICON_SIZE} />
               </Link>
             )
           })}
@@ -101,7 +88,7 @@ export default function HomeHeader({ background, onCycleBackground }) {
         </nav>
 
         <div className="flex items-center gap-1 md:hidden">
-          {iconEntries.map(({ href, label, Icon }) => {
+          {iconEntries.map(({ href, label, icon }) => {
             const text = t(label)
             return (
               <Link
@@ -111,7 +98,7 @@ export default function HomeHeader({ background, onCycleBackground }) {
                 aria-current={isActive(href) ? 'page' : undefined}
                 className={ICON_LINK}
               >
-                <Icon size={NAV_ICON_SIZE} />
+                <RegistryIcon name={icon} size={NAV_ICON_SIZE} />
               </Link>
             )
           })}

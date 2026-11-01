@@ -1,0 +1,224 @@
+# ═══════════════════════════════════════════════════════════
+# 全站图标与技术项资源统一登记（icons.yaml）
+#
+# 其他 YAML 只写登记名，例如 logo: react / icon: orbit-desk / link: react，
+# 不再写文件路径、链接或颜色。
+#
+# 字段说明：
+#   file  — 图标文件路径（public/images/icons/<分类>/…），或完整 http(s) 图片地址；
+#           只有 link 的纯链接条目可省略 file
+#   link  — 官网或参考链接（技术项、按钮跳转地址）
+#   color — 品牌色，用于按钮 hover 与技术项链接强调色
+#
+# 分类（与 public/images/icons/ 子目录一一对应）：
+#   nav        导航            site.yaml navLinks
+#   contacts   联系方式 / 品牌   site.yaml contacts、项目仓库按钮
+#   stack      技术栈与工具      stack.yaml buttons / categories[].items / tags
+#   hobbies    兴趣            stack.yaml 的 hobbies 分类
+#   projects   项目            projects.yaml projects
+#   bookmarks  书签分类         bookmarks.yaml categories
+# ═══════════════════════════════════════════════════════════
+icons:
+  # ── stack · 技术栈与工具 ──────────────────────────────────
+  # 目录：public/images/icons/stack/
+  # 引用：Stack 页头按钮、技术项链接、项目详情页标签按钮
+  langchain:
+    file: /images/icons/stack/langchain.svg
+    link: https://python.langchain.com
+    color: "#22C55E"
+  react:
+    file: /images/icons/stack/react.svg
+    link: https://react.dev
+    color: "#0891B2"
+  javascript:
+    file: /images/icons/stack/javascript.svg
+    link: https://developer.mozilla.org/docs/Web/JavaScript
+    color: "#CA8A04"
+  html:
+    file: /images/icons/stack/html.svg
+    link: https://developer.mozilla.org/docs/Web/HTML
+    color: "#E34F26"
+  css:
+    file: /images/icons/stack/css.svg
+    link: https://developer.mozilla.org/docs/Web/CSS
+    color: "#1572B6"
+  tailwindcss:
+    file: /images/icons/stack/tailwindcss.svg
+    link: https://tailwindcss.com
+    color: "#0E7490"
+  python:
+    file: /images/icons/stack/python.svg
+    link: https://www.python.org
+    color: "#3776AB"
+  flask:
+    file: /images/icons/stack/flask.svg
+    link: https://flask.palletsprojects.com
+    color: "#64748B"
+  fastapi:
+    file: /images/icons/stack/fastapi.svg
+    link: https://fastapi.tiangolo.com
+    color: "#009688"
+  nodejs:
+    file: /images/icons/stack/nodejs.svg
+    link: https://nodejs.org
+    color: "#339933"
+  sqlite:
+    file: /images/icons/stack/sqlite.svg
+    link: https://sqlite.org
+    color: "#0284C7"
+  faiss:
+    file: /images/icons/stack/faiss.svg
+    link: https://faiss.ai
+    color: "#7C3AED"
+  opencode:
+    file: /images/icons/stack/opencode.svg
+    link: https://opencode.ai
+    color: "#EA580C"
+  git:
+    file: /images/icons/stack/git.svg
+    link: https://git-scm.com
+    color: "#F05032"
+  docker:
+    file: /images/icons/stack/docker.svg
+    link: https://www.docker.com
+    color: "#2496ED"
+  pnpm:
+    file: /images/icons/stack/pnpm.svg
+    link: https://pnpm.io
+    color: "#D97706"
+  vscode:
+    file: /images/icons/stack/vscode.svg
+    link: https://code.visualstudio.com
+    color: "#007ACC"
+  markdown:
+    file: /images/icons/stack/markdown.svg
+    link: https://commonmark.org
+    color: "#6B7280"
+
+  # stack · 项目标签补充（项目详情页 tags 与技术项链接）
+  rag:
+    file: /images/icons/stack/rag.svg
+    link: https://en.wikipedia.org/wiki/Retrieval-augmented_generation
+    color: "#7C3AED"
+  sse:
+    file: /images/icons/stack/sse.svg
+    link: https://developer.mozilla.org/docs/Web/API/Server-sent_events
+    color: "#0891B2"
+  langgraph:
+    file: /images/icons/stack/langgraph.svg
+    link: https://langchain-ai.github.io/langgraph/
+    color: "#1C3C3C"
+  typescript:
+    file: /images/icons/stack/typescript.svg
+    link: https://www.typescriptlang.org
+    color: "#3178C6"
+  vite:
+    file: /images/icons/stack/vite.svg
+    link: https://vite.dev
+    color: "#646CFF"
+  cli:
+    file: /images/icons/stack/cli.svg
+    link: https://en.wikipedia.org/wiki/Command-line_interface
+    color: "#64748B"
+  agents:
+    file: /images/icons/stack/agents.svg
+    link: https://www.anthropic.com/engineering/building-effective-agents
+    color: "#DB2777"
+
+  # stack · 技术项补充（Stack 分类中的非品牌技术项）
+  prompt:
+    file: /images/icons/stack/prompt.svg
+    link: https://www.promptingguide.ai
+    color: "#8B5CF6"
+  vector-db:
+    file: /images/icons/stack/vector-db.svg
+    link: https://en.wikipedia.org/wiki/Vector_database
+    color: "#0EA5E9"
+  tech:
+    file: /images/icons/stack/tech.svg
+    link: https://news.ycombinator.com
+    color: "#F97316"
+
+  # ── hobbies · 兴趣 ───────────────────────────────────────
+  # 目录：public/images/icons/hobbies/
+  # 引用：stack.yaml 的 hobbies 分类技术项（链接与颜色）
+  gaming:
+    file: /images/icons/hobbies/gaming.svg
+    link: https://store.steampowered.com
+    color: "#2563EB"
+  music:
+    file: /images/icons/hobbies/music.svg
+    link: https://open.spotify.com
+    color: "#1DB954"
+  animation:
+    file: /images/icons/hobbies/animation.svg
+    link: https://www.crunchyroll.com
+    color: "#F59E0B"
+  computer:
+    file: /images/icons/hobbies/computer.svg
+    link: https://en.wikipedia.org/wiki/Computer_hardware
+    color: "#64748B"
+  acg:
+    file: /images/icons/hobbies/acg.svg
+    link: https://en.wikipedia.org/wiki/Anime
+    color: "#DB2777"
+
+  # ── nav · 导航 ───────────────────────────────────────────
+  # 目录：public/images/icons/nav/
+  # 引用：site.yaml navLinks[].icon；首页顶栏与移动菜单按单色遮罩渲染
+  home:
+    file: /images/icons/nav/home.svg
+  projects:
+    file: /images/icons/nav/projects.svg
+  blog:
+    file: /images/icons/nav/blog.svg
+  stack:
+    file: /images/icons/nav/stack.svg
+  bookmarks:
+    file: /images/icons/nav/bookmarks.svg
+
+  # ── contacts · 联系方式 / 品牌 ───────────────────────────
+  # 目录：public/images/icons/contacts/
+  # 引用：site.yaml contacts[].icon；首页 Find me on 与侧栏 Online
+  email:
+    file: /images/icons/contacts/email.svg
+  wechat:
+    file: /images/icons/contacts/wechat.svg
+  bilibili:
+    file: /images/icons/contacts/bilibili.svg
+  bluesky:
+    file: /images/icons/contacts/bluesky.svg
+
+  # contacts · 项目仓库按钮（projects.yaml 页头按钮 / 项目详情页）
+  github:
+    file: /images/icons/contacts/github.svg
+
+  # ── projects · 项目 ──────────────────────────────────────
+  # 目录：public/images/icons/projects/
+  # 引用：projects.yaml projects[].icon；项目卡片与详情页
+  orbit-desk:
+    file: /images/icons/projects/orbit-desk.svg
+  ai-crm:
+    file: /images/icons/projects/ai-crm.svg
+  weijian:
+    file: /images/icons/projects/weijian.svg
+  zensheet:
+    file: /images/icons/projects/zensheet.svg
+  artvault:
+    file: /images/icons/projects/artvault.svg
+  rea:
+    file: /images/icons/projects/rea.svg
+
+  # ── bookmarks · 书签分类 ─────────────────────────────────
+  # 目录：public/images/icons/bookmarks/
+  # 引用：bookmarks.yaml categories[].icon；书签分类列表
+  frontend:
+    file: /images/icons/bookmarks/frontend.svg
+  ai:
+    file: /images/icons/bookmarks/ai.svg
+  design:
+    file: /images/icons/bookmarks/design.svg
+  tools:
+    file: /images/icons/bookmarks/tools.svg
+  reading:
+    file: /images/icons/bookmarks/reading.svg

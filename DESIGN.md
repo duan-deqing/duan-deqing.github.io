@@ -86,7 +86,7 @@
 规则：
 
 - 一个页面最多三级标题层级；h1 每页一个。
-- Projects / Stack 使用居中页头：h1 36px/800/1.11；说明 16px（≥768px 18px）斜体 `--muted`、`max-w-2xl`；操作按钮居中；页头底部统一使用 50px 宽居中的 1px 分隔线。项目页与 Stack 页头按钮共用通用 `QuietActionLink`（复刻 antfu `.btn-*`）：透明底、50% 不透明度、1px `#8884` 描边、4px 圆角、`10px 4px` 内距、16px/24px、图标 + 文字，hover/focus 为 100% 不透明度 + 自定义/默认色文字 + 10% 同色底；`icon` 可换成 `logo`（1.2em 遮罩图标），`color` 来自 YAML，缺省为 `--accent`。
+- Projects / Stack 使用居中页头：h1 36px/800/1.11；说明 16px（≥768px 18px）斜体 `--muted`、`max-w-2xl`；操作按钮居中；页头底部统一使用 50px 宽居中的 1px 分隔线。项目页与 Stack 页头按钮共用通用 `QuietActionLink`（复刻 antfu `.btn-*`）：透明底、50% 不透明度、1px `#8884` 描边、4px 圆角、`10px 4px` 内距、16px/24px、图标 + 文字，hover/focus 为 100% 不透明度 + 自定义/默认色文字 + 10% 同色底；`icon` 可换成 `logo`（1.2em 遮罩图标），`color` 来自 `content/icons.yaml` 或项目 YAML，缺省为 `--accent`。
 - 正文链接为黑色（`--heading`）：常态 1px `rgba(125,125,125,.3)` 下边框，hover 变 `--link-underline`，`border 0.3s ease-in-out`；文字颜色不变、底线常驻不挤压布局。首页内带底线的正文/社交链接字重 600，页脚链接例外（400）。
 - 文章正文宽度 768px（onur `content`）；首页 65ch。
 - 不用字重 300、斜体长文、渐变文字。
@@ -114,7 +114,7 @@
 └──────────────────────────────────────────────┘
 ```
 
-- 左上 20px 处使用 deqing 单笔画 SVG（viewBox 100×100、48×48、stroke-width 2.5、currentColor），沿用 antfu 的 grow 关键帧，以 stroke-dasharray/offset 按字母路径绘制，10s 循环（0–40% 绘制、40–85% 停留、85–95% 擦除）；focus-visible 静态显示完整签名，reduced-motion 静态；导航右上 32px（随页面滚动，不吸顶）。Home / Projects / Blog / Stack / Bookmarks 依次使用 19px 房子、文件夹、笔、代码、书签图标（与 antfu.me 的 1.2em 图标一致），并与背景、主题、语言按钮合并为同一组裸图标控件（组内间距 4px，无边框无底色，60% 不透明度，hover 100%，图标带 `aria-label`）；桌面端悬停或键盘聚焦任一图标（导航五个图标及背景、主题、语言按钮）时，在 Home 图标左侧 10px 处显示当前按钮名称的胶囊提示：22px 高、11px Geist Mono/500、`--muted-strong` 文字、`--line-strong` 细描边、88% 页面底色 + 8px 背景模糊、轻微阴影，100ms 从右侧 4px 淡入，reduced-motion 下静态显示；点击背景 / 主题 / 语言后提示文字经 `requestAnimationFrame` 刷新为最新状态；首页桌面端对这三个按钮设置 `suppressTitle` 隐藏原生 `title`，避免与胶囊提示重复，移动端及子页仍保留原生提示；移动端不显示悬停提示；语言按钮使用地球图标，侧栏变体显示地球图标 + 文字。
+- 左上 20px 处使用 deqing 单笔画 SVG（viewBox 100×100、48×48、stroke-width 2.5、currentColor），沿用 antfu 的 grow 关键帧，以 stroke-dasharray/offset 按字母路径绘制，10s 循环（0–40% 绘制、40–85% 停留、85–95% 擦除）；focus-visible 静态显示完整签名，reduced-motion 静态；导航右上 32px（随页面滚动，不吸顶）。Home / Projects / Blog / Stack / Bookmarks 依次使用 `content/icons.yaml` 登记的 19px `home` / `projects` / `blog` / `stack` / `bookmarks` 图标，由 `RegistryIcon` 以单色遮罩渲染（与 antfu.me 的 1.2em 图标一致），并与背景、主题、语言按钮合并为同一组裸图标控件（组内间距 4px，无边框无底色，60% 不透明度，hover 100%，图标带 `aria-label`）；桌面端悬停或键盘聚焦任一图标（导航五个图标及背景、主题、语言按钮）时，在 Home 图标左侧 10px 处显示当前按钮名称的胶囊提示：22px 高、11px Geist Mono/500、`--muted-strong` 文字、`--line-strong` 细描边、88% 页面底色 + 8px 背景模糊、轻微阴影，100ms 从右侧 4px 淡入，reduced-motion 下静态显示；点击背景 / 主题 / 语言后提示文字经 `requestAnimationFrame` 刷新为最新状态；首页桌面端对这三个按钮设置 `suppressTitle` 隐藏原生 `title`，避免与胶囊提示重复，移动端及子页仍保留原生提示；移动端不显示悬停提示；语言按钮使用地球图标，侧栏变体显示地球图标 + 文字。
 - 正文前显示姓名 h1（`personal.name`，36px/800/1.11、`mb-8`、`--heading`），位于 65ch 自我介绍之前，与 antfu 首页一致；这是首页唯一 h1。
 - 主列 `max-width: 65ch`，`padding: 40px 28px`。首页正文颜色为 `--home-body`（#555/#BBB，对应 antfu 的 `--fg`）；标题用 `--heading`，链接用 `--heading`。
 - Stack 区块无可见标题：介绍（`text-ink`）+ 共享 `StackButtonGroup`。按钮与 `/stack` 页头完全相同（读取 `stack.yaml` 顶层 `buttons`，logo + 名称、品牌色 hover），首页使用左对齐 `flex-wrap` 布局、间距 8px；不再列出分类文本。
@@ -146,12 +146,12 @@
 
 - 侧栏：240px（≥1024）/ 288px（≥1280），`--bg-sidebar`，右边框，独立滚动；底部不再放控制按钮。
 - 主题与语言控制固定于视口右上角（`position: fixed; right: 32px; top: 24px`，不随内容滚动），使用与首页相同的裸图标组（间距 4px、无边框、60% 不透明度、hover 100%）；移动端仍在 48px 胶囊顶栏右上角。
-- 导航图标：Home 房子、Projects 文件夹、Blog 钢笔、Stack 代码符号（Code）、Bookmarks 书签。
-- Online 依次为 GitHub、Email、Bilibili、WeChat、Bluesky：前四项来自 `contactPage.contactMethods`，Bluesky 来自 `socialLinks` 且与联系方式去重；Email 右侧保持 ↗，点击后两张卡片叠放在同一位置，上层用 clip-path 从左往右擦除、露出下层邮箱卡（400ms），并可一键复制；WeChat 与其它项一样带右侧 ↗ 图标，点击打开液态玻璃二维码弹窗（二维码 + 微信号 `stylan-ai`）；不再显示 RSS。
+- 导航图标：Home / Projects / Blog / Stack / Bookmarks 的图标登记在 `content/icons.yaml`（`home` / `projects` / `blog` / `stack` / `bookmarks`），`site.yaml` 的 `navLinks[].icon` 只写登记名，由 `RegistryIcon` 以单色遮罩渲染。
+- Online 与首页 Find me on 共用 `site.yaml` 的 `contacts` 列表，数组顺序即展示顺序：`icon` 为 `content/icons.yaml` 中登记的图标名（`github` / `email` / `bilibili` / `wechat` / `bluesky`），email 与 wechat 走专用交互，其余项新窗口外链；Email 右侧保持 ↗，点击后两张卡片叠放在同一位置，上层用 clip-path 从左往右擦除、露出下层邮箱卡（400ms），并可一键复制；WeChat 与其它项一样带右侧 ↗ 图标，点击打开液态玻璃二维码弹窗（二维码 + 微信号 `stylan-ai`）；不再显示 RSS。
 - 侧栏 Home 指向子页 `/home`（onur 式首页）；顶部头像/姓名卡片是指向 `/`（antfu 首页）的唯一入口，头像读取 `personal.avatar`，当前为 GitHub 头像 URL。
 - 内容：普通页面 `max-width: 768px`，`padding: 32px 24px`（桌面 `96px 32px 64px`）。内容滚动容器使用 `overflow-x-clip`：装饰性 80px 空心分类标题可继续出血到屏幕边缘，但不会撑宽移动端布局视口（否则 fixed 弹窗会偏移），同时保持胶囊吸顶头部正常。
-- 博客路由为 onur 式三栏：导航栏 + 320/384px 写作列表栏（`--bg-sidebar`、右边框、标题 + RSS/Search + 选择框 + 列表）+ 右侧内容区；`/blog` 内容区为空并显示 16px 点状底纹，中央居中随机显示一条双语语录（`content/pages/quotes.yaml`，18px muted、600ms 入场）；`/blog/:slug` 为白底文章（`max-width: 768px`），列表栏常驻并高亮当前文章。
-- 书签路由为 blog 同款三栏：导航栏 + 320/384px 分类栏（标题 + 总数 + 分类行：名称/数量，复用写作列表卡片的 60px 高度与 hover/active 样式）+ 右侧 24px 网格底纹内容区；`/bookmarks` 内容区为空并随机显示一条 `quotes.yaml` 语录；`/bookmarks/:slug` 为 onur 式 h1 + 双列书签卡（1200×630 封面、标题 18px/600、域名与描述 14px/20px，16px 内距与卡片间距、hover 底色；卡片高度随内容自适应），分类栏高亮当前分类；书签背景/尺寸在 `src/styles/bookmarks.css`，卡片与网格由 `src/styles/content-cards.css` 提供（项目页共用）；分类与书签数据在 `content/pages/bookmarks.yaml`。
+- 博客路由为 onur 式三栏：导航栏 + 320/384px 写作列表栏（`--bg-sidebar`、右边框、标题 + RSS/Search + 选择框 + 列表）+ 右侧内容区；`/blog` 内容区为空并显示 16px 点状底纹，中央居中随机显示一条双语语录（`content/quotes.yaml`，18px muted、600ms 入场）；`/blog/:slug` 为白底文章（`max-width: 768px`），列表栏常驻并高亮当前文章。
+- 书签路由为 blog 同款三栏：导航栏 + 320/384px 分类栏（标题 + 总数 + 分类行：名称/数量，复用写作列表卡片的 60px 高度与 hover/active 样式）+ 右侧 24px 网格底纹内容区；`/bookmarks` 内容区为空并随机显示一条 `quotes.yaml` 语录；`/bookmarks/:slug` 为 onur 式 h1 + 双列书签卡（1200×630 封面、标题 18px/600、域名与描述 14px/20px，16px 内距与卡片间距、hover 底色；卡片高度随内容自适应），分类栏高亮当前分类；书签背景/尺寸在 `src/styles/bookmarks.css`，卡片与网格由 `src/styles/content-cards.css` 提供（项目页共用）；分类与书签数据在 `content/bookmarks/bookmarks.yaml`。
 - 移动：48px 胶囊形 sticky 顶栏（两侧 12px 留白、1px 描边、85% 页面底色 + 背景模糊）+ 底部抽屉菜单；博客为「列表页 → 文章页」两页。
 - 侧栏底部固定显示 CC BY-NC-SA 4.0 / 版权，以及设计参考 `onur.dev`（12px、50% 不透明度，链接沿用 1px 底线）；信息下方新增「更新日志」`ChangelogLink`（h-7 小描边按钮、历史图标，按当前路由映射 `/home`、`/projects`、`/stack`，当前日志页标记 `aria-current`）；移动端菜单底部提供同款入口；内容区不显示全站页脚。
 
@@ -187,7 +187,7 @@
 | Icon | 32–36px 方形、居中 16px SVG |
 
 - 按钮文字不使用蓝色；图标与文字间距 8px。
-- `QuietActionLink`：项目页/Stack 页头等次要操作使用的 antfu 式描边按钮，支持 `icon` 或 `logo`（本地/远程 SVG，遮罩渲染为 1.2em 单色）与可选 `color`（未设置时使用 `--accent`）；规格见 5.2，可在其它页面复用。
+- `QuietActionLink`：项目页/Stack 页头等次要操作使用的 antfu 式描边按钮，支持 `icon` 或 `logo`（取自 `content/icons.yaml` 的登记名，遮罩渲染为 1.2em 单色）与可选 `color`（未设置时使用 `--accent`）；规格见 5.2，可在其它页面复用。
 - 博客工具：桌面写作栏的 `RSS feed` 为 Outline + 电台图标；移动端页头 RSS 复用 `QuietActionLink`（RSS 图标、新窗口打开）；搜索入口为字段式按钮（h-9、1px 描边、放大镜 + `Search posts…` + `⌘K` 徽标）。
 - 禁用态 50% 不透明度，`cursor: not-allowed`。
 
@@ -196,15 +196,16 @@
 - 博客行：onur writing 列表，标题 14px/500 + 元信息「日期 · 分类」；行 `rounded-lg p-2`、列表 `gap-1`，hover `--bg-hover`，当前文章 `bg-active` + `text-active-fg`（元信息 70%）；扁平列表，无年列与表头。
 - 移动端 Writing：`/blog` 复用 `/home` 的 `WritingTable`；日期在左、分类在右、标题在下的移动端行结构，行间 1px `--line` 分隔，按年份分组；搜索与分类/标签筛选保留。
 - 子页返回：通用 `ParentLink` 对齐 antfu `WrapperPost`：提示符 `>` 固定 50% 不透明度且不可点击，`cd ..` 链接复用 `.link` 的常驻 1px `rgba(125,125,125,.3)` 下边框（`border .3s ease-in-out`），默认 50% 不透明度；hover/focus 时链接 75%、下划线变为 `--link-underline`，无位移；通过 `aria-label` 保留“返回博客 / 返回书签 / 返回首页”的可访问名称。
-- 书签分类列表（移动端页面与桌面侧栏共用）：复用 `ProjectLinkCard` 的 `compact` 规格与 `.project-cards-grid`：卡片高 60px（与博客侧栏卡片一致）、28px 分类图标（`bookmarks.yaml` 的 `icon`，遮罩渲染、75% 不透明度）、14px/500 标题、12px/50% 数量描述（不展示分类介绍）；整条默认 60% 不透明度、hover 100% + 8% 灰底；列表间距 4px。选中项 `aria-current="page"`，全不透明、文字转 `--heading`、8% 灰底，并在左侧显示 2px `--active-bg` 指示条；图标同步提到 100%。
+- 书签分类列表（移动端页面与桌面侧栏共用）：复用 `ProjectLinkCard` 的 `compact` 规格与 `.project-cards-grid`：卡片高 60px（与博客侧栏卡片一致）、28px 分类图标（`bookmarks.yaml` 的 `icon` 为 `content/icons.yaml` 登记名，遮罩渲染、75% 不透明度）、14px/500 标题、12px/50% 数量描述（不展示分类介绍）；整条默认 60% 不透明度、hover 100% + 8% 灰底；列表间距 4px。选中项 `aria-current="page"`，全不透明、文字转 `--heading`、8% 灰底，并在左侧显示 2px `--active-bg` 指示条；图标同步提到 100%。
 - 移动端书签背景：18px 点阵 + 顶部 22rem 高的 8% `--accent` 光晕，`bookmarks-surface` 最小高度 100dvh，避免内容下方背景截断；≥1024px 仍使用 24px 网格。
 - 后台表格：外层 `rounded-lg` 描边；表头 14px `--muted`、h-10；行 `border-top`；hover `--bg-subtle` 50%。
 - 书签卡片：样式在 `src/styles/content-cards.css`；1200/630 媒体区、标题 18px/600、元信息与描述 14px/20px、12px 圆角 + 双层描边阴影、hover `--bg-subtle`；封面优先 YAML `cover`，缺省时用 Raindrop 截图预览（rdl.ink/render，来源同 onur.dev），加载失败回退域名首字母，前 2 张 eager、其余 lazy；书签页为双列瀑布流。
-- 项目条目：antfu 式无边框行（样式在 `src/styles/projects.css`）：项目图标以单色遮罩渲染、36px/75%（本地 public/images/projects 文件或 URL，缺省用英文首字母方牌）、标题 1.1rem/400、描述 14px/50%、整条 60% 不透明度、hover 100% + 8% 灰底、6px 圆角、内距 8/14/14；网格 1–3 列自适应（最小 272px，随子页内容区 `max-w-6xl`）；网格上下 8px 内距。
+- 项目条目：antfu 式无边框行（样式在 `src/styles/projects.css`）：项目图标以单色遮罩渲染、36px/75%（`content/icons.yaml` 登记名，缺省用英文首字母方牌）、标题 1.1rem/400、描述 14px/50%、整条 60% 不透明度、hover 100% + 8% 灰底、6px 圆角、内距 8/14/14；网格 1–3 列自适应（最小 272px，随子页内容区 `max-w-6xl`）；网格上下 8px 内距。
 - 分类标题（Projects / Stack 共用）：组件 `CategoryHeading`，样式在 `src/styles/category-heading.css`。外层相对定位、72px（4.5rem）占位高 + 1.25rem 上边距、`pointer-events: none`；标题绝对定位、左移 16px（-1rem），字号固定 80px（中英文一致）、字重 600、行高 1、字距 0.01em、透明填充 + 1.5px #aaa 描边，衬线字体栈 `Noto Serif SC → Source Han Serif SC → Songti SC → STSong → SimSun → ui-serif`，浅色 35%/深色 20% 不透明度，按 `--category-index` 依次入场。
-- Stack 行（`.stack-list`，`src/styles/stack-list.css`）：`list-disc`、左内距 1.5rem、上内距 1.25rem、行间 0.5rem、marker `--code-line`；每行介绍 `--muted`、以 `—` 连接名称；名称与 `buttons[].name` 匹配时复用按钮链接，显示为蓝色 `.stack-link`（常驻 1px 下划线 + ↗），否则为 500 / `--heading` 普通文字。
-- Stack 页头 logo 按钮：读取 `stack.yaml` 顶层 `buttons`（`name` / `link` / `logo` / 可选 `color`，数组顺序即展示顺序），渲染在居中页头介绍下方（`max-w-3xl`、`flex-wrap`、间距 8px、居中）；每个按钮使用 `QuietActionLink` + 对应 logo，名称保持 16px，无箭头；当前按钮按品牌配置颜色，未设置时回退 `--accent`；分类 `items` 不再维护 `link` / `logo`。首页通过共享 `StackButtonGroup` 复用同一组按钮，仅改为左对齐布局。
-- Projects 页头按钮：读取 `projects.yaml` 顶层 `buttons`（同样支持 `name` / `link` / `logo` / 可选 `color`），渲染在居中页头介绍下方；底部 “All projects on GitHub” 使用名为 `GitHub` 的按钮链接。
+- Stack 行（`.stack-list`，`src/styles/stack-list.css`）：`list-disc`、左内距 1.5rem、上内距 1.25rem、行间 0.5rem、marker `--code-line`；每行介绍 `--muted`、以 `—` 连接名称；技术项 `link` 引用 `content/icons.yaml` 的登记名，命中时显示为蓝色 `.stack-link`（常驻 1px 下划线 + ↗，hover/focus 改用登记的品牌色 `--stack-link-color`），否则为 500 / `--heading` 普通文字。
+- Stack 页头 logo 按钮：读取 `stack.yaml` 顶层 `buttons`（`name` + `logo`（`content/icons.yaml` 登记名），链接与颜色同来自该条目，数组顺序即展示顺序），渲染在居中页头介绍下方（`max-w-3xl`、`flex-wrap`、间距 8px、居中）；每个按钮使用 `QuietActionLink` + 对应 logo，名称保持 16px，无箭头；当前按钮按品牌配置颜色，未设置时回退 `--accent`；分类 `items` 只维护 `link` 登记名，不写 `logo`。首页通过共享 `StackButtonGroup` 复用同一组按钮，仅改为左对齐布局。
+- Projects 页头按钮：读取 `projects.yaml` 顶层 `buttons`（同样支持 `name` / `link` / `logo`（`content/icons.yaml` 登记名）/ 可选 `color`），渲染在居中页头介绍下方；底部 “All projects on GitHub” 使用名为 `GitHub` 的按钮链接。
+- 项目详情页（`/projects/:slug`）：项目条目在存在详情正文时才改为站内链接，其余仍整卡外链；页面复用 `.article-page` / `.article-layout` 与 `BlogMarkdown`，头部沿用技术栈页的居中大标题 + 斜体说明，44px 单色遮罩图标置于标题左侧（图标与标题整体居中）；标题下只展示 tags（不展示项目分类），每个标签都渲染为 `QuietActionLink` 胶囊，优先复用 `stack.yaml` 的 `buttons`，其余命中 `stack.yaml` 的 `tags` 补充表（logo 为 `content/icons.yaml` 登记名，链接与颜色同来自登记条目），保证每个标签都有图标与官网链接；标题与正文间使用 50px 分割线；项目链接以 `.link .underline-link` 显示（文本为链接 URL 本身，沿用页面主题色），仓库源码显示为 GitHub 图标 + 仓库名的胶囊按钮并置于链接下方；宽屏显示文章 TOC，移动端保留 `ParentLink`；语言回退提示使用 12px `--muted`，不新增颜色或组件。
 - 富文本段落通用类 `.rich-text`（`RichText` 组件）：16px/1.75、段块间 1.5rem、strong 600 + `--heading`；使用 ReactMarkdown + remark-gfm + remark-breaks，空行分隔段落、段内单换行直接显示为换行，支持 `[文字](href)`（站内 Link、站外新窗口）与 `**加粗**` 等标准 Markdown；每个段落块作为 `slide-enter-content` 的直接子项，保留首页逐段入场动画。
 - 下划线链接通用类 `.underline-link`：无 text-decoration，常驻 1px `rgba(125,125,125,.3)` 底边，hover/focus 变为 `--link-underline`，`border .3s ease-in-out`；文章 TOC 链接复用。
 - hover-reveal 通用交互：容器 `.hover-reveal`、触发器 `.hover-reveal-anchor`、面板 `.hover-reveal-panel`（`--hover-reveal-opacity` 默认 0.75）；hover/focus-within 锚点转为继承色，面板以 700ms cubic-bezier(0.4,0,0.2,1) 淡入，支持 `.is-open` 与 reduced-motion；宽屏文章 TOC 复用，可继续用于其它浮层。
@@ -258,11 +259,12 @@
 
 | 页面 | 构图 |
 | --- | --- |
-| `/` | 姓名 h1 → 三段 Markdown 自我介绍（`content/pages/index.{en,zh}.md`，由 `RichText` 渲染）→ hr → Find me on → hr → Stack → 页脚 |
-| `/home` | 子页 Home（onur）：两段 Markdown 自我介绍（`content/pages/home.{en,zh}.md`，由 `RichText` 渲染，站内链接走 router）→ Writing 标题 → 年/日期/标题/分类表格 → 50px 分割线 + 随机语录；桌面无可见大标题 |
+| `/` | 姓名 h1 → 三段 Markdown 自我介绍（`content/home/index.{en,zh}.md`，由 `RichText` 渲染）→ hr → Find me on → hr → Stack → 页脚 |
+| `/home` | 子页 Home（onur）：两段 Markdown 自我介绍（`content/home/home.{en,zh}.md`，由 `RichText` 渲染，站内链接走 router）→ Writing 标题 → 年/日期/标题/分类表格 → 50px 分割线 + 随机语录；桌面无可见大标题 |
 | `/blog` | 三栏：导航 + 写作列表栏（标题 + RSS/Search + 分类/标签选择框 + onur writing 行）+ 右侧点状空内容区（中央随机显示 `quotes.yaml` 的一条语录）；移动端为居中页头 + 斜体说明 + 居中 `QuietActionLink` RSS（新窗口）+ 50px 分割线 + 搜索/筛选 + 与 `/home` 相同的 `WritingTable` |
 | `/blog/:slug` | 三栏同 `/blog`，列表栏高亮当前文章，右侧白底文章（返回链接仅移动端显示；≥1536px 时文章左侧吸附 antfu 式目录（菜单图标触发，默认隐藏，悬停/聚焦/点击展开；0.8rem、无边框、低透明度），窄屏与移动端不显示目录；移动端正文末尾显示 `CC BY-NC-SA 4.0 2026 © STYLAN`，复用 `FooterInfo` 并隐藏设计参考） |
 | `/projects` | 居中 h1 + 斜体说明 + 居中 `buttons` 按钮组 → 大号描边分类标题 + 1–3 列 antfu 式项目条目 → 底部 All projects on GitHub + 50px 分割线 + 随机语录 |
+| `/projects/:slug` | 文章式项目详情：`> cd ..` → 44px 项目图标 + 技术栈式居中大标题/斜体说明 + 仅 tags 的图标胶囊按钮（logo 名称取自 `content/icons.yaml`，链接与颜色来自 `stack.yaml` 的 `buttons` / `tags`）→ 项目链接 URL（`.link .underline-link`，主题色）/ GitHub 图标 + 仓库名胶囊按钮（位于链接下方） → 50px 分割线 → `BlogMarkdown` 正文（代码块 / 表格 / Mermaid / 徽章等沿用文章样式）→ 宽屏左侧吸附 TOC → 底部随机语录；无正文的项目不进入此页 |
 | `/stack` | 居中 h1 `Stack` + 斜体说明 → 页头 logo 官网按钮组（介绍下方）→ 大号描边分类标题 + bullet 技术项（蓝色箭头名称 + `—` + 双语介绍）→ 50px 分割线 + 随机语录 |
 | `/changelog/:scope` | onur Journey 式更新日志：居中 h1「更新日志」+ 当前页面说明 → 按年份分组的双列时间线（年份 Mono 列 + 虚线 + 20px 白底圆点/蓝点）→ 每条记录显示 `v版本号`（Mono/600）、`NEW` 徽标（`latest: true`）、日期与 `BlogMarkdown` 正文；内容按 `pages` 过滤，背景 `aurora` |
 | `/bookmarks` | 三栏：导航 + 项目卡片式书签分类栏（标题 + 总数 + 分类图标/名称/数量，当前分类带左侧指示条）+ 右侧网格底纹空内容区（中央随机显示 `quotes.yaml` 的一条语录）；移动端为居中页头 + 50px 分割线 + 项目卡片式分类列表 + 底部随机语录 |

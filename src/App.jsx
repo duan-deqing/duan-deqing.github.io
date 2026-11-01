@@ -19,6 +19,7 @@ import NotFoundPage from './pages/NotFoundPage'
 
 const BlogPostPage = lazy(() => import('./pages/BlogPostPage'))
 const ChangelogPage = lazy(() => import('./pages/ChangelogPage'))
+const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'))
 
 function prefetchArticlePage() {
   import('./pages/BlogPostPage').catch(() => {})
@@ -64,6 +65,7 @@ export default function App() {
         <Route element={<SubpageLayout />}>
           <Route path="/home" element={page(<SubpageHomePage />)} />
           <Route path="/projects" element={page(<ProjectsPage />)} />
+          <Route path="/projects/:slug" element={page(<ProjectDetailPage />)} />
           <Route path="/stack" element={page(<SkillsPage />)} />
           <Route path="/changelog" element={page(<ChangelogPage />)} />
           <Route path="/changelog/:scope" element={page(<ChangelogPage />)} />

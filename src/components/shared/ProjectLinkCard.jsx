@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { cn } from '../../utils/cn'
 
-function ProjectIcon({ src, fallback }) {
+export function ProjectIcon({ src, fallback }) {
   const [failed, setFailed] = useState(false)
 
   useEffect(() => {

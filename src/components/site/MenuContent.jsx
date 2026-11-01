@@ -4,56 +4,24 @@ import config from '@content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
 import NavItem from './NavItem'
+import RegistryIcon from './RegistryIcon'
 import WechatDialog from './WechatDialog'
-import {
-  ArrowUpRightIcon,
-  BilibiliIcon,
-  BookmarkIcon,
-  CheckIcon,
-  CodeIcon,
-  CopyIcon,
-  FolderIcon,
-  GitHubIcon,
-  HomeIcon,
-  MailIcon,
-  PenIcon,
-  WechatIcon,
-  platformIcon,
-} from './icons'
+import { ArrowUpRightIcon, CheckIcon, CopyIcon } from './icons'
 
-const NAV_ICONS = {
-  '/': HomeIcon,
-  '/projects': FolderIcon,
-  '/blog': PenIcon,
-  '/stack': CodeIcon,
-  '/bookmarks': BookmarkIcon,
-}
-
-const CONTACT_ICONS = {
-  email: MailIcon,
-  github: GitHubIcon,
-  bilibili: BilibiliIcon,
-  wechat: WechatIcon,
-}
-
-// 与首页壳共用 config.navLinks；Home 固定置顶，图标按 href 映射
+// 与首页壳共用 config.navLinks；Home 固定置顶，图标来自 icons.yaml
 export const NAV_ITEMS = [
-  { href: '/home', label: { en: 'Home', zh: '首页' }, Icon: HomeIcon },
+  { href: '/home', label: { en: 'Home', zh: '首页' }, icon: 'home' },
   ...(config.navLinks || [])
     .filter((link) => link.href !== '/')
     .map((link) => ({
       href: link.href,
       label: link.label,
-      Icon: NAV_ICONS[link.href] || FolderIcon,
+      icon: link.icon || 'projects',
     })),
 ]
 
 const SECTIONS_LABEL = { en: 'Sections', zh: '分区' }
 const ONLINE_LABEL = { en: 'Online', zh: '在线' }
-
-function normalizeUrl(value) {
-  return String(value || '').replace(/\/+$/, '')
-}
 
 export function isNavActive(pathname, href) {
   if (href === '/') return pathname === '/'
@@ -71,20 +39,9 @@ export default function MenuContent({ onNavigate }) {
   const emailCopyRef = useRef(null)
   const emailPanelId = useId()
   const name = t(config.personal.name)
-  const role = t(config.personal.tags?.[0] || '')
-  const socials = config.socialLinks || []
-  const methods = config.contactPage?.contactMethods || []
+  const role = t(config.personal.role || '')
+  const contacts = config.contacts || []
   const avatar = config.personal.avatar
-  const linkedUrls = new Set(
-    methods.filter((method) => method.href).map((method) => normalizeUrl(method.href))
-  )
-  const extraSocials = socials
-    .filter((social) => !linkedUrls.has(normalizeUrl(social.url)))
-    .map((social) => ({
-      href: social.url,
-      label: social.platform,
-      Icon: platformIcon(social.platform),
-    }))
 
   useEffect(() => {
     setEmailOpen(false)
@@ -172,7 +129,7 @@ export default function MenuContent({ onNavigate }) {
             key={item.href}
             href={item.href}
             label={t(item.label)}
-            Icon={item.Icon}
+            icon={item.icon}
             active={isNavActive(pathname, item.href)}
             shortcut={index + 1}
             onNavigate={onNavigate}
@@ -185,11 +142,10 @@ export default function MenuContent({ onNavigate }) {
       <div className="flex flex-col gap-2">
         <span className="menu-online-label px-2 text-xs font-medium text-muted">{t(ONLINE_LABEL)}</span>
         <div className="menu-online-list flex flex-col gap-1">
-          {methods.map((method) => {
-            const Icon = CONTACT_ICONS[method.icon] || MailIcon
+          {contacts.map((method, index) => {
             if (method.icon === 'email' && method.value) {
               return (
-                <div key={`contact-${method.icon}`} ref={emailRef}>
+                <div key={`contact-email-${index}`} ref={emailRef}>
                   <div className={cn('online-email-stack', emailOpen && 'is-open')}>
                     <button
                       ref={emailFrontRef}
@@ -201,7 +157,7 @@ export default function MenuContent({ onNavigate }) {
                       className="online-email-layer online-email-front flex items-center justify-between gap-2 rounded-lg p-2 text-sm text-ink hover:bg-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent"
                     >
                       <span className="flex min-w-0 items-center gap-2">
-                        <Icon size={16} className="shrink-0" />
+                        <RegistryIcon name={method.icon} size={16} className="shrink-0" />
                         <span className="truncate font-medium">{t(method.label)}</span>
                       </span>
                       <ArrowUpRightIcon size={14} className="shrink-0 opacity-70" />
@@ -255,9 +211,9 @@ export default function MenuContent({ onNavigate }) {
             if (method.icon === 'wechat' && method.qrcode) {
               return (
                 <NavItem
-                  key={`contact-${method.icon}`}
+                  key={`contact-wechat-${index}`}
                   label={t(method.label)}
-                  Icon={Icon}
+                  icon={method.icon}
                   onClick={() => setWechat(method)}
                   hasPopup="dialog"
                   showArrow
@@ -270,22 +226,12 @@ export default function MenuContent({ onNavigate }) {
                 key={`contact-${method.icon}-${method.href}`}
                 href={method.href}
                 label={t(method.label)}
-                Icon={Icon}
+                icon={method.icon}
                 external
                 onNavigate={onNavigate}
               />
             )
           })}
-          {extraSocials.map((item) => (
-            <NavItem
-              key={item.href + item.label}
-              href={item.href}
-              label={item.label}
-              Icon={item.Icon}
-              external
-              onNavigate={onNavigate}
-            />
-          ))}
         </div>
       </div>
 

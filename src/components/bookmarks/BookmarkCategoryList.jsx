@@ -1,6 +1,6 @@
 import { useLanguage } from '../../hooks/useLanguage'
 import { bookmarkCategories } from '../../utils/bookmarks'
-import { getProjectInitial, resolveBookmarkCategoryIcon } from '../../utils/projectIcon'
+import { getProjectInitial, resolveIcon } from '../../utils/icons'
 import ProjectLinkCard from '../shared/ProjectLinkCard'
 
 function countLabel(count, t) {
@@ -34,7 +34,7 @@ export default function BookmarkCategoryList({ activeSlug = null }) {
             to={`/bookmarks/${category.slug}`}
             title={t(category.title)}
             description={countLabel(category.bookmarks?.length || 0, t)}
-            icon={resolveBookmarkCategoryIcon(category.icon)}
+            icon={resolveIcon(category.icon)}
             iconFallback={getProjectInitial(category.title)}
             active={activeSlug === category.slug}
             compact

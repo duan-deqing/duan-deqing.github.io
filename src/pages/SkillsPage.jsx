@@ -1,4 +1,4 @@
-import stackConfig from '@content/pages/stack.yaml'
+import stackConfig from '@content/stack/stack.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import CategoryHeading from '../components/site/CategoryHeading'
 import CenteredPageHeading from '../components/site/CenteredPageHeading'
@@ -6,6 +6,7 @@ import StackButtonGroup from '../components/site/StackButtonGroup'
 import QuoteFooter from '../components/site/QuoteFooter'
 import PageTitle from '../components/shared/PageTitle'
 import { ArrowUpRightIcon } from '../components/site/icons'
+import { resolveIconEntry } from '../utils/icons'
 
 const FALLBACK_TITLE = { en: 'Stack', zh: '技术栈' }
 const FALLBACK_DESCRIPTION = {
@@ -16,12 +17,6 @@ const FALLBACK_INTRO = {
   en: 'Tools I reach for when building and shipping.',
   zh: '构建与交付时常用的工具。',
 }
-
-const BUTTON_LINKS = new Map(
-  (stackConfig.buttons || [])
-    .filter((button) => button.link)
-    .map((button) => [button.name, button.link])
-)
 
 export default function SkillsPage() {
   const { lang, t } = useLanguage()
@@ -54,16 +49,17 @@ export default function SkillsPage() {
           />
           <ul className="stack-list">
             {(category.items || []).map((item) => {
-              const href = BUTTON_LINKS.get(item.name)
+              const entry = resolveIconEntry(item.link)
               return (
                 <li key={item.name}>
                   <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1.5">
-                    {href ? (
+                    {entry?.link ? (
                       <a
-                        href={href}
+                        href={entry.link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="stack-link"
+                        style={entry.color ? { '--stack-link-color': entry.color } : undefined}
                       >
                         {item.name}
                         <ArrowUpRightIcon

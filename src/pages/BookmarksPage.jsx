@@ -1,4 +1,4 @@
-import bookmarksConfig from '@content/pages/bookmarks.yaml'
+import bookmarksConfig from '@content/bookmarks/bookmarks.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/shared/PageTitle'
 import CenteredPageHeading from '../components/site/CenteredPageHeading'
