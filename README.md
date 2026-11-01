@@ -3,7 +3,7 @@
 简约现代风格的程序员个人主页：支持浅色/深色主题、中英文切换，以及基于 Markdown 文件的博客系统。
 
 - **线上地址**：https://duan-deqing.github.io
-- **当前版本**：1.7.0
+- **当前版本**：1.7.1
 
 ![主页图片](./public/images/2026-11-1-home-page.png)
 
@@ -89,14 +89,15 @@ pnpm run preview
 │   └── changelog/                # 版本更新日志：v<版本>-<日期>.<zh|en>.md
 ├── src/
 │   ├── main.jsx                  # 入口（BrowserRouter）
-│   ├── App.jsx                   # 路由与预加载（文章页、项目详情页懒加载）
+│   ├── App.jsx                   # 应用外壳：设置 Provider + 滚动复位 + 路由
+│   ├── routes.jsx                # 路由表、懒加载页面与文章页空闲预取
 │   ├── admin/                    # 本地内容后台（仅 dev，不参与构建）
-│   ├── index.css                 # 全局样式、字体、深色模式
+│   ├── index.css                 # 引入 Tailwind、令牌、基础层与通用类
 │   ├── pages/                    # 页面组件
-│   ├── layouts/                  # HomeLayout（antfu 首页）/ SubpageLayout（onur 子页）/ BlogLayout / BookmarksLayout
+│   ├── layouts/                  # HomeLayout（antfu 首页）；其余子页布局薄封装 WorkspaceShell
 │   ├── backgrounds/              # 可复用背景层：plum / dots / grid / waves / aurora / none
 │   ├── components/
-│   │   ├── layout/               # 壳层：侧栏、菜单、移动顶栏/抽屉、导航项、页脚、ParentLink、过渡与兜底
+│   │   ├── layout/               # 子页壳层：WorkspaceShell / SideRail / PageContainer、侧栏、菜单、页脚、过渡
 │   │   ├── ui/                   # 通用控件：按钮、标题、卡片、RichText、Stack 按钮组与图标
 │   │   │   └── dialogs/          # Modal / GlassDialog / LiquidGlassLens / WechatDialog
 │   │   ├── home/                 # 首页头部、手写签名与签名路径
@@ -105,7 +106,7 @@ pnpm run preview
 │   │   ├── bookmarks/            # 书签分类栏、卡片与网格
 │   │   └── projects/             # 项目条目与网格
 │   ├── hooks/                    # useTheme / useLanguage
-│   ├── styles/                   # category-heading / stack-list / projects / content-cards / blog-post / bookmarks / rich-text / hover-reveal / glass-dialog（通用液态玻璃弹窗外壳）/ wechat-glass（二维码托盘与微信号胶囊）
+│   ├── styles/                   # tokens（字体与色板）/ base（基础层）/ components（通用类），以及各页面专属样式
 │   └── utils/                    # 按领域分目录：blog（文章加载与筛选）/ markdown（渲染插件链）/ bookmarks / changelog / icons / glass / projects
 ├── index.html                    # 含 SPA 重定向脚本
 └── vite.config.js

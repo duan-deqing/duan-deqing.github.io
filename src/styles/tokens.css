@@ -1,0 +1,94 @@
+/**
+ * tokens.css — 字体、Tailwind 主题映射与亮暗色令牌。
+ */
+
+@font-face {
+  font-family: "Geist Sans";
+  src: url("/fonts/Geist-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/GeistMono-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Geist Sans", system-ui, -apple-system, "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@theme inline {
+  --color-page: var(--bg);
+  --color-sidebar: var(--bg-sidebar);
+  --color-subtle: var(--bg-subtle);
+  --color-hover: var(--bg-hover);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-heading: var(--heading);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-muted-strong: var(--muted-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-active: var(--active-bg);
+  --color-active-fg: var(--active-fg);
+  --color-code: var(--code-bg);
+  --color-code-header: var(--code-header);
+}
+
+:root {
+  --bg: #ffffff;
+  --bg-sidebar: #fafafa;
+  --bg-subtle: #f4f4f5;
+  --bg-hover: #e5e7eb;
+  --line: #e5e7eb;
+  --line-strong: #d1d5db;
+  --heading: #000000;
+  --ink: #111827;
+  --muted: #6b7280;
+  --muted-strong: #4b5563;
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --link-underline: #555555;
+  --home-body: #555555;
+  --active-bg: #000000;
+  --active-fg: #ffffff;
+  --code-bg: #f3f4f6;
+  --code-header: #f9fafb;
+  --code-line: #9ca3af;
+  --overlay: rgb(0 0 0 / 0.2);
+  --glow: rgb(173 109 244 / 0.25);
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #09090b;
+  --bg-sidebar: #111113;
+  --bg-subtle: #18181b;
+  --bg-hover: #27272a;
+  --line: #27272a;
+  --line-strong: #3f3f46;
+  --heading: #fafafa;
+  --ink: #e4e4e7;
+  --muted: #a1a1aa;
+  --muted-strong: #d4d4d8;
+  --accent: #60a5fa;
+  --accent-strong: #93c5fd;
+  --link-underline: #bbbbbb;
+  --home-body: #bbbbbb;
+  --active-bg: #fafafa;
+  --active-fg: #09090b;
+  --code-bg: #18181b;
+  --code-header: #111113;
+  --code-line: #52525b;
+  --overlay: rgb(0 0 0 / 0.6);
+  --glow: rgb(96 165 250 / 0.12);
+  color-scheme: dark;
+}

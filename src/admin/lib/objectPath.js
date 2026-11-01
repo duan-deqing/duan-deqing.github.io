@@ -8,7 +8,3 @@ export function setIn(obj, path, value) {
   const base = obj && typeof obj === 'object' ? obj : {}
   return { ...base, [head]: setIn(base[head], rest, value) }
 }
-
-export function clone(value) {
-  return JSON.parse(JSON.stringify(value))
-}

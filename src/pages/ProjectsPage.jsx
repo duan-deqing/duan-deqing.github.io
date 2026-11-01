@@ -3,6 +3,7 @@ import { useLanguage } from '../hooks/useLanguage'
 import CenteredPageHeading from '../components/ui/CenteredPageHeading'
 import CategoryHeading from '../components/ui/CategoryHeading'
 import PageTitle from '../components/ui/PageTitle'
+import PageContainer from '../components/layout/PageContainer'
 import ProjectGrid from '../components/projects/ProjectGrid'
 import QuietActionLink from '../components/ui/QuietActionLink'
 import QuoteFooter from '../components/layout/QuoteFooter'
@@ -44,7 +45,7 @@ export default function ProjectsPage() {
   }
 
   return (
-    <div className="slide-enter-content mx-auto w-full">
+    <PageContainer width="full">
       <PageTitle
         title={`STYLAN · ${t(page.title || FALLBACK_TITLE)}`}
         description={t(page.description || FALLBACK_DESCRIPTION)}
@@ -97,6 +98,6 @@ export default function ProjectsPage() {
           </a>
         }
       />
-    </div>
+    </PageContainer>
   )
 }

@@ -7,6 +7,7 @@ import { categoryLabel, formatDate } from '../utils/blog/postFormat'
 import PageTitle from '../components/ui/PageTitle'
 import PageHeading from '../components/ui/PageHeading'
 import ParentLink from '../components/layout/ParentLink'
+import PageContainer from '../components/layout/PageContainer'
 import FooterInfo from '../components/layout/FooterInfo'
 import TableOfContents from '../components/markdown/TableOfContents'
 import BlogMarkdown from '../components/markdown/BlogMarkdown'
@@ -86,15 +87,18 @@ export default function BlogPostPage() {
 
   if (loading) {
     return (
-      <div className="mx-auto flex min-h-[50vh] w-full max-w-3xl items-center justify-center">
+      <PageContainer reveal={false} className="flex min-h-[50vh] items-center justify-center">
         <p className="text-sm text-muted">{t({ en: 'Loading…', zh: '加载中…' })}</p>
-      </div>
+      </PageContainer>
     )
   }
 
   if (error || !post) {
     return (
-      <div className="mx-auto flex min-h-[50vh] w-full max-w-3xl flex-col items-start justify-center">
+      <PageContainer
+        reveal={false}
+        className="flex min-h-[50vh] flex-col items-start justify-center"
+      >
         <PageHeading title={t({ en: 'Post not found', zh: '文章未找到' })} />
         <p className="text-sm text-muted">
           {t({ en: 'The post you are looking for does not exist.', zh: '您查找的文章不存在。' })}
@@ -104,7 +108,7 @@ export default function BlogPostPage() {
           label={t({ en: 'Back to blog', zh: '返回博客' })}
           className="mt-6"
         />
-      </div>
+      </PageContainer>
     )
   }
 

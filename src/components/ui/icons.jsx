@@ -191,14 +191,6 @@ export const SearchIcon = (props) => (
   </LineIcon>
 )
 
-export const DownloadIcon = (props) => (
-  <LineIcon {...props}>
-    <path d="M12 3v12" />
-    <path d="m7 11 5 5 5-5" />
-    <path d="M5 21h14" />
-  </LineIcon>
-)
-
 export const ArrowUpRightIcon = (props) => (
   <LineIcon {...props}>
     <path d="M7 17 17 7" />

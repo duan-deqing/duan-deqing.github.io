@@ -9,6 +9,7 @@ import {
 import { getPostYear } from '../utils/blog/postDate'
 import { formatDate } from '../utils/blog/postFormat'
 import PageTitle from '../components/ui/PageTitle'
+import PageContainer from '../components/layout/PageContainer'
 import ParentLink from '../components/layout/ParentLink'
 import CenteredPageHeading from '../components/ui/CenteredPageHeading'
 import BlogMarkdown from '../components/markdown/BlogMarkdown'
@@ -60,7 +61,7 @@ export default function ChangelogPage() {
   }, [logs])
 
   return (
-    <div className="slide-enter-content mx-auto w-full max-w-3xl">
+    <PageContainer>
       <PageTitle
         title={`STYLAN · ${title}`}
         description={description}
@@ -148,6 +149,6 @@ export default function ChangelogPage() {
           {t({ en: '{ nothing here yet }', zh: '{ 暂无更新记录 }' })}
         </p>
       )}
-    </div>
+    </PageContainer>
   )
 }

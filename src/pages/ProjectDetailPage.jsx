@@ -9,6 +9,7 @@ import { getProjectInitial, resolveIcon, resolveIconEntry } from '../utils/icons
 import PageTitle from '../components/ui/PageTitle'
 import PageHeading from '../components/ui/PageHeading'
 import ParentLink from '../components/layout/ParentLink'
+import PageContainer from '../components/layout/PageContainer'
 import QuietActionLink, { QUIET_ACTION_PILL } from '../components/ui/QuietActionLink'
 import QuoteFooter from '../components/layout/QuoteFooter'
 import { ProjectIcon } from '../components/ui/ProjectLinkCard'
@@ -77,15 +78,18 @@ export default function ProjectDetailPage() {
 
   if (loading) {
     return (
-      <div className="mx-auto flex min-h-[50vh] w-full max-w-3xl items-center justify-center">
+      <PageContainer reveal={false} className="flex min-h-[50vh] items-center justify-center">
         <p className="text-sm text-muted">{t({ en: 'Loading…', zh: '加载中…' })}</p>
-      </div>
+      </PageContainer>
     )
   }
 
   if (!detailAvailable || error || !detail) {
     return (
-      <div className="mx-auto flex min-h-[50vh] w-full max-w-3xl flex-col items-start justify-center">
+      <PageContainer
+        reveal={false}
+        className="flex min-h-[50vh] flex-col items-start justify-center"
+      >
         <PageTitle
           title={`STYLAN · ${t({ en: 'Project not found', zh: '项目未找到' })}`}
           description={t({ en: 'This project has no detail page yet.', zh: '这个项目还没有详情页。' })}
@@ -105,7 +109,7 @@ export default function ProjectDetailPage() {
           label={t({ en: 'Back to projects', zh: '返回项目' })}
           className="mt-6"
         />
-      </div>
+      </PageContainer>
     )
   }
 

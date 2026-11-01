@@ -5,6 +5,7 @@ import CenteredPageHeading from '../components/ui/CenteredPageHeading'
 import StackButtonGroup from '../components/ui/StackButtonGroup'
 import QuoteFooter from '../components/layout/QuoteFooter'
 import PageTitle from '../components/ui/PageTitle'
+import PageContainer from '../components/layout/PageContainer'
 import { ArrowUpRightIcon } from '../components/ui/icons'
 import { resolveIconEntry } from '../utils/icons/icons'
 
@@ -24,7 +25,7 @@ export default function SkillsPage() {
   const categories = stackConfig.categories || []
 
   return (
-    <div className="slide-enter-content mx-auto w-full max-w-5xl">
+    <PageContainer width="wide">
       <PageTitle
         title={`STYLAN · ${t(page.title || FALLBACK_TITLE)}`}
         description={t(page.description || FALLBACK_DESCRIPTION)}
@@ -84,6 +85,6 @@ export default function SkillsPage() {
       ))}
 
       <QuoteFooter />
-    </div>
+    </PageContainer>
   )
 }

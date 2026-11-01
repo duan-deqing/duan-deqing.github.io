@@ -1,5 +1,6 @@
 import { useLanguage } from '../hooks/useLanguage'
 import PageTitle from '../components/ui/PageTitle'
+import PageContainer from '../components/layout/PageContainer'
 import PageHeading from '../components/ui/PageHeading'
 import ParentLink from '../components/layout/ParentLink'
 
@@ -7,7 +8,7 @@ export default function NotFoundPage() {
   const { lang, t } = useLanguage()
 
   return (
-    <div className="slide-enter-content mx-auto w-full max-w-3xl">
+    <PageContainer>
       <PageTitle
         title={`STYLAN · ${t({ en: 'Not found', zh: '页面未找到' })}`}
         description={t({
@@ -30,6 +31,6 @@ export default function NotFoundPage() {
         label={t({ en: 'Back home', zh: '返回首页' })}
         className="mt-6"
       />
-    </div>
+    </PageContainer>
   )
 }

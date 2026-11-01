@@ -60,7 +60,3 @@ export function changelogScopeForPath(pathname) {
 
   return 'all'
 }
-
-export function changelogBackPath(scope) {
-  return CHANGELOG_SCOPES[normalizeChangelogScope(scope)].path
-}

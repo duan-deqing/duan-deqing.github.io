@@ -7,6 +7,7 @@ import homeIntroZh from '@content/home/home.zh.md?raw'
 import { useLanguage } from '../hooks/useLanguage'
 import { getAllPosts } from '../utils/blog/markdown'
 import PageTitle from '../components/ui/PageTitle'
+import PageContainer from '../components/layout/PageContainer'
 import RichText from '../components/ui/RichText'
 import WritingTable from '../components/blog/WritingTable'
 import QuoteFooter from '../components/layout/QuoteFooter'
@@ -53,7 +54,7 @@ export default function SubpageHomePage() {
   }, [lang])
 
   return (
-    <div className="slide-enter-content mx-auto w-full max-w-3xl">
+    <PageContainer>
       <PageTitle
         title={`STYLAN · ${t({ en: 'Home', zh: '首页' })}`}
         description={config.site?.description}
@@ -82,6 +83,6 @@ export default function SubpageHomePage() {
       )}
 
       <QuoteFooter />
-    </div>
+    </PageContainer>
   )
 }

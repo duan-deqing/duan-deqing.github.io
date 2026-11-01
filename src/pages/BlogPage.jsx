@@ -2,6 +2,7 @@ import blogConfig from '@content/blog/blog.yaml'
 import { useLanguage } from '../hooks/useLanguage'
 import { useBlog } from '../components/blog/BlogProvider'
 import PageTitle from '../components/ui/PageTitle'
+import PageContainer from '../components/layout/PageContainer'
 import CenteredPageHeading from '../components/ui/CenteredPageHeading'
 import QuietActionLink from '../components/ui/QuietActionLink'
 import { RssIcon } from '../components/ui/icons'
@@ -25,7 +26,7 @@ export default function BlogPage() {
   } = useBlog()
 
   return (
-    <div className="slide-enter-content mx-auto w-full max-w-3xl lg:hidden">
+    <PageContainer className="lg:hidden">
       <PageTitle
         title={`STYLAN · ${t(blogConfig.page.title)}`}
         description={t(blogConfig.page.subtitle)}
@@ -64,6 +65,6 @@ export default function BlogPage() {
       ) : (
         <WritingTable posts={filtered} t={t} />
       )}
-    </div>
+    </PageContainer>
   )
 }

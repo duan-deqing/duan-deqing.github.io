@@ -175,15 +175,6 @@ export async function getAllPosts(lang = 'zh') {
 }
 
 /**
- * 获取某语言下的文章数量（来自 import.meta.glob 的键，不加载文件内容）
- * @param {string} lang - 语言代码 ('zh' 或 'en')
- * @returns {number} 文章数量
- */
-export function getPostCount(lang = 'zh') {
-  return Object.keys(getFilesByLang(lang)).length
-}
-
-/**
  * 根据 slug 获取单篇文章（含正文内容）
  * @param {string} slug - 文章 slug（文件名中日期后的部分）
  * @param {string} lang - 语言代码 ('zh' 或 'en')
@@ -225,82 +216,4 @@ export async function getPostBySlug(slug, lang = 'zh') {
   }
 
   return null
-}
-
-/**
- * 根据完整文件名获取单篇文章
- * @param {string} filename - 完整文件名（不含扩展名）
- * @param {string} lang - 语言代码 ('zh' 或 'en')
- * @returns {Promise<Object|null>} 文章数据
- */
-export async function getPostByFilename(filename, lang = 'zh') {
-  const markdownFiles = getFilesByLang(lang)
-  const isEnglish = lang === 'en'
-  const fm = await loadFrontMatter()
-  
-  const targetPath = Object.keys(markdownFiles).find(path => {
-    const pathParts = path.split('/')
-    const name = pathParts[pathParts.length - 1].replace('.md', '')
-    return name === filename
-  })
-
-  if (targetPath) {
-    try {
-      const content = await markdownFiles[targetPath]()
-      const { attributes: data, body: markdownContent } = fm(content)
-      const { date: fileDate, slug } = parsePostFilename(filename)
-
-      // 处理图片路径
-      const processedContent = processImagePaths(markdownContent, filename, isEnglish)
-
-      return {
-        ...data,
-        date: data.date || fileDate,
-        content: processedContent,
-        slug,
-        filename
-      }
-    } catch (error) {
-      console.error(`Error loading ${targetPath}:`, error)
-    }
-  }
-
-  return null
-}
-
-/**
- * 获取所有文章的 slug 列表（用于生成路由）
- * @param {string} lang - 语言代码 ('zh' 或 'en')
- * @returns {Promise<Array<string>>} slug 列表
- */
-export async function getAllSlugs(lang = 'zh') {
-  const slugs = []
-  const markdownFiles = getFilesByLang(lang)
-
-  for (const path in markdownFiles) {
-    const pathParts = path.split('/')
-    const filename = pathParts[pathParts.length - 1].replace('.md', '')
-    const { slug } = parsePostFilename(filename)
-    slugs.push(slug)
-  }
-
-  return slugs
-}
-
-/**
- * 获取所有文章的文件名列表
- * @param {string} lang - 语言代码 ('zh' 或 'en')
- * @returns {Promise<Array<string>>} 文件名列表
- */
-export async function getAllFilenames(lang = 'zh') {
-  const filenames = []
-  const markdownFiles = getFilesByLang(lang)
-
-  for (const path in markdownFiles) {
-    const pathParts = path.split('/')
-    const filename = pathParts[pathParts.length - 1].replace('.md', '')
-    filenames.push(filename)
-  }
-
-  return filenames
 }
