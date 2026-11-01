@@ -1,7 +1,7 @@
 import { useLanguage } from '../hooks/useLanguage'
-import PageTitle from '../components/shared/PageTitle'
-import PageHeading from '../components/site/PageHeading'
-import ParentLink from '../components/site/ParentLink'
+import PageTitle from '../components/ui/PageTitle'
+import PageHeading from '../components/ui/PageHeading'
+import ParentLink from '../components/layout/ParentLink'
 
 export default function NotFoundPage() {
   const { lang, t } = useLanguage()

@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { remarkGithubAlerts } from '../../src/utils/remarkGithubAlerts.js'
+import { remarkGithubAlerts } from '../../src/utils/markdown/remarkGithubAlerts.js'
 
 test('把 GitHub alert 转为带图标的 markdown-alert，并输出标题大小写', () => {
   const tree = {

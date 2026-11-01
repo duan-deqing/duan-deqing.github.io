@@ -4,7 +4,7 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import fm from 'front-matter'
 
-const DIR = fileURLToPath(new URL('../../content/changelog/', import.meta.url))
+const DIR = fileURLToPath(new URL('../../content/changelog', import.meta.url))
 const FIELDS = new Set(['version', 'date', 'latest', 'pages'])
 const SCOPES = new Set(['all', 'home', 'projects', 'stack'])
 const files = readdirSync(DIR).filter((name) => /\.(zh|en)\.md$/.test(name))

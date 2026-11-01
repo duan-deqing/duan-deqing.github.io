@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { groupPostsByYear } from '../../src/utils/postGroups.js'
+import { groupPostsByYear } from '../../src/utils/blog/postGroups.js'
 
 test('groups consecutive posts by year', () => {
   const posts = [

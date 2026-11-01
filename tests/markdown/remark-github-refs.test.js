@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { remarkGithubRefs, githubRepoUrl } from '../../src/utils/remarkGithubRefs.js'
+import { remarkGithubRefs, githubRepoUrl } from '../../src/utils/markdown/remarkGithubRefs.js'
 
 function paragraph(value) {
   return {

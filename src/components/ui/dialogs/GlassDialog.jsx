@@ -1,9 +1,9 @@
 import { useRef } from 'react'
 import Modal from './Modal'
 import LiquidGlassLens from './LiquidGlassLens'
-import { useLanguage } from '../../hooks/useLanguage'
-import { CloseIcon } from './icons'
-import '../../styles/glass-dialog.css'
+import { useLanguage } from '../../../hooks/useLanguage'
+import { CloseIcon } from '../icons'
+import '../../../styles/glass-dialog.css'
 
 /**
  * 液态玻璃弹窗外壳：折射镜片 + 把手行（kicker + 关闭按钮）+ 内容槽。

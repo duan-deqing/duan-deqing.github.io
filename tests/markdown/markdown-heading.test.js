@@ -4,7 +4,7 @@ import {
   headingId,
   headingTextFromMarkdown,
   extractHeadings,
-} from '../../src/utils/markdownHeading.js'
+} from '../../src/utils/markdown/markdownHeading.js'
 
 test('headingId 处理英文标题', () => {
   assert.equal(headingId('Getting Started With React'), 'getting-started-with-react')

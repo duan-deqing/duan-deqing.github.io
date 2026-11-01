@@ -1,7 +1,7 @@
 import { useLanguage } from '../../hooks/useLanguage'
-import { bookmarkCategories } from '../../utils/bookmarks'
-import { getProjectInitial, resolveIcon } from '../../utils/icons'
-import ProjectLinkCard from '../shared/ProjectLinkCard'
+import { bookmarkCategories } from '../../utils/bookmarks/bookmarks'
+import { getProjectInitial, resolveIcon } from '../../utils/icons/icons'
+import ProjectLinkCard from '../ui/ProjectLinkCard'
 
 function countLabel(count, t) {
   return t(

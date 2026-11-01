@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
-import { getBookmarkCover, getBookmarkDomain } from '../../utils/bookmarkFormat'
-import ContentCard from '../shared/ContentCard'
-import { LinkIcon } from '../site/icons'
+import { getBookmarkCover, getBookmarkDomain } from '../../utils/bookmarks/bookmarkFormat'
+import ContentCard from '../ui/ContentCard'
+import { LinkIcon } from '../ui/icons'
 
 export default function BookmarkCard({ bookmark, index }) {
   const { t } = useLanguage()

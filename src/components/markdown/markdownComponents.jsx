@@ -1,12 +1,12 @@
 import { cloneElement, isValidElement, useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
-import { headingId, getTextContent } from '../../utils/markdownHeading'
-import { isBadgeImage } from '../../utils/articleMedia'
+import { headingId, getTextContent } from '../../utils/markdown/markdownHeading'
+import { isBadgeImage } from '../../utils/markdown/articleMedia'
 import { cn } from '../../utils/cn'
-import { CheckIcon, CopyIcon, GitHubIcon } from '../site/icons'
-import ArticleCarousel from '../blog/ArticleCarousel'
-import ArticleVideo from '../blog/ArticleVideo'
-import MermaidDiagram from '../blog/MermaidDiagram'
+import { CheckIcon, CopyIcon, GitHubIcon } from '../ui/icons'
+import ArticleCarousel from './ArticleCarousel'
+import ArticleVideo from './ArticleVideo'
+import MermaidDiagram from './MermaidDiagram'
 
 const HEADING_SIZE = {
   2: 'text-lg md:text-xl',

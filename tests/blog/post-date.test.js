@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { getPostYear, parsePostDate } from '../../src/utils/postDate.js'
+import { getPostYear, parsePostDate } from '../../src/utils/blog/postDate.js'
 
 test('parses YYYY-MM-DD as a local date, not UTC', () => {
   const date = parsePostDate('2026-01-01')

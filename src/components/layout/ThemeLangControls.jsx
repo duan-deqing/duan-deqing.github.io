@@ -2,7 +2,7 @@ import { useLanguage } from '../../hooks/useLanguage'
 import { useTheme } from '../../hooks/useTheme'
 import { cn } from '../../utils/cn'
 import BackgroundToggle from '../../backgrounds/BackgroundToggle'
-import { GlobeIcon, MoonIcon, SunIcon } from './icons'
+import { GlobeIcon, MoonIcon, SunIcon } from '../ui/icons'
 
 const BASE = 'inline-flex h-8 items-center justify-center gap-1.5'
 const ICON_BUTTON =

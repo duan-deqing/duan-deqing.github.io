@@ -1,5 +1,5 @@
 import fm from 'front-matter'
-import { parsePostDate } from './postDate'
+import { parsePostDate } from '../blog/postDate'
 
 const LANGUAGE_SUFFIX = /\.(zh|en)\.md$/i
 const changelogFiles = import.meta.glob('/content/changelog/**/*.md', {

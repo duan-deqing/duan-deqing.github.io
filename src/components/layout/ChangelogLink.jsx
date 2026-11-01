@@ -3,9 +3,9 @@ import { useLanguage } from '../../hooks/useLanguage'
 import {
   CHANGELOG_SCOPES,
   changelogScopeForPath,
-} from '../../utils/changelogScopes'
+} from '../../utils/changelog/changelogScopes'
 import { cn } from '../../utils/cn'
-import { HistoryIcon } from './icons'
+import { HistoryIcon } from '../ui/icons'
 
 export default function ChangelogLink({ className, onNavigate }) {
   const { pathname } = useLocation()

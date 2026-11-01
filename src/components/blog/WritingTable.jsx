@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import { groupPostsByYear } from '../../utils/postGroups'
-import { categoryLabel, formatDate } from '../../utils/postFormat'
+import { groupPostsByYear } from '../../utils/blog/postGroups'
+import { categoryLabel, formatDate } from '../../utils/blog/postFormat'
 
 const GRID_COLUMNS = 'md:grid-cols-[4rem_6.25rem_minmax(0,1fr)_7rem]'
 

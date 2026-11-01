@@ -5,11 +5,11 @@ import config from '@content/site.yaml'
 import homeIntroEn from '@content/home/home.en.md?raw'
 import homeIntroZh from '@content/home/home.zh.md?raw'
 import { useLanguage } from '../hooks/useLanguage'
-import { getAllPosts } from '../utils/markdown'
-import PageTitle from '../components/shared/PageTitle'
-import RichText from '../components/shared/RichText'
+import { getAllPosts } from '../utils/blog/markdown'
+import PageTitle from '../components/ui/PageTitle'
+import RichText from '../components/ui/RichText'
 import WritingTable from '../components/blog/WritingTable'
-import QuoteFooter from '../components/site/QuoteFooter'
+import QuoteFooter from '../components/layout/QuoteFooter'
 
 function WritingTableSkeleton() {
   return (

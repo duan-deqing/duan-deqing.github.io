@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import { useLanguage } from '../../hooks/useLanguage'
 import ThemeLangControls from './ThemeLangControls'
-import { MenuIcon } from './icons'
+import { MenuIcon } from '../ui/icons'
 import { NAV_ITEMS, isNavActive } from './MenuContent'
 
 const OPEN_LABEL = { en: 'Open menu', zh: '打开菜单' }

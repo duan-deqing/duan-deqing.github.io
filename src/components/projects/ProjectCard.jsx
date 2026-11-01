@@ -1,7 +1,7 @@
 import { useLanguage } from '../../hooks/useLanguage'
-import { getProjectInitial, resolveIcon } from '../../utils/icons'
-import { hasProjectDetail } from '../../utils/projectDetail'
-import ProjectLinkCard from '../shared/ProjectLinkCard'
+import { getProjectInitial, resolveIcon } from '../../utils/icons/icons'
+import { hasProjectDetail } from '../../utils/projects/projectDetail'
+import ProjectLinkCard from '../ui/ProjectLinkCard'
 
 function projectUrl(project) {
   return project.link || project.repo || null

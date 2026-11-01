@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import useEmblaCarousel from 'embla-carousel-react'
 import { useLanguage } from '../../hooks/useLanguage'
-import { parseCarouselBlock } from '../../utils/articleEmbeds'
-import { ArrowLeftIcon, ArrowRightIcon } from '../site/icons'
+import { parseCarouselBlock } from '../../utils/markdown/articleEmbeds'
+import { ArrowLeftIcon, ArrowRightIcon } from '../ui/icons'
 
 export default function ArticleCarousel({ source }) {
   const { t } = useLanguage()

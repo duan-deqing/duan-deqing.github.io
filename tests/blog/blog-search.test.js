@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { searchPosts } from '../../src/utils/blogSearch.js'
+import { searchPosts } from '../../src/utils/blog/blogSearch.js'
 
 const posts = [
   {

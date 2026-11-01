@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Modal from '../site/Modal'
-import { categoryLabel, formatDate } from '../../utils/postFormat'
-import { searchPosts } from '../../utils/blogSearch'
-import { SearchIcon } from '../site/icons'
+import Modal from '../ui/dialogs/Modal'
+import { categoryLabel, formatDate } from '../../utils/blog/postFormat'
+import { searchPosts } from '../../utils/blog/blogSearch'
+import { SearchIcon } from '../ui/icons'
 import { cn } from '../../utils/cn'
 
 function Kbd({ children }) {

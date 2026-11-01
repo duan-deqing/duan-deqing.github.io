@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { cn } from '../../utils/cn'
-import { ArrowUpRightIcon } from './icons'
-import RegistryIcon from './RegistryIcon'
+import { ArrowUpRightIcon } from '../ui/icons'
+import RegistryIcon from '../ui/RegistryIcon'
 
 const BASE = 'flex w-full items-center justify-between gap-2 rounded-lg p-2 text-sm transition-colors'
 

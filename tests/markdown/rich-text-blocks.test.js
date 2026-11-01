@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { splitRichTextBlocks } from '../../src/utils/richTextBlocks.js'
+import { splitRichTextBlocks } from '../../src/utils/markdown/richTextBlocks.js'
 
 test('按空行拆分自我介绍段落，并保留段内换行', () => {
   const text = '第一行\n第二行\n\n第二段'

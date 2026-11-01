@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
-import { buildLiquidGlassFilter } from '../../utils/liquidGlass'
+import { buildLiquidGlassFilter } from '../../../utils/glass/liquidGlass'
 
 const TUNING = {
   glassThickness: 80,

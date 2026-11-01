@@ -1,6 +1,6 @@
 import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
-import { SearchIcon } from '../site/icons'
+import { SearchIcon } from '../ui/icons'
 
 export default function SearchTrigger({ onClick, className }) {
   const { t } = useLanguage()

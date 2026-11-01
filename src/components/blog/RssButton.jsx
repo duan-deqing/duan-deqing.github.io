@@ -1,6 +1,6 @@
 import { useLanguage } from '../../hooks/useLanguage'
-import Button from '../site/Button'
-import { RadioIcon } from '../site/icons'
+import Button from '../ui/Button'
+import { RadioIcon } from '../ui/icons'
 
 export default function RssButton({ className, size = 'sm' }) {
   const { t } = useLanguage()

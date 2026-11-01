@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom'
 import bookmarksConfig from '@content/bookmarks/bookmarks.yaml'
 import { useLanguage } from '../hooks/useLanguage'
-import { getBookmarkCategory } from '../utils/bookmarks'
-import PageTitle from '../components/shared/PageTitle'
-import PageHeading from '../components/site/PageHeading'
-import CenteredPageHeading from '../components/site/CenteredPageHeading'
-import ParentLink from '../components/site/ParentLink'
-import QuoteFooter from '../components/site/QuoteFooter'
+import { getBookmarkCategory } from '../utils/bookmarks/bookmarks'
+import PageTitle from '../components/ui/PageTitle'
+import PageHeading from '../components/ui/PageHeading'
+import CenteredPageHeading from '../components/ui/CenteredPageHeading'
+import ParentLink from '../components/layout/ParentLink'
+import QuoteFooter from '../components/layout/QuoteFooter'
 import BookmarkGrid from '../components/bookmarks/BookmarkGrid'
 
 export default function BookmarkCategoryPage() {

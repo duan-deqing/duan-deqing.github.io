@@ -1,8 +1,8 @@
 import bookmarksConfig from '@content/bookmarks/bookmarks.yaml'
 import { useLanguage } from '../hooks/useLanguage'
-import PageTitle from '../components/shared/PageTitle'
-import CenteredPageHeading from '../components/site/CenteredPageHeading'
-import QuoteFooter from '../components/site/QuoteFooter'
+import PageTitle from '../components/ui/PageTitle'
+import CenteredPageHeading from '../components/ui/CenteredPageHeading'
+import QuoteFooter from '../components/layout/QuoteFooter'
 import BookmarkCategoryList from '../components/bookmarks/BookmarkCategoryList'
 
 export default function BookmarksPage() {

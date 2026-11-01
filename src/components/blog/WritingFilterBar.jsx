@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { cn } from '../../utils/cn'
-import { CheckIcon, ChevronDownIcon } from '../site/icons'
+import { CheckIcon, ChevronDownIcon } from '../ui/icons'
 
 const TRIGGER_CLASS =
   'flex h-9 w-full min-w-0 items-center justify-between gap-2 rounded-md border bg-page px-2.5 text-left text-xs text-ink transition-colors'

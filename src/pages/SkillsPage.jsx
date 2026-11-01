@@ -1,12 +1,12 @@
 import stackConfig from '@content/stack/stack.yaml'
 import { useLanguage } from '../hooks/useLanguage'
-import CategoryHeading from '../components/site/CategoryHeading'
-import CenteredPageHeading from '../components/site/CenteredPageHeading'
-import StackButtonGroup from '../components/site/StackButtonGroup'
-import QuoteFooter from '../components/site/QuoteFooter'
-import PageTitle from '../components/shared/PageTitle'
-import { ArrowUpRightIcon } from '../components/site/icons'
-import { resolveIconEntry } from '../utils/icons'
+import CategoryHeading from '../components/ui/CategoryHeading'
+import CenteredPageHeading from '../components/ui/CenteredPageHeading'
+import StackButtonGroup from '../components/ui/StackButtonGroup'
+import QuoteFooter from '../components/layout/QuoteFooter'
+import PageTitle from '../components/ui/PageTitle'
+import { ArrowUpRightIcon } from '../components/ui/icons'
+import { resolveIconEntry } from '../utils/icons/icons'
 
 const FALLBACK_TITLE = { en: 'Stack', zh: '技术栈' }
 const FALLBACK_DESCRIPTION = {

@@ -5,12 +5,12 @@ import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
 import rehypeHighlight from 'rehype-highlight'
 import { useLanguage } from '../../hooks/useLanguage'
-import { remarkGithubAlerts } from '../../utils/remarkGithubAlerts'
-import { remarkGithubRefs } from '../../utils/remarkGithubRefs'
-import { markdownSanitizeSchema } from '../../utils/markdownSanitizeSchema'
-import rehypeCodeLanguage from '../../utils/rehypeCodeLanguage'
-import rehypeCodeLines from '../../utils/rehypeCodeLines'
-import { markdownComponents } from '../BlogPage/markdownComponents'
+import { remarkGithubAlerts } from '../../utils/markdown/remarkGithubAlerts'
+import { remarkGithubRefs } from '../../utils/markdown/remarkGithubRefs'
+import { markdownSanitizeSchema } from '../../utils/markdown/markdownSanitizeSchema'
+import rehypeCodeLanguage from '../../utils/markdown/rehypeCodeLanguage'
+import rehypeCodeLines from '../../utils/markdown/rehypeCodeLines'
+import { markdownComponents } from './markdownComponents'
 
 export default function BlogMarkdown({ content }) {
   const { t } = useLanguage()

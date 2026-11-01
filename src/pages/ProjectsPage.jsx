@@ -1,12 +1,12 @@
 import projectsConfig from '@content/projects/projects.yaml'
 import { useLanguage } from '../hooks/useLanguage'
-import CenteredPageHeading from '../components/site/CenteredPageHeading'
-import CategoryHeading from '../components/site/CategoryHeading'
-import PageTitle from '../components/shared/PageTitle'
+import CenteredPageHeading from '../components/ui/CenteredPageHeading'
+import CategoryHeading from '../components/ui/CategoryHeading'
+import PageTitle from '../components/ui/PageTitle'
 import ProjectGrid from '../components/projects/ProjectGrid'
-import QuietActionLink from '../components/site/QuietActionLink'
-import QuoteFooter from '../components/site/QuoteFooter'
-import { resolveIcon } from '../utils/icons'
+import QuietActionLink from '../components/ui/QuietActionLink'
+import QuoteFooter from '../components/layout/QuoteFooter'
+import { resolveIcon } from '../utils/icons/icons'
 
 const FALLBACK_TITLE = { en: 'Projects', zh: '项目' }
 const FALLBACK_DESCRIPTION = {

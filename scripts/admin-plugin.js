@@ -7,9 +7,9 @@ import { writeYamlFile, readYamlFile, fileRevision } from './lib/yaml-config.js'
 import { writeFileAtomic } from './lib/fs-atomic.js'
 import { isLoopback, isSameOrigin, isPostFileName, assertInside, isAllowedImage } from './lib/admin-validation.js'
 import { parsePost, serializePost, validateFrontmatter, normalizePostDate } from './lib/post-content.js'
-import { parsePostFilename, postImageDirName } from '../src/utils/postFilename.js'
+import { parsePostFilename, postImageDirName } from '../src/utils/blog/postFilename.js'
 
-const ROOT = path.resolve(fileURLToPath(new URL('..', import.meta.url)))
+const ROOT = path.resolve(fileURLToPath(new URL('./..', import.meta.url)))
 const CONTENT_DIR = path.join(ROOT, 'content')
 const SITE_FILE = path.join(CONTENT_DIR, 'site.yaml')
 const STACK_FILE = path.join(CONTENT_DIR, 'stack', 'stack.yaml')

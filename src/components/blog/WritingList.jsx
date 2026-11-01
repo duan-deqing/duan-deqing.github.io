@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { cn } from '../../utils/cn'
-import { categoryLabel, formatDate } from '../../utils/postFormat'
+import { categoryLabel, formatDate } from '../../utils/blog/postFormat'
 
 export default function WritingList({ posts, t, activeSlug, resetKey }) {
   if (!posts?.length) {

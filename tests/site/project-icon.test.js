@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { getProjectInitial, resolveIconEntry, resolveIconName } from '../../src/utils/iconRegistry.js'
+import { getProjectInitial, resolveIconEntry, resolveIconName } from '../../src/utils/icons/iconRegistry.js'
 
 const icons = {
   react: { file: '/images/icons/stack/react.svg', link: 'https://react.dev', color: '#0891B2' },

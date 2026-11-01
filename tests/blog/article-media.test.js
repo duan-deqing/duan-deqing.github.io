@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { isBadgeImage } from '../../src/utils/articleMedia.js'
+import { isBadgeImage } from '../../src/utils/markdown/articleMedia.js'
 
 test('识别常见徽章图片地址', () => {
   assert.equal(isBadgeImage('https://img.shields.io/badge/license-MIT-blue'), true)

@@ -6,7 +6,7 @@ import {
   postImageDirName,
   isValidPostSlug,
   isValidPostDate,
-} from '../../src/utils/postFilename.js'
+} from '../../src/utils/blog/postFilename.js'
 
 test('解析中文与英文文章文件名', () => {
   assert.deepEqual(parsePostFilename('2026-04-20-building-modern-portfolio.md'), {

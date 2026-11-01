@@ -4,7 +4,7 @@ import {
   changelogBackPath,
   changelogScopeForPath,
   normalizeChangelogScope,
-} from '../../src/utils/changelogScopes.js'
+} from '../../src/utils/changelog/changelogScopes.js'
 
 test('将当前页面映射到更新日志范围', () => {
   assert.equal(changelogScopeForPath('/home'), 'home')

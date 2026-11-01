@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import config from '@content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
-import RegistryIcon from './RegistryIcon'
-import ThemeLangControls from './ThemeLangControls'
+import RegistryIcon from '../ui/RegistryIcon'
+import ThemeLangControls from '../layout/ThemeLangControls'
 import HomeSignature from './HomeSignature'
 
 const ICON_LINK =

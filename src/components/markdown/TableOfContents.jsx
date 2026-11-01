@@ -1,7 +1,7 @@
 import { useCallback, useId, useMemo, useState } from 'react'
-import { extractHeadings } from '../../utils/markdownHeading'
+import { extractHeadings } from '../../utils/markdown/markdownHeading'
 import { useLanguage } from '../../hooks/useLanguage'
-import { MenuIcon } from '../site/icons'
+import { MenuIcon } from '../ui/icons'
 
 export default function TableOfContents({ content, onItemClick }) {
   const { t } = useLanguage()

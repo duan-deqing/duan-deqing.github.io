@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { collectTags, filterPosts } from '../../src/utils/blogFilters.js'
+import { collectTags, filterPosts } from '../../src/utils/blog/blogFilters.js'
 
 const posts = [
   { slug: 'a', category: 'tech', tags: ['React', 'CSS'] },

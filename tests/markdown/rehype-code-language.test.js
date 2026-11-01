@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import rehypeCodeLanguage from '../../src/utils/rehypeCodeLanguage.js'
+import rehypeCodeLanguage from '../../src/utils/markdown/rehypeCodeLanguage.js'
 
 function codeTree(className) {
   const code = {

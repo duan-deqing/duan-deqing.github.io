@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 import test from 'node:test'
 import YAML from 'yaml'
 
-const root = fileURLToPath(new URL('../../', import.meta.url))
+const root = fileURLToPath(new URL('../..', import.meta.url))
 const source = YAML.parse(
   readFileSync(path.join(root, 'content/projects/projects.yaml'), 'utf8')
 )

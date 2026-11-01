@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
-import { getVideoEmbed, parseVideoBlock } from '../../utils/articleEmbeds'
+import { getVideoEmbed, parseVideoBlock } from '../../utils/markdown/articleEmbeds'
 
 function LazyMount({ children }) {
   const ref = useRef(null)

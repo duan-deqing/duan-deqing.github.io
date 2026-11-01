@@ -6,7 +6,7 @@ import {
   GridIcon,
   PlumBranchIcon,
   WavesIcon,
-} from '../components/site/icons'
+} from '../components/ui/icons'
 
 const LABELS = {
   plum: { en: 'Plum', zh: '枝条' },

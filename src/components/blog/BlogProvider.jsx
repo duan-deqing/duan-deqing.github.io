@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { useLanguage } from '../../hooks/useLanguage'
-import { getAllPosts } from '../../utils/markdown'
-import { collectTags, filterPosts } from '../../utils/blogFilters'
+import { getAllPosts } from '../../utils/blog/markdown'
+import { collectTags, filterPosts } from '../../utils/blog/blogFilters'
 import SearchDialog from './SearchDialog'
 
 const BlogContext = createContext(null)

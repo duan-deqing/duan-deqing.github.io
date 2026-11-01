@@ -3,9 +3,9 @@ import assert from 'node:assert/strict'
 import { readdirSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import fm from 'front-matter'
-import { parsePostFilename } from '../../src/utils/postFilename.js'
+import { parsePostFilename } from '../../src/utils/blog/postFilename.js'
 
-const POSTS_DIR = fileURLToPath(new URL('../../content/blog/posts/', import.meta.url))
+const POSTS_DIR = fileURLToPath(new URL('../../content/blog/posts', import.meta.url))
 const FIELDS = new Set(['title', 'date', 'category', 'duration', 'tags', 'excerpt'])
 
 for (const lang of ['zh', 'en']) {

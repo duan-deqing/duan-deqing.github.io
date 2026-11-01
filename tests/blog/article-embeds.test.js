@@ -4,7 +4,7 @@ import {
   getVideoEmbed,
   parseCarouselBlock,
   parseVideoBlock,
-} from '../../src/utils/articleEmbeds.js'
+} from '../../src/utils/markdown/articleEmbeds.js'
 
 test('parseVideoBlock 读取 key-value 与裸 URL', () => {
   assert.deepEqual(parseVideoBlock('url: https://youtu.be/abc\ntitle: "示例视频"'), {

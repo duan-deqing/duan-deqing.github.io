@@ -1,6 +1,6 @@
 import fm from 'front-matter'
 import YAML from 'yaml'
-import { isValidPostDate } from '../../src/utils/postFilename.js'
+import { isValidPostDate } from '../../src/utils/blog/postFilename.js'
 
 export function normalizePostDate(value) {
   if (value instanceof Date && !Number.isNaN(value.getTime())) {

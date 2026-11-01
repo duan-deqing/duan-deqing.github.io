@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import rehypeSanitize from 'rehype-sanitize'
-import { markdownSanitizeSchema } from '../../src/utils/markdownSanitizeSchema.js'
+import { markdownSanitizeSchema } from '../../src/utils/markdown/markdownSanitizeSchema.js'
 
 function element(tagName, properties, children = []) {
   return { type: 'element', tagName, properties, children }

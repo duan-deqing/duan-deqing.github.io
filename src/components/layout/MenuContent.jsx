@@ -4,9 +4,9 @@ import config from '@content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
 import NavItem from './NavItem'
-import RegistryIcon from './RegistryIcon'
-import WechatDialog from './WechatDialog'
-import { ArrowUpRightIcon, CheckIcon, CopyIcon } from './icons'
+import RegistryIcon from '../ui/RegistryIcon'
+import WechatDialog from '../ui/dialogs/WechatDialog'
+import { ArrowUpRightIcon, CheckIcon, CopyIcon } from '../ui/icons'
 
 // 与首页壳共用 config.navLinks；Home 固定置顶，图标来自 icons.yaml
 export const NAV_ITEMS = [

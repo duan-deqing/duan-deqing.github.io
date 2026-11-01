@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom'
 import bookmarksConfig from '@content/bookmarks/bookmarks.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
-import { bookmarkCategories } from '../../utils/bookmarks'
+import { bookmarkCategories } from '../../utils/bookmarks/bookmarks'
 import BookmarkCategoryList from './BookmarkCategoryList'
 
 export default function BookmarksRail() {

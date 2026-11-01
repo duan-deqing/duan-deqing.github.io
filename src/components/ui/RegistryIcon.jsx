@@ -1,5 +1,5 @@
 import { cn } from '../../utils/cn'
-import { resolveIcon } from '../../utils/icons'
+import { resolveIcon } from '../../utils/icons/icons'
 
 export default function RegistryIcon({ name, size = 16, className = '' }) {
   const src = resolveIcon(name)

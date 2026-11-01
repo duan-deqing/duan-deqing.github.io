@@ -1,13 +1,13 @@
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { cn } from '../../utils/cn'
+import { cn } from '../../../utils/cn'
 import {
   MODAL_EXIT_MS,
   isExiting,
   isMounted,
   isVisible,
   presenceReducer,
-} from '../../utils/modalPresence'
+} from '../../../utils/modalPresence'
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'

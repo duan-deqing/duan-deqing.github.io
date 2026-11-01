@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import remarkGfm from 'remark-gfm'
 import remarkBreaks from 'remark-breaks'
 import { cn } from '../../utils/cn'
-import { splitRichTextBlocks } from '../../utils/richTextBlocks'
+import { splitRichTextBlocks } from '../../utils/markdown/richTextBlocks'
 
 const REMARK_PLUGINS = [remarkGfm, remarkBreaks]
 

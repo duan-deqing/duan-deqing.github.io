@@ -4,9 +4,9 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import test from 'node:test'
 import YAML from 'yaml'
-import { getBookmarkCover, getBookmarkDomain } from '../../src/utils/bookmarkFormat.js'
+import { getBookmarkCover, getBookmarkDomain } from '../../src/utils/bookmarks/bookmarkFormat.js'
 
-const root = fileURLToPath(new URL('../../', import.meta.url))
+const root = fileURLToPath(new URL('../..', import.meta.url))
 const source = YAML.parse(
   readFileSync(path.join(root, 'content/bookmarks/bookmarks.yaml'), 'utf8')
 )

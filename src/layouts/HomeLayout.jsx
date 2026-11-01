@@ -3,8 +3,8 @@ import { Outlet } from 'react-router-dom'
 import BackgroundLayer from '../backgrounds/BackgroundLayer'
 import { BACKGROUNDS, HOME_BACKGROUND, nextBackground } from '../backgrounds'
 import { useLanguage } from '../hooks/useLanguage'
-import HomeFooter from '../components/site/HomeFooter'
-import HomeHeader from '../components/site/HomeHeader'
+import HomeFooter from '../components/layout/HomeFooter'
+import HomeHeader from '../components/home/HomeHeader'
 
 function readBackground() {
   try {

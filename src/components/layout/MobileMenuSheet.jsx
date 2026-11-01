@@ -4,7 +4,7 @@ import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
 import ChangelogLink from './ChangelogLink'
 import MenuContent from './MenuContent'
-import { CloseIcon } from './icons'
+import { CloseIcon } from '../ui/icons'
 
 const FOCUSABLE =
   'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'

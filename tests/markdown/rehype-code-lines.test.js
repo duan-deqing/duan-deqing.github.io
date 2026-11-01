@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import rehypeCodeLines from '../../src/utils/rehypeCodeLines.js'
+import rehypeCodeLines from '../../src/utils/markdown/rehypeCodeLines.js'
 
 test('wraps code children into numbered lines and keeps nested spans', () => {
   const tree = {

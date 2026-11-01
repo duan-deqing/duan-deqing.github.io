@@ -13,16 +13,16 @@ import {
   postImageDirName,
   isValidPostDate,
   isValidPostSlug,
-} from '../../utils/postFilename'
-import { getTextContent } from '../../utils/markdownHeading'
+} from '../../utils/blog/postFilename'
+import { getTextContent } from '../../utils/markdown/markdownHeading'
 import Field from '../components/Field'
-import ArticleCarousel from '../../components/blog/ArticleCarousel'
-import ArticleVideo from '../../components/blog/ArticleVideo'
-import MermaidDiagram from '../../components/blog/MermaidDiagram'
-import { remarkGithubAlerts } from '../../utils/remarkGithubAlerts'
-import { remarkGithubRefs } from '../../utils/remarkGithubRefs'
-import { markdownSanitizeSchema } from '../../utils/markdownSanitizeSchema'
-import rehypeCodeLanguage from '../../utils/rehypeCodeLanguage'
+import ArticleCarousel from '../../components/markdown/ArticleCarousel'
+import ArticleVideo from '../../components/markdown/ArticleVideo'
+import MermaidDiagram from '../../components/markdown/MermaidDiagram'
+import { remarkGithubAlerts } from '../../utils/markdown/remarkGithubAlerts'
+import { remarkGithubRefs } from '../../utils/markdown/remarkGithubRefs'
+import { markdownSanitizeSchema } from '../../utils/markdown/markdownSanitizeSchema'
+import rehypeCodeLanguage from '../../utils/markdown/rehypeCodeLanguage'
 import { resolvePreviewImages } from '../lib/preview'
 
 function PreviewPre({ children }) {

@@ -1,7 +1,7 @@
 import GlassDialog from './GlassDialog'
-import CopyButton from './CopyButton'
-import { useLanguage } from '../../hooks/useLanguage'
-import '../../styles/wechat-glass.css'
+import CopyButton from '../CopyButton'
+import { useLanguage } from '../../../hooks/useLanguage'
+import '../../../styles/wechat-glass.css'
 
 export default function WechatDialog({ open, onClose, qrcode, wechatId, alt }) {
   const { t } = useLanguage()

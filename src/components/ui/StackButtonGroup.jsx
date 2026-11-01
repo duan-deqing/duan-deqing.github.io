@@ -1,6 +1,6 @@
 import stackConfig from '@content/stack/stack.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
-import { resolveIconEntry } from '../../utils/icons'
+import { resolveIconEntry } from '../../utils/icons/icons'
 import { cn } from '../../utils/cn'
 import QuietActionLink from './QuietActionLink'
 
