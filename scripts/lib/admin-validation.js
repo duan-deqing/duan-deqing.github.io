@@ -1,9 +1,20 @@
 import path from 'node:path'
 
 const LOOPBACK = new Set(['127.0.0.1', '::1', '::ffff:127.0.0.1'])
+const ALLOWED_HOSTS = new Set(['localhost', '127.0.0.1', '::1'])
 
 export function isLoopback(address) {
   return typeof address === 'string' && LOOPBACK.has(address)
+}
+
+export function isAllowedHost(host) {
+  if (typeof host !== 'string' || !host) return false
+  try {
+    const hostname = new URL(`http://${host}`).hostname.replace(/^\[|\]$/g, '')
+    return ALLOWED_HOSTS.has(hostname)
+  } catch {
+    return false
+  }
 }
 
 export function isSameOrigin(origin, host) {

@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import crypto from 'node:crypto'
 import YAML from 'yaml'
 import { writeFileAtomic } from './fs-atomic.js'
 
@@ -23,4 +24,8 @@ export function readYamlFile(file) {
 
 export function fileRevision(file) {
   return fs.statSync(file).mtimeMs
+}
+
+export function contentHash(text) {
+  return crypto.createHash('sha1').update(String(text)).digest('hex').slice(0, 16)
 }

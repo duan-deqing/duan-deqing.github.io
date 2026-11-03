@@ -1,5 +1,15 @@
 const BASE = '/__admin/api'
 
+export class AdminApiError extends Error {
+  constructor(message, { status = 0, code = 'REQUEST_FAILED', payload = {} } = {}) {
+    super(message)
+    this.name = 'AdminApiError'
+    this.status = status
+    this.code = code
+    this.payload = payload
+  }
+}
+
 async function request(path, { method = 'GET', json, body } = {}) {
   const headers = {}
   if (method !== 'GET') headers['X-Admin-Request'] = '1'
@@ -11,16 +21,33 @@ async function request(path, { method = 'GET', json, body } = {}) {
   })
   const data = await res.json().catch(() => ({}))
   if (!res.ok) {
-    throw Object.assign(new Error(data.error || `请求失败 (${res.status})`), {
+    throw new AdminApiError(data.error || `请求失败 (${res.status})`, {
       status: res.status,
+      code: data.code || 'REQUEST_FAILED',
+      payload: data,
     })
   }
   return data
 }
 
+export function safeUploadName(name) {
+  const match = String(name).match(/\.([A-Za-z0-9]+)$/)
+  if (!match) {
+    throw new Error('图片文件名需要包含扩展名')
+  }
+  const ext = `.${match[1].toLowerCase()}`
+  const base = String(name)
+    .replace(/\.[^.]+$/, '')
+    .replace(/[^A-Za-z0-9_-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60)
+  return `${base || 'image'}${ext}`
+}
+
 export const adminApi = {
   getConfig: () => request('/config'),
-  saveConfig: (payload) => request('/config', { method: 'PUT', json: payload }),
+  saveConfig: (documents, revision) =>
+    request('/config', { method: 'PUT', json: { documents, revision } }),
   listPosts: () => request('/posts'),
   getPost: (lang, filename) =>
     request(`/posts/${lang}/${encodeURIComponent(filename)}`),
@@ -36,18 +63,4 @@ export const adminApi = {
     if (post) query.set('post', post)
     return request(`/upload?${query.toString()}`, { method: 'POST', body: file })
   },
-}
-
-function safeUploadName(name) {
-  const match = String(name).match(/\.([A-Za-z0-9]+)$/)
-  if (!match) {
-    throw new Error('图片文件名需要包含扩展名')
-  }
-  const ext = `.${match[1].toLowerCase()}`
-  const base = String(name)
-    .replace(/\.[^.]+$/, '')
-    .replace(/[^A-Za-z0-9_-]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .slice(0, 60)
-  return `${base || 'image'}${ext}`
 }

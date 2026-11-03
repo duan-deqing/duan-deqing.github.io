@@ -4,6 +4,7 @@ import path from 'node:path'
 import {
   isLoopback,
   isSameOrigin,
+  isAllowedHost,
   isSafeFileName,
   isPostFileName,
   assertInside,
@@ -16,6 +17,15 @@ test('只接受回环地址', () => {
   assert.equal(isLoopback('::ffff:127.0.0.1'), true)
   assert.equal(isLoopback('192.168.1.10'), false)
   assert.equal(isLoopback(undefined), false)
+})
+
+test('Host 只接受本机域名，用于拦截 DNS rebinding', () => {
+  assert.equal(isAllowedHost('localhost:5173'), true)
+  assert.equal(isAllowedHost('127.0.0.1:5173'), true)
+  assert.equal(isAllowedHost('[::1]:5173'), true)
+  assert.equal(isAllowedHost('evil.test'), false)
+  assert.equal(isAllowedHost('192.168.1.10:5173'), false)
+  assert.equal(isAllowedHost(undefined), false)
 })
 
 test('Origin 必须与 Host 同源，缺省允许', () => {
