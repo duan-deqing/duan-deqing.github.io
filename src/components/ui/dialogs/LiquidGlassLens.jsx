@@ -64,19 +64,17 @@ export default function LiquidGlassLens() {
     }
   }, [filterId])
 
+  // 贴图与滤镜就绪即挂载，不再等待入场动画结束。
+  const ready = Boolean(markup)
+
   return (
     <>
       <div
         ref={lensRef}
         aria-hidden="true"
-        className={markup ? 'liquid-glass-lens is-ready' : 'liquid-glass-lens'}
+        className={ready ? 'liquid-glass-lens is-ready' : 'liquid-glass-lens'}
         style={
-          markup
-            ? {
-                backdropFilter: `url(#${filterId})`,
-                WebkitBackdropFilter: `url(#${filterId})`,
-              }
-            : undefined
+          ready ? { '--liquid-glass-filter': `url(#${filterId})` } : undefined
         }
       />
       {markup ? (
