@@ -1,20 +1,30 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { contentSchema } from './schema'
+import { adminPages, adminPageIds } from './schema'
+import { displayText } from './lib/display'
 import { useAdminTheme } from './hooks/useAdminTheme'
 import { useConfigDraft } from './hooks/useConfigDraft'
 import { useHashRoute } from './hooks/useHashRoute'
 import AdminSidebar from './components/AdminSidebar'
 import AdminTopbar from './components/AdminTopbar'
 import PreviewDrawer from './components/PreviewDrawer'
+import PostsPanel from './components/PostsPanel'
 import ConfigView from './views/ConfigView'
-import PostsView from './views/PostsView'
+import DashboardView from './views/DashboardView'
 
-const NAV = [...contentSchema.map(({ id, label }) => ({ id, label })), { id: 'posts', label: '文章管理' }]
-const NAV_IDS = NAV.map(({ id }) => id)
-const FALLBACK_ID = 'site'
+const FALLBACK_ID = 'dashboard'
+const SIDE_ITEMS = adminPages.filter(({ id }) => id !== 'profile')
+
+function profileFrom(documents) {
+  const personal = documents?.site?.personal || {}
+  return {
+    avatar: typeof personal.avatar === 'string' ? personal.avatar : '',
+    name: displayText(personal.name, 'STYLAN'),
+    role: displayText(personal.role, '内容后台'),
+  }
+}
 
 export default function AdminApp() {
-  const { activeId, navigate } = useHashRoute(NAV_IDS, FALLBACK_ID)
+  const { activeId, navigate } = useHashRoute(adminPageIds, FALLBACK_ID)
   const draft = useConfigDraft()
   const { dark, toggleTheme } = useAdminTheme()
   const [postDirty, setPostDirty] = useState(false)
@@ -23,9 +33,8 @@ export default function AdminApp() {
   const [previewDevice, setPreviewDevice] = useState('desktop')
   const iframeRef = useRef(null)
 
-  const activeItem = NAV.find((item) => item.id === activeId) || NAV[0]
-  const activeSection =
-    contentSchema.find((item) => item.id === activeId) || contentSchema[0]
+  const activePage = adminPages.find((page) => page.id === activeId) || adminPages[0]
+  const profile = profileFrom(draft.documents)
 
   const reloadPreview = useCallback(() => {
     iframeRef.current?.contentWindow?.location.reload()
@@ -56,7 +65,7 @@ export default function AdminApp() {
 
   useEffect(() => {
     const handler = (event) => {
-      if (activeId === 'posts') return
+      if (postDirty) return
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') {
         event.preventDefault()
         handleSave()
@@ -64,12 +73,12 @@ export default function AdminApp() {
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [handleSave, activeId])
+  }, [handleSave, postDirty])
 
   const goTo = useCallback(
     (id) => {
       if (id === activeId) return
-      if (activeId === 'posts' && postDirty && !window.confirm('文章有未保存的更改，确定离开？')) return
+      if (postDirty && !window.confirm('文章有未保存的更改，确定离开？')) return
       setPostDirty(false)
       navigate(id)
     },
@@ -83,16 +92,15 @@ export default function AdminApp() {
     return (
       <div className="admin-shell">
         <AdminSidebar
-          items={NAV}
+          items={SIDE_ITEMS}
           activeId={activeId}
           onSelect={goTo}
-          dark={dark}
-          onToggleTheme={toggleTheme}
+          profile={{ avatar: '', name: 'STYLAN', role: '内容后台' }}
         />
         <div className="admin-workspace">
           <header className="admin-topbar">
             <div className="admin-topbar-left">
-              <span className="admin-breadcrumb">内容管理 / {activeItem.label}</span>
+              <span className="admin-breadcrumb">内容管理 / {activePage.label}</span>
             </div>
             <div className="admin-topbar-actions">
               {!loading && (
@@ -117,16 +125,15 @@ export default function AdminApp() {
   return (
     <div className="admin-shell">
       <AdminSidebar
-        items={NAV}
+        items={SIDE_ITEMS}
         activeId={activeId}
         onSelect={goTo}
-        dark={dark}
-        onToggleTheme={toggleTheme}
+        profile={profile}
       />
 
       <div className="admin-workspace">
         <AdminTopbar
-          label={activeItem.label}
+          label={activePage.label}
           dark={dark}
           onToggleTheme={toggleTheme}
           dirty={draft.dirty}
@@ -138,10 +145,16 @@ export default function AdminApp() {
         />
 
         <main className="admin-main">
-          {activeId === 'posts' ? (
-            <PostsView onDirtyChange={setPostDirty} />
+          {activeId === 'dashboard' ? (
+            <DashboardView draft={draft} onNavigate={goTo} />
           ) : (
-            <ConfigView section={activeSection} draft={draft} />
+            <ConfigView
+              page={activePage}
+              draft={draft}
+              extra={
+                activePage.posts ? <PostsPanel onDirtyChange={setPostDirty} /> : null
+              }
+            />
           )}
         </main>
       </div>

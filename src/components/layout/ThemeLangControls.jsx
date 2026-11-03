@@ -3,10 +3,9 @@ import { useTheme } from '../../hooks/useTheme'
 import { cn } from '../../utils/cn'
 import BackgroundToggle from '../../backgrounds/BackgroundToggle'
 import { GlobeIcon, MoonIcon, SunIcon } from '../ui/icons'
+import { ICON_BUTTON_CLASS } from '../ui/IconButton'
 
 const BASE = 'inline-flex h-8 items-center justify-center gap-1.5'
-const ICON_BUTTON =
-  'rounded-none px-1 text-sm text-ink opacity-60 transition-opacity hover:opacity-100'
 const SIDEBAR_BUTTON =
   'rounded-md px-2 text-xs font-medium text-muted-strong transition-colors hover:bg-hover hover:text-ink'
 
@@ -42,7 +41,7 @@ export default function ThemeLangControls({
       ) : null}
       <button
         type="button"
-        className={cn(BASE, showLabels ? SIDEBAR_BUTTON : ICON_BUTTON)}
+        className={showLabels ? cn(BASE, SIDEBAR_BUTTON) : ICON_BUTTON_CLASS}
         onClick={toggleTheme}
         aria-label={showLabels ? undefined : themeLabel}
         title={suppressTitle ? undefined : themeLabel}
@@ -52,7 +51,7 @@ export default function ThemeLangControls({
       </button>
       <button
         type="button"
-        className={cn(BASE, showLabels ? SIDEBAR_BUTTON : ICON_BUTTON)}
+        className={showLabels ? cn(BASE, SIDEBAR_BUTTON) : ICON_BUTTON_CLASS}
         onClick={toggleLang}
         aria-label={showLabels ? undefined : langLabel}
         title={suppressTitle ? undefined : langLabel}

@@ -112,6 +112,21 @@ export const CheckIcon = (props) => (
   </LineIcon>
 )
 
+export const SaveIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="M5 3h11l3 3v15H5z" />
+    <path d="M8 3v6h8V3" />
+    <path d="M8 21v-7h8v7" />
+  </LineIcon>
+)
+
+export const EyeIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z" />
+    <circle cx="12" cy="12" r="2.5" />
+  </LineIcon>
+)
+
 export const CopyIcon = (props) => (
   <LineIcon {...props}>
     <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />

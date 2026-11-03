@@ -49,6 +49,7 @@ export const adminApi = {
   saveConfig: (documents, revision) =>
     request('/config', { method: 'PUT', json: { documents, revision } }),
   listPosts: () => request('/posts'),
+  getGitLog: (limit = 20) => request(`/git-log?limit=${limit}`),
   getPost: (lang, filename) =>
     request(`/posts/${lang}/${encodeURIComponent(filename)}`),
   savePost: (lang, filename, payload) =>

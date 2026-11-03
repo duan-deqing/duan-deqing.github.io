@@ -2,6 +2,61 @@ const bilingual = (key, label, type = 'i18nText', extra = {}) => ({
   key, label, type, ...extra,
 })
 
+export const adminPages = [
+  {
+    id: 'dashboard',
+    label: 'Dashboard',
+    description: '网站项目、博客、技术栈与最近提交记录的总览。',
+  },
+  {
+    id: 'profile',
+    label: '个人信息',
+    description: '维护头像、名字、角色与联系方式，对应前台侧栏展示。',
+    sections: [
+      { id: 'personal', title: '个人资料' },
+      { id: 'contact', title: '联系方式' },
+    ],
+  },
+  {
+    id: 'projects',
+    label: '项目',
+    description: '维护项目分类与项目条目，新增或删除项目后保存生效。',
+    sections: [
+      { id: 'projectCategories', title: '项目分类' },
+      { id: 'projects', title: '项目列表' },
+    ],
+  },
+  {
+    id: 'blog',
+    label: '博客',
+    description: '维护博客设置与文章内容，文章写入本地 Markdown 文件。',
+    sections: [{ id: 'blog', title: '博客设置' }],
+    posts: true,
+  },
+  {
+    id: 'stack',
+    label: '技术栈',
+    description: '维护技术栈分类与每个分类下的技术条目。',
+    sections: [{ id: 'skills', title: '技术栈' }],
+  },
+  {
+    id: 'settings',
+    label: '设置',
+    description: '站点级信息与页脚；导航由 site.yaml 维护，这里只读展示。',
+    sections: [
+      { id: 'site', title: '站点信息' },
+      { id: 'footer', title: '页脚' },
+    ],
+    readonlyNav: true,
+  },
+]
+
+export const adminPageIds = adminPages.map(({ id }) => id)
+
+export function getContentSection(id) {
+  return contentSchema.find((section) => section.id === id) || null
+}
+
 export const contentSchema = [
   {
     id: 'site',

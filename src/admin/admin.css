@@ -15,22 +15,24 @@
   padding: 12px;
 }
 
-.admin-brand-block {
+.admin-profile {
   display: flex;
-  flex-direction: column;
-  padding: 8px 8px 16px;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  padding: 8px;
+  text-align: left;
+  transition: background-color 0.15s ease;
 }
 
-.admin-brand {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: var(--heading);
+.admin-profile:hover {
+  background: var(--bg-hover);
 }
 
-.admin-brand-sub {
-  font-size: 12px;
-  color: var(--muted);
+.admin-profile.is-active {
+  background: var(--active-bg);
 }
 
 .admin-nav {
@@ -41,16 +43,10 @@
   overflow-y: auto;
 }
 
-.admin-nav-divider {
-  margin: 8px 4px;
-  border-top: 1px solid var(--line);
-}
-
 .admin-nav-btn {
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
   border-radius: 8px;
   padding: 8px;
@@ -70,46 +66,6 @@
   color: var(--active-fg);
 }
 
-.admin-nav-index {
-  display: grid;
-  width: 20px;
-  height: 20px;
-  place-content: center;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  background: var(--bg-subtle);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--muted);
-}
-
-.admin-nav-btn.is-active .admin-nav-index {
-  border-color: transparent;
-  background: color-mix(in srgb, var(--active-fg) 12%, transparent);
-  color: var(--active-fg);
-}
-
-.admin-sidebar-footer {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  border-top: 1px solid var(--line);
-  padding-top: 8px;
-}
-
-.admin-text-btn {
-  border-radius: 6px;
-  padding: 6px 8px;
-  font-size: 12px;
-  color: var(--muted-strong);
-  text-align: left;
-}
-
-.admin-text-btn:hover {
-  background: var(--bg-hover);
-  color: var(--ink);
-}
-
 .admin-workspace {
   display: flex;
   min-width: 0;
@@ -118,17 +74,12 @@
 }
 
 .admin-topbar {
-  position: sticky;
-  top: 0;
-  z-index: 30;
   display: flex;
   height: 56px;
   flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  border-bottom: 1px solid var(--line);
-  background: var(--bg);
   padding: 0 20px;
 }
 
@@ -144,8 +95,15 @@
 .admin-topbar-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   white-space: nowrap;
+}
+
+.admin-topbar-divider {
+  width: 1px;
+  height: 16px;
+  margin: 0 4px;
+  background: var(--line);
 }
 
 .admin-main {
@@ -158,6 +116,122 @@
 .admin-page {
   max-width: 896px;
   margin: 0 auto;
+}
+
+.admin-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.admin-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  padding: 14px 16px;
+  text-align: left;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.admin-stat:hover {
+  border-color: var(--line-strong);
+  background: var(--bg-hover);
+}
+
+.admin-stat-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.admin-stat-value {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--heading);
+}
+
+.admin-stat-meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.admin-commit-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-commit-list::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background: var(--line);
+}
+
+.admin-commit {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  padding-left: 14px;
+}
+
+.admin-commit-dot {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.admin-commit-hash {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg-subtle);
+  padding: 0 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.admin-commit-meta {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.admin-commit-files {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.admin-commit-files span {
+  border-radius: 4px;
+  background: var(--bg-subtle);
+  padding: 2px 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+@media (min-width: 1024px) {
+  .admin-stat-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 .admin-page-head {
@@ -324,13 +398,6 @@
 
 .admin-btn-danger:hover {
   background: rgb(220 38 38 / 0.08);
-}
-
-/* 窄屏侧栏底部隐藏后，用顶栏紧凑按钮承接主题切换 */
-.admin-theme-toggle {
-  height: 32px;
-  padding: 0 10px;
-  font-size: 12px;
 }
 
 .admin-tab {
@@ -549,12 +616,6 @@
   }
 }
 
-@media (min-width: 1024px) {
-  .admin-theme-toggle {
-    display: none;
-  }
-}
-
 @media (max-width: 1023px) {
   .admin-shell {
     grid-template-columns: minmax(0, 1fr);
@@ -571,12 +632,14 @@
     overflow-x: auto;
   }
 
-  .admin-brand-block {
-    padding: 0;
-    white-space: nowrap;
+  .admin-profile {
+    width: auto;
+    flex: 0 0 auto;
+    margin-bottom: 0;
+    padding: 4px;
   }
 
-  .admin-brand-sub {
+  .admin-profile .profile-role {
     display: none;
   }
 
@@ -590,20 +653,6 @@
   .admin-nav-btn {
     width: auto;
     white-space: nowrap;
-  }
-
-  .admin-nav-divider {
-    align-self: stretch;
-    flex: 0 0 auto;
-    width: 0;
-    margin: 4px 6px;
-    border-top: 0;
-    border-left: 1px solid var(--line);
-  }
-
-  .admin-nav-index,
-  .admin-sidebar-footer {
-    display: none;
   }
 
   .admin-main {

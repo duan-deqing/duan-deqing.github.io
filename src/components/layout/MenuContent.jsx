@@ -4,6 +4,7 @@ import config from '@content/site.yaml'
 import { useLanguage } from '../../hooks/useLanguage'
 import { cn } from '../../utils/cn'
 import NavItem from './NavItem'
+import ProfileAvatar from './ProfileAvatar'
 import RegistryIcon from '../ui/RegistryIcon'
 import WechatDialog from '../ui/dialogs/WechatDialog'
 import { ArrowUpRightIcon, CheckIcon, CopyIcon } from '../ui/icons'
@@ -100,27 +101,7 @@ export default function MenuContent({ onNavigate }) {
         className="menu-avatar flex items-center gap-2 rounded-lg p-2 transition-colors hover:bg-hover"
         onClick={onNavigate}
       >
-        {typeof avatar === 'string' &&
-        (avatar.startsWith('/') || avatar.startsWith('http')) ? (
-          <img
-            src={avatar}
-            alt={name}
-            width={40}
-            height={40}
-            loading="lazy"
-            decoding="async"
-            referrerPolicy="no-referrer"
-            className="size-10 rounded-full border border-line object-cover"
-          />
-        ) : (
-          <span className="grid size-10 place-items-center rounded-full border border-line bg-page text-lg">
-            {avatar || name.slice(0, 1)}
-          </span>
-        )}
-        <span className="flex min-w-0 flex-col">
-          <span className="truncate font-semibold tracking-tight text-heading">{name}</span>
-          <span className="truncate text-muted-strong">{role}</span>
-        </span>
+        <ProfileAvatar avatar={avatar} name={name} role={role} />
       </Link>
 
       <nav aria-label={t(SECTIONS_LABEL)} className="flex flex-col gap-1">

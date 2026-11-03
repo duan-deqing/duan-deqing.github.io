@@ -1,6 +1,8 @@
-import { Fragment, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
+import ProfileAvatar from '../../components/layout/ProfileAvatar'
+import { cn } from '../../utils/cn'
 
-export default function AdminSidebar({ items, activeId, onSelect, dark, onToggleTheme }) {
+export default function AdminSidebar({ items, activeId, onSelect, profile }) {
   const activeRef = useRef(null)
 
   // 窄屏分区条横向滚动时，把当前分区带回可视区域
@@ -11,36 +13,28 @@ export default function AdminSidebar({ items, activeId, onSelect, dark, onToggle
 
   return (
     <aside className="admin-sidebar">
-      <div className="admin-brand-block">
-        <span className="admin-brand">STYLAN</span>
-        <span className="admin-brand-sub">内容后台</span>
-      </div>
+      <button
+        type="button"
+        className={cn('admin-profile', activeId === 'profile' && 'is-active')}
+        onClick={() => onSelect('profile')}
+        aria-current={activeId === 'profile' ? 'page' : undefined}
+      >
+        <ProfileAvatar avatar={profile.avatar} name={profile.name} role={profile.role} />
+      </button>
 
       <nav className="admin-nav" aria-label="后台导航">
-        {items.map(({ id, label }, index) => (
-          <Fragment key={id}>
-            {id === 'posts' && <div className="admin-nav-divider" />}
-            <button
-              className={`admin-nav-btn ${activeId === id ? 'is-active' : ''}`}
-              ref={activeId === id ? activeRef : null}
-              onClick={() => onSelect(id)}
-              aria-current={activeId === id ? 'page' : undefined}
-            >
-              <span>{label}</span>
-              <span className="admin-nav-index" aria-hidden="true">{index + 1}</span>
-            </button>
-          </Fragment>
+        {items.map(({ id, label }) => (
+          <button
+            key={id}
+            className={`admin-nav-btn ${activeId === id ? 'is-active' : ''}`}
+            ref={activeId === id ? activeRef : null}
+            onClick={() => onSelect(id)}
+            aria-current={activeId === id ? 'page' : undefined}
+          >
+            <span>{label}</span>
+          </button>
         ))}
       </nav>
-
-      <div className="admin-sidebar-footer">
-        <button type="button" className="admin-text-btn" onClick={onToggleTheme}>
-          {dark ? '浅色主题' : '深色主题'}
-        </button>
-        <a className="admin-text-btn" href="/" target="_blank" rel="noopener noreferrer">
-          打开前台 ↗
-        </a>
-      </div>
     </aside>
   )
 }

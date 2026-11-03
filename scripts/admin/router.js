@@ -1,6 +1,7 @@
 import { guard } from './guard.js'
 import { createError, readBody, readJson, sendJson } from './http.js'
 import { createConfigStore } from './config-store.js'
+import { createGitStore } from './git-store.js'
 import { createPostStore } from './posts-store.js'
 import { createUploadStore } from './uploads-store.js'
 
@@ -11,6 +12,7 @@ function methodNotAllowed(res, allow) {
 
 export function createAdminRouter(root) {
   const configStore = createConfigStore(root)
+  const gitStore = createGitStore(root)
   const postStore = createPostStore(root)
   const uploadStore = createUploadStore(root)
 
@@ -24,6 +26,17 @@ export function createAdminRouter(root) {
       if (method === 'GET') return sendJson(res, 200, configStore.readConfig())
       if (method === 'PUT') return sendJson(res, 200, configStore.saveConfig(await readJson(req)))
       return methodNotAllowed(res, ['GET', 'PUT'])
+    }
+
+    if (route === '/git-log') {
+      if (method === 'GET') {
+        return sendJson(
+          res,
+          200,
+          await gitStore.readLog(url.searchParams.get('limit'))
+        )
+      }
+      return methodNotAllowed(res, ['GET'])
     }
 
     if (route === '/posts') {
