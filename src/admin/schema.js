@@ -11,20 +11,22 @@ export const adminPages = [
   {
     id: 'profile',
     label: '个人信息',
-    description: '维护头像、名字、角色与联系方式，对应前台侧栏展示。',
+    description: '维护头像、名字、角色、联系方式与首页文案，对应前台侧栏展示。',
     sections: [
       { id: 'personal', title: '个人资料' },
       { id: 'contact', title: '联系方式' },
     ],
+    homeCopy: true,
   },
   {
     id: 'projects',
     label: '项目',
-    description: '维护项目分类与项目条目，新增或删除项目后保存生效。',
+    description: '维护项目分类、项目条目与详情正文，新增或删除项目后保存生效。',
     sections: [
-      { id: 'projectCategories', title: '项目分类' },
+      { id: 'projectCategories', title: '项目分类', collapsible: true, defaultOpen: false },
       { id: 'projects', title: '项目列表' },
     ],
+    projectDetails: true,
   },
   {
     id: 'blog',
@@ -40,12 +42,27 @@ export const adminPages = [
     sections: [{ id: 'skills', title: '技术栈' }],
   },
   {
+    id: 'bookmarks',
+    label: '书签',
+    description: '维护书签页文案、分类与每个分类下的书签。',
+    sections: [
+      { id: 'bookmarkPage', title: '书签页设置', collapsible: true, defaultOpen: false },
+      { id: 'bookmarkCategories', title: '分类与书签' },
+    ],
+  },
+  {
+    id: 'changelog',
+    label: '更新日志',
+    description: '浏览版本记录并编辑对应语言的中英文 Markdown。',
+    kind: 'changelog',
+  },
+  {
     id: 'settings',
     label: '设置',
     description: '站点级信息与页脚；导航由 site.yaml 维护，这里只读展示。',
     sections: [
       { id: 'site', title: '站点信息' },
-      { id: 'footer', title: '页脚' },
+      { id: 'footer', title: '页脚', collapsible: true, defaultOpen: false },
     ],
     readonlyNav: true,
   },
@@ -201,5 +218,39 @@ export const contentSchema = [
         ],
       },
     ],
+  },
+  {
+    id: 'bookmarkPage',
+    label: '书签页设置',
+    doc: 'bookmarks',
+    path: ['page'],
+    fields: [
+      bilingual('title', '页面标题', 'i18nText', { required: true }),
+      bilingual('subtitle', '副标题', 'i18nTextarea'),
+    ],
+  },
+  {
+    id: 'bookmarkCategories',
+    label: '分类与书签',
+    doc: 'bookmarks',
+    path: ['categories'],
+    list: {
+      type: 'objectList',
+      label: '书签分类',
+      fields: [
+        { key: 'slug', label: 'slug', type: 'text', required: true, help: '小写字母/数字/连字符，用于分类详情页地址' },
+        bilingual('title', '分类名', 'i18nText', { required: true }),
+        bilingual('description', '分类介绍', 'i18nTextarea', { help: '只显示在分类详情页' }),
+        { key: 'icon', label: '图标', type: 'text', help: 'content/icons.yaml 中登记的图标名称' },
+        {
+          key: 'bookmarks', label: '书签', type: 'objectList',
+          fields: [
+            { key: 'title', label: '标题', type: 'text', required: true },
+            { key: 'url', label: '链接', type: 'url', required: true },
+            bilingual('description', '说明', 'i18nTextarea'),
+          ],
+        },
+      ],
+    },
   },
 ]

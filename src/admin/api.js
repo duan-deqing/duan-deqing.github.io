@@ -50,6 +50,21 @@ export const adminApi = {
     request('/config', { method: 'PUT', json: { documents, revision } }),
   listPosts: () => request('/posts'),
   getGitLog: (limit = 20) => request(`/git-log?limit=${limit}`),
+  getHomeFiles: () => request('/markdown/home'),
+  saveHomeFile: (id, payload) =>
+    request(`/markdown/home/${encodeURIComponent(id)}`, { method: 'PUT', json: payload }),
+  listChangelog: () => request('/markdown/changelog'),
+  saveChangelog: (filename, payload) =>
+    request(`/markdown/changelog/${encodeURIComponent(filename)}`, {
+      method: 'PUT',
+      json: payload,
+    }),
+  listProjectDetails: () => request('/markdown/projects'),
+  saveProjectDetail: (lang, slug, payload) =>
+    request(`/markdown/projects/${lang}/${encodeURIComponent(slug)}`, {
+      method: 'PUT',
+      json: payload,
+    }),
   getPost: (lang, filename) =>
     request(`/posts/${lang}/${encodeURIComponent(filename)}`),
   savePost: (lang, filename, payload) =>

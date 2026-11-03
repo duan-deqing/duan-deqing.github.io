@@ -11,6 +11,7 @@ import {
 
 const siteDoc = getDocument('site')
 const blogDoc = getDocument('blog')
+const bookmarksDoc = getDocument('bookmarks')
 
 const siteFiles = {
   site: {
@@ -52,6 +53,19 @@ test('blog 文档只覆盖 page 与 categories', () => {
   assert.deepEqual(doc.page, files.blog.page)
 })
 
+test('bookmarks 文档只覆盖 page 与 categories', () => {
+  const files = {
+    bookmarks: {
+      page: { title: { en: 'Bookmarks' } },
+      categories: [{ slug: 'frontend', bookmarks: [{ title: 'MDN', url: 'https://mdn.io' }] }],
+    },
+  }
+  const doc = composeDocument(bookmarksDoc, files)
+  assert.deepEqual(Object.keys(doc).sort(), ['categories', 'page'])
+  const writes = splitDocument(bookmarksDoc, doc, files)
+  assert.deepEqual(writes.bookmarks.categories, files.bookmarks.categories)
+})
+
 test('assertDocumentShape 拒绝缺字段与多余字段', () => {
   const composed = composeDocument(siteDoc, siteFiles)
   assert.doesNotThrow(() => assertDocumentShape(siteDoc, composed))
@@ -71,6 +85,7 @@ test('文档映射表覆盖全部磁盘文件', () => {
   const paths = ADMIN_DOCUMENTS.flatMap((doc) => doc.files.map((file) => file.path))
   assert.deepEqual(paths.sort(), [
     'content/blog/blog.yaml',
+    'content/bookmarks/bookmarks.yaml',
     'content/projects/projects.yaml',
     'content/site.yaml',
     'content/stack/stack.yaml',

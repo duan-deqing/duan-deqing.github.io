@@ -4,8 +4,10 @@ import ConflictDialog from '../components/ConflictDialog'
 import { usePostEditor } from '../hooks/usePostEditor'
 import { useDebouncedValue } from '../hooks/useDebouncedValue'
 import { resolvePreviewImages } from '../lib/preview'
+import { pickContent, useAdminLang, useAdminT } from '../i18n'
 
 function BiTextField({ label, value, onChange, multiline = false, help = '' }) {
+  const t = useAdminT()
   const isBi = value && typeof value === 'object' && !Array.isArray(value)
   const Input = multiline ? 'textarea' : 'input'
   return (
@@ -19,7 +21,7 @@ function BiTextField({ label, value, onChange, multiline = false, help = '' }) {
             onChange(isBi ? value.zh || value.en || '' : { en: value || '', zh: value || '' })
           }
         >
-          {isBi ? '改为单语' : '改为双语'}
+          {isBi ? t('改为单语') : t('改为双语')}
         </button>
       </div>
       {isBi ? (
@@ -45,12 +47,14 @@ function BiTextField({ label, value, onChange, multiline = false, help = '' }) {
           onChange={(event) => onChange(event.target.value)}
         />
       )}
-      {help && <p className="admin-help">{help}</p>}
+      {help && <p className="admin-help">{t(help)}</p>}
     </div>
   )
 }
 
 export default function PostEditorView({ state, onClose, onSaved, onDirtyChange }) {
+  const t = useAdminT()
+  const uiLang = useAdminLang()
   const editor = usePostEditor({ state, onClose, onSaved, onDirtyChange })
   const {
     isNew,
@@ -92,35 +96,35 @@ export default function PostEditorView({ state, onClose, onSaved, onDirtyChange 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <button className="admin-btn" onClick={close}>← 返回列表</button>
+        <button className="admin-btn" onClick={close}>← {t('返回列表')}</button>
         <div className="flex items-center gap-3">
           {error && <span className="admin-error">{error}</span>}
           {notice && <span className="admin-ok">{notice}</span>}
           <button className="admin-btn admin-btn-primary" disabled={saving} onClick={save}>
-            {saving ? '保存中…' : '保存文章'}
+            {saving ? t('保存中…') : t('保存文章')}
           </button>
         </div>
       </div>
 
       {loading ? (
-        <p className="text-sm text-muted">加载中…</p>
+        <p className="text-sm text-muted">{t('加载中')}</p>
       ) : (
         <>
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="block">
-              <span className="admin-label-text">语言</span>
+              <span className="admin-label-text">{t('语言')}</span>
               <select
                 className="admin-input"
                 value={lang}
                 disabled={!isNew}
                 onChange={(event) => setLang(event.target.value)}
               >
-                <option value="zh">中文</option>
+                <option value="zh">{t('中文')}</option>
                 <option value="en">English</option>
               </select>
             </label>
             <label className="block">
-              <span className="admin-label-text">日期</span>
+              <span className="admin-label-text">{t('日期')}</span>
               <input
                 className="admin-input"
                 placeholder="2026-10-28"
@@ -140,7 +144,7 @@ export default function PostEditorView({ state, onClose, onSaved, onDirtyChange 
               </label>
             )}
             <label className="block">
-              <span className="admin-label-text">分类</span>
+              <span className="admin-label-text">{t('分类')}</span>
               <select
                 className="admin-input"
                 value={frontmatter.category || ''}
@@ -148,31 +152,31 @@ export default function PostEditorView({ state, onClose, onSaved, onDirtyChange 
                   setFrontmatter({ ...frontmatter, category: event.target.value })
                 }
               >
-                <option value="">请选择</option>
+                <option value="">{t('请选择')}</option>
                 {categories.map((item) => (
                   <option key={item.id} value={item.id}>
-                    {item.label?.zh || item.id}
+                    {pickContent(item.label, uiLang, item.id)}
                   </option>
                 ))}
               </select>
             </label>
           </div>
 
-          <p className="font-mono text-[11px] text-muted">文件名：{filename}</p>
+          <p className="font-mono text-[11px] text-muted">{t('文件名：')}{filename}</p>
 
           <BiTextField
-            label="标题"
+            label={t('标题')}
             value={frontmatter.title}
             onChange={(next) => setFrontmatter({ ...frontmatter, title: next })}
           />
           <BiTextField
-            label="摘要"
+            label={t('摘要')}
             multiline
             value={frontmatter.excerpt}
             onChange={(next) => setFrontmatter({ ...frontmatter, excerpt: next })}
           />
           <label className="block">
-            <span className="admin-label-text">阅读时长</span>
+            <span className="admin-label-text">{t('阅读时长')}</span>
             <input
               className="admin-input"
               placeholder="8min"
@@ -181,25 +185,25 @@ export default function PostEditorView({ state, onClose, onSaved, onDirtyChange 
                 setFrontmatter({ ...frontmatter, duration: event.target.value })
               }
             />
-            <p className="admin-help">例如 8min</p>
+            <p className="admin-help">{t('例如8min')}</p>
           </label>
 
           <Field
-            field={{ key: 'tags', label: '标签', type: 'stringList' }}
+            field={{ key: 'tags', label: t('标签'), type: 'stringList' }}
             value={frontmatter.tags}
             onChange={(next) => setFrontmatter({ ...frontmatter, tags: next })}
           />
 
           <div>
             <div className="flex items-center justify-between mb-1.5">
-              <span className="admin-label-text">正文（Markdown）</span>
+              <span className="admin-label-text">{t('正文（Markdown）')}</span>
               <label className="admin-btn cursor-pointer">
-                上传配图
+                {t('上传配图')}
                 <input type="file" accept="image/*" className="hidden" onChange={handleUpload} />
               </label>
             </div>
             <textarea
-              aria-label="正文（Markdown）"
+              aria-label={t('正文（Markdown）')}
               className="admin-input admin-textarea font-mono text-[12px] leading-[1.7]"
               rows={16}
               value={body}
@@ -208,7 +212,7 @@ export default function PostEditorView({ state, onClose, onSaved, onDirtyChange 
           </div>
 
           <div className="admin-subpanel">
-            <p className="admin-label-text mb-3">预览</p>
+            <p className="admin-label-text mb-3">{t('预览')}</p>
             <div className="prose-admin">
               <MarkdownPreview source={previewBody} />
             </div>
@@ -218,11 +222,11 @@ export default function PostEditorView({ state, onClose, onSaved, onDirtyChange 
 
       <ConflictDialog
         open={Boolean(conflict)}
-        title={conflict?.kind === 'blocked' ? '无法保存' : '文章已被外部修改'}
+        title={conflict?.kind === 'blocked' ? t('无法保存') : t('文章已被外部修改')}
         message={conflict?.message}
-        primaryLabel={conflict?.kind === 'blocked' ? undefined : '用我的版本覆盖'}
+        primaryLabel={conflict?.kind === 'blocked' ? undefined : t('用我的版本覆盖')}
         onPrimary={conflict?.kind === 'blocked' ? undefined : () => resolveConflict('local')}
-        secondaryLabel={conflict?.kind === 'blocked' ? undefined : '加载磁盘版本'}
+        secondaryLabel={conflict?.kind === 'blocked' ? undefined : t('加载磁盘版本')}
         onSecondary={
           conflict?.kind === 'blocked' ? undefined : () => resolveConflict('server')
         }

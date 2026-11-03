@@ -2,6 +2,7 @@ import { guard } from './guard.js'
 import { createError, readBody, readJson, sendJson } from './http.js'
 import { createConfigStore } from './config-store.js'
 import { createGitStore } from './git-store.js'
+import { createMarkdownStore } from './markdown-store.js'
 import { createPostStore } from './posts-store.js'
 import { createUploadStore } from './uploads-store.js'
 
@@ -13,6 +14,7 @@ function methodNotAllowed(res, allow) {
 export function createAdminRouter(root) {
   const configStore = createConfigStore(root)
   const gitStore = createGitStore(root)
+  const markdownStore = createMarkdownStore(root)
   const postStore = createPostStore(root)
   const uploadStore = createUploadStore(root)
 
@@ -37,6 +39,61 @@ export function createAdminRouter(root) {
         )
       }
       return methodNotAllowed(res, ['GET'])
+    }
+
+    if (route === '/markdown/home') {
+      if (method === 'GET') return sendJson(res, 200, markdownStore.readHome())
+      return methodNotAllowed(res, ['GET'])
+    }
+
+    const homeFileMatch = route.match(/^\/markdown\/home\/([^/]+)$/)
+    if (homeFileMatch) {
+      if (method !== 'PUT') return methodNotAllowed(res, ['PUT'])
+      let id
+      try {
+        id = decodeURIComponent(homeFileMatch[1])
+      } catch {
+        throw createError('非法的首页文件名', 400, 'INVALID_FILE')
+      }
+      return sendJson(res, 200, markdownStore.saveHome(id, await readJson(req)))
+    }
+
+    if (route === '/markdown/changelog') {
+      if (method === 'GET') return sendJson(res, 200, markdownStore.listChangelog())
+      return methodNotAllowed(res, ['GET'])
+    }
+
+    const changelogMatch = route.match(/^\/markdown\/changelog\/([^/]+)$/)
+    if (changelogMatch) {
+      if (method !== 'PUT') return methodNotAllowed(res, ['PUT'])
+      let filename
+      try {
+        filename = decodeURIComponent(changelogMatch[1])
+      } catch {
+        throw createError('非法的更新日志文件名', 400, 'INVALID_FILE')
+      }
+      return sendJson(res, 200, markdownStore.saveChangelog(filename, await readJson(req)))
+    }
+
+    if (route === '/markdown/projects') {
+      if (method === 'GET') return sendJson(res, 200, markdownStore.listProjectDetails())
+      return methodNotAllowed(res, ['GET'])
+    }
+
+    const projectDetailMatch = route.match(/^\/markdown\/projects\/(zh|en)\/([^/]+)$/)
+    if (projectDetailMatch) {
+      if (method !== 'PUT') return methodNotAllowed(res, ['PUT'])
+      let slug
+      try {
+        slug = decodeURIComponent(projectDetailMatch[2])
+      } catch {
+        throw createError('非法的项目详情路径', 400, 'INVALID_FILE')
+      }
+      return sendJson(
+        res,
+        200,
+        markdownStore.saveProjectDetail(projectDetailMatch[1], slug, await readJson(req))
+      )
     }
 
     if (route === '/posts') {

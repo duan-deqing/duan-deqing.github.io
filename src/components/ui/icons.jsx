@@ -36,6 +36,12 @@ function FillIcon({ children, size = 16, className = '', ...props }) {
   )
 }
 
+export const ChevronDownIcon = (props) => (
+  <LineIcon {...props}>
+    <path d="m6 9 6 6 6-6" />
+  </LineIcon>
+)
+
 export const LinkIcon = (props) => (
   <LineIcon {...props}>
     <path d="M9 17H7A5 5 0 0 1 7 7h2" />
@@ -97,12 +103,6 @@ export const BackgroundOffIcon = (props) => (
   <LineIcon {...props}>
     <circle cx="12" cy="12" r="8.5" />
     <path d="m6 6 12 12" />
-  </LineIcon>
-)
-
-export const ChevronDownIcon = (props) => (
-  <LineIcon {...props}>
-    <path d="m6 9 6 6 6-6" />
   </LineIcon>
 )
 

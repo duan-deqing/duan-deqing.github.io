@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { adminApi } from '../api'
+import { useAdminT } from '../i18n'
 import { validateValue } from '../lib/validate'
 
-function FieldLabel({ field, error }) {
+function FieldLabel({ field, error, t }) {
   return (
     <div className="mb-1.5">
       <span className="admin-label-text">
-        {field.label}
+        {t(field.label)}
         {field.required ? ' *' : ''}
       </span>
       {error && <span className="admin-error ml-2">{error}</span>}
@@ -14,21 +15,22 @@ function FieldLabel({ field, error }) {
   )
 }
 
-function Help({ text }) {
-  return text ? <p className="admin-help">{text}</p> : null
+function Help({ text, t }) {
+  return text ? <p className="admin-help">{t(text)}</p> : null
 }
 
-export default function Field({ field, value, onChange }) {
+export default function Field({ field, value, onChange, itemActions = null }) {
+  const t = useAdminT()
   if (field.type === 'object') {
     return (
       <div className="admin-subpanel space-y-4">
-        <p className="admin-label-text">{field.label}</p>
+        <p className="admin-label-text">{t(field.label)}</p>
         <Fields fields={field.fields} value={value || {}} onChange={onChange} />
       </div>
     )
   }
   if (field.type === 'objectList') {
-    return <ObjectList field={field} value={value} onChange={onChange} />
+    return <ObjectList field={field} value={value} onChange={onChange} itemActions={itemActions} />
   }
   if (field.type === 'stringList') {
     return <StringList field={field} value={value} onChange={onChange} />
@@ -40,7 +42,7 @@ export default function Field({ field, value, onChange }) {
     return (
       <label className="flex items-center gap-2 text-sm">
         <input type="checkbox" checked={field.defaultTrue ? value !== false : Boolean(value)} onChange={(event) => onChange(event.target.checked)} />
-        {field.label}
+        {t(field.label)}
       </label>
     )
   }
@@ -66,6 +68,7 @@ export function Fields({ fields, value, onChange }) {
 }
 
 function TextInput({ field, value, onChange }) {
+  const t = useAdminT()
   const [uploading, setUploading] = useState(false)
   const error = validateValue(field, value)
   const multiline = field.type === 'textarea'
@@ -88,10 +91,10 @@ function TextInput({ field, value, onChange }) {
 
   return (
     <div>
-      <FieldLabel field={field} error={error} />
+      <FieldLabel field={field} error={error} t={t} />
       <div className="flex gap-2">
         <Input
-          aria-label={field.label}
+          aria-label={t(field.label)}
           className="admin-input"
           rows={multiline ? 3 : undefined}
           value={value ?? ''}
@@ -99,17 +102,18 @@ function TextInput({ field, value, onChange }) {
         />
         {(field.upload || field.type === 'imagePath') && (
           <label className="admin-btn cursor-pointer whitespace-nowrap">
-            {uploading ? '上传中…' : '上传'}
+            {uploading ? t('上传中…') : t('上传')}
             <input type="file" accept="image/*" className="hidden" onChange={handleFile} />
           </label>
         )}
       </div>
-      <Help text={field.help} />
+      <Help text={field.help} t={t} />
     </div>
   )
 }
 
 function I18nInput({ field, value, onChange }) {
+  const t = useAdminT()
   const safe = value && typeof value === 'object' && !Array.isArray(value) ? value : { en: '', zh: '' }
   const error = validateValue(field, safe)
   const multiline = field.type === 'i18nTextarea'
@@ -117,7 +121,7 @@ function I18nInput({ field, value, onChange }) {
 
   return (
     <div>
-      <FieldLabel field={field} error={error} />
+      <FieldLabel field={field} error={error} t={t} />
       <div className="grid sm:grid-cols-2 gap-3">
         {['en', 'zh'].map((lang) => (
           <label key={lang} className="block">
@@ -131,44 +135,46 @@ function I18nInput({ field, value, onChange }) {
           </label>
         ))}
       </div>
-      <Help text={field.help} />
+      <Help text={field.help} t={t} />
     </div>
   )
 }
 
 function StringList({ field, value, onChange }) {
+  const t = useAdminT()
   const items = Array.isArray(value) ? value : []
   return (
     <div>
-      <FieldLabel field={field} error={validateValue(field, items)} />
+      <FieldLabel field={field} error={validateValue(field, items)} t={t} />
       <div className="space-y-2">
         {items.map((item, index) => (
           <div key={index} className="flex gap-2">
             <input
-              aria-label={`${field.label} ${index + 1}`}
+              aria-label={`${t(field.label)} ${index + 1}`}
               className="admin-input"
               value={item}
               onChange={(event) => onChange(items.map((v, i) => (i === index ? event.target.value : v)))}
             />
             <button type="button" className="admin-btn" onClick={() => onChange(items.filter((_, i) => i !== index))}>
-              删除
+              {t('删除')}
             </button>
           </div>
         ))}
         <button type="button" className="admin-btn" onClick={() => onChange([...items, ''])}>
-          添加一项
+          {t('添加一项')}
         </button>
       </div>
-      <Help text={field.help} />
+      <Help text={field.help} t={t} />
     </div>
   )
 }
 
 function I18nList({ field, value, onChange }) {
+  const t = useAdminT()
   const items = Array.isArray(value) ? value : []
   return (
     <div>
-      <FieldLabel field={field} />
+      <FieldLabel field={field} t={t} />
       <div className="space-y-2">
         {items.map((item, index) => {
           const safe = item && typeof item === 'object' ? item : { en: '', zh: '' }
@@ -177,7 +183,7 @@ function I18nList({ field, value, onChange }) {
               {['en', 'zh'].map((lang) => (
                 <input
                   key={lang}
-                  aria-label={`${field.label} ${lang.toUpperCase()} ${index + 1}`}
+                  aria-label={`${t(field.label)} ${lang.toUpperCase()} ${index + 1}`}
                   className="admin-input"
                   placeholder={lang.toUpperCase()}
                   value={safe[lang] || ''}
@@ -187,21 +193,22 @@ function I18nList({ field, value, onChange }) {
                 />
               ))}
               <button type="button" className="admin-btn" onClick={() => onChange(items.filter((_, i) => i !== index))}>
-                删除
+                {t('删除')}
               </button>
             </div>
           )
         })}
         <button type="button" className="admin-btn" onClick={() => onChange([...items, { en: '', zh: '' }])}>
-          添加一项
+          {t('添加一项')}
         </button>
       </div>
-      <Help text={field.help} />
+      <Help text={field.help} t={t} />
     </div>
   )
 }
 
-function ObjectList({ field, value, onChange }) {
+function ObjectList({ field, value, onChange, itemActions = null }) {
+  const t = useAdminT()
   const items = Array.isArray(value) ? value : []
   const move = (index, delta) => {
     const target = index + delta
@@ -212,17 +219,18 @@ function ObjectList({ field, value, onChange }) {
   }
   return (
     <div>
-      <FieldLabel field={field} />
+      <FieldLabel field={field} t={t} />
       <div className="space-y-3">
         {items.map((item, index) => (
           <div key={index} className="admin-subpanel space-y-3">
             <div className="flex items-center justify-between">
               <span className="admin-sub">#{index + 1}</span>
               <div className="flex gap-2">
-                <button type="button" className="admin-btn" onClick={() => move(index, -1)}>↑</button>
-                <button type="button" className="admin-btn" onClick={() => move(index, 1)}>↓</button>
+                {itemActions ? itemActions(item, index) : null}
+                <button type="button" className="admin-btn" title={t('上一项')} onClick={() => move(index, -1)}>↑</button>
+                <button type="button" className="admin-btn" title={t('下一项')} onClick={() => move(index, 1)}>↓</button>
                 <button type="button" className="admin-btn admin-btn-danger" onClick={() => onChange(items.filter((_, i) => i !== index))}>
-                  删除
+                  {t('删除')}
                 </button>
               </div>
             </div>
@@ -234,10 +242,10 @@ function ObjectList({ field, value, onChange }) {
           </div>
         ))}
         <button type="button" className="admin-btn" onClick={() => onChange([...items, {}])}>
-          添加一项
+          {t('添加一项')}
         </button>
       </div>
-      <Help text={field.help} />
+      <Help text={field.help} t={t} />
     </div>
   )
 }

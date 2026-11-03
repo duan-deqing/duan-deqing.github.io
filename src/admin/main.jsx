@@ -6,6 +6,7 @@ import './admin.css'
 import '../styles/math.css'
 import '../styles/markdown-extras.css'
 import AdminApp from './AdminApp'
+import { AppSettingsProvider } from '../hooks/AppSettings'
 
 try {
   const saved = localStorage.getItem('theme')
@@ -19,6 +20,8 @@ try {
 
 createRoot(document.getElementById('admin-root')).render(
   <StrictMode>
-    <AdminApp />
+    <AppSettingsProvider>
+      <AdminApp />
+    </AppSettingsProvider>
   </StrictMode>
 )

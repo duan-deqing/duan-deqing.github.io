@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
+import { useAdminT } from '../i18n'
 
 const PAGES = [
   { path: '/', label: '首页' },
@@ -23,6 +24,7 @@ export default function PreviewDrawer({
   onDeviceChange,
   iframeRef,
 }) {
+  const t = useAdminT()
   const closeRef = useRef(null)
   const restoreRef = useRef(null)
   const iframeDocRef = useRef(null)
@@ -87,26 +89,26 @@ export default function PreviewDrawer({
         className="preview-drawer"
         role="dialog"
         aria-modal="true"
-        aria-label="站点预览"
+        aria-label={t('站点预览')}
         tabIndex={-1}
       >
         <header className="preview-head">
           <div className="preview-head-group">
-            <span className="admin-panel-title">站点预览</span>
+            <span className="admin-panel-title">{t('站点预览')}</span>
             <select
               className="admin-input preview-page-select"
-              aria-label="预览页面"
+              aria-label={t('预览页面')}
               value={page}
               onChange={(event) => onPageChange(event.target.value)}
             >
               {PAGES.map((item) => (
-                <option key={item.path} value={item.path}>{item.label}</option>
+                <option key={item.path} value={item.path}>{t(item.label)}</option>
               ))}
             </select>
           </div>
 
           <div className="preview-head-group">
-            <div className="preview-devices" role="group" aria-label="预览设备">
+            <div className="preview-devices" role="group" aria-label={t('预览设备')}>
               {DEVICES.map((item) => (
                 <button
                   key={item.id}
@@ -114,10 +116,10 @@ export default function PreviewDrawer({
                   className={`admin-tab ${device === item.id ? 'is-active' : ''}`}
                   aria-pressed={device === item.id}
                   title={item.width}
-                  aria-label={`${item.label} ${item.width}`}
+                  aria-label={`${t(item.label)} ${item.width}`}
                   onClick={() => onDeviceChange(item.id)}
                 >
-                  {item.label}
+                  {t(item.label)}
                 </button>
               ))}
             </div>
@@ -126,10 +128,10 @@ export default function PreviewDrawer({
               className="admin-btn"
               onClick={() => iframeRef.current?.contentWindow?.location.reload()}
             >
-              刷新
+              {t('刷新')}
             </button>
             <button type="button" className="admin-btn" ref={closeRef} onClick={onClose}>
-              关闭
+              {t('关闭')}
             </button>
           </div>
         </header>
@@ -138,7 +140,7 @@ export default function PreviewDrawer({
           <iframe
             ref={iframeRef}
             src={page}
-            title="站点预览"
+            title={t('站点预览')}
             style={{ width }}
             onLoad={handleIframeLoad}
           />

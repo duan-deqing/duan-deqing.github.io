@@ -29,6 +29,10 @@ function createFixture() {
       page: { title: { en: 'Blog', zh: '博客' }, subtitle: { en: '', zh: '' } },
       categories: [{ id: 'tech', label: { en: 'Tech', zh: '技术' } }],
     },
+    'content/bookmarks/bookmarks.yaml': {
+      page: { title: { en: 'Bookmarks', zh: '书签' }, subtitle: { en: '', zh: '' } },
+      categories: [{ slug: 'frontend', title: { en: 'Frontend', zh: '前端' }, bookmarks: [] }],
+    },
   }
   for (const [relative, value] of Object.entries(files)) {
     const file = path.join(root, relative)
@@ -44,7 +48,9 @@ test('readConfig 组合三份 YAML 并返回逐文件 revision', () => {
   assert.equal(config.documents.site.site.title, '旧标题')
   assert.equal(config.documents.site.skills[0].id, 'frontend')
   assert.equal(config.documents.blog.categories[0].id, 'tech')
+  assert.equal(config.documents.bookmarks.categories[0].slug, 'frontend')
   assert.deepEqual(Object.keys(config.revision.site).sort(), ['projects', 'site', 'stack'])
+  assert.deepEqual(Object.keys(config.revision.bookmarks), ['bookmarks'])
   assert.equal(typeof config.revision.site.site, 'string')
   fs.rmSync(root, { recursive: true, force: true })
 })
@@ -68,6 +74,34 @@ test('保存只改动变化的文件，并保留未受管字段', () => {
   )
   const siteText = fs.readFileSync(path.join(root, 'content/site.yaml'), 'utf8')
   assert.match(siteText, /新标题/)
+  fs.rmSync(root, { recursive: true, force: true })
+})
+
+test('bookmarks 文档可保存并保留其余文件不变', () => {
+  const { root, store } = createFixture()
+  const before = store.readConfig()
+  const blogBefore = fs.readFileSync(path.join(root, 'content/blog/blog.yaml'), 'utf8')
+
+  const bookmarks = {
+    ...before.documents.bookmarks,
+    categories: [
+      {
+        slug: 'frontend',
+        title: { en: 'Frontend', zh: '前端' },
+        bookmarks: [{ title: 'MDN', url: 'https://developer.mozilla.org' }],
+      },
+    ],
+  }
+  const saved = store.saveConfig({
+    documents: { ...before.documents, bookmarks },
+    revision: before.revision,
+  })
+
+  assert.equal(saved.documents.bookmarks.categories[0].bookmarks[0].title, 'MDN')
+  assert.equal(
+    fs.readFileSync(path.join(root, 'content/blog/blog.yaml'), 'utf8'),
+    blogBefore
+  )
   fs.rmSync(root, { recursive: true, force: true })
 })
 

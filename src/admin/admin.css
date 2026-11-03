@@ -78,13 +78,9 @@
   height: 56px;
   flex-shrink: 0;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 12px;
   padding: 0 20px;
-}
-
-.admin-topbar-left {
-  min-width: 0;
 }
 
 .admin-breadcrumb {
@@ -672,5 +668,236 @@
   .preview-drawer {
     width: 100%;
     border-left: 0;
+  }
+}
+
+/* 层级与折叠 */
+.admin-panel-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-align: left;
+}
+
+.admin-panel-chevron {
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: transform 0.15s ease;
+}
+
+.admin-panel-chevron.is-open {
+  transform: rotate(0deg);
+}
+
+.admin-panel-chevron:not(.is-open) {
+  transform: rotate(-90deg);
+}
+
+.admin-subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.admin-subnav-btn {
+  height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-subtle);
+  padding: 0 10px;
+  font-size: 12px;
+  color: var(--muted-strong);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.admin-subnav-btn:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.admin-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.admin-md-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.admin-md-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.admin-md-grid.is-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.admin-md-grid .admin-input {
+  min-height: 420px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.admin-md-preview {
+  overflow: auto;
+  max-height: 520px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-subtle);
+  padding: 14px;
+}
+
+.admin-md-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* 更新日志两级导航 */
+.admin-changelog-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-version-list {
+  display: flex;
+  max-height: 320px;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  padding: 6px;
+}
+
+.admin-version-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 6px;
+  padding: 8px;
+  text-align: left;
+}
+
+.admin-version-btn:hover {
+  background: var(--bg-hover);
+}
+
+.admin-version-btn.is-active {
+  background: var(--active-bg);
+  color: var(--active-fg);
+}
+
+.admin-version-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-version-meta {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.admin-version-btn.is-active .admin-version-meta {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.admin-version-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+/* 项目详情 */
+.admin-project-detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  padding: 6px;
+}
+
+.admin-project-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.admin-project-detail-row:hover {
+  background: var(--bg-hover);
+}
+
+.admin-project-detail-row.is-active {
+  background: var(--active-bg);
+  color: var(--active-fg);
+}
+
+.admin-project-detail-title {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--heading);
+}
+
+.admin-project-detail-row.is-active .admin-project-detail-title {
+  color: inherit;
+}
+
+.admin-project-detail-slug {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.admin-project-detail-row.is-active .admin-project-detail-slug {
+  color: inherit;
+  opacity: 0.7;
+}
+
+@media (min-width: 1024px) {
+  .admin-changelog-grid {
+    grid-template-columns: 200px minmax(0, 1fr);
+  }
+
+  .admin-version-list {
+    max-height: 560px;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-md-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .admin-md-grid .admin-input {
+    min-height: 240px;
+  }
+
+  .admin-project-detail-row {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

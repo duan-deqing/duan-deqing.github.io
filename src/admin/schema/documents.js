@@ -49,6 +49,17 @@ export const ADMIN_DOCUMENTS = [
       },
     ],
   },
+  {
+    id: 'bookmarks',
+    label: '书签内容',
+    files: [
+      {
+        id: 'bookmarks',
+        path: 'content/bookmarks/bookmarks.yaml',
+        fields: { page: 'page', categories: 'categories' },
+      },
+    ],
+  },
 ]
 
 export function getDocument(id) {
