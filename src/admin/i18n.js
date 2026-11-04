@@ -16,6 +16,7 @@ const EN = {
   更新日志: 'Changelog',
   设置: 'Settings',
   个人信息: 'Profile',
+  打开个人信息: 'Open profile',
   个人资料: 'Personal details',
   联系方式: 'Contact',
   首页文案: 'Home copy',
@@ -120,6 +121,17 @@ const EN = {
   '由 content/site.yaml 维护，后台不再编辑':
     'Maintained in content/site.yaml; editing is no longer available here',
   配置已被外部修改: 'Configuration changed on disk',
+  项已保存: 'saved',
+  项失败: 'failed',
+  失败项保留未保存状态: 'Failed items keep their unsaved changes.',
+  '配置保存失败，请查看错误或冲突提示':
+    'Configuration failed to save. Check the error or conflict prompt.',
+  '有未保存的修改，确定关闭？': 'You have unsaved changes. Close anyway?',
+  有未保存的修改: 'Unsaved changes',
+  '维护头像、名字、角色与联系方式，并编辑首页文案。':
+    'Maintain avatar, name, role and contacts, and edit home copy.',
+  '保存会一并提交其他页面的未保存配置修改。':
+    'Saving also submits unsaved configuration changes from other pages.',
   用我的版本覆盖: 'Overwrite with mine',
   加载磁盘版本: 'Load the on-disk version',
   取消: 'Cancel',

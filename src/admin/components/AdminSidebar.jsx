@@ -3,7 +3,14 @@ import ProfileAvatar from '../../components/layout/ProfileAvatar'
 import { cn } from '../../utils/cn'
 import { useAdminT } from '../i18n'
 
-export default function AdminSidebar({ items, activeId, onSelect, profile }) {
+export default function AdminSidebar({
+  items,
+  activeId,
+  onSelect,
+  onOpenProfile,
+  profileOpen = false,
+  profile,
+}) {
   const t = useAdminT()
   const activeRef = useRef(null)
 
@@ -17,9 +24,11 @@ export default function AdminSidebar({ items, activeId, onSelect, profile }) {
     <aside className="admin-sidebar">
       <button
         type="button"
-        className={cn('admin-profile', activeId === 'profile' && 'is-active')}
-        onClick={() => onSelect('profile')}
-        aria-current={activeId === 'profile' ? 'page' : undefined}
+        className={cn('admin-profile', profileOpen && 'is-active')}
+        onClick={onOpenProfile}
+        aria-label={t('打开个人信息')}
+        aria-haspopup="dialog"
+        aria-expanded={profileOpen}
       >
         <ProfileAvatar avatar={profile.avatar} name={profile.name} role={profile.role} />
       </button>

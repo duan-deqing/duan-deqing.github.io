@@ -9,16 +9,6 @@ export const adminPages = [
     description: '网站项目、博客、技术栈与最近提交记录的总览。',
   },
   {
-    id: 'profile',
-    label: '个人信息',
-    description: '维护头像、名字、角色、联系方式与首页文案，对应前台侧栏展示。',
-    sections: [
-      { id: 'personal', title: '个人资料' },
-      { id: 'contact', title: '联系方式' },
-    ],
-    homeCopy: true,
-  },
-  {
     id: 'projects',
     label: '项目',
     description: '维护项目分类、项目条目与详情正文，新增或删除项目后保存生效。',

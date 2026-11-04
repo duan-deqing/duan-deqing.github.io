@@ -77,6 +77,34 @@ export function useMarkdownFiles({
     })
   }, [])
 
+  const applySaved = useCallback((serverItems, key) => {
+    setState((prev) => {
+      // 只清除已保存的键；保存过程中又产生的新编辑继续保留
+      const serverForKey = serverItems.find((item) => item.key === key)
+      const localForKey = prev.items.find((item) => item.key === key)
+      const dirtyKeys = new Set(prev.dirtyKeys)
+      if (localForKey && serverForKey && localForKey.content !== serverForKey.content) {
+        dirtyKeys.add(key)
+      } else {
+        dirtyKeys.delete(key)
+      }
+      const items = serverItems.map((serverItem) => {
+        if (!dirtyKeys.has(serverItem.key)) return serverItem
+        const local = prev.items.find((entry) => entry.key === serverItem.key)
+        return local ? { ...serverItem, content: local.content } : serverItem
+      })
+      return {
+        loading: false,
+        items,
+        baseline: serverItems,
+        dirtyKeys,
+        savingKey: '',
+        error: '',
+        notice: '已保存',
+      }
+    })
+  }, [])
+
   const saveOne = useCallback(
     async (key) => {
       const item = state.items.find((entry) => entry.key === key)
@@ -84,33 +112,40 @@ export function useMarkdownFiles({
       setState((prev) => ({ ...prev, savingKey: key, error: '', notice: '' }))
       try {
         const data = await save(key, item)
-        const serverItems = normalize(data)
-        setState((prev) => {
-          // 只清除当前文件；其他文件未保存的编辑继续保留
-          const dirtyKeys = new Set(prev.dirtyKeys)
-          dirtyKeys.delete(key)
-          const items = serverItems.map((serverItem) => {
-            if (!dirtyKeys.has(serverItem.key)) return serverItem
-            const local = prev.items.find((entry) => entry.key === serverItem.key)
-            return local ? { ...serverItem, content: local.content } : serverItem
-          })
-          return {
-            loading: false,
-            items,
-            baseline: serverItems,
-            dirtyKeys,
-            savingKey: '',
-            error: '',
-            notice: '已保存',
-          }
-        })
+        applySaved(normalize(data), key)
         return true
       } catch (err) {
         setState((prev) => ({ ...prev, savingKey: '', error: err.message }))
         return false
       }
     },
-    [normalize, save, state.dirtyKeys, state.items]
+    [applySaved, normalize, save, state.dirtyKeys, state.items]
+  )
+
+  /**
+   * 串行保存多个文件；单个失败不会影响后续文件，返回成功/失败明细。
+   */
+  const saveMany = useCallback(
+    async (keys) => {
+      const pending = keys.filter((key) => state.dirtyKeys.has(key))
+      const saved = []
+      const failed = []
+      for (const key of pending) {
+        const item = state.items.find((entry) => entry.key === key)
+        if (!item) continue
+        setState((prev) => ({ ...prev, savingKey: key, error: '', notice: '' }))
+        try {
+          const data = await save(key, item)
+          applySaved(normalize(data), key)
+          saved.push(key)
+        } catch (err) {
+          setState((prev) => ({ ...prev, savingKey: '', error: err.message }))
+          failed.push({ key, error: err.message })
+        }
+      }
+      return { saved, failed }
+    },
+    [applySaved, normalize, save, state.dirtyKeys, state.items]
   )
 
   return {
@@ -120,6 +155,7 @@ export function useMarkdownFiles({
     reload,
     update,
     saveOne,
+    saveMany,
     discard,
   }
 }

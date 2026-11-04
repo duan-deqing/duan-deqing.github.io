@@ -7,15 +7,15 @@ import AdminSidebar from './components/AdminSidebar'
 import AdminTopbar from './components/AdminTopbar'
 import PreviewDrawer from './components/PreviewDrawer'
 import PostsPanel from './components/PostsPanel'
+import AdminProfileDialog from './components/AdminProfileDialog'
 import ConfigView from './views/ConfigView'
 import DashboardView from './views/DashboardView'
 import ChangelogView from './views/ChangelogView'
-import HomeCopyPanel from './views/HomeCopyPanel'
 import ProjectDetailsPanel from './views/ProjectDetailsPanel'
 import { useAdminT } from './i18n'
 
 const FALLBACK_ID = 'dashboard'
-const SIDE_ITEMS = adminPages.filter(({ id }) => id !== 'profile')
+const SIDE_ITEMS = adminPages
 
 function profileFrom(documents, fallbackRole) {
   const personal = documents?.site?.personal || {}
@@ -32,6 +32,8 @@ export default function AdminApp() {
   const draft = useConfigDraft()
   const [postDirty, setPostDirty] = useState(false)
   const [markdownDirty, setMarkdownDirty] = useState(false)
+  const [profileOpen, setProfileOpen] = useState(false)
+  const [profileDirty, setProfileDirty] = useState(false)
   const [projectDetail, setProjectDetail] = useState('')
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewPath, setPreviewPath] = useState('/')
@@ -45,15 +47,30 @@ export default function AdminApp() {
     iframeRef.current?.contentWindow?.location.reload()
   }, [])
 
+  const openProfile = useCallback(() => setProfileOpen(true), [])
+
+  // 兼容旧深链：#/profile 打开弹窗后回到 Dashboard，避免留下空白页
   useEffect(() => {
-    if (!draft.dirty && !postDirty && !markdownDirty) return undefined
+    function syncProfileHash() {
+      const raw = window.location.hash.replace(/^#\/?/, '')
+      if (raw !== 'profile') return
+      setProfileOpen(true)
+      navigate(FALLBACK_ID)
+    }
+    syncProfileHash()
+    window.addEventListener('hashchange', syncProfileHash)
+    return () => window.removeEventListener('hashchange', syncProfileHash)
+  }, [navigate])
+
+  useEffect(() => {
+    if (!draft.dirty && !postDirty && !markdownDirty && !profileDirty) return undefined
     const handler = (event) => {
       event.preventDefault()
       event.returnValue = ''
     }
     window.addEventListener('beforeunload', handler)
     return () => window.removeEventListener('beforeunload', handler)
-  }, [draft.dirty, markdownDirty, postDirty])
+  }, [draft.dirty, markdownDirty, postDirty, profileDirty])
 
   const handleSave = useCallback(async () => {
     if (!draft.dirty || draft.saving) return
@@ -70,7 +87,7 @@ export default function AdminApp() {
 
   useEffect(() => {
     const handler = (event) => {
-      if (postDirty || markdownDirty) return
+      if (postDirty || markdownDirty || profileOpen) return
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 's') {
         event.preventDefault()
         handleSave()
@@ -78,7 +95,7 @@ export default function AdminApp() {
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [handleSave, markdownDirty, postDirty])
+  }, [handleSave, markdownDirty, postDirty, profileOpen])
 
   const goTo = useCallback(
     (id) => {
@@ -103,6 +120,7 @@ export default function AdminApp() {
           items={SIDE_ITEMS}
           activeId={activeId}
           onSelect={goTo}
+          onOpenProfile={openProfile}
           profile={{ avatar: '', name: 'STYLAN', role: t('内容后台') }}
         />
         <div className="admin-workspace">
@@ -136,6 +154,8 @@ export default function AdminApp() {
         items={SIDE_ITEMS}
         activeId={activeId}
         onSelect={goTo}
+        onOpenProfile={openProfile}
+        profileOpen={profileOpen}
         profile={profile}
       />
 
@@ -152,7 +172,7 @@ export default function AdminApp() {
 
         <main className="admin-main">
           {activeId === 'dashboard' ? (
-            <DashboardView draft={draft} onNavigate={goTo} />
+            <DashboardView draft={draft} onNavigate={goTo} onOpenProfile={openProfile} />
           ) : activeId === 'changelog' ? (
             <ChangelogView onDirtyChange={setMarkdownDirty} />
           ) : (
@@ -162,8 +182,6 @@ export default function AdminApp() {
               extra={
                 activePage.posts ? (
                   <PostsPanel onDirtyChange={setPostDirty} />
-                ) : activePage.homeCopy ? (
-                  <HomeCopyPanel onDirtyChange={setMarkdownDirty} />
                 ) : activePage.projectDetails ? (
                   <ProjectDetailsPanel
                     projects={draft.documents.site?.projects || []}
@@ -172,9 +190,7 @@ export default function AdminApp() {
                   />
                 ) : null
               }
-              extraTitle={
-                activePage.posts ? '文章' : activePage.homeCopy ? '首页文案' : '项目详情正文'
-              }
+              extraTitle={activePage.posts ? '文章' : '项目详情正文'}
               itemActions={
                 activePage.projectDetails
                   ? (item) =>
@@ -202,6 +218,14 @@ export default function AdminApp() {
         device={previewDevice}
         onDeviceChange={setPreviewDevice}
         iframeRef={iframeRef}
+      />
+
+      <AdminProfileDialog
+        open={profileOpen}
+        onClose={() => setProfileOpen(false)}
+        draft={draft}
+        onDirtyChange={setProfileDirty}
+        onSaved={reloadPreview}
       />
     </div>
   )

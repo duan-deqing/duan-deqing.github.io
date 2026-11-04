@@ -15,7 +15,7 @@ function formatDate(value, lang) {
   })
 }
 
-export default function DashboardView({ draft, onNavigate }) {
+export default function DashboardView({ draft, onNavigate, onOpenProfile }) {
   const t = useAdminT()
   const lang = useAdminLang()
   const { posts, loading: postsLoading, error: postsError } = usePosts()
@@ -90,7 +90,7 @@ export default function DashboardView({ draft, onNavigate }) {
                 {stackItems} {t('个技术条目')}
               </span>
             </button>
-            <button type="button" className="admin-stat" onClick={() => onNavigate('profile')}>
+            <button type="button" className="admin-stat" onClick={onOpenProfile}>
               <span className="admin-stat-label">{t('联系方式')}</span>
               <span className="admin-stat-value">{contacts.length}</span>
               <span className="admin-stat-meta">{t('个人资料与联系方式')}</span>
