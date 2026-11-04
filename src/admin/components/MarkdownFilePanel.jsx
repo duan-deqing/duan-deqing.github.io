@@ -55,16 +55,17 @@ export default function MarkdownFilePanel({
 
       {items.length > 0 ? (
         <>
-          <div className="admin-tabs mb-3">
+          <div className="admin-segment mb-4" role="group" aria-label={t('按语言筛选')}>
             {items.map((item) => (
               <button
                 key={item.key}
                 type="button"
-                className={`admin-tab ${item.key === active?.key ? 'is-active' : ''}`}
+                className={`admin-segment-btn ${item.key === active?.key ? 'is-active' : ''}`}
+                aria-pressed={item.key === active?.key}
                 onClick={() => onSelect(item.key)}
               >
                 {item.label}
-                {dirtyKeys.has(item.key) ? ' •' : ''}
+                {dirtyKeys.has(item.key) ? <span className="admin-dot" /> : null}
               </button>
             ))}
           </div>
@@ -75,7 +76,7 @@ export default function MarkdownFilePanel({
                 <span className="admin-panel-note">{active.hint || active.key}</span>
                 <button
                   type="button"
-                  className="admin-btn"
+                  className="admin-text-btn"
                   onClick={() => setPreviewVisible((value) => !value)}
                 >
                   {previewVisible ? t('收起预览') : t('预览')}
@@ -96,9 +97,11 @@ export default function MarkdownFilePanel({
                 ) : null}
               </div>
               <div className="admin-md-actions">
-                <span className="admin-panel-note">
-                  {isDirty ? t('改动需保存后生效') : t('已同步')}
-                </span>
+                {isDirty ? (
+                  <span className="admin-panel-note">{t('改动需保存后生效')}</span>
+                ) : (
+                  <span />
+                )}
                 <div className="flex gap-2">
                   <button
                     type="button"

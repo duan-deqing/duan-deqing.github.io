@@ -86,21 +86,13 @@ export default function ConfigView({
         </nav>
       ) : null}
 
-      <div className="mb-4 min-h-[18px]">
-        {draft.error ? (
-          <span className="admin-error">{draft.error}</span>
-        ) : draft.notice ? (
-          <span className="admin-ok">{t(draft.notice)}</span>
-        ) : (
-          <span className="admin-panel-note">
-            {draft.dirty
-              ? `${draft.dirtyCount} ${t('处未保存修改')}`
-              : t('当前配置已同步')}
-          </span>
-        )}
-      </div>
+      {draft.error ? (
+        <p className="admin-alert is-error">{draft.error}</p>
+      ) : draft.notice ? (
+        <p className="admin-alert is-ok">{t(draft.notice)}</p>
+      ) : null}
 
-      <div className="space-y-4">
+      <div className="admin-sections">
         {sections.map((definition) => {
           const section = getContentSection(definition.id)
           if (!section) return null

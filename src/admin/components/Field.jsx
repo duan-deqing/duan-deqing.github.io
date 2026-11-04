@@ -1,7 +1,14 @@
 import { useState } from 'react'
 import { adminApi } from '../api'
-import { useAdminT } from '../i18n'
+import { useAdminLang, useAdminT } from '../i18n'
 import { validateValue } from '../lib/validate'
+
+const LANG_LABEL = { zh: '中文', en: 'English' }
+
+// 双语字段按当前界面语言排序，减少在两种语言间来回跳
+function orderedLangs(uiLang) {
+  return uiLang === 'en' ? ['en', 'zh'] : ['zh', 'en']
+}
 
 function FieldLabel({ field, error, t }) {
   return (
@@ -19,7 +26,7 @@ function Help({ text, t }) {
   return text ? <p className="admin-help">{t(text)}</p> : null
 }
 
-export default function Field({ field, value, onChange, itemActions = null }) {
+export default function Field({ field, value, onChange, itemActions = null, hideLabel = false }) {
   const t = useAdminT()
   if (field.type === 'object') {
     return (
@@ -30,7 +37,15 @@ export default function Field({ field, value, onChange, itemActions = null }) {
     )
   }
   if (field.type === 'objectList') {
-    return <ObjectList field={field} value={value} onChange={onChange} itemActions={itemActions} />
+    return (
+      <ObjectList
+        field={field}
+        value={value}
+        onChange={onChange}
+        itemActions={itemActions}
+        hideLabel={hideLabel}
+      />
+    )
   }
   if (field.type === 'stringList') {
     return <StringList field={field} value={value} onChange={onChange} />
@@ -41,7 +56,7 @@ export default function Field({ field, value, onChange, itemActions = null }) {
   if (field.type === 'toggle') {
     return (
       <label className="flex items-center gap-2 text-sm">
-        <input type="checkbox" checked={field.defaultTrue ? value !== false : Boolean(value)} onChange={(event) => onChange(event.target.checked)} />
+        <input type="checkbox" className="admin-checkbox" checked={field.defaultTrue ? value !== false : Boolean(value)} onChange={(event) => onChange(event.target.checked)} />
         {t(field.label)}
       </label>
     )
@@ -114,6 +129,7 @@ function TextInput({ field, value, onChange }) {
 
 function I18nInput({ field, value, onChange }) {
   const t = useAdminT()
+  const uiLang = useAdminLang()
   const safe = value && typeof value === 'object' && !Array.isArray(value) ? value : { en: '', zh: '' }
   const error = validateValue(field, safe)
   const multiline = field.type === 'i18nTextarea'
@@ -123,9 +139,9 @@ function I18nInput({ field, value, onChange }) {
     <div>
       <FieldLabel field={field} error={error} t={t} />
       <div className="grid sm:grid-cols-2 gap-3">
-        {['en', 'zh'].map((lang) => (
+        {orderedLangs(uiLang).map((lang) => (
           <label key={lang} className="block">
-            <span className="admin-sub">{lang.toUpperCase()}</span>
+            <span className="admin-sub">{LANG_LABEL[lang]}</span>
             <Input
               className="admin-input"
               rows={multiline ? 3 : undefined}
@@ -155,8 +171,13 @@ function StringList({ field, value, onChange }) {
               value={item}
               onChange={(event) => onChange(items.map((v, i) => (i === index ? event.target.value : v)))}
             />
-            <button type="button" className="admin-btn" onClick={() => onChange(items.filter((_, i) => i !== index))}>
-              {t('删除')}
+            <button
+              type="button"
+              className="admin-icon-btn is-danger"
+              aria-label={`${t('删除')} ${index + 1}`}
+              onClick={() => onChange(items.filter((_, i) => i !== index))}
+            >
+              ×
             </button>
           </div>
         ))}
@@ -171,6 +192,7 @@ function StringList({ field, value, onChange }) {
 
 function I18nList({ field, value, onChange }) {
   const t = useAdminT()
+  const uiLang = useAdminLang()
   const items = Array.isArray(value) ? value : []
   return (
     <div>
@@ -180,20 +202,25 @@ function I18nList({ field, value, onChange }) {
           const safe = item && typeof item === 'object' ? item : { en: '', zh: '' }
           return (
             <div key={index} className="flex gap-2 items-start">
-              {['en', 'zh'].map((lang) => (
+              {orderedLangs(uiLang).map((lang) => (
                 <input
                   key={lang}
-                  aria-label={`${t(field.label)} ${lang.toUpperCase()} ${index + 1}`}
+                  aria-label={`${t(field.label)} ${LANG_LABEL[lang]} ${index + 1}`}
                   className="admin-input"
-                  placeholder={lang.toUpperCase()}
+                  placeholder={LANG_LABEL[lang]}
                   value={safe[lang] || ''}
                   onChange={(event) =>
                     onChange(items.map((v, i) => (i === index ? { ...safe, [lang]: event.target.value } : v)))
                   }
                 />
               ))}
-              <button type="button" className="admin-btn" onClick={() => onChange(items.filter((_, i) => i !== index))}>
-                {t('删除')}
+              <button
+                type="button"
+                className="admin-icon-btn is-danger"
+                aria-label={`${t('删除')} ${index + 1}`}
+                onClick={() => onChange(items.filter((_, i) => i !== index))}
+              >
+                ×
               </button>
             </div>
           )
@@ -207,7 +234,7 @@ function I18nList({ field, value, onChange }) {
   )
 }
 
-function ObjectList({ field, value, onChange, itemActions = null }) {
+function ObjectList({ field, value, onChange, itemActions = null, hideLabel = false }) {
   const t = useAdminT()
   const items = Array.isArray(value) ? value : []
   const move = (index, delta) => {
@@ -219,17 +246,38 @@ function ObjectList({ field, value, onChange, itemActions = null }) {
   }
   return (
     <div>
-      <FieldLabel field={field} t={t} />
-      <div className="space-y-3">
+      {hideLabel ? null : <FieldLabel field={field} t={t} />}
+      <div className="admin-list">
         {items.map((item, index) => (
-          <div key={index} className="admin-subpanel space-y-3">
-            <div className="flex items-center justify-between">
+          <div key={index} className="admin-subpanel">
+            <div className="admin-subpanel-head">
               <span className="admin-sub">#{index + 1}</span>
-              <div className="flex gap-2">
+              <div className="admin-row-actions">
                 {itemActions ? itemActions(item, index) : null}
-                <button type="button" className="admin-btn" title={t('上一项')} onClick={() => move(index, -1)}>↑</button>
-                <button type="button" className="admin-btn" title={t('下一项')} onClick={() => move(index, 1)}>↓</button>
-                <button type="button" className="admin-btn admin-btn-danger" onClick={() => onChange(items.filter((_, i) => i !== index))}>
+                <button
+                  type="button"
+                  className="admin-icon-btn"
+                  title={t('上一项')}
+                  aria-label={`${t('上一项')} ${index + 1}`}
+                  onClick={() => move(index, -1)}
+                >
+                  ↑
+                </button>
+                <button
+                  type="button"
+                  className="admin-icon-btn"
+                  title={t('下一项')}
+                  aria-label={`${t('下一项')} ${index + 1}`}
+                  onClick={() => move(index, 1)}
+                >
+                  ↓
+                </button>
+                <button
+                  type="button"
+                  className="admin-text-btn is-danger"
+                  aria-label={`${t('删除')} ${index + 1}`}
+                  onClick={() => onChange(items.filter((_, i) => i !== index))}
+                >
                   {t('删除')}
                 </button>
               </div>
@@ -241,10 +289,14 @@ function ObjectList({ field, value, onChange, itemActions = null }) {
             />
           </div>
         ))}
-        <button type="button" className="admin-btn" onClick={() => onChange([...items, {}])}>
-          {t('添加一项')}
-        </button>
       </div>
+      <button
+        type="button"
+        className="admin-btn mt-3"
+        onClick={() => onChange([...items, {}])}
+      >
+        {t('添加一项')}
+      </button>
       <Help text={field.help} t={t} />
     </div>
   )

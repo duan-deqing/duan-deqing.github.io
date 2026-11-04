@@ -66,7 +66,7 @@ export default function ChangelogView({ onDirtyChange }) {
         note={current ? current.date : ''}
       >
         {versions.length === 0 && !files.loading ? (
-          <p className="text-sm text-muted">{t('暂无内容')}</p>
+          <p className="admin-empty">{t('暂无内容')}</p>
         ) : (
           <div className="admin-changelog-grid">
             <aside className="admin-version-list" aria-label={t('版本列表')}>

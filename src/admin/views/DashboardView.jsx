@@ -34,10 +34,6 @@ export default function DashboardView({ draft, onNavigate, onOpenProfile }) {
   const zhPosts = posts.filter((post) => post.lang === 'zh').length
   const enPosts = posts.filter((post) => post.lang === 'en').length
 
-  function scrollTo(id) {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-
   return (
     <div className="admin-page">
       <div className="admin-page-head">
@@ -47,26 +43,9 @@ export default function DashboardView({ draft, onNavigate, onOpenProfile }) {
         </p>
       </div>
 
-      <nav className="admin-subnav" aria-label={t('本页分区')}>
-        <button type="button" className="admin-subnav-btn" onClick={() => scrollTo('panel-overview')}>
-          {t('总览')}
-        </button>
-        <button type="button" className="admin-subnav-btn" onClick={() => scrollTo('panel-commits')}>
-          {t('提交记录')}
-        </button>
-      </nav>
-
-      <div className="mb-4 min-h-[18px]">
-        <span className="admin-panel-note">
-          {draft.dirty
-            ? `${draft.dirtyCount} ${t('处未保存修改')}`
-            : t('当前配置已同步')}
-        </span>
-      </div>
-
-      <div className="space-y-4">
+      <div className="admin-sections">
         <AdminPanel id="panel-overview" title={t('总览')}>
-          <div className="admin-stat-grid">
+          <div className="admin-stat-strip">
             <button type="button" className="admin-stat" onClick={() => onNavigate('projects')}>
               <span className="admin-stat-label">{t('项目')}</span>
               <span className="admin-stat-value">{projects.length}</span>
@@ -93,7 +72,7 @@ export default function DashboardView({ draft, onNavigate, onOpenProfile }) {
             <button type="button" className="admin-stat" onClick={onOpenProfile}>
               <span className="admin-stat-label">{t('联系方式')}</span>
               <span className="admin-stat-value">{contacts.length}</span>
-              <span className="admin-stat-meta">{t('个人资料与联系方式')}</span>
+              <span className="admin-stat-meta">{t('个人资料')}</span>
             </button>
           </div>
         </AdminPanel>
@@ -110,27 +89,26 @@ export default function DashboardView({ draft, onNavigate, onOpenProfile }) {
           }
         >
           {git.loading ? (
-            <p className="text-sm text-muted">{t('正在读取')}</p>
+            <p className="admin-empty">{t('正在读取')}</p>
           ) : git.error ? (
             <p className="admin-error">{git.error}</p>
           ) : !git.data?.available ? (
-            <p className="text-sm text-muted">
+            <p className="admin-empty">
               {git.data?.reason || t('当前环境无法读取 git 日志')}
               {lang === 'zh'
                 ? '；不会使用推测数据代替真实提交。'
                 : '; inferred data is never substituted for real commits.'}
             </p>
           ) : git.data.commits.length === 0 ? (
-            <p className="text-sm text-muted">{t('还没有提交记录')}</p>
+            <p className="admin-empty">{t('还没有提交记录')}</p>
           ) : (
             <ol className="admin-commit-list">
               {git.data.commits.map((commit) => (
                 <li className="admin-commit" key={commit.hash}>
-                  <span className="admin-commit-dot" aria-hidden="true" />
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                       <code className="admin-commit-hash">{commit.short}</code>
-                      <span className="text-sm font-medium text-heading">{commit.subject}</span>
+                      <span className="admin-commit-subject">{commit.subject}</span>
                     </div>
                     <div className="admin-commit-meta">
                       {formatDate(commit.date, lang)} · {commit.author} · {commit.fileCount}{' '}

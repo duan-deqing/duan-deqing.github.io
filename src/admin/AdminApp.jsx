@@ -125,6 +125,7 @@ export default function AdminApp() {
         />
         <div className="admin-workspace">
           <AdminTopbar
+            pageLabel={t(activePage.label)}
             dirty={false}
             dirtyCount={0}
             saving={false}
@@ -161,6 +162,7 @@ export default function AdminApp() {
 
       <div className="admin-workspace">
         <AdminTopbar
+          pageLabel={t(activePage.label)}
           dirty={draft.dirty}
           dirtyCount={draft.dirtyCount}
           saving={draft.saving}
@@ -197,7 +199,7 @@ export default function AdminApp() {
                       item?.slug ? (
                         <button
                           type="button"
-                          className="admin-btn"
+                          className="admin-text-btn"
                           onClick={() => setProjectDetail(item.slug)}
                         >
                           {t('详情正文')}

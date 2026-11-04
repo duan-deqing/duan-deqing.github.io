@@ -61,7 +61,7 @@ export default function ProjectDetailsPanel({ projects = [], selected = '', onDi
       note={t('项目详情按项目维护')}
       collapsible
     >
-      {errorHint(files.error, t)}
+      {activeSlug && items.length > 0 ? null : errorHint(files.error, t)}
       <div className="admin-project-detail-list">
         {rows.map((row) => {
           const hasZh = files.items.some((file) => file.slug === row.slug && file.lang === 'zh')
@@ -75,14 +75,14 @@ export default function ProjectDetailsPanel({ projects = [], selected = '', onDi
                 <span className="admin-project-detail-title">{row.title || t('未命名')}</span>
                 <span className="admin-project-detail-slug">{row.slug || t('没有 slug，无法关联详情页')}</span>
               </span>
-              <span className="flex gap-2">
+              <span className="flex gap-1">
                 {hasZh ? (
-                  <button type="button" className="admin-btn" onClick={() => choose(row.slug, 'zh')}>
+                  <button type="button" className="admin-text-btn" onClick={() => choose(row.slug, 'zh')}>
                     {t('编辑')} {t('中文')}
                   </button>
                 ) : null}
                 {hasEn ? (
-                  <button type="button" className="admin-btn" onClick={() => choose(row.slug, 'en')}>
+                  <button type="button" className="admin-text-btn" onClick={() => choose(row.slug, 'en')}>
                     {t('编辑')} English
                   </button>
                 ) : null}

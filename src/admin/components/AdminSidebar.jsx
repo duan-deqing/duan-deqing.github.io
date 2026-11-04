@@ -3,6 +3,23 @@ import ProfileAvatar from '../../components/layout/ProfileAvatar'
 import { cn } from '../../utils/cn'
 import { useAdminT } from '../i18n'
 
+const GROUP_LABELS = {
+  content: '内容',
+  site: '站点',
+}
+
+// 按 schema 里的 group 分组；未分组的项（Dashboard）单独置顶
+function groupsOf(items) {
+  const groups = []
+  for (const item of items) {
+    const group = item.group || ''
+    const last = groups[groups.length - 1]
+    if (last && last.group === group) last.items.push(item)
+    else groups.push({ group, items: [item] })
+  }
+  return groups
+}
+
 export default function AdminSidebar({
   items,
   activeId,
@@ -34,16 +51,23 @@ export default function AdminSidebar({
       </button>
 
       <nav className="admin-nav" aria-label={t('后台导航')}>
-        {items.map(({ id, label }) => (
-          <button
-            key={id}
-            className={`admin-nav-btn ${activeId === id ? 'is-active' : ''}`}
-            ref={activeId === id ? activeRef : null}
-            onClick={() => onSelect(id)}
-            aria-current={activeId === id ? 'page' : undefined}
-          >
-            <span>{t(label)}</span>
-          </button>
+        {groupsOf(items).map(({ group, items: groupItems }) => (
+          <div className="admin-nav-group" key={group || 'main'}>
+            {group && GROUP_LABELS[group] ? (
+              <span className="admin-nav-label">{t(GROUP_LABELS[group])}</span>
+            ) : null}
+            {groupItems.map(({ id, label }) => (
+              <button
+                key={id}
+                className={`admin-nav-btn ${activeId === id ? 'is-active' : ''}`}
+                ref={activeId === id ? activeRef : null}
+                onClick={() => onSelect(id)}
+                aria-current={activeId === id ? 'page' : undefined}
+              >
+                <span>{t(label)}</span>
+              </button>
+            ))}
+          </div>
         ))}
       </nav>
     </aside>

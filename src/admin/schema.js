@@ -7,10 +7,12 @@ export const adminPages = [
     id: 'dashboard',
     label: 'Dashboard',
     description: '网站项目、博客、技术栈与最近提交记录的总览。',
+    group: 'overview',
   },
   {
     id: 'projects',
     label: '项目',
+    group: 'content',
     description: '维护项目分类、项目条目与详情正文，新增或删除项目后保存生效。',
     sections: [
       { id: 'projectCategories', title: '项目分类', collapsible: true, defaultOpen: false },
@@ -21,6 +23,7 @@ export const adminPages = [
   {
     id: 'blog',
     label: '博客',
+    group: 'content',
     description: '维护博客设置与文章内容，文章写入本地 Markdown 文件。',
     sections: [{ id: 'blog', title: '博客设置' }],
     posts: true,
@@ -28,12 +31,14 @@ export const adminPages = [
   {
     id: 'stack',
     label: '技术栈',
+    group: 'content',
     description: '维护技术栈分类与每个分类下的技术条目。',
     sections: [{ id: 'skills', title: '技术栈' }],
   },
   {
     id: 'bookmarks',
     label: '书签',
+    group: 'content',
     description: '维护书签页文案、分类与每个分类下的书签。',
     sections: [
       { id: 'bookmarkPage', title: '书签页设置', collapsible: true, defaultOpen: false },
@@ -43,12 +48,14 @@ export const adminPages = [
   {
     id: 'changelog',
     label: '更新日志',
+    group: 'content',
     description: '浏览版本记录并编辑对应语言的中英文 Markdown。',
     kind: 'changelog',
   },
   {
     id: 'settings',
     label: '设置',
+    group: 'site',
     description: '站点级信息与页脚；导航由 site.yaml 维护，这里只读展示。',
     sections: [
       { id: 'site', title: '站点信息' },

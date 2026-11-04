@@ -4,6 +4,7 @@ import { ArrowUpRightIcon, EyeIcon, HistoryIcon, SaveIcon } from '../../componen
 import { useAdminT } from '../i18n'
 
 export default function AdminTopbar({
+  pageLabel,
   dirty,
   dirtyCount,
   saving,
@@ -16,13 +17,23 @@ export default function AdminTopbar({
 
   return (
     <header className="admin-topbar">
+      <nav className="admin-breadcrumb" aria-label={t('后台导航')}>
+        <span>{t('内容后台')}</span>
+        <span aria-hidden="true">/</span>
+        <span className="admin-breadcrumb-current" aria-current="page">
+          {pageLabel}
+        </span>
+      </nav>
+
       <div className="admin-topbar-actions">
-        {dirty ? (
-          <span className="admin-badge" title={t('改动需保存后生效')}>
-            {t('未保存')}
-            {dirtyCount > 0 ? ` · ${dirtyCount}` : ''}
-          </span>
-        ) : null}
+        {/* 顶栏只负责配置草稿；Markdown / 文章保存状态由各自面板反馈 */}
+        <span className="admin-topbar-status" role="status">
+          {saving
+            ? t('正在保存配置')
+            : dirty
+              ? `${t('配置未保存')}${dirtyCount > 0 ? ` · ${dirtyCount}` : ''}`
+              : t('配置已同步')}
+        </span>
         <IconButton
           label={t('撤销未保存修改')}
           disabled={!dirty || saving}

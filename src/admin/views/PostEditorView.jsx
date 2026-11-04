@@ -96,7 +96,7 @@ export default function PostEditorView({ state, onClose, onSaved, onDirtyChange 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3">
-        <button className="admin-btn" onClick={close}>← {t('返回列表')}</button>
+        <button className="admin-text-btn" onClick={close}>← {t('返回列表')}</button>
         <div className="flex items-center gap-3">
           {error && <span className="admin-error">{error}</span>}
           {notice && <span className="admin-ok">{notice}</span>}

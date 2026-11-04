@@ -61,15 +61,15 @@ export default function PostsPanel({ onDirtyChange }) {
         ) : (
           <div className="space-y-4">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <div className="flex gap-2" role="group" aria-label={t('按语言筛选')}>
+              <div className="admin-segment" role="group" aria-label={t('按语言筛选')}>
                 {['all', 'zh', 'en'].map((value) => (
                   <button
                     key={value}
-                    className={`admin-tab ${filter === value ? 'is-active' : ''}`}
+                    className={`admin-segment-btn ${filter === value ? 'is-active' : ''}`}
                     aria-pressed={filter === value}
                     onClick={() => setFilter(value)}
                   >
-                    {value === 'all' ? t('全部') : value.toUpperCase()}
+                    {value === 'all' ? t('全部') : value === 'zh' ? t('中文') : t('英文')}
                   </button>
                 ))}
               </div>
@@ -82,7 +82,7 @@ export default function PostsPanel({ onDirtyChange }) {
             </div>
 
             {loading ? (
-              <p className="text-sm text-muted">{t('加载中')}</p>
+              <p className="admin-empty">{t('加载中')}</p>
             ) : (
               <div className="admin-table-wrap">
                 <table className="admin-table">
@@ -98,16 +98,16 @@ export default function PostsPanel({ onDirtyChange }) {
                   <tbody>
                     {visible.map((post) => (
                       <tr key={`${post.lang}:${post.filename}`}>
-                        <td className="font-medium text-heading">
+                        <td className="admin-table-primary font-medium text-heading">
                           {displayTitle(post.title, lang)}
                         </td>
-                        <td><span className="admin-badge">{post.lang}</span></td>
-                        <td className="text-muted">{post.date}</td>
-                        <td className="text-muted">{post.category}</td>
-                        <td>
+                        <td data-label={t('语言')}><span className="admin-badge">{post.lang}</span></td>
+                        <td data-label={t('日期')} className="text-muted">{post.date}</td>
+                        <td data-label={t('分类')} className="text-muted">{post.category}</td>
+                        <td data-label={t('操作')}>
                           <div className="admin-table-actions">
                             <button
-                              className="admin-btn"
+                              className="admin-text-btn"
                               onClick={() =>
                                 setEditing({
                                   isNew: false,
@@ -119,7 +119,7 @@ export default function PostsPanel({ onDirtyChange }) {
                               {t('编辑')}
                             </button>
                             <button
-                              className="admin-btn admin-btn-danger"
+                              className="admin-text-btn is-danger"
                               onClick={() => handleDelete(post)}
                             >
                               {t('删除')}
@@ -131,7 +131,7 @@ export default function PostsPanel({ onDirtyChange }) {
                   </tbody>
                 </table>
                 {visible.length === 0 && (
-                  <p className="p-6 text-sm text-muted">{t('暂无文章')}</p>
+                  <p className="admin-empty">{t('暂无文章')}</p>
                 )}
               </div>
             )}
