@@ -908,18 +908,130 @@
   }
 }
 
-/* 个人信息弹窗：复用 glass-dialog，只补齐表单布局与底部操作区 */
-.admin-profile-dialog {
-  width: 100%;
-  -webkit-user-select: text;
-  user-select: text;
+/* 个人信息弹窗：实底面板，径向不改玻璃。
+   圆角依据 DESIGN.md 对话框规范：面板 8px、内部面板 8px、按钮/输入 6px；
+   分段控件外框 6px + 内衬 2px，内层 4px 以免内外半径冲突。 */
+.admin-profile-modal {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.admin-profile-tabs {
+.admin-profile-shell {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 14px 0 18px;
+  width: 100%;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.admin-profile-head {
+  display: flex;
+  flex-shrink: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding: 18px 20px 14px;
+}
+
+.admin-profile-title {
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--heading);
+}
+
+.admin-profile-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.admin-profile-close {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--muted);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.admin-profile-close:hover {
+  background: var(--bg-subtle);
+  color: var(--ink);
+}
+
+.admin-profile-body {
+  display: grid;
+  grid-template-columns: 184px minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+}
+
+.admin-profile-rail {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  border-right: 1px solid var(--line);
+  background: var(--bg-sidebar);
+  padding: 12px;
+}
+
+.admin-profile-tab {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-radius: 8px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  text-align: left;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.admin-profile-tab:hover {
+  background: var(--bg-hover);
+}
+
+.admin-profile-tab:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.admin-profile-tab.is-active {
+  background: var(--active-bg);
+  color: var(--active-fg);
+}
+
+.admin-profile-tab.is-active .admin-dirty-dot {
+  background: var(--active-fg);
+}
+
+.admin-profile-content {
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 24px 24px;
+}
+
+.admin-profile-section {
+  max-width: 640px;
+}
+
+.admin-profile-hint {
+  margin: 0 0 16px;
 }
 
 .admin-dirty-dot {
@@ -929,20 +1041,18 @@
   margin-left: 6px;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 22%, transparent);
   vertical-align: middle;
 }
 
-.admin-profile-markdown {
-  margin-top: 4px;
-}
-
-.admin-profile-actions {
+.admin-profile-footer {
   display: flex;
-  width: 100%;
+  flex-shrink: 0;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+  padding: 12px 20px;
 }
 
 .admin-profile-status-slot {
@@ -968,27 +1078,118 @@
   color: var(--heading);
 }
 
-/* 弹窗内容较长时把保存区固定在玻璃面板底部 */
-.glass-dialog-footer:has(.admin-profile-actions) {
-  position: sticky;
-  bottom: -1.5rem;
-  z-index: 4;
-  margin: 16px -1.5rem -1.5rem;
-  padding: 12px 24px;
-  border-top: 1px solid var(--line);
-  background: color-mix(in srgb, var(--bg) 84%, transparent);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
+.admin-profile-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
 }
 
-@media (max-width: 767px) {
-  .admin-profile-actions {
-    flex-direction: column;
-    align-items: stretch;
+/* 首页文案：内容区内用「页面 × 语言」两个分段控件，避免标签套标签 */
+.admin-profile-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-bottom: 16px;
+}
+
+.admin-profile-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-profile-control .admin-sub {
+  margin-bottom: 0;
+}
+
+.admin-segment {
+  display: inline-flex;
+  gap: 2px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg-subtle);
+  padding: 2px;
+}
+
+.admin-segment-btn {
+  display: inline-flex;
+  height: 28px;
+  align-items: center;
+  gap: 4px;
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted-strong);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.admin-segment-btn:hover {
+  background: var(--bg-hover);
+  color: var(--ink);
+}
+
+.admin-segment-btn.is-active {
+  background: var(--active-bg);
+  color: var(--active-fg);
+}
+
+.admin-segment-btn .admin-dirty-dot {
+  margin-left: 0;
+}
+
+.admin-segment-btn.is-active .admin-dirty-dot {
+  background: var(--active-fg);
+}
+
+.admin-profile-markdown .admin-md-grid .admin-input {
+  min-height: 320px;
+}
+
+.admin-profile-markdown .admin-md-preview {
+  max-height: 320px;
+}
+
+@media (max-width: 719px) {
+  .admin-profile-body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
   }
 
-  .glass-dialog-footer:has(.admin-profile-actions) {
-    margin: 16px -1.25rem -1.25rem;
-    padding: 10px 20px;
+  .admin-profile-rail {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 8px 12px;
+  }
+
+  .admin-profile-tab {
+    height: 36px;
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .admin-profile-content {
+    padding: 16px;
+  }
+
+  .admin-profile-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .admin-profile-actions {
+    justify-content: flex-end;
+  }
+
+  .admin-profile-markdown .admin-md-grid .admin-input {
+    min-height: 220px;
+  }
+
+  .admin-profile-markdown .admin-md-preview {
+    max-height: 260px;
   }
 }

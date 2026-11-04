@@ -22,6 +22,7 @@ const EN = {
   首页文案: 'Home copy',
   首页: 'Home',
   子页首页: 'Home subpage',
+  页面: 'Page',
   项目分类: 'Project categories',
   项目列表: 'Projects',
   项目详情: 'Project detail',
