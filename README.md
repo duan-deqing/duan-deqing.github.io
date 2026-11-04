@@ -91,7 +91,6 @@ pnpm run preview
 │   ├── main.jsx                  # 入口（BrowserRouter）
 │   ├── App.jsx                   # 应用外壳：设置 Provider + 滚动复位 + 路由
 │   ├── routes.jsx                # 路由表、懒加载页面与文章页空闲预取
-│   ├── admin/                    # 本地内容后台（仅 dev，不参与构建）
 │   ├── index.css                 # 引入 Tailwind、令牌、基础层与通用类
 │   ├── pages/                    # 页面组件
 │   ├── layouts/                  # HomeLayout（antfu 首页）；其余子页布局薄封装 WorkspaceShell
@@ -146,7 +145,7 @@ pnpm run preview
 | `content/quotes.yaml` | 博客/书签空态与项目/Stack/Home 底部随机语录 |
 | `content/blog/posts/` | 中英文文章与配图 |
 
-多语言字段写成 `{ en: "...", zh: "..." }`；不参与切换的写普通字符串。字段说明见 `src/admin/schema.js`；`projects.yaml` 与 `stack.yaml` 的 `page` 字段用于页面标题/描述/介绍，页头按钮统一放在顶层 `buttons`。
+多语言字段写成 `{ en: "...", zh: "..." }`；不参与切换的写普通字符串。`projects.yaml` 与 `stack.yaml` 的 `page` 字段用于页面标题/描述/介绍，页头按钮统一放在顶层 `buttons`。
 
 ### 资源登记 `content/icons.yaml`
 
@@ -317,18 +316,6 @@ pages: [home, projects, stack]
 - `pages` 决定显示范围：`home` / `projects` / `stack` / `all`，留空等同全部页面；
 - 页面路由为 `/changelog/home`、`/changelog/projects`、`/changelog/stack` 或 `/changelog/all`；
 - 正文使用与博客文章相同的 `BlogMarkdown` 渲染链路，并按年份分组显示为 onur Journey 式的时间线；更新日志页使用极光背景。
-
-### 本地内容后台
-
-```bash
-pnpm dev
-```
-
-打开 http://localhost:5173/admin ，可按区块编辑配置、管理文章、上传图片，右侧实时预览。
-
-- 后台只在 `vite dev` 存在，`pnpm build` 的产物不包含 `admin.html` 与 `src/admin/**`；
-- 保存会直接改写 `content/` 下的 YAML 与 `content/blog/posts/**/*.md`，用 git 查看和回滚改动；
-- 接口只监听本机回环地址。
 
 ## 写博客
 

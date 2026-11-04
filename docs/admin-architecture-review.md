@@ -853,3 +853,5 @@ sequenceDiagram
 分析结束后应只剩上述三项 + 本次新增的 `docs/admin-architecture-review.md`（`??`）。若出现其他变更，说明有外部进程/工具改动了工作区，应单独排查。
 
 > 备注：执行 `git status` 期间，系统清理了残留的 `.git/index.lock`（不是源码/配置，不影响工作区内容）。
+
+> 说明（2026-11-05）：本文描述的本地内容后台已从代码库移除，文中 `src/admin/**`、`scripts/admin/**`、`admin.html` 等路径不再存在；本文档仅作架构回顾保留。
